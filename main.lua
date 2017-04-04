@@ -32,7 +32,6 @@ end
 function love.load()
 
 
-
   --Gamestate.registerEvents()
   --Gamestate.switch(menu)
   --@TODO: divide out the menu state and the game state
@@ -54,10 +53,60 @@ function love.load()
 
   -- camera = Camera(player.x, player.y, 2)
 
+  -- effect = love.graphics.newShader(love.filesystem.read("shader.fs"))
+
+--   myShader = love.graphics.newShader[[
+--     vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords )
+--   ]]
+
+  --   local pixelcode = [[
+  --     vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords )
+  --     {
+  --       vec4 texcolor = Texel(texture, texture_coords);
+  --       return texcolor * color;
+  --     }
+  --   ]]
+ 
+  --   local vertexcode = [[
+  --     vec4 position( mat4 transform_projection, vec4 vertex_position )
+  --     {
+  --       return transform_projection * vertex_position;
+  --     }
+  --   ]]
+ 
+  -- -- shader = love.graphics.newShader(shader3.fs)
+  -- shader = love.graphics.newShader(love.filesystem.read("shader.fs"))
+
+  -- myShader = love.graphics.newShader[[
+  --   extern number factor = 0;
+  --   vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords ){
+  --     vec4 pixel = Texel(texture, texture_coords );//This is the current pixel color 
+              
+  --     number average = (pixel.r+pixel.b+pixel.g)/3.0;
+
+  --     pixel.r = pixel.r + (average-pixel.r) * factor;
+  --     pixel.g = pixel.g + (average-pixel.g) * factor;
+  --     pixel.b = pixel.b + (average-pixel.b) * factor; 
+
+
+  --     return pixel; 
+  --   }
+  -- ]]
+  myShader = love.graphics.newShader[[vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords) {
+    return vec4(1.0,0.0,0.0,1.0);
+  }]]
+  time = 0;
+
 
 end
 
-function love.update()
+function love.update(dt)
+
+  time = time + dt;
+  local factor = math.abs(math.cos(time)); --so it keeps going/repeating
+  -- myShader:send("factor",factor)
+  -- myShader:send('factor', 800)
+
 
   if love.keyboard.isDown("right") then
     player.x = player.x + 10
@@ -91,13 +140,22 @@ end
 function love.draw()
 
   camera:set()
-  -- love.graphics.draw(background,0,0)
   love.graphics.draw(background, bg_quad, 0, 0)
   love.graphics.print(string.format("%s, %s", player.x, player.y), player.x, player.y)
-  -- love.graphics.rectangle('fill', x, y, 100, 100)
   love.graphics.draw(player.image, player.x, player.y, 0, 4, 4)
-  --love.graphics.newImage('ufo.png')
-  love.graphics.setColor(255,255,255)
+  love.graphics.setColor(255,255,255);
+
+  -- shader:send('screenWidth', love.window.getWidth())
+
+  -- love.graphics.setShader(shader)
+  love.graphics.setShader(myShader)
+  --
+    love.graphics.rectangle("fill", 300, 300, 60, 60)
+    love.graphics.draw(player.image, player.x, player.y, 0, 4, 4)
+
+
+  love.graphics.setShader()
+
 
   camera:unset()
 end
