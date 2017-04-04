@@ -1,5 +1,5 @@
 require 'camera'
-Gamestate = require "lib.gamestate"
+--Gamestate = require "lib.gamestate"
 -- Camera = require "hump.camera"
 
 local menu = {}
@@ -31,18 +31,26 @@ end
 
 function love.load()
 
-  Gamestate.registerEvents()
+
+
+  --Gamestate.registerEvents()
+  --Gamestate.switch(menu)
   --@TODO: divide out the menu state and the game state
   --       so that you can press a key to start the game
   ---------and it runs the game part
-  Gamestate.switch(menu)
+  --http://hump.readthedocs.io/en/latest/gamestate.html#function-reference
 
   player = {}
   player.x = 10
   player.y = 10
   player.image = love.graphics.newImage('/assets/ufo2.png')
+  player.image:setFilter('nearest', 'nearest', 1)
 
   background = love.graphics.newImage('/assets/galaxy.png')
+  background:setFilter('nearest', 'nearest', 1)
+  background:setWrap("repeat", "repeat")
+
+  bg_quad = love.graphics.newQuad(0, 0, 10000, 10000, background:getWidth(), background:getHeight())
 
   -- camera = Camera(player.x, player.y, 2)
 
@@ -69,15 +77,23 @@ function love.update()
   if player.y > love.graphics.getWidth() / 4 then
     camera.y = player.y - love.graphics.getWidth() / 4 
   end
+  if player.x < 10 then
+    camera.x = player.x - 10
+  end
+  if player.y < 10 then
+    camera.y = player.y - 10
+  end
 
   -- local dx,dy = player.x - camera.x, player.y - camera.y
   -- camera:move(dx/2, dy/2)
 end
 
 function love.draw()
+
   camera:set()
-  love.graphics.draw(background,0,0)
-  love.graphics.print("Raint")
+  -- love.graphics.draw(background,0,0)
+  love.graphics.draw(background, bg_quad, 0, 0)
+  love.graphics.print(string.format("%s, %s", player.x, player.y), player.x, player.y)
   -- love.graphics.rectangle('fill', x, y, 100, 100)
   love.graphics.draw(player.image, player.x, player.y, 0, 4, 4)
   --love.graphics.newImage('ufo.png')
