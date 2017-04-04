@@ -97,24 +97,24 @@ function love.load()
 
   -- load the effects you want
     local grain = shine.filmgrain()
-    
     -- many effects can be parametrized
     grain.opacity = 0.2
-    
     -- multiple parameters can be set at once
     local vignette = shine.vignette()
     vignette.parameters = {radius = 0.9, opacity = 0.7}
-    
     -- you can also provide parameters on effect construction
     local desaturate = shine.desaturate{strength = 0.6, tint = {255,250,200}}
-    
     -- you can chain multiple effects
     post_effect = desaturate:chain(grain):chain(vignette)
-
     -- warning - setting parameters affects all chained effects:
     post_effect.opacity = 0.5 -- affects both vignette and film grain
 
-    -- more code here
+    local blur = shine.gaussianblur()
+    blur.sigma = 10
+
+    -- you can chain multiple effects
+    background_effect = blur
+
   myShader = love.graphics.newShader[[vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords) {
     if(screen_coords.x > 400) {
       return vec4(1.0,0.0,0.0,1.0);
@@ -138,15 +138,15 @@ function love.update(dt)
 
 
   if love.keyboard.isDown("right") then
-    player.x = player.x + 10
+    player.x = player.x + 4
   elseif love.keyboard.isDown("left") then
-    player.x = player.x - 10
+    player.x = player.x - 4
   end
 
   if love.keyboard.isDown("up") then
-    player.y = player.y - 10
+    player.y = player.y - 4
   elseif love.keyboard.isDown("down") then
-    player.y = player.y + 10
+    player.y = player.y + 4
   end
 
   if player.x > love.graphics.getWidth() / 4 then
@@ -169,18 +169,24 @@ end
 function love.draw()
 
   camera:set()
-  love.graphics.draw(background, bg_quad, 0, 0)
-  love.graphics.print(string.format("%s, %s", player.x, player.y), player.x, player.y)
+
+  background_effect.sigma = math.abs(math.cos(player.x + player.y)) * 5;
+
+  background_effect:draw(function()
+    love.graphics.draw(background, bg_quad, 0, 0)
+    love.graphics.print(string.format("%s, %s", player.x, player.y), player.x, player.y)
+  end)
+
   love.graphics.draw(player.image, player.x, player.y, 0, 4, 4)
   love.graphics.setColor(255,255,255);
 
   -- shader:send('screenWidth', love.window.getWidth())
 
 -- wrap what you want to be post-processed in a function:
-    post_effect:draw(function()
-      love.graphics.rectangle("fill", 300, 300, 60, 60)
-      love.graphics.draw(player.image, player.x, player.y, 0, 4, 4)
-    end)
+    -- post_effect:draw(function()
+    --   love.graphics.rectangle("fill", 300, 300, 60, 60)
+    --   love.graphics.draw(player.image, player.x, player.y, 0, 4, 4)
+    -- end)
     
     -- alternative syntax:
     -- post_effect(function()
