@@ -4,29 +4,30 @@ require 'camera'
 
 local menu = {}
 local game = {}
+local shine = require 'shine'
 
-function menu:draw()
-    love.graphics.print("Press Enter to continue", 10, 10)
-end
+-- function menu:draw()
+--     love.graphics.print("Press Enter to continue", 10, 10)
+-- end
 
-function menu:keyreleased(key, code)
-  if key == 'return' then
-    Gamestate.switch(game)
-  end
-end
+-- function menu:keyreleased(key, code)
+--   if key == 'return' then
+--     Gamestate.switch(game)
+--   end
+-- end
 
-function game:enter()
-    --Entities.clear()
-    -- setup entities here
-end
+-- function game:enter()
+--     --Entities.clear()
+--     -- setup entities here
+-- end
 
-function game:update(dt)
-    --Entities.update(dt)
-end
+-- function game:update(dt)
+--     --Entities.update(dt)
+-- end
 
-function game:draw()
-    --Entities.draw()
-end
+-- function game:draw()
+--     --Entities.draw()
+-- end
 
 
 function love.load()
@@ -47,9 +48,10 @@ function love.load()
 
   background = love.graphics.newImage('/assets/galaxy.png')
   background:setFilter('nearest', 'nearest', 1)
-  background:setWrap("repeat", "repeat")
+  background:setWrap("mirroredrepeat", "mirroredrepeat")
+  -- background:setWrap("clamp", "clamp")
 
-  bg_quad = love.graphics.newQuad(0, 0, 10000, 10000, background:getWidth(), background:getHeight())
+  bg_quad = love.graphics.newQuad(0, 0, 1800, 1800, background:getWidth(), background:getHeight())
 
   -- camera = Camera(player.x, player.y, 2)
 
@@ -92,8 +94,35 @@ function love.load()
   --     return pixel; 
   --   }
   -- ]]
+
+  -- load the effects you want
+    local grain = shine.filmgrain()
+    
+    -- many effects can be parametrized
+    grain.opacity = 0.2
+    
+    -- multiple parameters can be set at once
+    local vignette = shine.vignette()
+    vignette.parameters = {radius = 0.9, opacity = 0.7}
+    
+    -- you can also provide parameters on effect construction
+    local desaturate = shine.desaturate{strength = 0.6, tint = {255,250,200}}
+    
+    -- you can chain multiple effects
+    post_effect = desaturate:chain(grain):chain(vignette)
+
+    -- warning - setting parameters affects all chained effects:
+    post_effect.opacity = 0.5 -- affects both vignette and film grain
+
+    -- more code here
   myShader = love.graphics.newShader[[vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords) {
-    return vec4(1.0,0.0,0.0,1.0);
+    if(screen_coords.x > 400) {
+      return vec4(1.0,0.0,0.0,1.0);
+    }
+    else
+    {
+      return vec4(0.0,1.0,0.0,1.0);
+    }
   }]]
   time = 0;
 
@@ -123,11 +152,11 @@ function love.update(dt)
   if player.x > love.graphics.getWidth() / 4 then
     camera.x = player.x - love.graphics.getWidth() / 4 
   end
+  if player.x > (love.graphics.getWidth() * 0.75) then
+    camera.x = player.x - (love.graphics.getWidth() * 0.75)
+  end
   if player.y > love.graphics.getWidth() / 4 then
     camera.y = player.y - love.graphics.getWidth() / 4 
-  end
-  if player.x < 10 then
-    camera.x = player.x - 10
   end
   if player.y < 10 then
     camera.y = player.y - 10
@@ -147,14 +176,28 @@ function love.draw()
 
   -- shader:send('screenWidth', love.window.getWidth())
 
+-- wrap what you want to be post-processed in a function:
+    post_effect:draw(function()
+      love.graphics.rectangle("fill", 300, 300, 60, 60)
+      love.graphics.draw(player.image, player.x, player.y, 0, 4, 4)
+    end)
+    
+    -- alternative syntax:
+    -- post_effect(function()
+    --     draw()
+    --     my()
+    --     stuff()
+    -- end)
+    
+    -- everything you draw here will not be affected by the effect
   -- love.graphics.setShader(shader)
-  love.graphics.setShader(myShader)
+  -- love.graphics.setShader(myShader)
   --
-    love.graphics.rectangle("fill", 300, 300, 60, 60)
-    love.graphics.draw(player.image, player.x, player.y, 0, 4, 4)
+    -- love.graphics.rectangle("fill", 300, 300, 60, 60)
+    -- love.graphics.draw(player.image, player.x, player.y, 0, 4, 4)
 
 
-  love.graphics.setShader()
+  -- love.graphics.setShader()
 
 
   camera:unset()
