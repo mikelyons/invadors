@@ -11,9 +11,13 @@ function Bizzaro:enteredState()
 
   r1 = createBox:create(64,64)
   r2 = createBox:create(96,96)
+  r3 = createBox:create(164,164)
+  r4 = createBox:create(196,196)
 
   r1:load()
   r2:load()
+  r3:load()
+  r4:load()
   self:popState('Bizzaro')
 end
 

@@ -1,5 +1,7 @@
 -- based on : https://love2d.org/wiki/Tutorial:Baseline_2D_Platformer
 
+Bump           = require 'lib/bump/bump'
+
 local bump       = Bump
 local bump_debug = require 'bump_debug'
 

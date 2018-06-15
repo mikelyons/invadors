@@ -2,22 +2,21 @@
 -- Middleclass Root Game class with Stateful state machine
 Game = Class('Game'):include(Stateful)
 
+function loadState(name)
+  local path = "states/" .. name
+  require(path .. '/main')
+  load(name)
+end
+function load(name)
+end
+
 -- make available the following states
+loadState('earth2')
 require 'states/menu'
 require 'states/pause'
 require 'states/bizzaro'
 require 'states/earth1'
-require 'states/earth2'
-require 'states/space1'
-
-function loadState(name)
-  local path = "states/" .. name
-  require(path .. '/main')
-  load()
-end
-
-function load()
-end
+-- require 'states/space1'
 
 -- Game's methods
 function Game:initialize()

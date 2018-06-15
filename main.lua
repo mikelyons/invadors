@@ -15,7 +15,6 @@ end
 -- based on http://aalvarez.me/blog/posts/an-introduction-to-game-states-in-love2d.html
 Class          = require 'lib/middleclass/middleclass'
 Stateful       = require 'lib/stateful/stateful'
-Bump           = require 'lib/bump/bump'
 
 -- The Main Game Launch Point
 require 'game'
