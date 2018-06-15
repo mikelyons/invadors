@@ -18,12 +18,9 @@ hamster = love.graphics.newImage("assets/images/Doom_1.png")
 
 
 local function drawMenu()
-  love.graphics.setBackgroundColor(91, 129, 139, 100)--BG_COLOR)
-
-  love.graphics.draw(hamster, 50, 50, 0, .2, .2)
-
-
+  love.graphics.setBackgroundColor(60, 29, 19, 100)--BG_COLOR)
   local startButton = drawButton(150, 250, 200, 35, 'Start Game')
+  love.graphics.draw(hamster, 50, 50, 0, .2, .2)
 
   love.graphics.printf(
 [[if key == (1 or return) then self:gotoState(Training) end
@@ -52,4 +49,5 @@ function Menu:keypressed(key, code)
   -- if key == ('3' or 'q') then self:pushState('Space1') end
   if key == ('4' or 'w') then self:pushState('Earth2') end
   if key == ('5') then self:pushState('commando') end
+  if key == ('q') then love.event.push('quit') end
 end

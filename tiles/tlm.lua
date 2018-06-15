@@ -7,6 +7,9 @@ local size = 16
 
 local quad = love.graphics.newQuad
 local quads = {
+  quad(0,0,32,32,64, 32),
+  quad(32,0,32,32,64, 32),
+  quad(0,0,32,32,64, 32),
   
 }
 
@@ -23,22 +26,18 @@ end
 function tlm:load()
 
   self.tiles = {}
-  self.img = love.graphics.newImage("assets/images/zelda004.png")
+  -- self.img = love.graphics.newImage("assets/images/tilesheet.png")
+  self.img = love.graphics.newImage("assets/maps/test.png")
 
-  renderer:addRenderer(self)
+  renderer:addRenderer(self, 2)
   gameloop:addLoop(self)
 
-  for i=1,height do
-    self.tiles[i] = {}
-    -- for j = 1, width do
-    --   self.tiles[i][j] = math.random(0,1)
-    -- end
-  end
 end
+
 function tlm:loadMap(mapname)
   local map = require("assets/maps/"..mapname)
 
-  for i = 1,map.height do tiles[i] = {} end
+  for i = 1,map.height do self.tiles[i] = {} end
 
   for layer = 1,#map.layers do
     local data = map.layers[layer].data
@@ -49,7 +48,9 @@ function tlm:loadMap(mapname)
 
         local index = (y*map.height +(x+1)-map.width)+1
         if data[index] ~= 0 then
-
+          local q = quads[data[index]]
+          self.tiles[y][x] = tile(32*x-32, 32*y-32, 32, 32, q)
+          -- self.tiles[y][x] = tile(32*x-32, 32*y-32, 32, 32, quad(32,0,32,32,64,32))
         end
 
       end
@@ -62,9 +63,13 @@ function tlm:tick()
 end
 function tlm:draw()
   for i = 1, #self.tiles do
-    for j = 1, #self.tiles[i] do
-      local t = self.tiles[i][j]
-      love.graphics.rectangle("fill",size*t.x-size,size*t.y-size,t.w,t.h)
+    for j = 1, #self.tiles do
+      if self.tiles[i][j] ~= nil then
+        local tile = self.tiles[i][j]
+        love.graphics.draw(self.img, tile.quad or quad(32,0,32,32,64,32), tile.pos.x, tile.pos.y)
+      end
+      -- local t = self.tiles[i][j]
+      -- love.graphics.rectangle("fill",size*t.x-size,size*t.y-size,t.w,t.h)
     end
   end
 

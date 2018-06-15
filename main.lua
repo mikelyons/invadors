@@ -28,7 +28,7 @@ GameLoop       = require "tools/gameloop"
 
 local rect     = require "objects/rect"   -- base class
 local entity   = require "objects/entity" -- inherits from rect
--- local tlm      = require 'tiles/tlm' -- this module is unfinished
+tlm      = require 'tiles/tlm' -- this module is unfinished
 obm            = require 'tools/obm' -- opion manager
 asm            = require 'tools/asm' -- asset manager
 
@@ -53,7 +53,6 @@ function love.load()
   game = Game:new()
 
   gameloop:addLoop(self)
-  -- tlm:load() -- FINISH TLM MODULE
   -- asm:load()
   -- asm:add()
   obm:load()
@@ -79,16 +78,16 @@ function love.update(dt)
   -- GAMETIME = GAMETIME + dt
   -- g_GameTime = g_GameTime + dt
 
-  -- gameloop:update(dt)
+  gameloop:update(dt)
 
   game:update(dt)
 end
 
 function love.draw(dt)
-  renderer:draw()
 
   -- love.graphics.rectangle("line", obj.pos.x, obj.pos.y, obj.size.x, obj.size.y)
   game:draw()
+  renderer:draw()
 end
 
 function love.keypressed(key)

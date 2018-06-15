@@ -153,6 +153,12 @@ function Earth2:enteredState()
   print(os.date())
   print(os.getenv('PATH')) -- get environmental variable
 
+  -- load tilemap for the world
+  tlm:load()
+  tlm:loadMap('test')
+  
+  renderer:addRenderer(self, 2)
+  -- gameloop:addLoop(self)
 
   -- BUMP load actions
   world:add(player, player.x, player.y, player.w, player.h)
