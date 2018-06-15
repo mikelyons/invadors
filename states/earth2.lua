@@ -7,11 +7,11 @@ local Earth2 = Game:addState('Earth2')
 
 
 -- World Creation
+local instructions = [[You have gravity, 
+jump with space
+left right aarow keys to move]]
 local world = bump.newWorld()
-instructions = ''
-platform = {}
 player = {}
-
 
 local cols_len = 0 -- how many collisions are happening
 
@@ -69,7 +69,7 @@ local function drawBlocks()
   end
 end
 
--- BUMP Player functions
+-- Set up player and add to BUMP world
 local player = { 
   x=50,y=50,w=20,h=20, 
   speed = 300,
@@ -78,9 +78,17 @@ local player = {
   gravity = -500,        -- Whenever the character falls, he will descend at this rate.
   ground =  800    -- This makes the character land on the plaform.
 }
-
 local function updatePlayer(dt)
   local speed = player.speed
+
+  if player.y > 600 then
+    world:remove(player)
+    player.y = 50
+    player.x = 50
+    player.dy = 0
+    player.y_velocity = 0
+    world:add(player, player.x, player.y, player.w, player.h)
+  end
 
   local dx, dy = 0, 0
   -- This is in charge of player jumping.
@@ -98,26 +106,37 @@ local function updatePlayer(dt)
     player.y_velocity = 0        -- Whenever the character hasn't jumped yet, the Y-Axis velocity is always at 0.
   end
 
-  if love.keyboard.isDown('right') then
+  if love.keyboard.isDown('right' or 'd') then
     dx = speed * dt
-  elseif love.keyboard.isDown('left') then
+  elseif love.keyboard.isDown('left' or 'a') then
     dx = -speed * dt
   end
-  -- -- move up/downward with a key
-  -- if love.keyboard.isDown('down') then
-  --   dy = speed * dt
-  -- elseif love.keyboard.isDown('up') then
-  --   dy = -speed * dt
-  -- end
 
   if dx ~= 0 or dy ~= 0 then
     local cols
     player.x, player.y, cols, cols_len = world:move(player, player.x + dx, player.y + dy)
-    for i=1, cols_len do
-      local col = cols[i]
-      -- consolePrint(("col.other = %s, col.type = %s, col.normal = %d,%d"):format(col.other, col.type, col.normal.x, col.normal.y))
-      -- consolePrint(("col.normal = %d,%d"):format(col.other, col.type, col.normal.x, col.normal.y))
-      if col.normal.y == -1 then consolePrint('RAINT') end
+    if cols_len == 0 then
+      consolePrint('flying') 
+      dy = player.y_velocity * dt
+      player.y_velocity = player.y_velocity - player.gravity * dt -- This applies the gravity to the character.
+    else
+      for i=1, cols_len do
+        local col = cols[i]
+        if col.normal.y == -1 then
+          consolePrint('walking') 
+          player.y_velocity = 0
+          player.dy = 0
+        else
+          consolePrint(("col.other = %s, col.type = %s, col.normal = %d,%d"):format(col.other, col.type, col.normal.x, col.normal.y))
+        end
+
+        -- consolePrint(("col.normal = %d,%d"):format(col.other, col.type, col.normal.x, col.normal.y))
+        -- if col.normal.y == 0 and player.y_velocity == 0 then 
+        --   consolePrint(("col.other = %s, col.type = %s, col.normal = %d,%d"):format(col.other, col.type, col.normal.x, col.normal.y))
+        -- else
+        --   consolePrint('RAINT') 
+        -- end
+      end
     end
   end
 end
@@ -164,29 +183,9 @@ end
 function Earth2:update(dt)
   updatePlayer(dt)
 
-  -- if love.keyboard.isDown('d') then
-  --   -- This makes sure that the character doesn't go pass the game window's right edge.
-  --   if player.x < (love.graphics.getWidth() - 32) then
-  --     player.x = player.x + (player.speed * dt)
-  --   end
-  -- elseif love.keyboard.isDown('a') then
-  --   -- This makes sure that the character doesn't go pass the game window's left edge.
-  --   if player.x > 0 then 
-  --     player.x = player.x - (player.speed * dt)
-  --   end
-  -- end
-
-
 end
 
 function Earth2:draw(dt)
-  -- love.graphics.setColor(205, 205, 255)        -- This sets the platform color to white. (The parameters are in RGB Color format).
-  -- -- The platform will now be drawn as a white rectangle while taking in the variables we declared above.
-  -- -- love.graphics.rectangle('fill', platform.x, platform.y, platform.width, platform.height)
-
-  -- love.graphics.setColor(05, 205, 55)        -- bright green player color
-  -- love.graphics.rectangle('fill',player.x, player.y-32, 32, 32) 
-
   -- bump actions
   drawBlocks()
   drawPlayer()

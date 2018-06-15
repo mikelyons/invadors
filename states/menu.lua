@@ -30,4 +30,5 @@ function Menu:keypressed(key, code)
   if key == ('2' or 'space') then self:pushState('Bizzaro') end
   if key == ('3' or 'q') then self:pushState('Space1') end
   if key == ('4' or 'w') then self:pushState('Earth2') end
+  if key == ('5') then self:pushState('commando') end
 end

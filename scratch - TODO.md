@@ -118,3 +118,12 @@ paying homage to other games or something
 
   -- DEBUG
   print("DEBUG")
+
+
+
+  -- -- move up/downward with a key
+  -- if love.keyboard.isDown('down') then
+  --   dy = speed * dt
+  -- elseif love.keyboard.isDown('up') then
+  --   dy = -speed * dt
+  -- end
