@@ -16,3 +16,8 @@
 ### Major Changes
 
 * Initial public release
+
+# Libraries used
+
+* Stateful
+* Middleclass

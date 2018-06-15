@@ -1,20 +1,30 @@
+for formatting tips in this document: https://guides.github.com/features/mastering-markdown/
+
+or: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
+
 ## scratch - TODO
 
-* set up game states and menu
-* create map screen
-* create chunk loading
-* create planetoid loading
-* create orbit mode
-* create ship interior view
-* create ship building view
-* create ship construction bay view
-* create combat system
-* create landing on planet
-* create gathering resources
-* create storage houses 
-* star generation background
-* game stats per game universe
-* saving / loading save
+- [ ] Player controls
+- [ ] Player physics
+- [ ] Player/world collisions
+- [x] set up game states and menu
+- [ ] create map screen
+- [ ] chunk generation
+- [ ] chunk saving - universe saving
+- [ ] create chunk loading
+- [ ] universe loading
+- [ ] planetoid loading
+- [ ] orbit mode
+- [ ] ship interior view
+- [ ] ship building view
+- [ ] ship construction bay view
+- [ ] combat system
+- [ ] landing on planet
+- [ ] gathering resources
+- [ ] storage houses 
+- [ ] star generation background
+- [ ] game stats per game universe
+- [ ] saving / loading save
 
 ## Notes
 
@@ -55,6 +65,9 @@ https://github.com/vrld/SUIT -- GUI widgets
 
 * collisions - http://hc.readthedocs.io/en/latest/
 
+* Math -
+- http://gamedev.stackexchange.com/questions/106258/how-does-orbital-math-work
+
 * music - https://love2d.org/forums/viewtopic.php?t=2053
 
 * game states - https://www.reddit.com/r/love2d/comments/2893c2/game_states/
@@ -93,3 +106,15 @@ https://github.com/dschneider/love-boilerplate
 * http://stackoverflow.com/questions/34467628/l%C3%96ve-viewport-like-libgdx
 * http://stackoverflow.com/questions/34659850/mandelbrot-set-through-shaders-in-glsl-with-love2d-renders-a-circle-not-a-fract
 
+* love irc - https://webchat.oftc.net/?channels=love
+
+#### easter eggs
+Aconitin from the irc
+easter bunny credits - Aaron Trostle
+some other damn thang from tutorials
+paying homage to other games or something
+
+# Scratch
+
+  -- DEBUG
+  print("DEBUG")

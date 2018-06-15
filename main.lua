@@ -1,210 +1,101 @@
-require 'camera'
---Gamestate = require "lib.gamestate"
--- Camera = require "hump.camera"
+-- @TODO : separate dev libs
+local _debug = false
+if _debug == true then
+  lovebird = require "lib/lovebird/lovebird"
+  lovebird.allowhtml = true
+end
 
-local menu = {}
-local game = {}
-local shine = require 'shine'
+-- print(love.window.getMode()) -- is this useful? no?
+-- make the console work
+-- io.stdout:setvbuf("no")
 
--- function menu:draw()
---     love.graphics.print("Press Enter to continue", 10, 10)
--- end
+-- Libraries
+-- Class          = require 'lib/hump/class'
+-- Gamestate      = require 'lib/hump/gamestate'
+-- based on http://aalvarez.me/blog/posts/an-introduction-to-game-states-in-love2d.html
+Class          = require 'lib/middleclass/middleclass'
+Stateful       = require 'lib/stateful/stateful'
+Bump           = require 'lib/bump/bump'
 
--- function menu:keyreleased(key, code)
---   if key == 'return' then
---     Gamestate.switch(game)
---   end
--- end
+-- The Main Game Launch Point
+require 'game'
+local game
 
--- function game:enter()
---     --Entities.clear()
---     -- setup entities here
--- end
+-- BASED ON: https://www.youtube.com/watch?v=UFE94uJodVs&list=PLKpDO_ZkjZ7TBYWcV2n632Z6iRJJlX2oM&index=2
+Renderer       = require "tools/renderer"
+GameLoop       = require "tools/gameloop"
+-- beeper         = require "tools/beeper"
+-- local Vec2     = require "tools/vec2"
 
--- function game:update(dt)
---     --Entities.update(dt)
--- end
+local rect     = require "objects/rect"   -- base class
+local entity   = require "objects/entity" -- inherits from rect
+-- local tlm      = require 'tiles/tlm' -- this module is unfinished
+obm            = require 'tools/obm' -- opion manager
+asm            = require 'tools/asm' -- asset manager
 
--- function game:draw()
---     --Entities.draw()
--- end
+renderer = Renderer:create()
+gameloop = GameLoop:create()
 
+g_Width  = love.graphics.getWidth()
+g_Height = love.graphics.getHeight()
+g_GameTime = 0
+
+-- local obj
+local ent = entity:new(32, 32, 64, 64, "player")
+
+function ent:load()
+  gameloop:addLoop(self)
+end
+function ent:tick()
+  print(self.id)
+end
 
 function love.load()
+  game = Game:new()
+
+  gameloop:addLoop(self)
+  -- tlm:load() -- FINISH TLM MODULE
+  -- asm:load()
+  -- asm:add()
+  obm:load()
+
+  -- obm:add(require('objects/player'):new(128,64))
+
+  -- ent:load()
+
+  -- obj = rect:new(128,32,64,64)
 
 
-  --Gamestate.registerEvents()
-  --Gamestate.switch(menu)
-  --@TODO: divide out the menu state and the game state
-  --       so that you can press a key to start the game
-  ---------and it runs the game part
-  --http://hump.readthedocs.io/en/latest/gamestate.html#function-reference
-
-  player = {}
-  player.x = 10
-  player.y = 10
-  player.image = love.graphics.newImage('/assets/ufo2.png')
-  player.image:setFilter('nearest', 'nearest', 1)
-
-  background = love.graphics.newImage('/assets/galaxy.png')
-  background:setFilter('nearest', 'nearest', 1)
-  background:setWrap("mirroredrepeat", "mirroredrepeat")
-  -- background:setWrap("clamp", "clamp")
-
-  bg_quad = love.graphics.newQuad(0, 0, 1800, 1800, background:getWidth(), background:getHeight())
-
-  -- camera = Camera(player.x, player.y, 2)
-
-  -- effect = love.graphics.newShader(love.filesystem.read("shader.fs"))
-
---   myShader = love.graphics.newShader[[
---     vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords )
---   ]]
-
-  --   local pixelcode = [[
-  --     vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords )
-  --     {
-  --       vec4 texcolor = Texel(texture, texture_coords);
-  --       return texcolor * color;
-  --     }
-  --   ]]
- 
-  --   local vertexcode = [[
-  --     vec4 position( mat4 transform_projection, vec4 vertex_position )
-  --     {
-  --       return transform_projection * vertex_position;
-  --     }
-  --   ]]
- 
-  -- -- shader = love.graphics.newShader(shader3.fs)
-  -- shader = love.graphics.newShader(love.filesystem.read("shader.fs"))
-
-  -- myShader = love.graphics.newShader[[
-  --   extern number factor = 0;
-  --   vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords ){
-  --     vec4 pixel = Texel(texture, texture_coords );//This is the current pixel color 
-              
-  --     number average = (pixel.r+pixel.b+pixel.g)/3.0;
-
-  --     pixel.r = pixel.r + (average-pixel.r) * factor;
-  --     pixel.g = pixel.g + (average-pixel.g) * factor;
-  --     pixel.b = pixel.b + (average-pixel.b) * factor; 
-
-
-  --     return pixel; 
-  --   }
-  -- ]]
-
-  -- load the effects you want
-    local grain = shine.filmgrain()
-    -- many effects can be parametrized
-    grain.opacity = 0.2
-    -- multiple parameters can be set at once
-    local vignette = shine.vignette()
-    vignette.parameters = {radius = 0.9, opacity = 0.7}
-    -- you can also provide parameters on effect construction
-    local desaturate = shine.desaturate{strength = 0.6, tint = {255,250,200}}
-    -- you can chain multiple effects
-    post_effect = desaturate:chain(grain):chain(vignette)
-    -- warning - setting parameters affects all chained effects:
-    post_effect.opacity = 0.5 -- affects both vignette and film grain
-
-    local blur = shine.gaussianblur()
-    blur.sigma = 10
-
-    -- you can chain multiple effects
-    background_effect = blur
-
-  myShader = love.graphics.newShader[[vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords) {
-    if(screen_coords.x > 400) {
-      return vec4(1.0,0.0,0.0,1.0);
-    }
-    else
-    {
-      return vec4(0.0,1.0,0.0,1.0);
-    }
-  }]]
-  time = 0;
-
+  -- local randBox = createBox()
+  -- randBox:load()
 
 end
+
 
 function love.update(dt)
-
-  time = time + dt;
-  local factor = math.abs(math.cos(time)); --so it keeps going/repeating
-  -- myShader:send("factor",factor)
-  -- myShader:send('factor', 800)
-
-
-  if love.keyboard.isDown("right") then
-    player.x = player.x + 4
-  elseif love.keyboard.isDown("left") then
-    player.x = player.x - 4
+  if _debug == true then
+    lovebird.update()
   end
 
-  if love.keyboard.isDown("up") then
-    player.y = player.y - 4
-  elseif love.keyboard.isDown("down") then
-    player.y = player.y + 4
-  end
+  -- GAMETIME = GAMETIME + dt
+  -- g_GameTime = g_GameTime + dt
 
-  if player.x > love.graphics.getWidth() / 4 then
-    camera.x = player.x - love.graphics.getWidth() / 4 
-  end
-  if player.x > (love.graphics.getWidth() * 0.75) then
-    camera.x = player.x - (love.graphics.getWidth() * 0.75)
-  end
-  if player.y > love.graphics.getWidth() / 4 then
-    camera.y = player.y - love.graphics.getWidth() / 4 
-  end
-  if player.y < 10 then
-    camera.y = player.y - 10
-  end
+  -- gameloop:update(dt)
 
-  -- local dx,dy = player.x - camera.x, player.y - camera.y
-  -- camera:move(dx/2, dy/2)
+  game:update(dt)
 end
 
-function love.draw()
+function love.draw(dt)
+  renderer:draw()
 
-  camera:set()
+  -- love.graphics.rectangle("line", obj.pos.x, obj.pos.y, obj.size.x, obj.size.y)
+  game:draw()
+end
 
-  background_effect.sigma = math.abs(math.cos(player.x + player.y)) * 5;
+function love.keypressed(key)
+  game:keypressed(key, code)
+end
 
-  background_effect:draw(function()
-    love.graphics.draw(background, bg_quad, 0, 0)
-    love.graphics.print(string.format("%s, %s", player.x, player.y), player.x, player.y)
-  end)
-
-  love.graphics.draw(player.image, player.x, player.y, 0, 4, 4)
-  love.graphics.setColor(255,255,255);
-
-  -- shader:send('screenWidth', love.window.getWidth())
-
--- wrap what you want to be post-processed in a function:
-    -- post_effect:draw(function()
-    --   love.graphics.rectangle("fill", 300, 300, 60, 60)
-    --   love.graphics.draw(player.image, player.x, player.y, 0, 4, 4)
-    -- end)
-    
-    -- alternative syntax:
-    -- post_effect(function()
-    --     draw()
-    --     my()
-    --     stuff()
-    -- end)
-    
-    -- everything you draw here will not be affected by the effect
-  -- love.graphics.setShader(shader)
-  -- love.graphics.setShader(myShader)
-  --
-    -- love.graphics.rectangle("fill", 300, 300, 60, 60)
-    -- love.graphics.draw(player.image, player.x, player.y, 0, 4, 4)
-
-
-  -- love.graphics.setShader()
-
-
-  camera:unset()
+function love.mousepressed(x, y, button, istouch)
+  game:mousepressed(x, y, button, istouch)
 end
