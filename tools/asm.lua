@@ -1,3 +1,5 @@
+-- Stores and grabs assets added with id retrieved by id
+
 local ASM = {}
 
 function ASM:load()

@@ -1,4 +1,4 @@
--- Object manager???
+-- Object manager
 local OBM = {}
 
 function OBM:load()
