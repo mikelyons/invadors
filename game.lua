@@ -1,3 +1,8 @@
+-- BASED ON: https://www.youtube.com/watch?v=UFE94uJodVs&list=PLKpDO_ZkjZ7TBYWcV2n632Z6iRJJlX2oM&index=2
+Renderer = require "tools/renderer"
+GameLoop = require "tools/gameloop"
+renderer = Renderer:create()
+gameloop = GameLoop:create()
 
 -- Middleclass Root Game class with Stateful state machine
 Game = Class('Game'):include(Stateful)
@@ -11,7 +16,7 @@ end
 function load(name)
 end
 
--- make available the following states
+-- make available the following minigames
 loadState('earth2')
 require 'states/menu'
 require 'states/pause'
@@ -19,7 +24,6 @@ require 'states/bizzaro'
 require 'states/earth1'
 require 'states/splash'
 
--- Game's methods
 function Game:initialize()
   print(os.date())
   -- print(os.getenv('PATH')) -- get environmental variable

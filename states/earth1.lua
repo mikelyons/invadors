@@ -1,6 +1,6 @@
 -- based on : https://love2d.org/wiki/Tutorial:Baseline_2D_Platformer
 
-local bump       = Bump
+local bump       = require('lib/bump/bump')
 local bump_debug = require 'bump_debug'
 
 local Training = Game:addState('Training')

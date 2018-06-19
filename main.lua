@@ -18,11 +18,6 @@ Stateful       = require 'lib/stateful/stateful'
 require 'game'
 local game
 
--- BASED ON: https://www.youtube.com/watch?v=UFE94uJodVs&list=PLKpDO_ZkjZ7TBYWcV2n632Z6iRJJlX2oM&index=2
-Renderer = require "tools/renderer"
-GameLoop = require "tools/gameloop"
-renderer = Renderer:create()
-gameloop = GameLoop:create()
 
 -- beeper         = require "tools/beeper"
 
@@ -51,13 +46,14 @@ function love.update(dt)
 end
 
 function love.draw(dt)
-  camera:set()
-    renderer:draw()
+  -- game camera
+  -- camera:set()
+  renderer:draw()
   -- camera:set()
   --   --wrapping these in camera set/unset allows camera to follow player but its weird
   -- camera:unset()
-    game:draw()
-  camera:unset()
+  -- game:draw()
+  -- camera:unset()
 end
 
 function love.keypressed(key)

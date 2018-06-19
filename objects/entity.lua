@@ -11,9 +11,9 @@ function Entity:new(x,y,w,h,img,quad,id)
   entity.pos        = vec2:new(x,y)
   entity.size       = vec2:new(w,h)
 
-  entity.velocity   = vec2:new(0,0)
-  entity.direction  = vec2:new(0,0)
-  entity.speed      = vec2:new(0,0)
+  entity.vel  = vec2:new(0,0)
+  entity.dir  = vec2:new(0,0)
+  entity.spd  = vec2:new(0,0)
 
   entity.remove = false
 
