@@ -13,6 +13,7 @@ end
 
 function Splash:enteredState()
   print('ENTER Splash STATE')
+  renderer:addRenderer(self, 1)
   -- if you just want to wait and no fade
   -- waiting = true
   -- waitingtimer = 0

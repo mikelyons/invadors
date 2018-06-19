@@ -1,3 +1,4 @@
+asm:load()
 tween = require '/lib/tween/tween'
 require 'splash_texts'
 
@@ -29,13 +30,17 @@ if key == ('4' or 'w') then self:gotoState('Earth2') end
 END OF TRANSMISSION]]
     , 50, 320, 620, 'left')
 end
+function Menu:load( ... )
+end
 
 function Menu:enteredState()
   print('ENTER MENU STATE')
+  love.graphics.clear( )
   asm:add(love.graphics.newImage("assets/images/Doom_1.png"), 'hamster')
   asm:add(love.graphics.newImage("brian.png"), 'brian')
   local brian = asm:get('brian')
   local hamster = asm:get('hamster')
+  renderer:addRenderer(self, 5)
 
   -- entity componentize and animate this
   local canvas = love.graphics.newCanvas(32, 32)
@@ -83,6 +88,7 @@ local function drawCanvas()
   -- very important!: reset color before drawing to canvas to have colors properly displayed
   -- see discussion here: https://love2d.org/forums/viewtopic.php?f=4&p=211418#p211418
   love.graphics.setColor(255, 255, 255, 255)
+  love.graphics.setBlendMode("alpha")
 
   -- The rectangle from the Canvas was already alpha blended.
   -- Use the premultiplied alpha blend mode when drawing the Canvas itself to prevent improper blending.
@@ -170,6 +176,9 @@ function Menu:draw()
 end
 
 function Menu:exitedState()
+  
+  
+  love.graphics.clear( )
 end
 
 function Menu:keypressed(key, code)
