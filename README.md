@@ -1,23 +1,11 @@
-## 0.4 (April 5, 2017)
+# Invadors
 
-### Major Changes
+A Love2d platformer game prototype I wrote to learn more about game programming while travelling Europe.
 
-* Remove Player shader and add gaussian blur shader to background based on movement
-* Slow Player movement to 4
+# What I Learned
 
-## 0.3 (April 4, 2017)
-
-### Major Changes
-
-* First pass at shaders, filmgrain box and character
-
-## 0.2 (April 4, 2017)
-
-### Major Changes
-
-* Initial public release
-
-# Libraries used
-
-* Stateful
-* Middleclass
+* How to roll you own basic 2D collisions
+* How gravity is simulated in a non-realistic fashion in platformer games
+* Common pitfalls and the importance of optimisation in videogames
+* Created a mini-map UI with the relative position of the player and the world elements
+* Lots about Love2d! (will explain in a later update)
