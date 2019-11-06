@@ -25,8 +25,8 @@ function camera:set()
 end
 
 function camera:goToPoint(pos)
-  self.pos.x = pos.x - g_Width / 2
-  self.pos.y = pos.y - g_Height / 2
+  self.pos.x = pos.x * (1/self.scale.x) - g_Width / 2
+  self.pos.y = pos.y * (1/self.scale.y) - g_Height / 2
 end
 
 function camera:unset()

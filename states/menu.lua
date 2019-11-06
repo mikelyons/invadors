@@ -1,52 +1,58 @@
 asm:load()
 tween = require '/lib/tween/tween'
 require 'splash_texts'
+asm:add(love.graphics.newImage("assets/images/Doom_1.png"), 'hamster')
+menuhelper = require('states/menu/menu_helper')
+MenuHelper = menuhelper:new()
 
 local Menu = Game:addState('Menu')
 
-local function drawButton(x, y, w, h, text)
-  --shadow
-  love.graphics.setColor(30,30,51,100)
-  love.graphics.rectangle('fill', x+10, y+10, w, h, 30, 30)
-  -- blue button yellow text red highlight
-  love.graphics.setColor(0,0,51,255)
-  love.graphics.rectangle('fill', x, y, w, h, 30, 30)
-  love.graphics.setColor(250,30,51,100)
-  love.graphics.rectangle('line', x, y, w, h, 30, 30)
-  love.graphics.setColor(255, 223, 0)
-  love.graphics.printf(text, x, y+10, 200, 'center')
-end
+function Menu:load()
 
-local function drawMenu()
-  love.graphics.setBackgroundColor(60, 29, 19, 100)--BG_COLOR)
-  local startButton = drawButton(150, 250, 200, 35, 'Start Game')
-  love.graphics.draw(hamster, 50, 50, 0, .2, .2)
-
-  love.graphics.printf(
-[[if key == (1 or return) then self:gotoState(Training) end
-if key == (2 or space) then self:gotoState(bizzaro) end
-if key == (3 or q) then self:gotoState(SPACE) end
-if key == ('4' or 'w') then self:gotoState('Earth2') end
-END OF TRANSMISSION]]
-    , 50, 320, 620, 'left')
-end
-function Menu:load( ... )
 end
 
 function Menu:enteredState()
-  print('ENTER MENU STATE')
+  --it does not matter what your picture for the particle is named I just like to use index.
+  local img = love.graphics.newImage("bloodParticle.png")
+  --this is us setting our new particle system
+  pSystem = love.graphics.newParticleSystem(img, 320)
+  --this sets the particles lifetime to between 1 and 5 seconds
+  --that will make the particals disappear within 1 to 5 seconds
+  pSystem:setParticleLifetime(.9,3)
+  --this will make your particals shoot out in diffrent directions
+  --this will make your particles look much better
+  --you can play with the numbers to make them move in diffrent directions
+  pSystem:setLinearAcceleration(-20, -20, 20, 20)
+  -- pSystem:setLinearAcceleration(-5, -5, 5, 5)
+  -- pSystem:setLinearAcceleration(-10, -10, 10, 10)
+  --by doing this it makes our particles shoot out a bit faster
+  --you can play with the number to change how fast the particles move out
+  -- setspeed maxes in each positive and negative direction
+  pSystem:setSpeed(-10,10)
+ --this will set the rotation of the particles between 10 and 20
+  --change the numbers for diffrent outcomes
+  --they will not continue to rotate but they will emit at a rotated angle
+  -- pSystem:setRotation(10,20) 
+    --the last bit of rotation code has been removed and this will take it's place
+  --this will keep rotating the particles
+  --this will make the particles rotate at a speed between 20 and 50
+  --change the numbers for diffrent outcomes
+  -- pSystem:setSpin(20, 50)
+
+  
+
+  -- print('ENTER MENU STATE')
   love.graphics.clear( )
-  asm:add(love.graphics.newImage("assets/images/Doom_1.png"), 'hamster')
   asm:add(love.graphics.newImage("brian.png"), 'brian')
   local brian = asm:get('brian')
   local hamster = asm:get('hamster')
   renderer:addRenderer(self, 5)
 
   -- entity componentize and animate this
-  local canvas = love.graphics.newCanvas(32, 32)
+  self.canvas = love.graphics.newCanvas(32, 32)
    
     -- Rectangle is drawn to the canvas with the regular alpha blend mode.
-  love.graphics.setCanvas(canvas)
+  love.graphics.setCanvas(self.canvas)
     love.graphics.clear()
     love.graphics.setBlendMode("alpha")
     love.graphics.setColor(255, 0, 0, 128)
@@ -84,7 +90,7 @@ local font = love.graphics.newImageFont("Imagefont.png",
 local splashColor = splashColors[rand2] 
 
 
-local function drawCanvas()
+local function drawCanvas(canvas)
   -- very important!: reset color before drawing to canvas to have colors properly displayed
   -- see discussion here: https://love2d.org/forums/viewtopic.php?f=4&p=211418#p211418
   love.graphics.setColor(255, 255, 255, 255)
@@ -93,24 +99,13 @@ local function drawCanvas()
   -- The rectangle from the Canvas was already alpha blended.
   -- Use the premultiplied alpha blend mode when drawing the Canvas itself to prevent improper blending.
   -- Observe the difference if the Canvas is drawn with the regular alpha blend mode instead.
-  -- love.graphics.setBlendMode("alpha")
-  -- love.graphics.draw(canvas, 100, 0)
-  love.graphics.setBlendMode("replace")
-  love.graphics.draw(canvas, 100, 0)
-  love.graphics.draw(canvas, 100, 100)
-  love.graphics.draw(canvas, 0, 100)
-  love.graphics.draw(canvas, 200, 0)
-  love.graphics.draw(canvas, 200, 200)
-  love.graphics.draw(canvas, 0, 200)
-  love.graphics.draw(canvas, 300, 0)
-  love.graphics.draw(canvas, 300, 300)
-  love.graphics.draw(canvas, 0, 300)
 
   -- Rectangle is drawn directly to the screen with the regular alpha blend mode.
   love.graphics.setBlendMode("alpha")
   love.graphics.setColor(255, 0, 0, 128)
   love.graphics.rectangle('fill', 200, 0, 100, 100)
   love.graphics.setBlendMode("alpha")
+  love.graphics.draw(canvas, 0, 0, 0, 1, 1)
 
 end
 
@@ -136,6 +131,11 @@ rect = {
 local easetype = 'outQuad'
 
 function Menu:update(dt)
+  --this will update our particle system
+  pSystem:update(dt)
+  Menu:mousepressed()
+
+  -- splashtext tween
   if complete == true then
     complete = false
     local scale = sp.sc
@@ -169,10 +169,18 @@ local function drawNote()
 end
 
 function Menu:draw()
-  drawMenu()
+  menuhelper:new()
+  MenuHelper:drawMenu()
   drawSplashText()
   drawNote()
-  -- drawCanvas()
+  drawCanvas(self.canvas)
+
+  --this draws our particles
+  --in just a second I will explain why we are getting the mouses position
+  local mx = love.mouse.getX()
+  local my = love.mouse.getY()
+  -- print(mx..my)
+  love.graphics.draw(pSystem, mx, my)
 end
 
 function Menu:exitedState()
@@ -191,6 +199,13 @@ function Menu:keypressed(key, code)
 end
 
 function Menu:mousepressed(x,y, button , istouch)
+   --this checks if you are left clicking, and if you are it runs the code under it
+  if love.mouse.isDown(1) then
+    print('blood')
+    --this says if the user is left clicking then emit 32 particles and since the particles are drawn where the mouse is they come out of the mouse
+    pSystem:emit(32) 
+  end
+
   -- draggable note rect
   if button == 1 then
     if x>rect.x then

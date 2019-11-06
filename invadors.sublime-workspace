@@ -4,6 +4,166 @@
 		"selected_items":
 		[
 			[
+				"load",
+				"loadMiniMap"
+			],
+			[
+				"set",
+				"setBlendMode"
+			],
+			[
+				"wr",
+				"write"
+			],
+			[
+				"no",
+				"nosplash"
+			],
+			[
+				"game",
+				"gameloop"
+			],
+			[
+				"hi",
+				"highscores"
+			],
+			[
+				"save",
+				"saveString"
+			],
+			[
+				"high",
+				"highscore"
+			],
+			[
+				"s",
+				"score"
+			],
+			[
+				"Menu",
+				"MenuHelper"
+			],
+			[
+				"menu",
+				"menuhelper"
+			],
+			[
+				"get",
+				"love.mouse.getX()"
+			],
+			[
+				"setC",
+				"setColor"
+			],
+			[
+				"com",
+				"components"
+			],
+			[
+				"compoe",
+				"components"
+			],
+			[
+				"comp",
+				"component_ids"
+			],
+			[
+				"cop",
+				"component"
+			],
+			[
+				"dra",
+				"drawMinimap"
+			],
+			[
+				"newCan",
+				"love.graphics.newCanvas(width, height)"
+			],
+			[
+				"cu",
+				"current_frame"
+			],
+			[
+				"cur",
+				"current_frame"
+			],
+			[
+				"fn",
+				"function	function"
+			],
+			[
+				"se",
+				"setColor"
+			],
+			[
+				"re",
+				"rectangle"
+			],
+			[
+				"del",
+				"delta_time"
+			],
+			[
+				"in",
+				"index"
+			],
+			[
+				"solid",
+				"solids"
+			],
+			[
+				"tab",
+				"table.sort	table.sort"
+			],
+			[
+				"table",
+				"table.concat	table.concat"
+			],
+			[
+				"on",
+				"on_ground"
+			],
+			[
+				"skip",
+				"skip_x"
+			],
+			[
+				"can",
+				"canvas"
+			],
+			[
+				"w",
+				"width"
+			],
+			[
+				"mou",
+				"mousepressed"
+			],
+			[
+				"gr",
+				"gravity"
+			],
+			[
+				"spla",
+				"splashColor"
+			],
+			[
+				"sp",
+				"splashColors"
+			],
+			[
+				"im",
+				"img"
+			],
+			[
+				"creat",
+				"createBlocks"
+			],
+			[
+				"add",
+				"addBlock"
+			],
+			[
 				"key",
 				"keypressed"
 			],
@@ -12,20 +172,12 @@
 				"objects"
 			],
 			[
-				"re",
-				"require"
-			],
-			[
 				"maid",
 				"maid64"
 			],
 			[
 				"tex",
 				"text"
-			],
-			[
-				"creat",
-				"createBox"
 			],
 			[
 				"fun",
@@ -70,10 +222,6 @@
 			[
 				"sele",
 				"selectionChange"
-			],
-			[
-				"cur",
-				"current-group"
 			],
 			[
 				"remov",
@@ -152,10 +300,6 @@
 				"bottom"
 			],
 			[
-				"in",
-				"include"
-			],
-			[
 				"l-btn",
 				"l-btn-next"
 			],
@@ -206,10 +350,6 @@
 			[
 				"prev",
 				"preventDefault"
-			],
-			[
-				"com",
-				"comment-text"
 			],
 			[
 				"CX",
@@ -374,146 +514,6 @@
 			[
 				"u",
 				"upgrade-modal-content"
-			],
-			[
-				"trial",
-				"trialExpired"
-			],
-			[
-				"on",
-				"oneDayLeft"
-			],
-			[
-				"di",
-				"display"
-			],
-			[
-				"site",
-				"siteName"
-			],
-			[
-				"my",
-				"myflare"
-			],
-			[
-				"s",
-				"saveToMyAccount"
-			],
-			[
-				"file",
-				"fileOrFolder"
-			],
-			[
-				"for",
-				"for_session"
-			],
-			[
-				"inp",
-				"INPUT	Tag"
-			],
-			[
-				"che",
-				"checklist-modal-icon"
-			],
-			[
-				"check",
-				"checklist-modal-h3"
-			],
-			[
-				"modal",
-				"modal-text"
-			],
-			[
-				"checklist",
-				"checklist-icon"
-			],
-			[
-				"line",
-				"line-height"
-			],
-			[
-				"chec",
-				"checklist-banner"
-			],
-			[
-				"arrow-",
-				"arrow-down"
-			],
-			[
-				"t",
-				"toggleListExpanded"
-			],
-			[
-				"no",
-				"nowrap"
-			],
-			[
-				"dialo",
-				"dialog-sharing"
-			],
-			[
-				"fo",
-				"font-size"
-			],
-			[
-				"su",
-				"subscription"
-			],
-			[
-				"passwor",
-				"password-upgrade"
-			],
-			[
-				"ren",
-				"renderBanner"
-			],
-			[
-				"comple",
-				"completedTasks"
-			],
-			[
-				"refer",
-				"referrer_name"
-			],
-			[
-				"templ",
-				"template"
-			],
-			[
-				"sharing",
-				"sharing-modal-tabs"
-			],
-			[
-				"grou",
-				"group_quota_limit"
-			],
-			[
-				"group",
-				"group_member_limit"
-			],
-			[
-				"ltgre",
-				"ltgrey-gradient-light"
-			],
-			[
-				"he",
-				"height"
-			],
-			[
-				"background-po",
-				"background-position-x"
-			],
-			[
-				"ic",
-				"icon-profile"
-			],
-			[
-				"icon",
-				"icon-password"
-			],
-			[
-				"share",
-				"share-types"
 			]
 		]
 	},
@@ -523,68 +523,99 @@
 			"file": "main.lua",
 			"settings":
 			{
-				"buffer_size": 2242,
+				"buffer_size": 2428,
 				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "states/game_play.lua",
-			"settings":
-			{
-				"buffer_size": 287,
-				"line_ending": "Unix",
-				"name": "game_play.lua"
-			}
-		},
-		{
-			"file": "states/pause.lua",
-			"settings":
-			{
-				"buffer_size": 706,
-				"line_ending": "Unix",
-				"name": "pause.lua"
-			}
-		},
-		{
-			"file": "states/menu.lua",
-			"settings":
-			{
-				"buffer_size": 493,
-				"line_ending": "Unix",
-				"name": "menu.lua"
 			}
 		},
 		{
 			"file": "game.lua",
 			"settings":
 			{
-				"buffer_size": 515,
+				"buffer_size": 1175,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "states/earth2/main.lua",
+			"settings":
+			{
+				"buffer_size": 2611,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "states/menu.lua",
+			"settings":
+			{
+				"buffer_size": 7722,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "states/menu/menu_helper.lua",
+			"settings":
+			{
+				"buffer_size": 1264,
 				"line_ending": "Unix",
-				"name": "game.lua"
+				"name": "menu_helper"
+			}
+		},
+		{
+			"file": "states/menu/evilNote.lua",
+			"settings":
+			{
+				"buffer_size": 256,
+				"line_ending": "Unix",
+				"name": "return{"
 			}
 		},
 		{
 			"file": "objects/player.lua",
 			"settings":
 			{
-				"buffer_size": 966,
+				"buffer_size": 4240,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "states/bizzaro.lua",
+			"file": "states/splash.lua",
 			"settings":
 			{
-				"buffer_size": 658,
-				"line_ending": "Unix",
-				"name": "bizzaro.lua"
+				"buffer_size": 1278,
+				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "states/earth1.lua",
+			"file": "tiles/tlm.lua",
 			"settings":
 			{
-				"buffer_size": 3952,
+				"buffer_size": 5943,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "animation.lua",
+			"settings":
+			{
+				"buffer_size": 1550,
+				"line_ending": "Unix",
+				"name": "animation.lua"
+			}
+		},
+		{
+			"file": "highscore.lua",
+			"settings":
+			{
+				"buffer_size": 1449,
+				"line_ending": "Unix",
+				"name": "highscore.lua"
+			}
+		},
+		{
+			"file": "scratch - TODO.md",
+			"settings":
+			{
+				"buffer_size": 3718,
 				"line_ending": "Unix"
 			}
 		}
@@ -592,9 +623,17 @@
 	"build_system": "Packages/User/love-run.sublime-build",
 	"command_palette":
 	{
-		"height": 49.0,
+		"height": 375.0,
 		"selected_items":
 		[
+			[
+				"bro",
+				"Preferences: Browse Packages"
+			],
+			[
+				"setsyntaxlua",
+				"Set Syntax: Lua (Love)"
+			],
 			[
 				"preview",
 				"GitHub Flavored Markdown: Preview"
@@ -660,7 +699,7 @@
 				"Set Syntax: Java Server Page (JSP)"
 			]
 		],
-		"width": 392.0
+		"width": 435.0
 	},
 	"console":
 	{
@@ -677,6 +716,55 @@
 	},
 	"file_history":
 	[
+		"/Users/mikelyons/Dev/lua-project/invadors/lib/ProFi.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/tiles/MyProfilingReport.txt",
+		"/Users/mikelyons/Dev/lua-project/invadors/MyProfilingReport.txt",
+		"/Users/mikelyons/Dev/lua-project/invadors/states/earth2/MyProfilingReport.txt",
+		"/Users/mikelyons/Dev/lua-project/invadors/states/menu/MyProfilingReport.txt",
+		"/Users/mikelyons/Dev/lua-project/invadors/entity_container.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/assets/maps/test.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/objects/zombie.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/conf.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/tools/camera.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/states/menu.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/c_rectangle.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/entity_factory.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/tools/physics_helper.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/tools/world_physics.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/assets/maps/ship/test.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/objects/rect.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/lovebird_config.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/game.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/scratch - TODO.md",
+		"/Users/mikelyons/Dev/lua-project/invadors/tools/renderer.lua",
+		"/Users/mikelyons/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/Users/mikelyons/Library/Application Support/Sublime Text 2/Packages/User/Package Control.sublime-settings",
+		"/Users/mikelyons/Dev/lua-project/invadors/states/splash.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/tools/obm.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/main.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/objects/entity.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/tools/gameloop.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/tools/asm.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/splash_texts.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/states/pause.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/states/earth1.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/objects/player.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/states/earth2/player_scratch.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/spheres_scratch.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/states/game_play.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/camera.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/tiles/tlm.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/states/earth2/map1.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/states/bizzaro.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/tools/createbox.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/states/space1.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/states/earth2.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/states/CommandoKibbles/src/states/Level.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/states/CommandoKibbles/main.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/states/commando.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/tools/createblocks.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/bump-demo.lua",
+		"/Users/mikelyons/Dev/lua-project/invadors/bump_debug.lua",
 		"/Users/mikelyons/Dev/haxecoder-tutorials/07_how_to_make_a_pong_game_in_haxe_and_openfl_part_1.html",
 		"/Users/mikelyons/Dev/haxecoder-tutorials/06_enum_types_in_haxe.html",
 		"/Users/mikelyons/Dev/haxecoder-tutorials/05_loops_and_iterators_in_haxe.html",
@@ -684,24 +772,10 @@
 		"/Users/mikelyons/Dev/haxecoder-tutorials/03_oop_in_haxe.html",
 		"/Users/mikelyons/Dev/haxecoder-tutorials/02_getting_started_with_haxe.html",
 		"/Users/mikelyons/Dev/java projects/itemfinder-0.2.2/src/main/java/de/yogularm/minecraft/itemfinder/region/ChunkColumn.java",
-		"/Users/mikelyons/Dev/lua-project/invadors/scratch - TODO.md",
 		"/Users/mikelyons/Dev/lua-project/invadors/tools/beeper.lua",
-		"/Users/mikelyons/Dev/lua-project/invadors/tools/createbox.lua",
-		"/Users/mikelyons/Dev/lua-project/invadors/states/space1.lua",
-		"/Users/mikelyons/Dev/lua-project/invadors/states/earth1.lua",
-		"/Users/mikelyons/Dev/lua-project/invadors/tools/obm.lua",
-		"/Users/mikelyons/Dev/lua-project/invadors/tools/asm.lua",
-		"/Users/mikelyons/Dev/lua-project/invadors/tools/gameloop.lua",
-		"/Users/mikelyons/Dev/lua-project/invadors/conf.lua",
 		"/Users/mikelyons/Dev/lua-project/invadors/lib/cupid/cupid.lua",
 		"/Users/mikelyons/Dev/lua-project/invadors/README.md",
 		"/Users/mikelyons/Dev/lua-project/invadors/lib/cupid/README.md",
-		"/Users/mikelyons/Dev/lua-project/invadors/objects/entity.lua",
-		"/Users/mikelyons/Dev/lua-project/invadors/objects/rect.lua",
-		"/Users/mikelyons/Dev/lua-project/invadors/objects/player.lua",
-		"/Users/mikelyons/Dev/lua-project/invadors/tiles/tlm.lua",
-		"/Users/mikelyons/Dev/lua-project/invadors/camera.lua",
-		"/Users/mikelyons/Dev/lua-project/invadors/tools/camera.lua",
 		"/Users/mikelyons/Dev/lua-project/invadors/shader/shaderz.lua",
 		"/Users/mikelyons/Dev/lua-project/invadors/tools/vec2.lua",
 		"/Users/mikelyons/Dev/lua-project/invadors/player.lua",
@@ -710,13 +784,11 @@
 		"/Users/mikelyons/Dev/lua-project/invadors.love/conf.lua",
 		"/Users/mikelyons/Dev/lua-project/anput/conf.lua",
 		"/Users/mikelyons/Dev/lua-project/invadors/CHANGELOG.md",
-		"/Users/mikelyons/Dev/lua-project/invadors/tools/renderer.lua",
 		"/Users/mikelyons/Dev/lua-project/anput/class/golem.lua",
 		"/Users/mikelyons/Dev/lua-project/kollum/actors/actor.lua",
 		"/Users/mikelyons/Library/Application Support/Sublime Text 2/Packages/User/love-run.sublime-build",
 		"/Users/mikelyons/Dev/lua-project/radial-gravity.lua",
 		"/Users/mikelyons/Dev/lua-project/invadors.love/scratch - TODO.md",
-		"/Users/mikelyons/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
 		"/Users/mikelyons/Dev/lua-project/invadors.love/main.lua1",
 		"/Users/mikelyons/Dev/lua-project/invadors.love/shader3.fs",
 		"/Users/mikelyons/Dev/lua-project/invadors.love/CHANGELOG.md",
@@ -771,40 +843,7 @@
 		"/Users/mikelyons/Dev/CXROR/app/assets/javascripts/backbone/views/albums/add_selected.js.coffee",
 		"/Users/mikelyons/Dev/CXROR/app/assets/javascripts/backbone/views/account/trial_expired.js.coffee",
 		"/Users/mikelyons/Dev/CXROR/app/assets/stylesheets/core/sections/login.scss",
-		"/Users/mikelyons/Dev/CXROR/app/views/referral_registrations/new.html.erb",
-		"/Users/mikelyons/Dev/CXROR/app/assets/javascripts/templates/shared/trial_status.jst.hbs",
-		"/Users/mikelyons/Dev/CXROR/app/assets/javascripts/backbone/views/albums/albums.js.coffee",
-		"/Users/mikelyons/Dev/CXROR/app/assets/javascripts/backbone/views/_shared/safety_confirm_dialog.js.coffee",
-		"/Users/mikelyons/Dev/CXROR/app/assets/javascripts/backbone/views/account/almost_done.js.coffee",
-		"/Users/mikelyons/Dev/CXROR/app/assets/javascripts/backbone/views/account/cancel_dialog.js.coffee",
-		"/Users/mikelyons/Dev/CXROR/app/assets/javascripts/backbone/views/account/trial_end_user_dialog.js.coffee",
-		"/Users/mikelyons/Dev/CXROR/app/assets/javascripts/backbone/views/_shared/announce_new_feature.js.coffee",
-		"/Users/mikelyons/Dev/CXROR/app/assets/javascripts/backbone/views/account/downgrade_errors.js.coffee",
-		"/Users/mikelyons/Dev/CXROR/app/assets/stylesheets/themes/cx/layout/660.scss",
-		"/Users/mikelyons/Dev/CXROR/app/assets/stylesheets/core/layout/660.scss",
-		"/Users/mikelyons/Dev/CXROR/app/views/layouts/application.html.erb",
-		"/Users/mikelyons/Dev/CXROR/app/assets/stylesheets/themes/cx/base.scss",
-		"/Users/mikelyons/Dev/CXROR/app/helpers/application_helper.rb",
-		"/Users/mikelyons/Dev/CXROR/app/views/shared/_navigation_tabs.html.erb",
-		"/Users/mikelyons/Dev/CXROR/app/assets/stylesheets/themes/cx/modules/mainnav.scss",
-		"/Users/mikelyons/Dev/CXROR/app/assets/javascripts/controllers/reminder.js.coffee",
-		"/Users/mikelyons/Dev/CXROR/app/controllers/free_trials_controller.rb",
-		"/Users/mikelyons/Dev/CXROR/app/assets/javascripts/backbone/views/albums/album.js.coffee",
-		"/Users/mikelyons/Dev/CXROR/app/assets/stylesheets/core/sections/albums.scss",
-		"/Users/mikelyons/Dev/CXROR/app/controllers/main_controller.rb",
-		"/Users/mikelyons/Dev/CXROR/app/views/main/referral.html.erb",
-		"/Users/mikelyons/Dev/CXROR/themes/myflare/app/views/main/_referral_description.html.erb",
-		"/Users/mikelyons/Dev/CXROR/app/assets/javascripts/templates/opera/zoomed_photo.jst.hbs",
-		"/Users/mikelyons/Dev/CXROR/app/assets/javascripts/backbone/mixins/zoomed_photo_view.js.coffee",
-		"/Users/mikelyons/Dev/CXROR/app/assets/javascripts/backbone/opera/views/zoomed_photo.js.coffee",
-		"/Users/mikelyons/Dev/CXROR/app/assets/stylesheets/opera/photos.scss",
-		"/Users/mikelyons/Dev/CXROR/Gemfile",
-		"/Users/mikelyons/Dev/CXROR/Gemfile.lock",
-		"/Users/mikelyons/Dev/CXROR/app/views/shared/_js_includes.html.erb",
-		"/Users/mikelyons/Dev/CXROR/app/assets/javascripts/backbone/views/my_stuff/completion/checklist.js.coffee",
-		"/Users/mikelyons/Dev/CXROR/app/views/sessions/_javascript.html.erb",
-		"/Users/mikelyons/Dev/CXROR/app/assets/stylesheets/opera/albums.scss",
-		"/Users/mikelyons/Dev/CXROR/app/assets/stylesheets/opera/navigation.scss"
+		"/Users/mikelyons/Dev/CXROR/app/views/referral_registrations/new.html.erb"
 	],
 	"find":
 	{
@@ -815,6 +854,18 @@
 		"height": 0.0,
 		"where_history":
 		[
+			"*.*",
+			"*.*, <current file>",
+			"<current file>",
+			"<current_file>",
+			"world_physics.lua",
+			"*.*",
+			"world_physics.lua",
+			"tlm.lua",
+			"splash.lua",
+			"earth2.lua",
+			"space1.lua",
+			"",
 			"*.*",
 			"<open files>",
 			"*.*",
@@ -938,6 +989,68 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"rect",
+			"note",
+			"print",
+			"prin",
+			"print",
+			"print(",
+			"colors",
+			"on_ground",
+			"print",
+			"psyst",
+			"draw",
+			"class",
+			"stateful",
+			"enti",
+			"rect",
+			":create(",
+			"av_dt",
+			"av + dt",
+			"av",
+			"for i = #deltaTime",
+			"pop(",
+			"draw(",
+			"\n            ",
+			"MAP_SIZE",
+			"print",
+			"on_",
+			"self",
+			"obj",
+			"self",
+			"tlm:draw",
+			"mode",
+			"gameloop",
+			"player:draw",
+			"draw",
+			"tlm",
+			"player",
+			"renderer",
+			"bump",
+			"drawplayer",
+			"bump",
+			"gametime",
+			"bump",
+			"entered",
+			"asm",
+			"rect",
+			"self",
+			"camera",
+			"draw",
+			"goto",
+			"camera",
+			"tileSize",
+			"width",
+			"size",
+			"obm",
+			"Splash1",
+			"0",
+			"\n  ",
+			"consol",
+			"ground",
+			"Training",
+			"Biz:",
+			"require",
 			"img",
 			"') ",
 			"switch",
@@ -1003,69 +1116,7 @@
 			"trial",
 			"album",
 			"ref",
-			"zen",
-			"subdomain",
-			".dial",
-			"dial",
-			"#ff00fd",
-			"ff00fd",
-			"ff6600",
-			"bootstrap",
-			"vendor/",
-			"vendor/twi",
-			"bootstrap",
-			"swap",
-			".album",
-			"shadow",
-			"URLfor",
-			"urlform",
-			"<%",
-			"left",
-			"right",
-			"clearfix",
-			"login-field",
-			"login-view",
-			".login-section",
-			"default_free",
-			"default",
-			"try",
-			"android",
-			"client=anroid",
-			"trial-select-container",
-			"android_check",
-			"android check",
-			"android",
-			"resizeToContainer",
-			"preview",
-			"open",
-			"file-thumb preview-container",
-			"show",
-			"red",
-			"selected",
-			"name",
-			"icn-download",
-			"file-type",
-			"opa",
-			"file-ty",
-			"white",
-			"file-che",
-			"btn-icn",
-			"more-actions",
-			"more-actions-group",
-			"more-ac",
-			"file-check",
-			"file-container",
-			"more-actions-group",
-			"grid",
-			"btn-icn more-actions",
-			"in-file-list",
-			"more-actions-group",
-			"grid-list",
-			"file_thumb",
-			"file-thumb-container",
-			"selected",
-			"text-indent",
-			"button-text"
+			"zen"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1073,6 +1124,15 @@
 		"regex": false,
 		"replace_history":
 		[
+			"g_MapSize",
+			"self",
+			"obj",
+			"self",
+			"obj",
+			"ts",
+			"Splash",
+			"Earth2",
+			"Space1",
 			"$primaryAccent",
 			"http://www.my-flare.com/myflare/assets",
 			"my",
@@ -1090,7 +1150,7 @@
 	"groups":
 	[
 		{
-			"selected": 7,
+			"selected": 6,
 			"sheets":
 			[
 				{
@@ -1098,15 +1158,15 @@
 					"file": "main.lua",
 					"settings":
 					{
-						"buffer_size": 2242,
+						"buffer_size": 2428,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								356,
+								356
 							]
 						],
 						"settings":
@@ -1115,8 +1175,8 @@
 							"syntax": "Packages/SublimeLove/Love.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true,
-							"vintage_lines.line": -1,
-							"vintage_lines.lines": 96,
+							"vintage_lines.line": 11,
+							"vintage_lines.lines": 108,
 							"vintage_lines.mode": false
 						},
 						"translation.x": 0.0,
@@ -1127,64 +1187,62 @@
 				},
 				{
 					"buffer": 1,
-					"file": "states/game_play.lua",
+					"file": "game.lua",
 					"settings":
 					{
-						"buffer_size": 287,
+						"buffer_size": 1175,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								283,
-								283
+								933,
+								933
 							]
 						],
 						"settings":
 						{
-							"auto_name": "game_play.lua",
 							"line_numbers": true,
 							"syntax": "Packages/SublimeLove/Love.tmLanguage",
 							"vintage_lines.line": -1,
-							"vintage_lines.lines": 20,
+							"vintage_lines.lines": 46,
 							"vintage_lines.mode": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 140.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "states/pause.lua",
+					"file": "states/earth2/main.lua",
 					"settings":
 					{
-						"buffer_size": 706,
+						"buffer_size": 2611,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								262,
-								262
+								2127,
+								2127
 							]
 						],
 						"settings":
 						{
-							"auto_name": "pause.lua",
 							"line_numbers": true,
 							"syntax": "Packages/SublimeLove/Love.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true,
-							"vintage_lines.line": -1,
-							"vintage_lines.lines": 39,
+							"vintage_lines.line": 78,
+							"vintage_lines.lines": 95,
 							"vintage_lines.mode": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1009.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1194,24 +1252,25 @@
 					"file": "states/menu.lua",
 					"settings":
 					{
-						"buffer_size": 493,
+						"buffer_size": 7722,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								482,
-								482
+								90,
+								90
 							]
 						],
 						"settings":
 						{
-							"auto_name": "menu.lua",
 							"line_numbers": true,
 							"syntax": "Packages/SublimeLove/Love.tmLanguage",
-							"vintage_lines.line": -1,
-							"vintage_lines.lines": 23,
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true,
+							"vintage_lines.line": 3,
+							"vintage_lines.lines": 229,
 							"vintage_lines.mode": false
 						},
 						"translation.x": 0.0,
@@ -1222,29 +1281,29 @@
 				},
 				{
 					"buffer": 4,
-					"file": "game.lua",
+					"file": "states/menu/menu_helper.lua",
 					"settings":
 					{
-						"buffer_size": 515,
+						"buffer_size": 1264,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								128,
-								128
+								697,
+								697
 							]
 						],
 						"settings":
 						{
-							"auto_name": "game.lua",
+							"auto_name": "menu_helper",
 							"line_numbers": true,
-							"syntax": "Packages/Lua/Lua.tmLanguage",
+							"syntax": "Packages/SublimeLove/Love.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true,
 							"vintage_lines.line": -1,
-							"vintage_lines.lines": 30,
+							"vintage_lines.lines": 36,
 							"vintage_lines.mode": false
 						},
 						"translation.x": 0.0,
@@ -1255,28 +1314,29 @@
 				},
 				{
 					"buffer": 5,
-					"file": "objects/player.lua",
+					"file": "states/menu/evilNote.lua",
 					"settings":
 					{
-						"buffer_size": 966,
+						"buffer_size": 256,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								76,
+								76
 							]
 						],
 						"settings":
 						{
+							"auto_name": "return{",
 							"line_numbers": true,
 							"syntax": "Packages/SublimeLove/Love.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true,
 							"vintage_lines.line": -1,
-							"vintage_lines.lines": 52,
+							"vintage_lines.lines": 14,
 							"vintage_lines.mode": false
 						},
 						"translation.x": 0.0,
@@ -1287,29 +1347,60 @@
 				},
 				{
 					"buffer": 6,
-					"file": "states/bizzaro.lua",
+					"file": "objects/player.lua",
 					"settings":
 					{
-						"buffer_size": 658,
+						"buffer_size": 4240,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								654,
-								654
+								2080,
+								2080
 							]
 						],
 						"settings":
 						{
-							"auto_name": "bizzaro.lua",
 							"line_numbers": true,
 							"syntax": "Packages/SublimeLove/Love.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true,
 							"vintage_lines.line": -1,
-							"vintage_lines.lines": 37,
+							"vintage_lines.lines": 177,
+							"vintage_lines.mode": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1322.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "states/splash.lua",
+					"settings":
+					{
+						"buffer_size": 1278,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								610,
+								610
+							]
+						],
+						"settings":
+						{
+							"line_numbers": true,
+							"syntax": "Packages/SublimeLove/Love.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true,
+							"vintage_lines.line": 27,
+							"vintage_lines.lines": 57,
 							"vintage_lines.mode": false
 						},
 						"translation.x": 0.0,
@@ -1319,11 +1410,49 @@
 					"type": "text"
 				},
 				{
-					"buffer": 7,
-					"file": "states/earth1.lua",
+					"buffer": 8,
+					"file": "tiles/tlm.lua",
 					"settings":
 					{
-						"buffer_size": 3952,
+						"buffer_size": 5943,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5796,
+								5796
+							]
+						],
+						"settings":
+						{
+							"line_numbers": true,
+							"syntax": "Packages/SublimeLove/Love.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true,
+							"vintage_lines.line": -1,
+							"vintage_lines.lines": 206,
+							"vintage_lines.mode": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2299.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 9,
+					"file": "animation.lua",
+					"settings":
+					{
+						"buffer_size": 1550,
 						"regions":
 						{
 						},
@@ -1336,16 +1465,80 @@
 						],
 						"settings":
 						{
+							"auto_name": "animation.lua",
+							"line_numbers": 1,
+							"syntax": "Packages/SublimeLove/Love.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true,
+							"vintage_lines.line": -1,
+							"vintage_lines.lines": 56,
+							"vintage_lines.mode": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "highscore.lua",
+					"settings":
+					{
+						"buffer_size": 1449,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								420,
+								420
+							]
+						],
+						"settings":
+						{
+							"auto_name": "highscore.lua",
 							"line_numbers": true,
 							"syntax": "Packages/SublimeLove/Love.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true,
 							"vintage_lines.line": -1,
-							"vintage_lines.lines": 84,
+							"vintage_lines.lines": 59,
 							"vintage_lines.mode": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 430.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "scratch - TODO.md",
+					"settings":
+					{
+						"buffer_size": 3718,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								49,
+								49
+							]
+						],
+						"settings":
+						{
+							"line_numbers": true,
+							"syntax": "Packages/Markdown/Markdown.tmLanguage",
+							"vintage_lines.line": -1,
+							"vintage_lines.lines": 144,
+							"vintage_lines.mode": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1370,11 +1563,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.568579212921,
 			1.0
 		],
 		"rows":
@@ -1386,11 +1586,11 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 130.0
+		"height": 83.0
 	},
 	"replace":
 	{
-		"height": 0.0
+		"height": 66.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1398,6 +1598,238 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"myp",
+				"tiles/MyProfilingReport.txt"
+			],
+			[
+				"my",
+				"states/menu/MyProfilingReport.txt"
+			],
+			[
+				"profi",
+				"lib/ProFi.lua"
+			],
+			[
+				"splash",
+				"states/splash.lua"
+			],
+			[
+				"menu",
+				"states/menu.lua"
+			],
+			[
+				"scra",
+				"scratch - TODO.md"
+			],
+			[
+				"men",
+				"states/menu.lua"
+			],
+			[
+				"shipte",
+				"assets/maps/ship/test.lua"
+			],
+			[
+				"con",
+				"conf.lua"
+			],
+			[
+				"came",
+				"tools/camera.lua"
+			],
+			[
+				"conf",
+				"conf.lua"
+			],
+			[
+				"rec",
+				"objects/rect.lua"
+			],
+			[
+				"rect",
+				"objects/rect.lua"
+			],
+			[
+				"phy",
+				"tools/physics_helper.lua"
+			],
+			[
+				"wor",
+				"tools/world_physics.lua"
+			],
+			[
+				"gam",
+				"game.lua"
+			],
+			[
+				"game",
+				"game.lua"
+			],
+			[
+				"ren",
+				"tools/renderer.lua"
+			],
+			[
+				"te",
+				"assets/maps/test.lua"
+			],
+			[
+				"co",
+				"conf.lua"
+			],
+			[
+				"gamelua",
+				"game.lua"
+			],
+			[
+				"camer",
+				"tools/camera.lua"
+			],
+			[
+				"pyshel",
+				"tools/physics_helper.lua"
+			],
+			[
+				"test",
+				"assets/maps/test.lua"
+			],
+			[
+				"main",
+				"main.lua"
+			],
+			[
+				"zo",
+				"objects/zombie.lua"
+			],
+			[
+				"obm",
+				"tools/obm.lua"
+			],
+			[
+				"worl",
+				"tools/world_physics.lua"
+			],
+			[
+				"pau",
+				"states/pause.lua"
+			],
+			[
+				"zom",
+				"objects/zombie.lua"
+			],
+			[
+				"as",
+				"tools/asm.lua"
+			],
+			[
+				"player",
+				"objects/player.lua"
+			],
+			[
+				"rend",
+				"tools/renderer.lua"
+			],
+			[
+				"earth",
+				"states/earth1.lua"
+			],
+			[
+				"spla",
+				"splash_texts.lua"
+			],
+			[
+				"asm",
+				"tools/asm.lua"
+			],
+			[
+				"playersc",
+				"states/earth2/player_scratch.lua"
+			],
+			[
+				"tes",
+				"assets/maps/test.lua"
+			],
+			[
+				"play",
+				"states/game_play.lua"
+			],
+			[
+				"test.lu",
+				"assets/maps/test.lua"
+			],
+			[
+				"entit",
+				"objects/entity.lua"
+			],
+			[
+				"camera",
+				"tools/camera.lua"
+			],
+			[
+				"tl",
+				"tiles/tlm.lua"
+			],
+			[
+				"enti",
+				"objects/entity.lua"
+			],
+			[
+				"rendere",
+				"tools/renderer.lua"
+			],
+			[
+				"tlm",
+				"tiles/tlm.lua"
+			],
+			[
+				"pause",
+				"states/pause.lua"
+			],
+			[
+				"spa",
+				"states/space1.lua"
+			],
+			[
+				"earth2",
+				"states/earth2/main.lua"
+			],
+			[
+				"createb",
+				"tools/createbox.lua"
+			],
+			[
+				"ent",
+				"objects/entity.lua"
+			],
+			[
+				"crea",
+				"tools/createbox.lua"
+			],
+			[
+				"bizz",
+				"states/bizzaro.lua"
+			],
+			[
+				"ear",
+				"states/earth2.lua"
+			],
+			[
+				"eat",
+				"states/earth1.lua"
+			],
+			[
+				"biz",
+				"states/bizzaro.lua"
+			],
+			[
+				"paus",
+				"states/pause.lua"
+			],
+			[
+				"debu",
+				"bump_debug.lua"
+			],
 			[
 				"todo",
 				"scratch - TODO.md"
@@ -1419,52 +1851,20 @@
 				"tools/createbox.lua"
 			],
 			[
-				"obm",
-				"tools/obm.lua"
-			],
-			[
-				"asm",
-				"tools/asm.lua"
-			],
-			[
 				"gamel",
 				"tools/gameloop.lua"
-			],
-			[
-				"con",
-				"conf.lua"
 			],
 			[
 				"rea",
 				"README.md"
 			],
 			[
-				"conf",
-				"conf.lua"
-			],
-			[
 				"gamelo",
 				"tools/gameloop.lua"
 			],
 			[
-				"enti",
-				"objects/entity.lua"
-			],
-			[
-				"rect",
-				"objects/rect.lua"
-			],
-			[
-				"rec",
-				"objects/rect.lua"
-			],
-			[
 				"ve",
 				"tools/vec2.lua"
-			],
-			[
-				"scra",
-				"scratch - TODO.md"
 			],
 			[
 				"chang",
@@ -1477,10 +1877,6 @@
 			[
 				"scr",
 				"invadors.love/scratch - TODO.md"
-			],
-			[
-				"tes",
-				"invadors.love/assets/maps/testMap.lua"
 			],
 			[
 				"cof",
@@ -1507,16 +1903,8 @@
 				"invadors.love/shader3.fs"
 			],
 			[
-				"camer",
-				"invadors.love/camera.lua"
-			],
-			[
 				"cupi",
 				"invadors.love/cupid.lua"
-			],
-			[
-				"game",
-				"src/game.js"
 			],
 			[
 				"premiu",
@@ -1721,194 +2109,6 @@
 			[
 				"myflarecusto",
 				"app/assets/stylesheets/themes/myflare/custom-colors.scss"
-			],
-			[
-				"templates/",
-				"app/assets/javascripts/templates/account/almost_done.jst.hbs"
-			],
-			[
-				"trialstatus",
-				"app/assets/javascripts/templates/shared/trial_status.jst.hbs"
-			],
-			[
-				"photosjs",
-				"app/assets/javascripts/backbone/views/photos/photos.js.coffee"
-			],
-			[
-				"albums",
-				"app/assets/javascripts/backbone/views/albums/albums.js.coffee"
-			],
-			[
-				"cxbase",
-				"app/assets/stylesheets/themes/cx/base.scss"
-			],
-			[
-				"cx66",
-				"app/assets/stylesheets/themes/cx/layout/660.scss"
-			],
-			[
-				"layout660",
-				"app/assets/stylesheets/core/layout/660.scss"
-			],
-			[
-				"layapp",
-				"app/views/layouts/application.html.erb"
-			],
-			[
-				"cxmainn",
-				"app/assets/stylesheets/themes/cx/modules/mainnav.scss"
-			],
-			[
-				"myfnav",
-				"themes/myflare/app/views/shared/_navigation_tabs.html.erb"
-			],
-			[
-				"navig",
-				"app/views/shared/_navigation_tabs.html.erb"
-			],
-			[
-				"coremain",
-				"app/assets/stylesheets/core/modules/mainnav.scss"
-			],
-			[
-				"myflaremain",
-				"app/assets/stylesheets/themes/myflare/modules/mainnav.scss"
-			],
-			[
-				"reminder",
-				"app/assets/javascripts/controllers/reminder.js.coffee"
-			],
-			[
-				"trialcon",
-				"app/controllers/free_trials_controller.rb"
-			],
-			[
-				"albumscss",
-				"app/assets/stylesheets/core/sections/albums.scss"
-			],
-			[
-				"albumjs",
-				"app/assets/javascripts/backbone/views/albums/album.js.coffee"
-			],
-			[
-				"albumsjs",
-				"app/assets/javascripts/backbone/views/albums/albums.js.coffee"
-			],
-			[
-				"modmod",
-				"app/assets/stylesheets/core/modules/modal.scss"
-			],
-			[
-				"referralde",
-				"themes/myflare/app/views/main/_referral_description.html.erb"
-			],
-			[
-				"mainref",
-				"app/views/main/referral.html.erb"
-			],
-			[
-				"maincontr",
-				"app/controllers/main_controller.rb"
-			],
-			[
-				"route",
-				"config/routes.rb"
-			],
-			[
-				"operapho",
-				"app/assets/stylesheets/opera/photos.scss"
-			],
-			[
-				"coresecph",
-				"app/assets/stylesheets/core/sections/photos.scss"
-			],
-			[
-				"zoomed",
-				"app/assets/javascripts/templates/opera/zoomed_photo.jst.hbs"
-			],
-			[
-				"zoome",
-				"app/assets/javascripts/backbone/opera/views/zoomed_photo.js.coffee"
-			],
-			[
-				"myflae.dev",
-				"config/application.myflare.dev.yml"
-			],
-			[
-				"gem",
-				"Gemfile.lock"
-			],
-			[
-				"gemf",
-				"Gemfile"
-			],
-			[
-				"apy",
-				"config/application.yml"
-			],
-			[
-				"operaphoto",
-				"app/assets/stylesheets/opera/photos.scss"
-			],
-			[
-				"sessionjava",
-				"app/views/sessions/_javascript.html.erb"
-			],
-			[
-				"js",
-				"app/views/shared/_js_includes.html.erb"
-			],
-			[
-				"myflacus",
-				"app/assets/stylesheets/themes/myflare/custom-colors.scss"
-			],
-			[
-				"coresecphot",
-				"app/assets/stylesheets/core/sections/photos.scss"
-			],
-			[
-				"navigationtabs",
-				"app/views/shared/_navigation_tabs.html.erb"
-			],
-			[
-				"myflarenavi",
-				"themes/myflare/app/views/shared/_navigation_tabs.html.erb"
-			],
-			[
-				"operakey",
-				"app/assets/javascripts/backbone/opera/mixins/keys.js.coffee"
-			],
-			[
-				"operamenu",
-				"app/assets/javascripts/backbone/opera/views/menu.js.coffee"
-			],
-			[
-				"operasettings",
-				"app/assets/javascripts/templates/opera/settings.jst.hbs"
-			],
-			[
-				"settingsscss",
-				"app/assets/stylesheets/opera/settings.scss"
-			],
-			[
-				"operacxapp",
-				"app/assets/javascripts/backbone/opera_cx_app.js.coffee.erb"
-			],
-			[
-				"operatv",
-				"app/assets/javascripts/opera_tv_core.js"
-			],
-			[
-				"operalbums",
-				"app/assets/stylesheets/opera/albums.scss"
-			],
-			[
-				"operatvli",
-				"app/assets/javascripts/opera_tv_libs.js"
-			],
-			[
-				"operainclu",
-				"app/views/opera/_js_includes.html.erb"
 			]
 		],
 		"width": 0.0
@@ -1921,10 +2121,10 @@
 		],
 		"width": 0.0
 	},
-	"show_minimap": true,
+	"show_minimap": false,
 	"show_open_files": false,
 	"show_tabs": true,
-	"side_bar_visible": true,
-	"side_bar_width": 181.0,
+	"side_bar_visible": false,
+	"side_bar_width": 129.0,
 	"status_bar_visible": true
 }

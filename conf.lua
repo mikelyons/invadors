@@ -9,13 +9,15 @@ local version_number = "0.4.1"
 function love.conf( t ) 
   -- t.console = true -- did this ever work?
 
-  t.identity = "save_directory"       -- The name of the save directory (string)
+  t.identity = "invadors_save_directory"       -- The name of the save directory (string)
   t.version = "0.10.2"                -- The LÖVE version this game was made for (string)
   t.window.title = string.format("Invadors %s", version_number)        -- The window title (string)
   t.window.icon = nil                -- Filepath to an image to use as the window's icon (string)
   
-  -- t.window.width  = 640
-  -- t.window.height = 480 
+  t.window.width  = 512
+  t.window.height = 512
+  -- t.window.width  = 1024
+  -- t.window.height = 768
   t.window.borderless = false        -- Remove all border visuals from the window (boolean)
   t.window.resizable = true         -- Let the window be user-resizable (boolean)
   t.window.minwidth = 1              -- Minimum window width if the window is resizable (number)

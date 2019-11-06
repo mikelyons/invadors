@@ -1,5 +1,8 @@
 ### Scratch
 Renderlayers: Top to Bottom
+Game
+draw: score
+Renderer
 5: menu
 4:
 3: player, zombie

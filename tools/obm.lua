@@ -18,4 +18,17 @@ function OBM:add(obj)
   table.insert(self.objects, obj)
 end
 
+function OBM:get_closest_by_id(obj, id)
+  local o = 0
+
+  for i = 1, #self.objects do
+    local _obj = self.objects[i]
+    if _obj.id == id then
+      return _obj
+    end
+  end
+
+  return nil
+end
+
 return OBM

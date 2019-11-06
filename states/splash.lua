@@ -2,17 +2,21 @@
 
 local Splash = Game:addState('Splash')
 
-
 local function drawSplash()
   love.graphics.setBackgroundColor(0, 0, 0, 255)--BG_COLOR)
   love.graphics.setColor(255, 255, 255, fade_timer*(255/fade_time))
   love.graphics.draw(hamster, 50, 50, 0, .35, .35)
-
 end
 
+local nosplash = true
 
 function Splash:enteredState()
   print('ENTER Splash STATE')
+
+  if nosplash then
+    self:gotoState('Menu')
+  return end
+
   renderer:addRenderer(self, 1)
   -- if you just want to wait and no fade
   -- waiting = true
@@ -22,7 +26,7 @@ function Splash:enteredState()
   fade_timer = 1
 
   -- the logo for the splash 
-  hamster = love.graphics.newImage("assets/images/Doom_1.png")
+  hamster = asm:get('hamster') 
 
 end
 
