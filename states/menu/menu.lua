@@ -2,27 +2,73 @@ asm:load()
 tween = require '/lib/tween/tween'
 require 'splash_texts'
 asm:add(love.graphics.newImage("assets/images/Doom_1.png"), 'hamster')
+asm:add(love.graphics.newImage("assets/newer/brian.png"), 'brian')
+asm:add(love.graphics.newImage("assets/mouse.png"), 'mouse')
 menuhelper = require('states/menu/menu_helper')
 MenuHelper = menuhelper:new()
 
 local Menu = Game:addState('Menu')
 
-function Menu:load()
+local particle = require('../src/particles/test')
+local pfx = particle('src/particles/')
 
+function Menu:keypressed(key, code)
+  if key == ('1' or 'return') then self:pushState('Training') end
+  if key == ('2' or 'space') then self:pushState('Bizzaro') end
+  if key == ('3' or 'q') then self:pushState('space1') end
+  if key == ('4' or 'w') then self:pushState('Earth2') end
+  if key == ('5') then self:pushState('commando') end
+  if key == ('6') then self:pushState('generate') end
+  
+  if key == ('q') then love.event.push('quit') end
+end
+
+function Menu:mousepressed(x,y, button , istouch)
+   --this checks if you are left clicking, and if you are it runs the code under it
+  if love.mouse.isDown(1) then
+    -- print('blood')
+    --this says if the user is left clicking then emit 32 particles and since the particles are drawn where the mouse is they come out of the mouse
+    pSystem:emit(32) 
+  end
+
+  -- draggable note rect
+  if button == 1 then
+    if x>rect.x then
+      if x<rect.x+rect.width then
+        if y>rect.y then
+          if y<rect.y+rect.height then
+            rect.dragging.active = true
+            rect.dragging.diffX = x - rect.x
+            rect.dragging.diffY = y - rect.y
+          end
+        end
+      end
+    end
+  end
+end
+function Menu:mousereleased(x, y, button)
+  --draggable note rect
+  if button == 1 then 
+    rect.dragging.active = false 
+  end
 end
 
 function Menu:enteredState()
-  --it does not matter what your picture for the particle is named I just like to use index.
-  local img = love.graphics.newImage("bloodParticle.png")
-  --this is us setting our new particle system
+  if DEBUG_LOGGING_ON then
+    print(string.format("ENTER Menu STATE - %s \n", os.date()))
+  end
+  
+  -- componentizing particles
+  -- particle = require 'src/particles/test.lua'
+
+  -- @TODO - make this a particle system
+  local img = love.graphics.newImage("assets/newer/bloodParticle.png")
   pSystem = love.graphics.newParticleSystem(img, 320)
-  --this sets the particles lifetime to between 1 and 5 seconds
-  --that will make the particals disappear within 1 to 5 seconds
-  pSystem:setParticleLifetime(.9,3)
-  --this will make your particals shoot out in diffrent directions
-  --this will make your particles look much better
-  --you can play with the numbers to make them move in diffrent directions
-  pSystem:setLinearAcceleration(-20, -20, 20, 20)
+  pSystem:setParticleLifetime(.3,9)
+  -- https://love2d.org/wiki/ParticleSystem:getLinearAcceleration
+  pSystem:setLinearAcceleration(-20, -200, 200, 20)
+  -- pSystem:setEmissionRate(300)
+  -- pSystem:setLinearAcceleration(-20, -20, 20, 20)
   -- pSystem:setLinearAcceleration(-5, -5, 5, 5)
   -- pSystem:setLinearAcceleration(-10, -10, 10, 10)
   --by doing this it makes our particles shoot out a bit faster
@@ -43,9 +89,8 @@ function Menu:enteredState()
 
   -- print('ENTER MENU STATE')
   love.graphics.clear( )
-  asm:add(love.graphics.newImage("brian.png"), 'brian')
-  local brian = asm:get('brian')
-  local hamster = asm:get('hamster')
+  brian = asm:get('brian')
+  hamster = asm:get('hamster')
   renderer:addRenderer(self, 5)
 
   -- entity componentize and animate this
@@ -74,7 +119,7 @@ local complete = false
 local splashTextTween = tween.new(dur, sp, {sc=1.2}, 'linear')
 
   -- font = love.graphics.newFont("AwesomeFont.ttf", 15)
-local font = love.graphics.newImageFont("Imagefont.png",
+local font = love.graphics.newImageFont("assets/newer/Imagefont.png",
     " abcdefghijklmnopqrstuvwxyz" ..
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ0" ..
     "123456789.,!?-+/():;%&`'*#=[]\"")
@@ -131,6 +176,7 @@ rect = {
 local easetype = 'outQuad'
 
 function Menu:update(dt)
+  pfx:update(dt)
   --this will update our particle system
   pSystem:update(dt)
   Menu:mousepressed()
@@ -181,6 +227,19 @@ function Menu:draw()
   local my = love.mouse.getY()
   -- print(mx..my)
   love.graphics.draw(pSystem, mx, my)
+  -- love.graphics.draw(particle, mx, my)
+
+  -- draw a pointer
+  -- local hamster = asm:get('hamster')
+  love.mouse.isVisible(false)
+  love.graphics.draw(brian, mx, my)
+  -- love.graphics.draw(mouse, mx, my)
+
+  -- new particle
+  love.graphics.setColor(255, 255, 255, 255)
+  love.graphics.draw(pfx, 100, 100)
+  love.graphics.setColor(90, 90, 90, 255)
+
 end
 
 function Menu:exitedState()
@@ -189,41 +248,3 @@ function Menu:exitedState()
   love.graphics.clear( )
 end
 
-function Menu:keypressed(key, code)
-  if key == ('1' or 'return') then self:pushState('Training') end
-  if key == ('2' or 'space') then self:pushState('Bizzaro') end
-  -- if key == ('3' or 'q') then self:pushState('Space1') end
-  if key == ('4' or 'w') then self:pushState('Earth2') end
-  if key == ('5') then self:pushState('commando') end
-  if key == ('q') then love.event.push('quit') end
-end
-
-function Menu:mousepressed(x,y, button , istouch)
-   --this checks if you are left clicking, and if you are it runs the code under it
-  if love.mouse.isDown(1) then
-    print('blood')
-    --this says if the user is left clicking then emit 32 particles and since the particles are drawn where the mouse is they come out of the mouse
-    pSystem:emit(32) 
-  end
-
-  -- draggable note rect
-  if button == 1 then
-    if x>rect.x then
-      if x<rect.x+rect.width then
-        if y>rect.y then
-          if y<rect.y+rect.height then
-            rect.dragging.active = true
-            rect.dragging.diffX = x - rect.x
-            rect.dragging.diffY = y - rect.y
-          end
-        end
-      end
-    end
-  end
-end
-function Menu:mousereleased(x, y, button)
-  --draggable note rect
-  if button == 1 then 
-    rect.dragging.active = false 
-  end
-end

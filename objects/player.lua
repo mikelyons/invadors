@@ -14,7 +14,7 @@ local anim_data = {
   quad(48,0,16,16,192,16),
   quad(64,0,16,16,192,16),
 }
-local image = love.graphics.newImage('Leo.png')
+local image = love.graphics.newImage('assets/newer/Leo.png')
 image:setFilter("nearest","nearest")
 
 function Player:new(x,y)

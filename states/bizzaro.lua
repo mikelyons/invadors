@@ -4,7 +4,7 @@ local Bizzaro = Game:addState('Bizzaro')
 function Bizzaro:enteredState()
   print('ENTERED bizzaro STATE!')
   print(os.date())
-  print(os.getenv('PATH')) -- get environmental variable
+  -- print(os.getenv('PATH')) -- get environmental variable
   print(debug.getfenv(Game)) -- not sure what this does
 
   createBox = require "tools/createbox"

@@ -110,9 +110,10 @@ end
 
 
 function Training:enteredState()
+  -- print the name of the gamestate entered
   print('ENTERED training STATE!')
   print(os.date())
-  print(os.getenv('PATH')) -- get environmental variable
+  -- print(os.getenv('PATH')) -- get environmental variable
 
   -- platform.width = love.graphics.getWidth()    -- This makes the platform as wide as the whole game window.
   -- platform.height = love.graphics.getHeight()  -- This makes the platform as tall as the whole game window.

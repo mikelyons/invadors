@@ -27,6 +27,9 @@ return{
           if key == (2 or space) then self:gotoState(bizzaro) end
           if key == (3 or q) then self:gotoState(SPACE) end
           if key == ('4' or 'w') then self:gotoState('Earth2') end
+          if key == ('5' or '') then self:gotoState('commando') end
+          if key == ('6' or '') then self:gotoState('generate') end
+
           END OF TRANSMISSION]]
           , 50, 320, 620, 'left')
       end,

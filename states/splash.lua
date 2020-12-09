@@ -8,26 +8,30 @@ local function drawSplash()
   love.graphics.draw(hamster, 50, 50, 0, .35, .35)
 end
 
-local nosplash = true
+-- master switch variable turns off splash screen delay
+-- local nosplash = true
+local nosplash = false
 
 function Splash:enteredState()
-  print('ENTER Splash STATE')
-
-  if nosplash then
+  if DEBUG_NOSPLASH then
     self:gotoState('Menu')
-  return end
+  else
+    if DEBUG_LOGGING_ON then
+      print(string.format("ENTER Splash STATE - %s \n", os.date()))
+    end
+    music = love.audio.newSource("assets/sounds/Capcom_Intro_Sound_Effect.mp3", "stream") -- the "stream" tells LÖVE to stream the file from disk, good for longer music tracks
+    music:play()
 
-  renderer:addRenderer(self, 1)
-  -- if you just want to wait and no fade
-  -- waiting = true
-  -- waitingtimer = 0
+    renderer:addRenderer(self, 1)
+    -- if you just want to wait and no fade
+    -- waiting = true
+    -- waitingtimer = 0
+    fade_time = 1
+    fade_timer = 1
 
-  fade_time = 1
-  fade_timer = 1
-
-  -- the logo for the splash 
-  hamster = asm:get('hamster') 
-
+    -- the logo for the splash 
+    hamster = asm:get('hamster') 
+  end
 end
 
 function Splash:update(dt)
@@ -50,6 +54,7 @@ function Splash:draw()
 end
 
 function Splash:exitedState()
+  music:stop()
 end
 
 function Splash:keypressed(key, code)

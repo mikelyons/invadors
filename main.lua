@@ -1,62 +1,40 @@
+require 'src/dependencies'
 
--- print(love.window.getMode()) -- is this useful? no?
--- make the console work
--- io.stdout:setvbuf("no")
-
--- Libraries
--- based on http://aalvarez.me/blog/posts/an-introduction-to-game-states-in-love2d.html
-Class          = require 'lib/middleclass/middleclass'
-Stateful       = require 'lib/stateful/stateful'
-
--- ProFi = require 'lib/ProFi'
--- ProFi:start()
-
-Score          = require 'highscore'
--- The Main Game Launch Point
-require 'game'
 local game
 
+-- @TODO - move these to src/constants.lua
 g_Width  = love.graphics.getWidth()
 g_Height = love.graphics.getHeight()
 g_GameTime = 0
 g_TileSize = 32
 g_MapSize  = 16
 
-local ser = require 'lib/binser/binser'
-local save
-local saveString
-
-
 function love.load()
-  if love.filesystem.exists( 'Save.lua' ) then
-      save = love.filesystem.load( 'Save.lua' )
-      saveString = love.filesystem.load( 'Save.lua' )
+  -- @TODO need to make world state save and load
 
-      -- print("mainlua:31")
-      -- print(saveString())
-  else
-      save = {
-      saves = 0
-      } -- Put settings in here.
-  end
-  -- print(save.saves)
-  -- save.saves = (save.saves + 1) or 0
+  -- The initialization of the main game launch point with splash and menu maby?
   game = Game:new()
+
+  -- initialize score tracking
   score = Score:new()
+  -- load the score file and read last launch date
   score:load()
 
+  -- find out what this does
   gameloop:addLoop(self)
+
   love.timer.step() -- fix for load delay: https://love2d.org/forums/viewtopic.php?t=8589
 end
 
+-- something not right here, stuttering, need fix https://gafferongames.com/post/fix_your_timestep/
 local delta_time = {}
 local av_dt      = 0.016
 local sample     = 10
 local pop, push = table.remove, table.insert
-
 function love.update(dt)
-  score:update()
+  -- score:update() -- why were we updating this here?
 
+  -- what is push?
   push(delta_time,dt)
   if #delta_time > sample then
     local av  = 0
@@ -68,14 +46,13 @@ function love.update(dt)
     av_dt = av / num
   end
 
-
-  -- gameloop:update(av_dt)
+  -- gameloop:update(av_dt) -- why isn't this happening?
   game:update(av_dt)
-
 
   g_GameTime = g_GameTime + av_dt
 end
 
+-- @todo figure out renerer layers
 function love.draw(dt)
   -- game camera
   camera:set()
@@ -101,9 +78,5 @@ function love.mousereleased(x, y, button)
 end
 
 function love.quit()
-  -- love.filesystem.write('save.lua', saveString())
   score:quit()
-
-  -- ProFi:stop()
-  -- ProFi:writeReport( 'MyProfilingReport.txt')
 end

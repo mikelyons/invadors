@@ -1,25 +1,28 @@
 --https://love2d.org/wiki/Config_Files
 
-io.stdout:setvbuf("no")
+-- make console work?
+io.stdout:setvbuf("full")
 -- ~ console in game - https://love2d.org/wiki/Cupid -- @TODO : separate dev libs
 require("./lib/cupid/cupid");
 
-local version_number = "0.4.1"
+local version_number = "0.4.2"
 
 function love.conf( t ) 
-  -- t.console = true -- did this ever work?
+  t.console = true -- did this ever work?
 
   t.identity = "invadors_save_directory"       -- The name of the save directory (string)
   t.version = "0.10.2"                -- The LÖVE version this game was made for (string)
   t.window.title = string.format("Invadors %s", version_number)        -- The window title (string)
-  t.window.icon = nil                -- Filepath to an image to use as the window's icon (string)
+  t.window.icon = 'assets/mushroom.png' -- Filepath to an image to use as the window's icon (string)
   
-  t.window.width  = 512
-  t.window.height = 512
+  t.window.height = 768
+  t.window.width = 768
+  -- t.window.width  = 512
+  -- t.window.height = 512
   -- t.window.width  = 1024
   -- t.window.height = 768
   t.window.borderless = false        -- Remove all border visuals from the window (boolean)
-  t.window.resizable = true         -- Let the window be user-resizable (boolean)
+  t.window.resizable = true          -- Let the window be user-resizable (boolean)
   t.window.minwidth = 1              -- Minimum window width if the window is resizable (number)
   t.window.minheight = 1             -- Minimum window height if the window is resizable (number)
 
@@ -47,6 +50,7 @@ function love.conf( t )
   t.modules.timer = true             -- Enable the timer module (boolean)
   t.modules.window = true            -- Enable the window module (boolean)
   t.modules.thread = true            -- Enable the thread module (boolean)
+  t.modules.touch = false            -- Enable the touch module (boolean)
 end
 
 -- function love.conf(t)

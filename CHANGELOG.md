@@ -1,4 +1,5 @@
 ## Unreleased
+## 0.4.2 (December 9, 2020)
 
 ### Added
 - `misc` folder

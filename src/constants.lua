@@ -1,0 +1,2 @@
+DEBUG_NOSPLASH  = false 
+DEBUG_LOGGING_ON= true

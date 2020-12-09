@@ -56,7 +56,11 @@ or: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 
 
 
+## new bookmarks
 
+https://github.com/love2d-community/awesome-love2d#animation
+
+https://github.com/superzazu/denver.lua - make custom sound effects
 
 ## Bookmarks
 

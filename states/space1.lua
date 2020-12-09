@@ -1,6 +1,6 @@
 -- based on : https://love2d.org/wiki/Tutorial:Baseline_2D_Platformer
 
-local bump       = Bump
+local bump       = require 'lib/bump/bump' 
 local bump_debug = require 'bump_debug'
 
 local Space1 = Game:addState('Space1')
@@ -111,7 +111,7 @@ end
 function Space1:enteredState()
   print('ENTERED Space1 STATE!')
   print(os.date())
-  print(os.getenv('PATH')) -- get environmental variable
+  -- print(os.getenv('PATH')) -- get environmental variable
 
   -- platform.width = love.graphics.getWidth()    -- This makes the platform as wide as the whole game window.
   -- platform.height = love.graphics.getHeight()  -- This makes the platform as tall as the whole game window.
