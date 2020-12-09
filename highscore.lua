@@ -1,3 +1,6 @@
+-- Score manager
+-- Currently only one save file with stats on lines
+-- future: @TODO - multiple save files with grades for different playstyles
 local binser   = require 'lib/binser/binser'
 
 Score = {}
@@ -67,7 +70,13 @@ function Score:new(self)
         'First Line of Save file: each line is a value to load\n'.. -- the Message of the day
         self.saves     ..'\n'.. -- the number of times launched
         self.highscore ..'\n'.. -- the highest score achieved
-        os.date()..'\n' -- the recording of the current ending launch date
+        os.date()..'\n'.. -- the recording of the current ending launch date
+        os.getenv('USERDOMAIN')..'\n' -- computers network name
+        -- print(os.getenv('PATH')) -- get environmental variable
+        -- print(debug.getfenv(Game)) -- not sure what this does
+
+        -- https://www.tenforums.com/tutorials/3234-environment-variables-windows-10-a.html
+
         )
     end
 
