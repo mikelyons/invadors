@@ -17,9 +17,16 @@ A Love2d platformer game prototype I wrote to learn more about game programming 
 
 
 #### Libraries Used
+
 Middleclass
+
 Stateful
+
 others ...
+
+#### Game Dev Tools Used
+
+- Piskel App - https://www.piskelapp.com/
 
 
 #### Libraries under consideration
