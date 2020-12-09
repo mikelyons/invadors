@@ -1,3 +1,11 @@
+
+--	Invators 0.4.2
+--  author : Mike Lyons
+--  developed using : lua + love2d 
+--  
+--  github repo link: https://github.com/mikelyons/invadors
+--
+
 --https://love2d.org/wiki/Config_Files
 
 -- make console work?
@@ -15,8 +23,8 @@ function love.conf( t )
   t.window.title = string.format("Invadors %s", version_number)        -- The window title (string)
   t.window.icon = 'assets/mushroom.png' -- Filepath to an image to use as the window's icon (string)
   
+  t.window.width = 1024
   t.window.height = 768
-  t.window.width = 768
   -- t.window.width  = 512
   -- t.window.height = 512
   -- t.window.width  = 1024
