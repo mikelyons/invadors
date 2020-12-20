@@ -1,8 +1,15 @@
 ## scratch - TODO
 
+* FIX BLACK SCREEN OF DEATH
+* FIGURE OUT WHERE YOU WERE
+** TLM TUTORIAL? BOOKMARK GAME FOLDER?
+** this http://www.love2d.org/wiki/love.errhand
 * set up game states and menu
 * create map screen
+* chunk generation
+* chunk saving - universe saving
 * create chunk loading
+* universe loading
 * create planetoid loading
 * create orbit mode
 * create ship interior view
@@ -93,3 +100,4 @@ https://github.com/dschneider/love-boilerplate
 * http://stackoverflow.com/questions/34467628/l%C3%96ve-viewport-like-libgdx
 * http://stackoverflow.com/questions/34659850/mandelbrot-set-through-shaders-in-glsl-with-love2d-renders-a-circle-not-a-fract
 
+* love irc - https://webchat.oftc.net/?channels=love

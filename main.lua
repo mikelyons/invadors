@@ -1,3 +1,7 @@
+local maid64 = require 'lib.maid64.maid64'
+
+require 'synth'
+
 require 'camera'
 --Gamestate = require "lib.gamestate"
 -- Camera = require "hump.camera"
@@ -6,31 +10,55 @@ local menu = {}
 local game = {}
 local shine = require 'shine'
 
--- function menu:draw()
---     love.graphics.print("Press Enter to continue", 10, 10)
--- end
+text = ""
 
--- function menu:keyreleased(key, code)
---   if key == 'return' then
---     Gamestate.switch(game)
---   end
--- end
+function love.wheelmoved(x, y)
+    if y > 0 then
+        text = "Mouse wheel moved up"
+        -- scale = -0.001 --scale - 0.0002
+        camera:scale(0.95)
+    elseif y < 0 then
+        text = "Mouse wheel moved down"
+        -- scale = 0.001 --scale + 0.0002
+        camera:scale(1.05)
+    end
+end
 
--- function game:enter()
---     --Entities.clear()
---     -- setup entities here
--- end
-
--- function game:update(dt)
---     --Entities.update(dt)
--- end
-
--- function game:draw()
---     --Entities.draw()
--- end
+function maid64_draw()
+  
+end
 
 
 function love.load()
+
+  -- optional settings for the window - emulates fullscreen
+  love.window.setMode(1280, 800, {resizable=true, vsync=false, minwidth=200, minheight=200})
+
+  -- maid64(64)
+  -- maid64.setup(1280, 800)
+  maid64.setup(1280, 800)
+
+
+
+  -- create test sprite - maidenhead
+  maid = maid64.newImage("/assets/maid64.png")
+  maid:setFilter("nearest","nearest")
+  rotate = 0
+
+  -- Cat Head
+  cathead = maid64.newImage("/assets/images/cathead.png")
+  cathead:setFilter("nearest","nearest")
+
+  -- Cat Head white
+  catheadwhite = maid64.newImage("/assets/images/cat-head-white.png")
+  catheadwhite:setFilter("nearest","nearest")
+
+
+  pixelfont = love.graphics.newImageFont("/assets/images/lowfontA.png",
+    " abcdefghijklmnopqrstuvwxyz" ..
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ0" ..
+    "123456789.,!?-+/():;%&`'*#=[]\"")
+
 
 
   --Gamestate.registerEvents()
@@ -41,10 +69,23 @@ function love.load()
   --http://hump.readthedocs.io/en/latest/gamestate.html#function-reference
 
   player = {}
-  player.x = 10
-  player.y = 10
+  player.x = 1908--(love.graphics.getWidth() / 2)
+  player.y = 528--(love.graphics.getHeight() / 2)
+
   player.image = love.graphics.newImage('/assets/ufo2.png')
   player.image:setFilter('nearest', 'nearest', 1)
+
+  ship2 = {}
+  ship2.image = love.graphics.newImage('/assets/images/ship2.png')
+  ship2.image:setFilter('nearest', 'nearest', 1)
+  ship2.x = 2000
+  ship2.y = 1.1000
+
+  ship3 = {}
+  ship3.image = love.graphics.newImage('/assets/images/skullface.jpg')
+  ship3.image:setFilter('nearest', 'nearest', 1)
+  ship3.x = 2000
+  ship3.y = 1.1000
 
   background = love.graphics.newImage('/assets/galaxy.png')
   background:setFilter('nearest', 'nearest', 1)
@@ -52,6 +93,7 @@ function love.load()
   -- background:setWrap("clamp", "clamp")
 
   bg_quad = love.graphics.newQuad(0, 0, 1800, 1800, background:getWidth(), background:getHeight())
+
 
   -- camera = Camera(player.x, player.y, 2)
 
@@ -79,6 +121,9 @@ function love.load()
   -- -- shader = love.graphics.newShader(shader3.fs)
   -- shader = love.graphics.newShader(love.filesystem.read("shader.fs"))
 
+  -- TODO https://love2d.org/wiki/Shader_Variables
+  -- TODO https://love2d.org/wiki/Shader
+  -- share a shader https://love2d.org/forums/viewtopic.php?f=4&t=3733
   -- myShader = love.graphics.newShader[[
   --   extern number factor = 0;
   --   vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords ){
@@ -95,6 +140,7 @@ function love.load()
   --   }
   -- ]]
 
+  -- SHINE effects: https://github.com/vrld/shine/wiki
   -- load the effects you want
     local grain = shine.filmgrain()
     -- many effects can be parametrized
@@ -130,37 +176,59 @@ function love.load()
 end
 
 function love.update(dt)
+  rotate = rotate + dt
+
 
   time = time + dt;
   local factor = math.abs(math.cos(time)); --so it keeps going/repeating
   -- myShader:send("factor",factor)
   -- myShader:send('factor', 800)
 
-
+  -- TODO: add two handed controlls for speed or arm movement
   if love.keyboard.isDown("right") then
-    player.x = player.x + 4
+    player.x = player.x + 40
   elseif love.keyboard.isDown("left") then
-    player.x = player.x - 4
+    player.x = player.x - 40
   end
 
   if love.keyboard.isDown("up") then
-    player.y = player.y - 4
+    player.y = player.y - 40
   elseif love.keyboard.isDown("down") then
-    player.y = player.y + 4
+    player.y = player.y + 40
   end
 
-  if player.x > love.graphics.getWidth() / 4 then
-    camera.x = player.x - love.graphics.getWidth() / 4 
+  if love.keyboard.isDown("d") then
+    player.x = player.x + 8
+  elseif love.keyboard.isDown("a") then
+    player.x = player.x - 8
   end
-  if player.x > (love.graphics.getWidth() * 0.75) then
-    camera.x = player.x - (love.graphics.getWidth() * 0.75)
+
+  if love.keyboard.isDown("w") then
+    player.y = player.y - 8
+  elseif love.keyboard.isDown("s") then
+    player.y = player.y + 8
   end
-  if player.y > love.graphics.getWidth() / 4 then
-    camera.y = player.y - love.graphics.getWidth() / 4 
-  end
-  if player.y < 10 then
-    camera.y = player.y - 10
-  end
+
+  -- if player.x > (love.graphics.getWidth() / 4)*3 then
+  --   camera.x = player.x - (love.graphics.getWidth()-40 / 4)*3
+  -- end
+
+  camera.x = player.x - ((love.graphics.getWidth() / 2) - (player.image:getWidth()/2))
+
+  camera.y = player.y - ((love.graphics.getHeight() / 2) - (player.image:getHeight()/2))
+
+  -- if text == ""
+  -- camera:scale(1.002,1.002)
+
+
+
+
+  -- if player.y > love.graphics.getWidth() / 4 then
+  --   camera.y = player.y - love.graphics.getWidth() / 4 
+  -- end
+  -- if player.y < 10 then
+  --   camera.y = player.y - 10
+  -- end
 
   -- local dx,dy = player.x - camera.x, player.y - camera.y
   -- camera:move(dx/2, dy/2)
@@ -170,12 +238,18 @@ function love.draw()
 
   camera:set()
 
+
+
   background_effect.sigma = math.abs(math.cos(player.x + player.y)) * 5;
 
-  background_effect:draw(function()
+  -- background_effect:draw(function()
     love.graphics.draw(background, bg_quad, 0, 0)
-    love.graphics.print(string.format("%s, %s", player.x, player.y), player.x, player.y)
-  end)
+    -- love.graphics.print(string.format("%s, %s", player.x, player.y), player.x, player.y)
+  -- end)
+
+  --skullface
+  love.graphics.draw(ship3.image, ship3.x, ship3.y, 0, 20, 20)
+  love.graphics.draw(ship2.image, ship2.x, ship2.y, 0, 4, 4)
 
   love.graphics.draw(player.image, player.x, player.y, 0, 4, 4)
   love.graphics.setColor(255,255,255);
@@ -206,5 +280,40 @@ function love.draw()
   -- love.graphics.setShader()
 
 
+
+
+  -- Mouse Wheel test
+  love.graphics.print(text, 10, 10)
+  -- Mouse Wheel test
+
+  love.graphics.print(string.format( "%s, %s", love.getVersion() ), 20,20)
+  local x, y, display = love.window.getPosition( )
+  love.graphics.print(string.format( "%s, %s", x, y), 20, 40)
+  love.graphics.print(string.format( "%s, %s", camera.x, camera.y), (camera.x +20), (camera.y + 20))
+
+  -- render outside the camera to get UI effect
   camera:unset()
+
+  maid64.start()
+    love.graphics.draw(maid,92,32,rotate,1,1,38,38)
+    love.graphics.draw(cathead,390,390,rotate,0.15,0.15,200,200)
+    love.graphics.draw(catheadwhite,300,300,rotate*2,0.15,0.15,32,32)
+  maid64.finish()
+
+  -- render outside the camera to get UI effect
+  -- camera:unset()
+
+
 end
+
+function love.keypressed(key)
+  if key == "escape" then
+    love.event.push("quit")
+  end
+end
+
+function love.resize(w, h)
+    -- this is used to resize the screen correctly
+    maid64.resize(w, h)
+end
+
