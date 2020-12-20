@@ -1,16 +1,64 @@
 asm:load()
 tween = require '/lib/tween/tween'
-require 'splash_texts'
-asm:add(love.graphics.newImage("assets/images/Doom_1.png"), 'hamster')
+
+require 'states/menu/splash_texts_library'
+splashtext = require('states/menu/splash_texts')
+SplashText = splashtext:new()
+
+gravatar = require('states/menu/gravatar')
+Gravatar = gravatar:new(100,100)
+
+-- test particle
+particle = require('../src/particles/baseParticle')
+Particle = particle:new(300, 300, img)
+Particle:load()
+
+-- blood particle on click
+blood = require('../src/particles/blood')
+Blood = blood:new(50, 50)
+Blood:load()
+
+asm:add(love.graphics.newImage("assets/conversions/invadors.png"), 'hamster')
 asm:add(love.graphics.newImage("assets/newer/brian.png"), 'brian')
 asm:add(love.graphics.newImage("assets/mouse.png"), 'mouse')
-menuhelper = require('states/menu/menu_helper')
-MenuHelper = menuhelper:new()
 
 local Menu = Game:addState('Menu')
 
-local particle = require('../src/particles/test')
-local pfx = particle('src/particles/')
+-- local raint = {['raint'] = 'raintor'}
+local raint = {}
+
+  --   print('raint')
+  --  PrintTable(Menu)
+  --   print('raint')
+
+function startGame()
+  Menu:pushState('generate')
+end
+
+menuhelper = require('states/menu/menu_helper')
+MenuHelper = menuhelper:new(startGame)
+MenuHelper:load()
+-- MenuHelper:loadButtons()
+
+-- trying to make menuhelper buttons configurable
+local menuSelections = {
+  {
+    ['buttonText'] = 'Start Game',
+    ['buttonFn'] = ''
+  },
+  {
+    ['buttonText'] = 'Load Game',
+    ['buttonFn'] = ''
+  },
+  {
+    ['buttonText'] = 'Settings',
+    ['buttonFn'] = ''
+  },
+  {
+    ['buttonText'] = 'Quit',
+    ['buttonFn'] = ''
+  }
+}
 
 function Menu:keypressed(key, code)
   if key == ('1' or 'return') then self:pushState('Training') end
@@ -18,17 +66,16 @@ function Menu:keypressed(key, code)
   if key == ('3' or 'q') then self:pushState('space1') end
   if key == ('4' or 'w') then self:pushState('Earth2') end
   if key == ('5') then self:pushState('commando') end
-  if key == ('6') then self:pushState('generate') end
+  -- if key == ('6') then self:pushState('generate') end
+  if key == ('6') then self:gotoState('generate') end
   
   if key == ('q') then love.event.push('quit') end
 end
 
 function Menu:mousepressed(x,y, button , istouch)
-   --this checks if you are left clicking, and if you are it runs the code under it
   if love.mouse.isDown(1) then
-    -- print('blood')
-    --this says if the user is left clicking then emit 32 particles and since the particles are drawn where the mouse is they come out of the mouse
-    pSystem:emit(32) 
+    -- print('click')
+    Blood:emit()
   end
 
   -- draggable note rect
@@ -57,40 +104,14 @@ function Menu:enteredState()
   if DEBUG_LOGGING_ON then
     print(string.format("ENTER Menu STATE - %s \n", os.date()))
   end
-  
-  -- componentizing particles
-  -- particle = require 'src/particles/test.lua'
 
-  -- @TODO - make this a particle system
-  local img = love.graphics.newImage("assets/newer/bloodParticle.png")
-  pSystem = love.graphics.newParticleSystem(img, 320)
-  pSystem:setParticleLifetime(.3,9)
-  -- https://love2d.org/wiki/ParticleSystem:getLinearAcceleration
-  pSystem:setLinearAcceleration(-20, -200, 200, 20)
-  -- pSystem:setEmissionRate(300)
-  -- pSystem:setLinearAcceleration(-20, -20, 20, 20)
-  -- pSystem:setLinearAcceleration(-5, -5, 5, 5)
-  -- pSystem:setLinearAcceleration(-10, -10, 10, 10)
-  --by doing this it makes our particles shoot out a bit faster
-  --you can play with the number to change how fast the particles move out
-  -- setspeed maxes in each positive and negative direction
-  pSystem:setSpeed(-10,10)
- --this will set the rotation of the particles between 10 and 20
-  --change the numbers for diffrent outcomes
-  --they will not continue to rotate but they will emit at a rotated angle
-  -- pSystem:setRotation(10,20) 
-    --the last bit of rotation code has been removed and this will take it's place
-  --this will keep rotating the particles
-  --this will make the particles rotate at a speed between 20 and 50
-  --change the numbers for diffrent outcomes
-  -- pSystem:setSpin(20, 50)
+  Gravatar:load()
 
-  
-
-  -- print('ENTER MENU STATE')
   love.graphics.clear( )
   brian = asm:get('brian')
   hamster = asm:get('hamster')
+
+  -- THIS CRUCIAL STEP needs to be added for all other renderables!! @TODO
   renderer:addRenderer(self, 5)
 
   -- entity componentize and animate this
@@ -108,32 +129,6 @@ function Menu:enteredState()
   love.graphics.setCanvas()
 
 end
-
-math.randomseed(os.time())
-local rand1 = math.random(#splashWords)
-local rand2 = math.random(#splashColors)
-local word = splashWords[rand1] 
-local dur = 0.5
-local sp = {x=400, y=300, sc=1, text = 'This will be ' .. word .. '!'}
-local complete = false
-local splashTextTween = tween.new(dur, sp, {sc=1.2}, 'linear')
-
-  -- font = love.graphics.newFont("AwesomeFont.ttf", 15)
-local font = love.graphics.newImageFont("assets/newer/Imagefont.png",
-    " abcdefghijklmnopqrstuvwxyz" ..
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZ0" ..
-    "123456789.,!?-+/():;%&`'*#=[]\"")
-
-
--- local font = love.graphics.newImageFont("assets/outlinefont.png",
--- " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~")
-
--- a font for tiny occasions
--- local font = love.graphics.newImageFont("assets/tinyfont.png",
--- " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-=[]\\,./;')!@#$%^&*(+{}!<>?:\"")
-
-local splashColor = splashColors[rand2] 
-
 
 local function drawCanvas(canvas)
   -- very important!: reset color before drawing to canvas to have colors properly displayed
@@ -154,18 +149,10 @@ local function drawCanvas(canvas)
 
 end
 
-local function drawSplashText()
-  -- font = the font object you made before
-  love.graphics.setFont(font)
-  love.graphics.setColor(splashColor)
-  love.graphics.print(sp.text,sp.x,sp.y,-.3,sp.sc,sp.sc,50,50,0,0)
-
-end
-
--- we want multiline on this eventually: https://github.com/riidom/mlvtest/blob/master/multilineview.lua
--- Draggable tutorial: http://nova-fusion.com/2011/09/06/mouse-dragging-in-love2d/
--- https://gist.github.com/a-racoon/1ca3b9f467ed491d404035400dfd8953
-rect = {
+  -- we want multiline on this eventually: https://github.com/riidom/mlvtest/blob/master/multilineview.lua
+  -- Draggable tutorial: http://nova-fusion.com/2011/09/06/mouse-dragging-in-love2d/
+  -- https://gist.github.com/a-racoon/1ca3b9f467ed491d404035400dfd8953
+  rect = {
     x = 700,
     y = 500,
     width = 232,
@@ -176,29 +163,12 @@ rect = {
 local easetype = 'outQuad'
 
 function Menu:update(dt)
-  pfx:update(dt)
-  --this will update our particle system
-  pSystem:update(dt)
   Menu:mousepressed()
 
-  -- splashtext tween
-  if complete == true then
-    complete = false
-    local scale = sp.sc
-    if sp.sc == 1.2 then 
-      scale =  1 
-      easetype = 'inQuad'
-    end
-    if sp.sc == 1   then 
-      scale = 1.2 
-      easetype = 'outQuad'
-    end
-    -- https://github.com/kikito/tween.lua
-    --(duration, subject, target, [easing])
-    -- print(tostring(sp.x .. sp.y .. sp.sc .. sp.text))
-    splashTextTween = tween.new(dur, sp, {sc=scale}, easetype)
-  end
-  complete = splashTextTween:update(dt)
+  Particle:update(dt)
+  Blood:update(dt)
+
+  SplashText:update(dt)
 
   if rect.dragging.active then
     rect.x = love.mouse.getX() - rect.dragging.diffX
@@ -211,40 +181,36 @@ local function drawNote()
   love.graphics.setColor(205, 205, 195, 255)
   love.graphics.rectangle("fill", rect.x, rect.y, rect.width, rect.height)
   love.graphics.setColor(205, 5, 5, 255)
-  love.graphics.printf(sp.text,rect.x+20,rect.y+20,220)
+  love.graphics.printf(SplashText:getText(),rect.x+20,rect.y+20,220)
+  love.graphics.setColor(255, 255, 255, 255)
 end
 
 function Menu:draw()
-  menuhelper:new()
   MenuHelper:drawMenu()
-  drawSplashText()
-  drawNote()
-  drawCanvas(self.canvas)
 
-  --this draws our particles
-  --in just a second I will explain why we are getting the mouses position
+  -- love.graphics.setColor(255, 255, 255, 255)
+  MenuHelper:drawButtons()
+
+  SplashText:draw()
+  Gravatar:draw()
+
   local mx = love.mouse.getX()
   local my = love.mouse.getY()
-  -- print(mx..my)
-  love.graphics.draw(pSystem, mx, my)
-  -- love.graphics.draw(particle, mx, my)
 
-  -- draw a pointer
-  -- local hamster = asm:get('hamster')
+  Particle:draw()
+  Blood:draw(mx, my)
+
+
+  -- http://nova-fusion.com/2012/09/20/custom-cursors-in-love2d/
   love.mouse.isVisible(false)
+  -- draw a pointer
   love.graphics.draw(brian, mx, my)
   -- love.graphics.draw(mouse, mx, my)
 
-  -- new particle
-  love.graphics.setColor(255, 255, 255, 255)
-  love.graphics.draw(pfx, 100, 100)
-  love.graphics.setColor(90, 90, 90, 255)
-
+  drawNote()
+  drawCanvas(self.canvas)
 end
 
 function Menu:exitedState()
-  
-  
-  love.graphics.clear( )
+  love.graphics.clear()
 end
-

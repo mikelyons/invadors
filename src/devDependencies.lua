@@ -1,4 +1,8 @@
 
+
+-- 
+require 'helpers/debug_helpers'
+
 -- performance profiling
 -- ProFi = require 'lib/ProFi'
 -- ProFi:start()

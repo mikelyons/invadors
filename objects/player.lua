@@ -1,4 +1,4 @@
-require 'tools/camera'
+-- require 'tools/camera'
 require 'tools/physics_helper'
 require 'tools/world_physics'
 
@@ -71,12 +71,13 @@ function Player:new(x,y)
     -- velocities
     apply_gravity(self, dt)
 
-    if key("left") then 
+    -- walk left or right
+    if ( key("left") or key('a') ) then 
       self.animation:set_animation(2)
       self.dir.x = -1
       self.vel.x = 100
     end
-    if key("right") then 
+    if ( key("right") or key('d') ) then 
       self.animation:set_animation(2)
       self.dir.x = 1
       self.vel.x = 100
@@ -84,8 +85,14 @@ function Player:new(x,y)
 
     update_physics(self, tiles, dt)
 
-    if key("space") then 
+    -- jump
+    if ( key("space") or key('w') or key('up') ) then 
       physics_jump(self)
+    end
+
+    -- attack
+    if key('j') then
+      print('attack')
     end
 
     -- if key("") then
@@ -134,12 +141,11 @@ function Player:new(x,y)
     local cy = camera.pos.y
     local x_pos = cx + floor(self.pos.x / g_TileSize)+1
     local y_pos = cy + floor(self.pos.y / g_TileSize)+1
-
+    -- draws a green dot in the corner of a scale 1 camera
+    -- staticly positioned like the HUD layer
     love.graphics.setColor(0, 255,5) -- GREEN
-    -- love.graphics.setColor(255,5,5) -- RED
-    --minimap?
     love.graphics.rectangle("fill",x_pos,y_pos, 2,2)
-    love.graphics.setColor(255,255,255)
+    -- love.graphics.setColor(255,5,5) -- RED
   end
 
   return player

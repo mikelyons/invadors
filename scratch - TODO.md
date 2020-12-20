@@ -11,6 +11,15 @@ Renderer
 
 
 
+# Consideration
+
+## tools
+
+https://pinetools.com/pixelate-effect-image
+
+## Libs
+
+https://github.com/tanema/light_world.lua
 
 ---
 for formatting tips in this document: https://guides.github.com/features/mastering-markdown/
@@ -53,16 +62,28 @@ or: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 * intergalactic
 * void
 
+### Save Directory
 
+- C:/Users/Mike/AppData/Roaming/LOVE/invadors_save_directory
 
+## newest bookmarks
 
-## new bookmarks
+sound effects
+
+- https://love2d.org/wiki/sfxr.lua
+
+Auto Updates
+
+- https://github.com/a327ex/blog/issues/6
+- https://love2d.org/forums/viewtopic.php?t=80788
+- https://love2d.org/wiki/LoveUpdate
+
+### new bookmarks
 
 https://github.com/love2d-community/awesome-love2d#animation
-
 https://github.com/superzazu/denver.lua - make custom sound effects
 
-## Bookmarks
+### Bookmarks
 
 * shaders - http://blogs.love2d.org/content/beginners-guide-shaders
 - https://github.com/vrld/shine/wiki

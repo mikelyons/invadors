@@ -14,9 +14,13 @@ end
 function load(name) end
 
 function Game:initialize()
-  self:gotoState('Splash')
+  -- self:gotoState('Splash')
+  -- self:gotoState('synth')
+  self:gotoState('Menu')
   -- make the generate state (nuber 6) available in the game object
+  -- loadState('Menu')
   loadState('generate')
+  -- self:gotoState('generate')
 end
 
 function Game:update(dt) end

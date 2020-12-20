@@ -1,4 +1,7 @@
 
+-- Development dependencies enabled by environment @TODO
+require 'src/devDependencies'
+
 -- Engine Initialize
 require 'src/constants'
 require 'src/logging'
@@ -24,13 +27,18 @@ ser = require 'lib/binser/binser'
 
 -- Tools
 asm    = require 'tools/asm' -- asset manager
+tlm  = require 'tiles/tlm' -- tile manager 
+obm  = require 'tools/obm' -- object manager
 camera = require 'tools/camera'
 
 -- require the gamestates
 require 'states/splash' -- vetted, passes to menu
 
+
 require 'states/menu/menu' -- can select any mode below - landing on quit
 
+-- required because not loaded from menu currently for dev
+require 'states/synth'
 -- requiring these is not necessary if they are required via loadstate in root game.lua
 -- require 'states/pause'
 -- require 'states/bizzaro'

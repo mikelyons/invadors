@@ -19,6 +19,8 @@ function Splash:enteredState()
     if DEBUG_LOGGING_ON then
       print(string.format("ENTER Splash STATE - %s \n", os.date()))
     end
+
+    -- fanfare for splash logo
     music = love.audio.newSource("assets/sounds/Capcom_Intro_Sound_Effect.mp3", "stream") -- the "stream" tells LÖVE to stream the file from disk, good for longer music tracks
     music:play()
 
@@ -54,6 +56,7 @@ function Splash:draw()
 end
 
 function Splash:exitedState()
+  -- if we skip the splash, stop the fanfare
   music:stop()
 end
 

@@ -9,18 +9,18 @@
 --https://love2d.org/wiki/Config_Files
 
 -- make console work?
-io.stdout:setvbuf("full")
+-- io.stdout:setvbuf("full")
 -- ~ console in game - https://love2d.org/wiki/Cupid -- @TODO : separate dev libs
-require("./lib/cupid/cupid");
+-- require("./lib/cupid/cupid");
 
-local version_number = "0.4.2"
+local version_number = "0.4.3"
 
 function love.conf( t ) 
   t.console = true -- did this ever work?
 
   t.identity = "invadors_save_directory"       -- The name of the save directory (string)
   t.version = "0.10.2"                -- The LÖVE version this game was made for (string)
-  t.window.title = string.format("Invadors %s", version_number)        -- The window title (string)
+  t.window.title = string.format("Invadors v%s", version_number)        -- The window title (string)
   t.window.icon = 'assets/mushroom.png' -- Filepath to an image to use as the window's icon (string)
   
   t.window.width = 1024
@@ -29,6 +29,8 @@ function love.conf( t )
   -- t.window.height = 512
   -- t.window.width  = 1024
   -- t.window.height = 768
+  t.window.x = 600                   -- set the position of the window on launch
+  t.window.y = 100
   t.window.borderless = false        -- Remove all border visuals from the window (boolean)
   t.window.resizable = true          -- Let the window be user-resizable (boolean)
   t.window.minwidth = 1              -- Minimum window width if the window is resizable (number)

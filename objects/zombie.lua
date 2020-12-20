@@ -1,4 +1,3 @@
-require 'tools/camera'
 require 'tools/physics_helper'
 require 'tools/world_physics'
 
@@ -48,19 +47,19 @@ function Zombie:new(x,y)
     -- print(x_pos .. ' ' .. y_pos)
 
     if tlm:is_solid_at_pos(x_pos,y_pos) then
-      physics_jump(self)
+      -- physics_jump(self)
     end
 
     if tlm:is_solid_at_pos(x_pos+3,y_pos) then
-      physics_jump(self)
+      -- physics_jump(self)
     end
 
     if not tlm:is_solid_at_pos(x_pos+3,y_pos+1) then
-      physics_jump(self)
+      -- physics_jump(self)
     end
 
     if not tlm:is_solid_at_pos(x_pos,y_pos+1) then
-      physics_jump(self)
+      -- physics_jump(self)
     end
 
     -- if tlm:is_solid_at_pos(x_pos, y_pos) then

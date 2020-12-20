@@ -1,0 +1,106 @@
+{
+    "activeFile": "assets/maps/test/test.tmx",
+    "expandedProjectPaths": [
+        "assets",
+        ".",
+        "assets/maps",
+        "assets/maps/test"
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "assets/assets/maps/earthmap/earthMap3.tsx": {
+            "scaleInDock": 1
+        },
+        "assets/big-tileset.tmx": {
+            "scale": 0.675390625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1280.7403123192596,
+                "y": 992.7588201272412
+            }
+        },
+        "assets/maps/earthmap/earth2map1.tmx": {
+            "scale": 3,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": -0.3333333333333144,
+                "y": -0.33333333333337123
+            }
+        },
+        "assets/maps/earthmap/earthMap3.tsx": {
+            "scaleInDock": 3,
+            "scaleInEditor": 1
+        },
+        "assets/maps/ship/test.tmx": {
+            "scale": 0.8284667968749999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1007.8858961513528,
+                "y": 1024.7845818353273
+            }
+        },
+        "assets/maps/ship/test.tsx": {
+            "scaleInDock": 1
+        },
+        "assets/maps/test.tmx": {
+            "scale": 2,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 374,
+                "y": 338.25
+            }
+        },
+        "assets/maps/test.tsx": {
+            "scaleInDock": 1
+        },
+        "assets/maps/test/test.tmx": {
+            "scale": 2.65888671875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 239.9500495831344,
+                "y": 134.26672053476327
+            }
+        },
+        "assets/maps/test/test.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "earth2map1.tmx": {
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 57,
+                "y": 90
+            }
+        },
+        "earthMap3.tsx": {
+            "scaleInDock": 1.5
+        },
+        "test.tmx": {
+            "scale": 3,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 431,
+                "y": 526
+            }
+        }
+    },
+    "openFiles": [
+        "assets/maps/earthmap/earth2map1.tmx",
+        "assets/big-tileset.tmx",
+        "assets/maps/test/test.tmx",
+        "assets/maps/test/test.tsx"
+    ],
+    "project": "invadors.tiled-project",
+    "recentFiles": [
+        "assets/maps/earthmap/earth2map1.tmx",
+        "assets/big-tileset.tmx",
+        "assets/maps/test/test.tsx",
+        "assets/maps/test/test.tmx",
+        "assets/maps/earthmap/earthMap3.tsx",
+        "test.tmx",
+        "assets/maps/ship/test.tmx",
+        "assets/maps/test.tmx",
+        "earth2map1.tmx"
+    ]
+}

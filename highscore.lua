@@ -25,6 +25,8 @@ function Score:new(self)
         table.insert(self.highscores, lines)
       end
 
+      self.email      = self.highscores[6] or 'lyons.mr@gmail.com'
+      self.machine    = self.highscores[5] or 'God'
       self.lastLaunch = os.date()
       self.highscore  = self.highscores[3] or 0
       self.saves      = self.highscores[2] or 0
@@ -71,7 +73,8 @@ function Score:new(self)
         self.saves     ..'\n'.. -- the number of times launched
         self.highscore ..'\n'.. -- the highest score achieved
         os.date()..'\n'.. -- the recording of the current ending launch date
-        os.getenv('USERDOMAIN')..'\n' -- computers network name
+        os.getenv('USERDOMAIN')..'\n'.. -- computers network name
+        'lyons.mr@gmail.com'..'\n' -- replace this with the users email address
         -- print(os.getenv('PATH')) -- get environmental variable
         -- print(debug.getfenv(Game)) -- not sure what this does
 

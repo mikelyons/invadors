@@ -34,7 +34,12 @@ local pop, push = table.remove, table.insert
 function love.update(dt)
   -- score:update() -- why were we updating this here?
 
-  -- what is push?
+  -- require("lib/lovebird").update() - browser based debug console - is this useful?
+
+  -- this whole update thing is causing the stutter
+  -- figure out why
+
+  -- see above local pop, push = table.remove, table.insert
   push(delta_time,dt)
   if #delta_time > sample then
     local av  = 0
@@ -46,23 +51,37 @@ function love.update(dt)
     av_dt = av / num
   end
 
-  -- gameloop:update(av_dt) -- why isn't this happening?
+  -- -- gameloop:update(av_dt) -- why isn't this happening?
   game:update(av_dt)
 
   g_GameTime = g_GameTime + av_dt
 end
 
+background = love.graphics.newImage("assets/galaxy.png")
+local function drawBackground()
+  for i = 0, love.graphics.getWidth() / background:getWidth() do
+    for j = 0, love.graphics.getHeight() / background:getHeight() do
+        love.graphics.draw(background, i * background:getWidth(), j * background:getHeight())
+    end
+  end
+end
 -- @todo figure out renerer layers
 function love.draw(dt)
+  drawBackground()
   -- game camera
   camera:set()
   --   --wrapping these in camera set/unset allows camera to follow player but its weird
     renderer:draw()
   -- camera:unset()
   -- camera:set()
-    game:draw()
+    -- game:draw()
+
+  -- everything here moves with the camera trail
   camera:unset()
-  score:draw()
+
+  -- draws the static positioned HUD text
+  -- score:draw()
+
   collectgarbage()
 end
 
