@@ -50,6 +50,29 @@ or: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 - [ ] game stats per game universe
 - [ ] saving / loading save
 
+* FIX BLACK SCREEN OF DEATH
+* FIGURE OUT WHERE YOU WERE
+** TLM TUTORIAL? BOOKMARK GAME FOLDER?
+** this http://www.love2d.org/wiki/love.errhand
+* set up game states and menu
+* create map screen
+* chunk generation
+* chunk saving - universe saving
+* create chunk loading
+* universe loading
+* create planetoid loading
+* create orbit mode
+* create ship interior view
+* create ship building view
+* create ship construction bay view
+* create combat system
+* create landing on planet
+* create gathering resources
+* create storage houses 
+* star generation background
+* game stats per game universe
+* saving / loading save
+
 ## Notes
 
 ### Space types 
@@ -167,3 +190,4 @@ paying homage to other games or something
   -- elseif love.keyboard.isDown('up') then
   --   dy = -speed * dt
   -- end
+* love irc - https://webchat.oftc.net/?channels=love
