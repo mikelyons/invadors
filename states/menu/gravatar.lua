@@ -8,11 +8,20 @@ local Gravatar = {}
   -- https://love2d.org/forums/viewtopic.php?t=82150
   -- @TODO - make this an avatar componentized
 
-function Gravatar:new(x,y)
+function Gravatar:new(email, x,y)
   local gravatar = {}
   local x = x
   local y = y
-  local hashedEmail = md5.sumhexa('lyons.mr@gmail.com')
+  self.email = email
+  -- TODO - get this from the user and store in the score file
+  -- local hashedEmail = md5.sumhexa('lyons.mr@gmail.com')
+  -- local hashedEmail = md5.sumhexa('thaonhi.nguyen411@gmail.com')
+  -- local hashedEmail = md5.sumhexa('aaron.trostle@gmail.com')
+  -- local hashedEmail = md5.sumhexa('test@example.com')
+  -- local hashedEmail = md5.sumhexa('tsmckelvey@gmail.com.com')
+  local hashedEmail = md5.sumhexa(score['email'])
+
+  print(self.email)
 
   function gravatar:load()
     self.raintar = http.request('http://www.gravatar.com/avatar/'..hashedEmail)
@@ -20,9 +29,13 @@ function Gravatar:new(x,y)
     self.raintar = love.graphics.newImage(self.raintar)
   end
 
+  -- love.graphics.setColor(r, g, b, a)
   function gravatar:draw()
-    love.graphics.setColor(900, 90, 90, 255)
+    local _r, _g, _b, _a = love.graphics.getColor()
+    love.graphics.setColor(math.random(0,255),math.random(0,255),math.random(0,255), 255)
     love.graphics.draw(self.raintar, x + 500, y)
+    love.graphics.print(score['email'], x + 500, y+85) -- default w,h 80x80
+    love.graphics.setColor(_r, _g, _b, _a)
   end
 
   return gravatar

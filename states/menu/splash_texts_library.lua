@@ -3,6 +3,9 @@
 tomsSplashWords ={
   "I'll think about it",
   'So what is invadors?',
+  'I WILL SUE YOU, I\'m going to sue you',
+  'mmmhmhmhmhmhmhh, I will! I will sue you!',
+  '*sniff*',
 }
 -- @TODO - add more from: https://minecraft.gamepedia.com/Splash
 splashWords = {
@@ -34,6 +37,8 @@ splashWords = {
   "!!",
   "the lastn't you'll see of me",
   "whutre ya bruddahin’ up?\n whatn’t ain’t up?\n hain’t\n rain’t",
+  "Have you like, ever eaten a butt, er wudever...?",
+  "What's da wecommended ammount of dedotated WAM to serber.",
 }
 -- @TODO get prettier RGB colors - maybe match them to the text table, maybe multiple colors
 splashColors = {

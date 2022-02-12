@@ -1,6 +1,32 @@
 require 'src/dependencies'
 
-local game
+local game = {
+  _VERSION     = 'Invadors *SEE CONF VERSION #**',
+  _DESCRIPTION = 'Invadors Game',
+  _URL         = 'https://github.com/mikelyons/invadors',
+  _LICENSE     = [[
+
+  /*******************************************************
+  * Copyright (C) 2015-2022 {Mike Lyons} <{lyons.mr@gmail.com}> - All Rights Reserved
+  * 
+  * This file is part of {invadors}.
+  * 
+  * {invadors} can not be copied and/or distributed without the express
+  * written permission of {Mike Lyons}
+  * Unauthorized copying of this file, via any medium is strictly prohibited
+  * Proprietary and confidential
+  *******************************************************/
+
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+  OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  ]]
+}
 
 -- @TODO - move these to src/constants.lua
 g_Width  = love.graphics.getWidth()
@@ -9,16 +35,29 @@ g_GameTime = 0
 g_TileSize = 32
 g_MapSize  = 16
 
-function love.load()
-  -- @TODO need to make world state save and load
+score = Score:new()
+-- PrintTable(score)
+score:load()
+-- PrintTable(score)
 
+function love.load(...)
+  -- print(arg[0])
+  -- print("love.load("..arg[1]..")")
+  -- print(arg[2])
+
+    -- t="rainty2"
+    -- PrintDebug(t)
+
+
+  -- PrintTable(debug.getinfo(1))
+  -- PrintDebug()
+
+  -- @TODO need to make world state save and load
   -- The initialization of the main game launch point with splash and menu maby?
   game = Game:new()
 
-  -- initialize score tracking
-  score = Score:new()
-  -- load the score file and read last launch date
-  score:load()
+
+  -- PrintTable(score)
 
   -- find out what this does
   gameloop:addLoop(self)
@@ -31,10 +70,12 @@ local delta_time = {}
 local av_dt      = 0.016
 local sample     = 10
 local pop, push = table.remove, table.insert
+
 function love.update(dt)
   -- score:update() -- why were we updating this here?
 
-  -- require("lib/lovebird").update() - browser based debug console - is this useful?
+  -- how do i use this
+  -- require("lib/lovebird").update() -- browser based debug console - is this useful?
 
   -- this whole update thing is causing the stutter
   -- figure out why
@@ -52,48 +93,71 @@ function love.update(dt)
   end
 
   -- -- gameloop:update(av_dt) -- why isn't this happening?
+
   game:update(av_dt)
 
   g_GameTime = g_GameTime + av_dt
 end
 
-background = love.graphics.newImage("assets/galaxy.png")
-local function drawBackground()
-  for i = 0, love.graphics.getWidth() / background:getWidth() do
-    for j = 0, love.graphics.getHeight() / background:getHeight() do
-        love.graphics.draw(background, i * background:getWidth(), j * background:getHeight())
-    end
-  end
-end
+-- need a better debug background
+-- background = love.graphics.newImage("assets/galaxy.png")
+-- local function drawBackground()
+--   for i = 0, love.graphics.getWidth() / background:getWidth() do
+--     for j = 0, love.graphics.getHeight() / background:getHeight() do
+--         love.graphics.draw(background, i * background:getWidth(), j * background:getHeight())
+--     end
+--   end
+-- end
+
 -- @todo figure out renerer layers
 function love.draw(dt)
-  drawBackground()
+
+  -- drawBackground()
+
   -- game camera
   camera:set()
+
   --   --wrapping these in camera set/unset allows camera to follow player but its weird
     renderer:draw()
   -- camera:unset()
   -- camera:set()
-    -- game:draw()
+    game:draw()
 
   -- everything here moves with the camera trail
   camera:unset()
 
   -- draws the static positioned HUD text
   -- score:draw()
+  -- mts:draw()
 
   collectgarbage()
 end
 
+-- https://love2d.org/wiki/KeyConstant
 function love.keypressed(key)
+  -- if (DEBUG_LOGGING_ON and key) then print('key pressed: '..key) end
+
   game:keypressed(key, code)
-  if key == '=' then score:add(100) end --then love.event.push('quit') end
+  score:keypress(key)
+
+  -- plus button adds 100 to the score
+  if key == '=' then
+    score:add(100)
+    print('SCORE + 100! = '..score:get())
+  end 
 end
+function love.keyreleased( key, scancode )
+  -- if (DEBUG_LOGGING_ON and key) then print('key released: '..key) end
+  score:keyrelease(key)
+end
+
 function love.mousepressed(x, y, button, istouch)
   game:mousepressed(x, y, button, istouch)
+  score:mousepress()
 end
 function love.mousereleased(x, y, button)
   game:mousereleased(x, y, button)
+  score:mouserelease()
 end
 
 function love.quit()

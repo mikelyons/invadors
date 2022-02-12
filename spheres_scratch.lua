@@ -1,4 +1,4 @@
-spheres_scratch.lua
+-- spheres_scratch.lua
 
 --https://love2d.org/forums/viewtopic.php?f=3&t=2198&start=580
 

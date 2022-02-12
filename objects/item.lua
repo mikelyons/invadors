@@ -79,7 +79,7 @@ function Item:new(x,y)
   function item:draw()
     local x_pos = floor(self.pos.x / g_TileSize)+1
     local y_pos = floor(self.pos.y / g_TileSize)+1
-    love.graphics.setColor(250,0,50)
+    love.graphics.setColor(50,90,50)
     love.graphics.rectangle("fill",self.pos.x,self.pos.y,self.size.x,self.size.y)
     love.graphics.setColor(255,5,5)
     --minimap?

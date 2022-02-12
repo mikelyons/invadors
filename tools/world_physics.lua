@@ -9,7 +9,8 @@ function init_physics( obj, gravity, dt )
   obj.gravity = gravity or 500
 end
 function apply_gravity(obj,dt)
-  -- gravity
+  -- attempt to limit falling speed
+  -- obj.vel.y = (obj.vel.y > 600) ? (obj.vel.y + obj.gravity * dt) : 600
   obj.vel.y = obj.vel.y + obj.gravity * dt
   obj.dir.y = 1
 end

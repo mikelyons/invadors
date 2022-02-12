@@ -23,7 +23,13 @@ function SplashText:new()
 
   local splashText = {}
 
-  function splashText:load() end
+  function splashText:load()
+    print("")
+    print("Splash Text reads:")
+    print(sp.text)
+    print("")
+    print("")
+  end
   function splashText:update(dt)
     -- splashtext tween
     if complete == true then
@@ -51,9 +57,15 @@ function SplashText:new()
 
   function splashText:draw()
     -- font = the font object you made before
+    -- local prevFont = love.graphics.getFont()
+    -- local prevColor= {love.graphics.getColor()}
+
     love.graphics.setFont(font)
     love.graphics.setColor(splashColor)
     love.graphics.print(sp.text,sp.x,sp.y,-.3,sp.sc,sp.sc,50,50,0,0)
+
+    -- love.graphics.setFont(prevFont)
+    -- love.graphics.setColor(prevColor)
   end
 
   return splashText

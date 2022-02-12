@@ -7,7 +7,7 @@ return{
 
       add_fingerprint = function(self) end,
       new = function(self) end,
-      load = 
+      load = function(self) end,
       update= function(self) end,
       draw = function(self) end,
     }

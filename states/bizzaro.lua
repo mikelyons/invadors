@@ -1,5 +1,5 @@
 
-local Bizzaro = Game:addState('Bizzaro')
+local Bizzaro = Game:addState('bizzaro')
 
 function Bizzaro:enteredState()
   print('ENTERED bizzaro STATE!')
@@ -22,20 +22,13 @@ function Bizzaro:enteredState()
   r2:load()
   r3:load()
   r4:load()
-  self:popState('Bizzaro')
+  self:popState('bizzaro')
 end
 
-function Bizzaro:exitedState()
-  -- destroy buttons, menus, etc
-end
-
-function Bizzaro:update(dt)
-end
-
-function Bizzaro:draw(dt)
-  -- draw the menus
-end
+function Bizzaro:exitedState() end
+function Bizzaro:update(dt) end
+function Bizzaro:draw(dt) end
 
 function Bizzaro:keypressed(key, code)
-  if key == 'escape' then self:popState('Bizzaro') end
+  if key == 'escape' then self:popState('bizzaro') end
 end

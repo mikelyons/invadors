@@ -20,6 +20,61 @@ function dump(t, indent, done)
     end
 end
 
+-- A helper function to print the line number
+function PrintDebug(f) --, args)
+  print("")
+  print("=========================================================")
+  print("              start PRINT DEBUG start")
+  print("=========================================================")
+  print("===")
+
+  print("=== Type of F: "..type(f))
+  print("=== Arguments: "..type(args))
+
+  local i = debug.getinfo(1)
+  print("=== Current File: "..i.source)
+  print("=== Current Line: "..i.currentline)
+  print("=== The Variable: "..f)
+  -- print("=== The variable: "..f)
+  
+  -- if type(f) == 'function' then
+  --   -- print('=== FUCKIN function')
+  --   -- print('=== '..args)
+  --   -- print('==='..f(args)..' raint')
+  -- end
+
+  -- if type(f) == 'function' then
+  --   print("=== Function call results: "..f(args))
+  --   print("=== "..f(args).."                                   ===")
+  -- end
+
+    -- print("=== Function call results: "..f(args))
+    -- print("=== "..f(args).."                                   ===")
+  -- local ok,res = pcall(function(f)
+  -- pcall(pcall(function(f)
+  --   -- print("=== "..f)
+  --   -- print(args)
+  --   -- PrintTable(debug.getinfo(1))
+  --   -- PrintDebug()
+  -- end))
+  -- print(pcall(pcall(f)))
+  -- print(pcall(''))
+  -- print(pcall(f))
+  -- print("=== RESULT OF PCALL.OK?: "..ok)
+  -- print("=== "..res)
+  -- print("=== "..f)
+  -- print("===")
+  print("===")
+  print("=========================================================")
+  print("                end  PRINT DEBUG end")
+  print("=========================================================")
+  print("")
+  -- print(debug.getinfo)
+  -- PrintTable(debug.getinfo(1))
+  -- i = debug.getinfo(1)
+  -- print(i['source']..':'..i['currentline'])
+end
+
 ---A helper function to print a table's contents.
 ---@param tbl table @The table to print.
 ---@param depth number @The depth of sub-tables to traverse through and print.
@@ -64,4 +119,41 @@ function PrintTable(tbl, depth, n)
   if (n == 0) then
       print(" ");
   end
+end
+
+-- this only works if you run the game with RUN.BAT
+function PrintColor(p, colorName)
+  local n = colorName
+  local pc = {
+    ['red'] = ''
+  }
+    -- print('\27[31mRed!')
+    -- print('\27[32mGreen!')
+    -- print('\27[33mYello!')
+    -- print('\27[34mBlue!')
+    -- print('\27[35mMagenta!')
+    -- print('\27[36mCyan!')
+    -- print('\27[37mWhite!')
+
+    -- print('\27[0mReset!')
+    -- print('\27[mReset!')
+    -- print("")
+
+    print(
+      '\27[31m'..p..'! - ' .. 
+      'red' ..
+      '\27[31mRed!' .. 
+      ''
+    )
+    -- print('\27[32mGreen!')
+    -- print('\27[33mYello!')
+    -- print('\27[34mBlue!')
+    -- print('\27[35mMagenta!')
+    -- print('\27[36mCyan!')
+    -- print('\27[37mWhite!')
+
+    -- print('\27[0mReset!')
+    -- print('\27[mReset!')
+    -- print("")
+  
 end

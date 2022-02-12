@@ -1,5 +1,29 @@
 ## Unreleased
 
+## 0.4.4 (February 12, 2022)
+
+### Added
+
+- Coin Items
+- Beginning inventory UI
+- Various libraries
+- textbox basic functionality
+- procedural top-down level generation
+- tiled level gen and interp
+- batch file runner with colored console logging
+- smtp and sockets libraries
+- synth noise loops, white, pink, ufo, generic
+- some assets for character
+- some splash texts
+- some debug helpers
+
+### Fixed
+
+- UI point and click menu is working! (this is HUGE was a blocker for a long time)
+- Multi-threading for sounds to not block the main thread
+- Dependency and Module loading
+- Game state management now has seperate loaders for folders or files, this may change again to be folders only in future
+
 ## 0.4.3 (December 9, 2020)
 
 ### Added

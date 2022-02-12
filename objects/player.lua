@@ -71,6 +71,8 @@ function Player:new(x,y)
     -- velocities
     apply_gravity(self, dt)
 
+    -- print(self.vel.y)
+
     -- walk left or right
     if ( key("left") or key('a') ) then 
       self.animation:set_animation(2)

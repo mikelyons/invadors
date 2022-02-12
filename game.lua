@@ -1,35 +1,56 @@
--- Middleclass Root Game class with Stateful state machine
-Game = Class('Game'):include(Stateful)
-
+-- https://www.reddit.com/r/love2d/comments/r3qg1k/luasocket_vs_luaenet/hmf4xk2/
 -- are these doing anything?
 renderer = Renderer:create()
 gameloop = GameLoop:create()
+require 'helpers/loading_helpers'
 
--- loads states that are a folder instead of a file
-function loadState(name)
-  local path = "states/" .. name
-  require(path .. '/main')
-  load(name)
-end
-function load(name) end
+-- should we add this?
+-- https://githubhelp.com/xkotori/love2d-console
+--and this
+-- https://github.com/SiENcE/astray
+--https://github.com/mxgmn/WaveFunctionCollapse
+
+
+-- Middleclass Root Game class with Stateful state machine
+Game = Class('Game'):include(Stateful)
+function Game:new() end
 
 function Game:initialize()
-  -- self:gotoState('Splash')
-  -- self:gotoState('synth')
-  self:gotoState('Menu')
-  -- make the generate state (nuber 6) available in the game object
-  -- loadState('Menu')
-  loadState('generate')
-  -- self:gotoState('generate')
+  print('Game init')
+  loadStateFile  ('pause')
+    -- this only works if launched through run.BAT
+    -- https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
+    PrintColor('raint', 'red')
+
+    -- try to get multithreading working
+    -- loadStateFile( 'mts')
+    -- self:gotoState('mts')
+
+  -- Various mini-games 
+  loadStateFolder('synth')
+  loadStateFolder('prog2')
+  loadStateFolder('generate')
+  loadStateFile  ('bizzaro')
+  loadStateFolder('prog2')
+  loadStateFile('pro')
+
+  -- ingame UIs
+  loadStateFolder('inventory')
+
+  -- menu states
+  loadStateFolder('menu')
+  loadMenuStateFile('signin')
+  self:gotoState('menu')
 end
 
 function Game:update(dt) end
--- something not right here, stuttering, need fix https://gafferongames.com/post/fix_your_timestep/
-function Game:draw(dt)
-  -- renderer:draw() -- why isn't this happening?
-end
-
 function Game:keypressed(key, code) end
 function Game:mousepressed(x, y, button, istouch) end
 function Game:mousereleased(x, y, button) end
+-- something not right here, stuttering, need fix https://gafferongames.com/post/fix_your_timestep/
+function Game:draw(dt)
+  -- does this do anything? maybe in generate state?
+  -- nothing for Menu
+  renderer:draw() -- why isn't this happening?
+end
 

@@ -24,7 +24,7 @@ return {
           self.current_frame = self.current_frame + 1
         end
 
-        if self.current_frame > #self.a[self.current_anim]then
+        if self.current_frame > #self.a[self.current_anim] then
           self.current_frame = 1
         end
       else

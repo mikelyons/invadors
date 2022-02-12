@@ -18,6 +18,8 @@ function BloodParticle:new(x,y,img)
 
     particle.system:setParticleLifetime(.3,9)
 
+
+
     particle.system:setLinearAcceleration(-20, -200, 200, 20)
     -- particle.system:setEmissionRate(300)
     particle.system:setSpeed(-10,10)

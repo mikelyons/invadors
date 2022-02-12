@@ -1,5 +1,5 @@
 
---	Invators 0.4.2
+--	Invators 0.4.4
 --  author : Mike Lyons
 --  developed using : lua + love2d 
 --  
@@ -13,11 +13,14 @@
 -- ~ console in game - https://love2d.org/wiki/Cupid -- @TODO : separate dev libs
 -- require("./lib/cupid/cupid");
 
-local version_number = "0.4.3"
+local version_number = "0.4.4"
 
 function love.conf( t ) 
   t.console = true -- did this ever work?
 
+  -- where is this directory?
+  -- 	%appdata%\LOVE\{t.identity}
+  -- change this with https://love2d.org/wiki/love.filesystem.setIdentity
   t.identity = "invadors_save_directory"       -- The name of the save directory (string)
   t.version = "0.10.2"                -- The LÖVE version this game was made for (string)
   t.window.title = string.format("Invadors v%s", version_number)        -- The window title (string)
@@ -29,7 +32,7 @@ function love.conf( t )
   -- t.window.height = 512
   -- t.window.width  = 1024
   -- t.window.height = 768
-  t.window.x = 600                   -- set the position of the window on launch
+  t.window.x = 900                   -- set the position of the window on launch
   t.window.y = 100
   t.window.borderless = false        -- Remove all border visuals from the window (boolean)
   t.window.resizable = true          -- Let the window be user-resizable (boolean)
