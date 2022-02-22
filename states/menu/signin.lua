@@ -2,7 +2,7 @@ print('signin.lua -> ')
 
 local fanfic = require 'states/menu/fanfic'
 print('signin -> ')
-text = fanfic.new(200,300, "New textbox", false, 16)
+-- text = fanfic.new(200,300, "New textbox", false, 16)
 
 local Signin = Game:addState('signin')
 

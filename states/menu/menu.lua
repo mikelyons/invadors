@@ -26,38 +26,6 @@ asm:add(love.graphics.newImage("assets/mouse.png"), 'mouse')
 
 Menu = Game:addState('menu')
 
-function Menu:startGame()
-  print('starting game')
-  -- self:gotoState('pro')
-  -- self:popState('menu')
-  -- self:pushState('signin')
-  self:pushState('generate')
-
-  -- PrintTable(self)
-
-  -- local status, err = pcall(self:pushState,'generate')
-  -- print(status, err)
-end
-function Menu:openMenu(menu_name_string)
-  print('RAINTOR')
-  print(menu_name_string)
-  print('RAINTOR')
-  -- local name = menu_name_string
-
-
-  local s = self
-
-  -- local pu = self:pushState(menu_name_string)
-  -- print(type(pu))
-
-  local status, err = pcall(s.startGame, 'generate')
-  print(status, err)
-
-  -- self:pushState(menu_name_string)
-end
-
--- MenuHelper:loadButtons()
-
 -- trying to make menuhelper buttons configurable
 local menuSelections = {
   {
@@ -80,13 +48,13 @@ local menuSelections = {
 
 Menu.testingMenu = {}
 local tm = Menu.testingMenu
--- tm['trn']  = 'training'
--- tm['biz']  = 'bizzaro'
--- tm['sp1']  = 'space1'
--- tm['e2']   = 'earth2'
--- tm['cmd']  = 'commando'
--- tm['gen']  = 'generate'
--- tm['q']    = 'quit'
+  -- tm['trn']  = 'training'
+  -- tm['biz']  = 'bizzaro'
+  -- tm['sp1']  = 'space1'
+  -- tm['e2']   = 'earth2'
+  -- tm['cmd']  = 'commando'
+  -- tm['gen']  = 'generate'
+  -- tm['q']    = 'quit'
   tm = {'return','bizzaro', 'space1', 'earth2', 'commando','generate','quit'}
   -- if key == ('1' or 'return') then self:pushState('Training') end
   -- if key == ('2' or 'space') then self:pushState('Bizzaro') end
@@ -113,20 +81,7 @@ local getN = 0
 for n in pairs(tm) do 
   getN = getN + 1 
 end
-
-
--- print("")
--- print("")
--- print("game states = " .. getN)
--- print("")
--- for i=0,table.getn(Menu.testingMenu) do
---   print('- ..'i)
--- end
--- print("")
--- print("")
-
-   -- find a value in a list
-
+  -- find a value in a list
   -- print(tm['q'])
   -- print(Tlength(tm))
 
@@ -139,6 +94,9 @@ end
   --   print(tm[i]) 
   --   if tm[i] == "quit" then 
   -- end
+
+
+
 
 function Menu:keypressed(key, code)
   if key == ('1' or 'return') then self:startGame() end
@@ -155,8 +113,9 @@ function Menu:keypressed(key, code)
   -- if key == ('6') then self:pushState('generate') end
   -- if key == ('6') then self:gotoState('generate') end
   
-  if key == ('q') then love.event.push('quit') end
-  if key == ('escape') then love.event.push('quit') end
+  if key == ('escape') then self:popState('menu') end
+  -- if key == ('q') then love.event.push('quit') end
+  -- if key == ('escape') then love.event.push('quit') end
 end
 
 function Menu:mousepressed(x,y, button , istouch)
@@ -186,9 +145,36 @@ function Menu:mousereleased(x, y, button)
   end
 end
 
--- menuhelper = require('states/menu/menu_helper')
--- MenuHelper = menuhelper:new(startGame)
+function stackDebug(self)
+end
+
+function Menu:pushedState()
+  print('')
+  print('menu pushed')
+
+  self:loadButtons({})
+  -- PrintTable(self.buttons)
+
+  PrintTable(self:getStateStackDebugInfo())
+end
+function Menu:poppedState()
+  print('')
+  print('menu popped')
+  print(self.buttons)
+  -- PrintTable(self.buttons)
+  PrintTable(self:getStateStackDebugInfo())
+end
+function Menu:pausedState()
+  print('menu paused')
+end
+function Menu:continuedState()
+  self:loadButtons({})
+  print('menu continued')
+end
+
 function Menu:enteredState()
+  filesString = recursiveEnumerate("/saves", "")
+
   if DEBUG_LOGGING_ON then
     print(string.format("ENTER Menu STATE - %s \n", os.date()))
   end
@@ -201,8 +187,6 @@ function Menu:enteredState()
   self.font = love.graphics.newFont(32)
 
   self:loadButtons(Menu)
-  -- MenuHelper:load(Menu)
-
   Gravatar:load()
 
   love.graphics.clear()
@@ -296,6 +280,9 @@ end
 
 -- love.graphics.setColor(r, g, b, a)
 function Menu:draw()
+
+  love.graphics.print(filesString, 0, 0)
+
   local _r, _g, _b, _a = love.graphics.getColor()
   love.graphics.setColor(255, 255, 255, 255)
 
@@ -310,7 +297,6 @@ function Menu:draw()
 
   -- love.graphics.setColor(255, 255, 255, 255)
   -- MenuHelper:drawButtons()
-  self:drawButtons()
 
   SplashText:draw()
 
@@ -332,7 +318,9 @@ function Menu:draw()
   -- draw a pointer
   love.graphics.draw(brian, mx, my)
   -- love.graphics.draw(mouse, mx, my)
--- PrintDebug(fanfic)
+  -- PrintDebug(fanfic)
+
+  self:drawButtons()
 
   drawNote()
   -- drawCanvas(self.canvas)
@@ -403,25 +391,60 @@ function Menu:drawButtons()
   end
 end
 
+-- This function will return a string filetree of all files
+-- in the folder and files in all subfolders
+function recursiveEnumerate(folder, fileTree)
+	local lfs = love.filesystem
+	local filesTable = lfs.getDirectoryItems(folder)
+	for i,v in ipairs(filesTable) do
+		local file = folder.."/"..v
+		if lfs.isFile(file) then
+			fileTree = fileTree.."\n"..file
+		elseif lfs.isDirectory(file) then
+			fileTree = fileTree.."\n"..file.." (DIR)"
+			fileTree = recursiveEnumerate(file, fileTree)
+		end
+	end
+	return fileTree
+end
+
 function Menu:loadButtons(menu)
   self.font = love.graphics.newFont(32)
   self.buttons = {}
   local buttons = self.buttons
   local menu = menu
 
+  local saveFiles = {}
+	local lfs = love.filesystem
+	local filesTable = lfs.getDirectoryItems('/saves')
+
+  success = love.filesystem.createDirectory( 'saves' )
+
+  if not love.filesystem.exists('saves/scores.lua') then
+    scores = love.filesystem.newFile('saves/scores.lua')
+    love.filesystem.write('saves/scores.lua', "raint")
+  end
+
+
+  -- print(filesTable)
+  -- PrintTable(filesTable)
+
+
   table.insert(buttons, self:newButton(
-    'Start Game',
-    function()
+    'New Game',
+    function(self)
       print('starting game')
       -- Game:gotoState('signin')
-      self:pushState('generate')
+      self:pushState('newGame')
+      -- self:pushState('generate')
     end
   ))
   table.insert(buttons, self:newButton(
-    'Load Game',
+    'Load Save',
     function(self)
       print('Load a save game')
-      self:pushState('signin')
+      self:pushState('loadSave')
+      -- self:pushState('signin')
       print('sign in')
     end,
     menu

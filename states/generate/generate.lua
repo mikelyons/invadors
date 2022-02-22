@@ -200,7 +200,10 @@ end
 
 function generate:keypressed(key, code)
   -- this should go to menu
-  if key == 'escape' then self:popState('generate') end --then love.event.push('quit') end
+  if key == 'escape' then
+    self:popState('generate')
+    self:gotoState('PressStart')
+  end --then love.event.push('quit') end
 
   if key == 'e' then self:pushState('inventory') end --then love.event.push('quit') end
 

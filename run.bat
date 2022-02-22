@@ -119,10 +119,10 @@ echo ^<ESC^>[4m %ESC%[4mUnderline DisableDelayedExpansion%ESC%[0m
 
 
 @REM this works for 10.2
-start %CD%\lib\love\10.2\love.exe %CD%\
+@REM start %CD%\lib\love\10.2\love.exe %CD%\
 
 @REM 11.3 is broken currently
-@REM start %CD%\lib\love\11.3\love.exe %CD%\
+start %CD%\lib\love\11.3\love.exe %CD%\
 
 @REM attaches a consoel
 @REM start %CD%\lib\love\11.3\lovec.exe %CD%\ "run.BAT"

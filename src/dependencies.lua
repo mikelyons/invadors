@@ -27,8 +27,8 @@ require 'game'
 
 -- Tools
 asm    = require 'tools/asm' -- asset manager
-tlm  = require 'tiles/tlm' -- tile manager 
-obm  = require 'tools/obm' -- object manager
+tlm    = require 'tiles/tlm' -- tile manager 
+obm    = require 'tools/obm' -- object manager
 camera = require 'tools/camera'
 
 -- require the gamestates

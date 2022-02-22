@@ -44,6 +44,7 @@ function love.load(...)
   -- print(arg[0])
   -- print("love.load("..arg[1]..")")
   -- print(arg[2])
+  -- PrintTable(arg)
 
     -- t="rainty2"
     -- PrintDebug(t)
@@ -137,8 +138,11 @@ end
 function love.keypressed(key)
   -- if (DEBUG_LOGGING_ON and key) then print('key pressed: '..key) end
 
-  game:keypressed(key, code)
-  score:keypress(key)
+  if game then
+    -- PrintTable(game)
+    game:keypressed(key, code)
+    score:keypress(key)
+  end
 
   -- plus button adds 100 to the score
   if key == '=' then
@@ -159,6 +163,11 @@ function love.mousereleased(x, y, button)
   game:mousereleased(x, y, button)
   score:mouserelease()
 end
+
+function love.resize(w, h)
+  print(("Window resized to width: %d and height: %d."):format(w, h))
+end
+
 
 function love.quit()
   score:quit()

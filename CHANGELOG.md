@@ -1,5 +1,22 @@
 ## Unreleased
 
+## 0.4.6 ()
+
+### Added
+### Changed
+### Removed
+### Fixed
+
+## 0.4.5 (February 21, 2000)
+
+### Added
+	- New game Menu
+	- Load game Menu
+	- save directory scanning
+	- gamestate directory scanning
+	- Press Start screen
+	- game state template
+
 ## 0.4.4 (February 12, 2022)
 
 ### Added

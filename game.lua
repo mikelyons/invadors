@@ -17,15 +17,16 @@ function Game:new() end
 
 function Game:initialize()
   print('Game init')
-  loadStateFile  ('pause')
-    -- this only works if launched through run.BAT
-    -- https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
-    PrintColor('raint', 'red')
+  -- this only works if launched through run.BAT
+  -- https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
+  PrintColor('raint', 'red')
 
     -- try to get multithreading working
     -- loadStateFile( 'mts')
     -- self:gotoState('mts')
 
+
+  loadStateFile  ('pause')
   -- Various mini-games 
   loadStateFolder('synth')
   loadStateFolder('prog2')
@@ -39,8 +40,14 @@ function Game:initialize()
 
   -- menu states
   loadStateFolder('menu')
+  loadMenuStateFile('newGame')
+  loadMenuStateFile('loadSave')
   loadMenuStateFile('signin')
-  self:gotoState('menu')
+  -- loadStateFolder('template')
+  -- self:gotoState('template')
+  loadMenuStateFile('pressStart')
+  self:gotoState('PressStart')
+  -- self:gotoState('menu')
 end
 
 function Game:update(dt) end
