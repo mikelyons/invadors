@@ -15,7 +15,6 @@ function newButton(text, fn)
   }
 end
 
-
 function NewGame:loadButtons()
   self.buttons = {}
 
@@ -23,8 +22,6 @@ function NewGame:loadButtons()
 	local lfs = love.filesystem
 	local filesTable = lfs.getDirectoryItems('/states')
 
-  -- print(filesTable)
-  -- print("filestable")
   PrintTable(filesTable)
 
   self.buttons = self:buildSavesButtonTable(self.buttons, filesTable) 
@@ -32,52 +29,25 @@ function NewGame:loadButtons()
 end
 
 function NewGame:buildSavesButtonTable(buttonsTable, states) 
-  -- PrintTable(states)
-  -- self.buttons = {}
-  -- local buttons = self.buttons
   local buttons = {}
-  for i=1, #states do
-    -- print('button')
-    -- print(i)
+
+  for i=5, #states do
     table.insert(buttons, newButton(
       states[i] or 'empty',
       function()
-        print(states[i]..'game mode '..i)  -- ": "..savesTable[i])
-        self:gotoState(states[i])
-        -- self:pushState('newGame')
-        -- self:pushState('generate')
+        print(states[i]..'game mode '..i)
+        self:pushState(states[i])
       end
     ))
-    -- print('===')
   end
-  -- self.buttons = buttons
-  -- PrintTable(buttons)
-  -- PrintTable(buttons)
-  -- for i=1, #savesTable do
-  --   print('===')
-  --   print(savesTable[i])
-  --   print('===')
-  --   -- print('button')
-  --   -- print(i..": "..savesTable[i])
-  --   table.insert(buttons, self:newButton(
-  --     savesTable[i],
-  --     function()
-  --       -- print('===')
-  --       -- print('button')
-  --       print(i..": "..savesTable[i])
-  --       -- Game:gotoState('signin')
-  --       -- self:pushState('newGame')
-  --       -- self:pushState('generate')
-  --     end
-  --   ))
-  --   print('RAINTTTTTTTTTTTTT')
-  --   PrintTable(buttons)
-  -- end
-  -- PrintTable(buttons)
   return buttons
 end
 
 function NewGame:drawButtons()
+  if not love.mouse.isDown(1) then
+    can_fire = true
+  end
+
   local buttons = self.buttons
   -- print('-------')
   -- PrintTable(self.buttons)
@@ -111,7 +81,15 @@ function NewGame:drawButtons()
     end
 
     button.now = love.mouse.isDown(1)
-    if button.now and not button.last and hovered then
+    if (
+      button.now -- isDown boolean
+      and not button.last -- was down last tick
+      and hovered
+      and can_fire
+    )
+    then
+      print(" ")
+      print(" ")
       button.fn(self)
     end 
 
@@ -141,10 +119,9 @@ function NewGame:drawButtons()
   end
 end
 
-
-
-
 function NewGame:enteredState()
+	can_fire = false --If true player can shoot
+
   -- love.graphics.clear(255,255,255,255)
   love.graphics.clear(1,1,1,1)
   if DEBUG_LOGGING_ON then
@@ -153,38 +130,8 @@ function NewGame:enteredState()
 
   -- why doesn't this work?
   -- self.text = fanfic.new(200,300, "New textbox", false, 16)
-  -- self.buttons = {}
-  -- local buttons = self.buttons
-
-  print('raint')
 
   self:loadButtons()
-
-  -- check for savegames directory
-	-- local lfs = love.filesystem
-  -- if not lfs.exists('saves') then
-  --   print("")
-  --   print("===")
-  --   print('no saves directory')
-  --   print("===")
-  --   print("")
-  -- end
-  -- if lfs.exists('saves') then
-  --   local filesTable = lfs.getDirectoryItems('saves')
-  --   -- success = love.filesystem.createDirectory( 'saves' )
-  --   print("")
-  --   print("===")
-  --   print("save files in saves dir: ")
-  --   PrintTable(filesTable)
-  --   print("===")
-  --   print("")
-  -- end
-
-
-
-	-- local filesTable = lfs.getDirectoryItems('/')
-
-
 
   -- Gravatar:load()
   -- love.graphics.clear( )
@@ -208,6 +155,14 @@ end
 -- local easetype = 'outQuad'
 
 function NewGame:update(dt)
+  if not can_fire then
+		fire_tick = fire_tick + dt --Increases fire_tick by dt each frame which resaults in fire_tick increasing by 1 roughly every second
+		if fire_tick > fire_wait then
+			can_fire = true
+			fire_tick = 0
+		end
+	end
+
 	-- text:update(dt)
 	-- data = text:enteredText()
 

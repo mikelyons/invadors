@@ -331,6 +331,10 @@ function Menu:exitedState()
 end
 
 function Menu:drawButtons()
+  if not love.mouse.isDown(1) then
+    can_fire = true
+    print(can_fire)
+  end
   local buttons = self.buttons
   local _r, _g, _b, _a = love.graphics.getColor()
 
@@ -360,10 +364,15 @@ function Menu:drawButtons()
       textColor = {255, 255, 255, 255}
     end
 
+
     button.now = love.mouse.isDown(1)
     if button.now and not button.last and hovered then
       button.fn(self)
-    end 
+    end
+    if love.mouse.isDown(1) then
+      can_fire = false
+    end
+
 
     love.graphics.setColor(unpack(color))
     love.graphics.rectangle(
