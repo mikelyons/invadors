@@ -150,6 +150,7 @@ function Player:new(x,y)
     -- love.graphics.setColor(255,5,5) -- RED
   end
 
+  -- return the constructed player to the global scope
   return player
 end
 

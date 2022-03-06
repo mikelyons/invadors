@@ -28,12 +28,13 @@ function love.conf( t )
   
   t.window.width = 1024
   t.window.height = 768
+
   -- t.window.width  = 512
   -- t.window.height = 512
   -- t.window.width  = 1024
   -- t.window.height = 768
-  t.window.x = 900                   -- set the position of the window on launch
-  t.window.y = 100
+  t.window.x = 600                   -- set the position of the window on launch
+  t.window.y = 10
   t.window.borderless = false        -- Remove all border visuals from the window (boolean)
   t.window.resizable = true          -- Let the window be user-resizable (boolean)
   t.window.minwidth = 1              -- Minimum window width if the window is resizable (number)

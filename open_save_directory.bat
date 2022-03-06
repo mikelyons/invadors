@@ -1,0 +1,1 @@
+start "" "%appdata%\LOVE\invadors_save_directory"

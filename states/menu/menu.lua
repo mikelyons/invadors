@@ -99,7 +99,8 @@ end
 
 
 function Menu:keypressed(key, code)
-  if key == ('1' or 'return') then self:startGame() end
+  -- if key == ('1' or 'return') then self:startGame() end
+  if key == ('1' or 'return') then self:pushState('generate') end
   -- if key == ('1' or 'return') then self:pushState('signin') end
   -- if key == ('1' or 'return') then self:pushState('generate') end
   -- if key == ('2' or 'space') then self:pushState('bizzaro') end
@@ -333,7 +334,6 @@ end
 function Menu:drawButtons()
   if not love.mouse.isDown(1) then
     can_fire = true
-    print(can_fire)
   end
   local buttons = self.buttons
   local _r, _g, _b, _a = love.graphics.getColor()
@@ -497,7 +497,7 @@ end
 
 function Menu.numericKeyboarMenu(key, code)
   -- how do we return this in keypressed
-  if key == ('1' or 'return') then self:startGame() end
+  if key == ('1' or 'return') then self:pushState('generate') end
   -- if key == ('1' or 'return') then self:pushState('signin') end
   -- if key == ('1' or 'return') then self:pushState('generate') end
   -- if key == ('2' or 'space') then self:pushState('bizzaro') end

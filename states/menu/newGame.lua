@@ -31,7 +31,7 @@ end
 function NewGame:buildSavesButtonTable(buttonsTable, states) 
   local buttons = {}
 
-  for i=5, #states do
+  for i=5, 13 do --#states do
     table.insert(buttons, newButton(
       states[i] or 'empty',
       function()
