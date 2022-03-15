@@ -2,7 +2,13 @@
 
 A Love2d platformer game prototype I wrote to learn more about game programming while travelling Europe.
 
-**Update**: 0.4.2 - development started again with a big cleanup
+### Starting the Game
+
+there are 3 run.bat files that do different things
+
+- run1.bat starts the game in LOVE 10.2
+- run2.bat starts the game in LOVE 11.3
+- run3.bat starts the game in LOVE 10.2 with color terminal logging (windows only)
 
 Continuing development during the 2020 pandemic
 
