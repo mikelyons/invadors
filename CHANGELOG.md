@@ -1,13 +1,25 @@
 ## Unreleased
-
-## 0.4.6 ()
-
+## 0.4.7 ()
 ### Added
 ### Changed
 ### Removed
 ### Fixed
 
-## 0.4.5 (February 21, 2000)
+## 0.4.6 (April 18, 2022)
+
+### Added
+
+- can switch between generated chunks and loading a custom map
+- lots of assets
+
+### Changed
+### Removed
+### Fixed
+
+- inventory now snapps to camera position (and scale sorta)
+- chunk tile collisions work (except on the right side between chunks)
+
+## 0.4.5 (February 21, 2022)
 
 ### Added
 	- New game Menu

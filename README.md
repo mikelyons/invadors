@@ -1,5 +1,7 @@
 # Invadors
 
+Easy to use, it will make you more attractive and you feel sensual doing so.
+
 A Love2d platformer game prototype I wrote to learn more about game programming while travelling Europe.
 
 **Update**: 0.4.2 - development started again with a big cleanup
