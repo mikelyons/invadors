@@ -103,8 +103,8 @@ function Menu:keypressed(key, code)
   if key == ('1' or 'return') then self:pushState('generate') end
   -- if key == ('1' or 'return') then self:pushState('signin') end
   -- if key == ('1' or 'return') then self:pushState('generate') end
-  -- if key == ('2' or 'space') then self:pushState('bizzaro') end
-  -- if key == ('3' or 's') then self:pushState('synth') end
+  if key == ('2' or 'space') then self:pushState('bizzaro') end
+  if key == ('3' or 's') then self:pushState('synth') end
   -- if key == ('4' or 'm') then self:pushState('mts') end
   -- if key == ('5' or 'g') then self:pushState('prog2') end
   -- if key == ('6' or 'h') then self:pushState('pro') end
@@ -214,7 +214,7 @@ function Menu:enteredState()
 
     love.graphics.setColor(255, 255, 255, 255)
     -- use the canvas renderer to construct a player avatar from the player model
-    love.graphics.draw(brian, 0, 0, 0, 1, 1)
+    -- love.graphics.draw(brian, 0, 0, 0, 1, 1)
   love.graphics.setCanvas()
 
 end

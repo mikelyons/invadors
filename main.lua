@@ -1,3 +1,8 @@
+-- this is from: https://sheepolution.com/learn/book/bonus/vscode
+if arg[2] == "debug" then
+  require("lldebugger").start()
+end
+
 require 'src/dependencies'
 
 local game = {
@@ -78,10 +83,6 @@ function love.update(dt)
   -- how do i use this
   -- require("lib/lovebird").update() -- browser based debug console - is this useful?
 
-  -- this whole update thing is causing the stutter
-  -- figure out why
-
-  -- see above local pop, push = table.remove, table.insert
   push(delta_time,dt)
   if #delta_time > sample then
     local av  = 0
@@ -93,7 +94,7 @@ function love.update(dt)
     av_dt = av / num
   end
 
-  -- -- gameloop:update(av_dt) -- why isn't this happening?
+  -- gameloop:update(av_dt) -- why isn't this happening?
 
   game:update(av_dt)
 
@@ -102,7 +103,10 @@ end
 
 -- need a better debug background
 -- background = love.graphics.newImage("assets/galaxy.png")
--- local function drawBackground()
+-- local function drawBackground(willDraw)
+--   if not willDraw then return end
+
+--   love.graphics.setColor(255, 255, 255, 145)
 --   for i = 0, love.graphics.getWidth() / background:getWidth() do
 --     for j = 0, love.graphics.getHeight() / background:getHeight() do
 --         love.graphics.draw(background, i * background:getWidth(), j * background:getHeight())
@@ -112,8 +116,9 @@ end
 
 -- @todo figure out renerer layers
 function love.draw(dt)
-
-  -- drawBackground()
+  -- galaxy background defined above pre- renderer layers
+  -- willDraw = true
+  -- drawBackground(willDraw)
 
   -- game camera
   camera:set()
@@ -122,7 +127,7 @@ function love.draw(dt)
     renderer:draw()
   -- camera:unset()
   -- camera:set()
-    game:draw()
+    -- game:draw()
 
   -- everything here moves with the camera trail
   camera:unset()
@@ -136,7 +141,7 @@ end
 
 -- https://love2d.org/wiki/KeyConstant
 function love.keypressed(key)
-  -- if (DEBUG_LOGGING_ON and key) then print('key pressed: '..key) end
+  if (DEBUG_LOGGING_ON and key) then print('key pressed: '..key) end
 
   if game then
     -- PrintTable(game)
@@ -154,7 +159,6 @@ function love.keyreleased( key, scancode )
   -- if (DEBUG_LOGGING_ON and key) then print('key released: '..key) end
   score:keyrelease(key)
 end
-
 function love.mousepressed(x, y, button, istouch)
   game:mousepressed(x, y, button, istouch)
   score:mousepress()
@@ -163,12 +167,18 @@ function love.mousereleased(x, y, button)
   game:mousereleased(x, y, button)
   score:mouserelease()
 end
-
 function love.resize(w, h)
   print(("Window resized to width: %d and height: %d."):format(w, h))
 end
-
-
 function love.quit()
   score:quit()
+end
+-- also from: https://sheepolution.com/learn/book/bonus/vscode
+local love_errorhandler = love.errhand
+function love.errorhandler(msg)
+    if lldebugger then
+        error(msg, 2)
+    else
+        return love_errorhandler(msg)
+    end
 end

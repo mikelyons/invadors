@@ -31,7 +31,8 @@ end
 function NewGame:buildSavesButtonTable(buttonsTable, states) 
   local buttons = {}
 
-  for i=5, 13 do --#states do
+  -- for i=6, 15 do --#states do
+  for i=1, #states do
     table.insert(buttons, newButton(
       states[i] or 'empty',
       function()
@@ -57,7 +58,8 @@ function NewGame:drawButtons()
   local ww = love.graphics.getWidth()
   local wh = love.graphics.getHeight()
 
-  local button_height = 64
+  local button_height = 32
+
   local button_width = ww * (1/3)
   local margin = 16
   local total_height = (button_height + margin) * #buttons

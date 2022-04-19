@@ -1,18 +1,25 @@
+local vec2 = require "tools/vec2"
+
 local tlm = {}
 
 local floor = math.floor
 local quad = love.graphics.newQuad
 local quads = {}
 print('gen_quads')
+
+-- these quads punch out the tiles from the tilemap
 function gen_quads()
+
   for i = 1,floor(32/32) do
     for j = 1, floor(64/32) do
       -- print((32*j-32)..','..(32*i-32)..' '.. 32 ..',' .. 32 ..' ' .. 64 ..',' .. 32)
       table.insert(quads,quad(32*j-32, 32*i-32, 32, 32, 64, 32))
     end
   end
+
 end
 gen_quads()
+
 PrintTable(quads)
 -- for _,t in ipairs(quads) do print(t) end
 --   quad(0,0,32,32,64, 32),
@@ -26,44 +33,140 @@ PrintTable(quads)
 -- function tlm:createMap() end
 -- function tlm:loadSavedMap() end
 
-function tile(x,y,w,h,quad,type, index)
+function tile(x,y,w,h, quad, type, index)
   local tile = {}
   tile.index = index
 
   tile.type = type or 0
-  tile.pos = require("tools/vec2"):new(x,y)
-  tile.size= require("tools/vec2"):new(w,h)
-  tile.quad= quad
+  tile.pos  = require("tools/vec2"):new(x,y)
+  tile.size = require("tools/vec2"):new(w,h)
+  tile.quad = quad
+
+  tile.occupied = false
 
   return tile
 end
 
 -- WIP
-function chunk(x,y,w,h,index)
-  local chunk = {}
-  chunk.index = index
+-- function chunk(x,y,w,h,index)
+--   local chunk = {}
+--   chunk.index = index
 
-  chunk.tiles = {}
-  chunk.pos = require('tools/vec2'):new(x,y)
-  chunk.size= require('tools/vec2'):new(w,h)
+--   chunk.tiles = {}
+--   chunk.pos = require('tools/vec2'):new(x,y)
+--   chunk.size= require('tools/vec2'):new(w,h)
 
-  return chunk
-end
+--   return chunk
+-- end
 
-function tlm:load()
+function tlm:load(isCustomMap)
   print('tlm loaded ->')
   renderer:addRenderer(self, 1)
 
+  -- self.customMap = false
+  self.customMap = isCustomMap
+
+  self.map = {}
   self.tiles = {}
   -- WIP
   self.chunks = {}
+  self.chunksByStrKey = {}
+  self.chunksLoaded = false
 
 
   self.img = asm:get('tiles')
   self.img:setFilter("nearest", "nearest")
   -- self.canvas = love.graphics.newCanvas(256, 64)
   self.canvas = love.graphics.newCanvas(200,200)
+
+
+  -- left to right then down
+  function chunkdump(chunkCoords)
+    local coords = chunkCoords or nil
+
+    coords = vec2:new(0, 0)
+    tlm:generateChunk(coords)
+
+    for x = -4, 4 do
+      for y = -4, 4 do
+        coords = vec2:new(x, y)
+        tlm:generateChunk(coords)
+      end
+    end
+
+    -- -- top top row
+    -- coords = vec2:new(-2, -2)
+    -- tlm:generateChunk(coords)
+    -- coords = vec2:new(-1, -2)
+    -- tlm:generateChunk(coords)
+    -- coords = vec2:new(0, -2)
+    -- tlm:generateChunk(coords)
+    -- coords = vec2:new(1, -2)
+    -- tlm:generateChunk(coords)
+    -- coords = vec2:new(2, -2)
+    -- tlm:generateChunk(coords)
+
+    -- -- top row
+    -- coords = vec2:new(-2, -1)
+    -- tlm:generateChunk(coords)
+    -- coords = vec2:new(-1, -1)
+    -- tlm:generateChunk(coords)
+    -- coords = vec2:new(0, -1)
+    -- tlm:generateChunk(coords)
+    -- coords = vec2:new(1, -1)
+    -- tlm:generateChunk(coords)
+    -- coords = vec2:new(2, -1)
+    -- tlm:generateChunk(coords)
+
+    -- -- middle row
+    -- coords = vec2:new(-2, 0)
+    -- tlm:generateChunk(coords)
+    -- coords = vec2:new(-1, 0)
+    -- tlm:generateChunk(coords)
+    -- coords = vec2:new(0, 0)
+    -- tlm:generateChunk(coords)
+    -- coords = vec2:new(1, 0)
+    -- tlm:generateChunk(coords)
+    -- coords = vec2:new(2, 0)
+    -- tlm:generateChunk(coords)
+
+    -- -- bottom row
+    -- coords = vec2:new(-2, 1)
+    -- tlm:generateChunk(coords)
+    -- coords = vec2:new(-1, 1)
+    -- tlm:generateChunk(coords)
+    -- coords = vec2:new(0, 1)
+    -- tlm:generateChunk(coords)
+    -- coords = vec2:new(1, 1)
+    -- tlm:generateChunk(coords)
+    -- coords = vec2:new(2, 1)
+    -- tlm:generateChunk(coords)
+
+    -- -- bottom bottom row
+    -- coords = vec2:new(-2, 2)
+    -- tlm:generateChunk(coords)
+    -- coords = vec2:new(-1, 2)
+    -- tlm:generateChunk(coords)
+    -- coords = vec2:new(0, 2)
+    -- tlm:generateChunk(coords)
+    -- coords = vec2:new(1, 2)
+    -- tlm:generateChunk(coords)
+    -- coords = vec2:new(2, 2)
+    -- tlm:generateChunk(coords)
+    self.chunksLoaded = true
+  end
+
+  -- dumpchunks = true
+
+  if not customMap then
+    chunkdump()
+  else -- load custom map
+    -- tlm:loadMap('bedroom/house1')
+    -- tlm:loadMap('test/test')
+  end
 end
+function tlm:destroy() end
+function tlm:tick() end
 
 function tlm:is_solid_at_pos( x,y )
   local solids = self.tiles[2]
@@ -74,11 +177,36 @@ function tlm:is_solid_at_pos( x,y )
   return false
 end
 
-function tlm:generateChunk(chunkCoords)
+function tlm:loadChunk() end
+function tlm:generateChunk(chunkCoords, chunkOptions)
+  -- make chunk generation configurable
+  -- not yet in use WIP
+  if chunkOptions then
+    local co = chunkOptions or nil
+    local biome = co.biome or nil
+    local entities = co.entities or nil
+  end
+
+  -- the chunk template
   local map = require("assets/maps/generator/template")--..mapname)
-  print('tlm loaded ->')
+
+  local ox = chunkCoords.x * 32 * 16
+  local oy = chunkCoords.y * 32 * 16
+
+  if DEBUG_LOGGING_CHUNKS then
+    print('-> Generating chunk')
+    print('--> '..tostring(chunkCoords.x)..tostring(chunkCoords.y))
+    print('--> '.. ox ..' ' .. oy)
+  end
+
   local chunk = {}
+  chunk.pos   = {}
+  chunk.pos.x = ox
+  chunk.pos.y = oy
   chunk.tiles = {}
+  chunk.chunkCoords = chunkCoords
+  chunk.strKey = tostring(chunkCoords.x)..tostring(chunkCoords.y)
+
 
   -- tile size
   local ts = {w=map.tilewidth, h=map.tileheight}
@@ -97,7 +225,7 @@ function tlm:generateChunk(chunkCoords)
   for layer = 1,#map.layers do
     local L = map.layers[layer]
     local name = L.name
-    print('Generating world: '..L['name'])
+    -- print('Generating world: '..L['name'])
     local data = L.data
     local prop = L.properties
 
@@ -107,8 +235,8 @@ function tlm:generateChunk(chunkCoords)
       for x = 1,mapWidth do
 
         -- chunk offset for tile positioning
-        local ox = chunkCoords.x * 32 * 16
-        local oy = chunkCoords.y * 32 * 16
+        -- local ox = chunkCoords.x * 32 * 16
+        -- local oy = chunkCoords.y * 32 * 16
         -- print(data[index])
 
         -- the index of the tile based on it's x and y position
@@ -130,11 +258,71 @@ function tlm:generateChunk(chunkCoords)
       end
     end
   end
+
+  -- loaded chunks
+  self.chunks[#self.chunks+1] = chunk
+  self.chunksByStrKey[chunk.strKey] = chunk
+
+  if DEBUG_LOGGING_CHUNKS then
+    print('CHUNK generated@: x'..tostring(chunkCoords.x)..' y'..tostring(chunkCoords.y))
+  end
   return chunk
 end
 
-function tlm:loadChunk() end
+-- coordinate helpers
+function tlm:posToCCoords(coords)
+  local chunkCoords = require('tools/vec2'):new(
+    (x / 32) / 16,
+    (y / 32) / 16
+  )
+  return chunkCoords
+end
+function tlm:chunkCoordsToPos(chunkCoords)
+  local coords = require('tools/vec2'):new(
+    (chunkCoords.x * 32) * 16,
+    (chunkCoords.y * 32) * 16
+  )
+  return coords
+end
+function tlm:coordsToTile(coords)
+  local tileCoords = require('tools/vec2'):new(
+    (coords.x / 32) / 16,
+    (coords.y / 32) / 16
+  )
+  return tileCoords
+end
+function tlm:getTilesAtCoords(coords)
+  local coords = coords
+  local chunkCoords = {}
+  chunkCoords.x = (coords.x / 32) / 16
+  chunkCoords.y = (coords.y / 32) / 16
 
+  return tlm:getChunkTiles(chunkCoords)
+end
+function tlm:getChunkTiles(chunkCoords)
+  local tiles = {}
+  local strKey = tostring(chunkCoords.x)..tostring(chunkCoords.y) 
+
+  if (self.chunksByStrKey[strKey]) then
+    tiles = self.chunksByStrKey[strKey].tiles
+    return tiles
+  end
+
+  return tiles
+end
+function tlm:strKeyAtPos(pos)
+  local x, y = pos.x, pos.y
+  -- vec2 strKey
+  -- local strKey = require('tools/vec2'):new(
+  --   (x / 32) / 16,
+  --   (y / 32) / 16
+  -- )
+  local strKey = tostring(floor(x / 32 / 16))
+    .. tostring(floor(y / 32 / 16))
+  print(strKey)
+end
+
+-- @TODO:  Oldschool map loader - TODO update this to chunkloader
 function tlm:generateMap()--mapname)
   local map = require("assets/maps/generator/template")--..mapname)
   -- tile size
@@ -158,7 +346,7 @@ function tlm:generateMap()--mapname)
   for layer = 1,#map.layers do
     local L = map.layers[layer]
     local name = L.name
-    print('Generating world: '..L['name'])
+    -- print('Generating world: '..L['name'])
     local data = L.data
     local prop = L.properties
 
@@ -189,8 +377,18 @@ function tlm:generateMap()--mapname)
 end
 
 function tlm:loadMap(mapname)
-  local map = require("assets/maps/"..mapname)
-  local ts = {w=map.tilewidth, h=map.tileheight}
+  -- PrintDebug(mapname)
+  print('')
+  print(' -> LOADING MAP ' .. 'assets/maps' .. mapname..' ->')
+  self.map = require("assets/maps/"..mapname)
+  local map = self.map
+  PrintDebug(map)
+  -- PrintTable(map, 3)
+
+  local ts = {
+    w = map.tilewidth,
+    h = map.tileheight
+  }
 
   -- self.tiles is {} on load
   -- each layer
@@ -223,9 +421,6 @@ function tlm:loadMap(mapname)
   end
   tlm:loadMiniMap()
 end
-
-function tlm:destroy( ) end
-function tlm:tick() end
 
 local lg = love.graphics
 function tlm:loadMiniMap()
@@ -284,7 +479,6 @@ function tlm:loadMiniMap()
     end
   end
 end
-
 function tlm:drawMinimap()
   lg.setBlendMode('alpha')
   local w = love.graphics.getWidth( ) 
@@ -308,9 +502,11 @@ end
 function tlm:drawChunk(chunk)
   local tiles = chunk.tiles
 
+  -- PrintTable(chunk.tiles, 1)
+
   for layer = 2,#chunk.tiles do
-    for i = 1,16 do
-      for j = 1,16 do
+    for i = 1, 16 do
+      for j = 1, 16 do
           -- ( texture, quad, x, y, r, sx, sy, ox, oy, kx, ky )
 
         if chunk.tiles[layer][i][j] ~= nil then
@@ -321,7 +517,6 @@ function tlm:drawChunk(chunk)
             -- if text == 2 then lg.setColor(2000,200,0,255) end
           -- save color from above
           local _r, _g, _b, _a = love.graphics.getColor()
-
           --set shadow color
           -- lg.setColor(255,255,255,155)
           -- lg.draw(self.img,tile.quad,tile.pos.x+7,tile.pos.y+7)
@@ -337,56 +532,71 @@ function tlm:drawChunk(chunk)
           -- save color from above
           local _r, _g, _b, _a = love.graphics.getColor()
           if tile.type == 0 then lg.setColor(255,255,255,155)
-          elseif tile.type == 1 then lg.setColor(255,0,255,155)
+          elseif tile.type == 1 then lg.setColor(55,0,5,155)
           elseif tile.type == 2 then lg.setColor(0,255,255,155)
           end
           -- print the index of the tile on it colored by type
-          lg.printf(tile.index, tile.pos.x, tile.pos.y, 64, 'left', 0, .85)
+          -- lg.printf(tile.index, tile.pos.x, tile.pos.y, 64, 'left', 0, .35)
+
           -- print the layer data from the map on the tile
           -- lg.printf(tile.type, tile.pos.x, tile.pos.y, 32, 'left', 0, .85)
 
           --reset color
           lg.setColor(_r, _g, _b, _a)
-          -- if turned off, tiles/background bizzaro flashes
+
+          -- if turned off, tiles/background bizzaro flashes -maybe not anymore
+          if tile.occupied then
+            print(tile.occupied)
+            lg.setColor(255,5,5,255)
+            love.graphics.rectangle('line',
+              tile.pos.x, tile.pos.y,
+              32,
+              32
+            )
+          end
+            -- -- red box around all tiles
+            -- lg.setColor(255,5,5,255)
+            -- love.graphics.rectangle('line',
+            --   tile.pos.x, tile.pos.y,
+            --   32,
+            --   32
+            -- )
           lg.setColor(255,255,255,255)
         end
       end
     end
   end
+
+  love.graphics.print(
+    -- love.timer.getFPS(),
+    chunk.strKey or '--',
+    chunk.pos.x, --+ (windowWidth - 64),
+    chunk.pos.y --+ (windowHeight - 64)
+  )
+
 end
 
-function tlm:draw()
+function tlm:drawCustomMap(string)
+  -- print("")
+  -- print(' -> DRAWING OLDSKOOL MAP -> ')
+  -- print("")
   for layer = 1,#self.tiles do
     for i = 1,16 do
       for j = 1,16 do
 
+          -- PrintTable(self.tiles[1][1][1])
           -- ( texture, quad, x, y, r, sx, sy, ox, oy, kx, ky )
         if self.tiles[layer][i][j] ~= nil then
           local tile = self.tiles[layer][i][j]
-          -- local text = i..j
           local text = tile.type
-
-          -- print all the tiles or someshit
-          -- if i <2 then
-            -- print(i..j..' tile: '..(tile.pos.x/32)..'x'..(tile.pos.y/32)..' rect('..tile.pos.x..','..tile.pos.y..'\','..(tile.pos.x+32)..','..tile.pos.y..'\',\'')
-          -- end
-
-
-            -- lava colors
-            -- if text ~= 2 then lg.setColor(200,0,0,25) end
-            -- if text == 2 then lg.setColor(2000,200,0,255) end
-
 
           -- save color from above
           local _r, _g, _b, _a = love.graphics.getColor()
 
-          -- DO NOT reset graphics
-          -- lg.reset()
-
           --set shadow color
-          lg.setColor(255,255,255,155)
-          lg.draw(self.img,tile.quad,tile.pos.x+7,tile.pos.y+7)
-          lg.draw(self.img,tile.quad,tile.pos.x+16,tile.pos.y+16)
+          -- lg.setColor(255,255,255,155)
+          -- lg.draw(self.img,tile.quad,tile.pos.x+7,tile.pos.y+7)
+          -- lg.draw(self.img,tile.quad,tile.pos.x+16,tile.pos.y+16)
           -- Shadow alpha
 
           --reset color
@@ -419,7 +629,7 @@ function tlm:draw()
           elseif tile.type == 2 then lg.setColor(0,255,255,155)
           end
           -- print the index of the tile on it colored by type
-          lg.printf(tile.index, tile.pos.x, tile.pos.y, 64, 'left', 0, .85)
+          -- lg.printf(tile.index, tile.pos.x, tile.pos.y, 64, 'left', 0, .85)
           -- print the layer data from the map on the tile
           -- lg.printf(tile.type, tile.pos.x, tile.pos.y, 32, 'left', 0, .85)
 
@@ -432,6 +642,53 @@ function tlm:draw()
       end
     end
   end
+  -- local string = string
+
+  -- string = 'there are currently '..#layers..' layers \n'
+  -- .. '' .. ' \n'
+  -- .. '' .. ' \n'
+  -- .. ' BOGUS'
+
+  
+  -- love.graphics.print(
+  --   -- love.timer.getFPS(),
+  --   'test',
+  --   camera.pos.x + 200,
+  --   camera.pos.y + 200
+  -- )
+  -- love.graphics.print(
+  --   -- love.timer.getFPS(),
+  --   string,
+  --   camera.pos.x,
+  --   camera.pos.y
+  -- )
+
+  -- for layer = 1, #layers do
+  --   love.graphics.print(
+  --     -- love.timer.getFPS(),
+  --     string,
+  --     camera.pos.x + 200,
+  --     camera.pos.y + 200
+  --   )
+  -- end
+end
+
+function tlm:draw()
+  local customMap = self.customMap -- loaded or generated/chunked
+
+  if not customMap then -- generated chunks
+    -- draw all the chunks
+    for i=1, #self.chunks do
+      tlm:drawChunk(self.chunks[i])
+    end
+  end
+
+  if customMap then
+    -- print('custom map')
+    tlm:drawCustomMap('custom map')
+  end
+
+
   -- in the same renderer as the map background
   -- tlm:drawMinimap()
   -- love.graphics.draw(self.canvas, 200, 200, 0, 2, 2, 100, 100, 0, 0)

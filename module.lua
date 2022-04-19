@@ -14,4 +14,4 @@ function Module:new( ... )
   return module
 end
 
-return module
+return Module

@@ -15,8 +15,9 @@ function inventory:enteredState()
   self.width = love.graphics.getWidth()
   self.height= love.graphics.getHeight()
 
-  self.panex = self.width/4
-  self.paney = self.height/4
+  self.panex = camera.pos.x + self.width/4
+  self.paney = camera.pos.y + self.height/4
+
   -- self.panexx = (self.width/4)*3
   -- self.paneyy = (self.height/4)*3
   self.panew = self.width/2
@@ -63,10 +64,18 @@ end
 function inventory:draw()
   -- table.insert(self.inventory, "raint")
   -- inventory pane dimensions calculation
-  local panex = self.paney
-  local paney = self.panex
+  local panex = camera.pos.x + self.width/4
+  local paney = camera.pos.y + self.height/4
+
+  panex = panex * camera.scale.x
+  paney = paney * camera.scale.y
+
   local panew = self.panew
   local paneh = self.paneh
+
+  panew = panew * camera.scale.x
+  paneh = paneh * camera.scale.y
+
   -- print(panex, paney, panew, paneh)
 
   -- love.graphics.print(text,x,y,r,sx,sy,ox,oy)
@@ -75,11 +84,12 @@ function inventory:draw()
   -- love.graphics.print(paney,panexx,paneyy,0,1,1,0,0)
 
   -- love.graphics.rectangle(mode,x,y,width,height)
-  love.graphics.setColor(255,100,100,255)
-  love.graphics.rectangle('line', panex-25, paney-25, panew+50, paneh+50)
-  love.graphics.rectangle('line', panex, paney, panew, paneh)
+  love.graphics.setColor(55,100,100,255)
+  love.graphics.rectangle('fill', panex-25, paney-25, panew+50, paneh+50, 32, 32)
   love.graphics.setColor(55,55,55,255)
-  love.graphics.rectangle('fill', panex, paney, panew, paneh)
+  love.graphics.rectangle('fill', panex, paney, panew, paneh, 10, 10, 2)
+  love.graphics.setColor(5,1,1,255)
+  -- love.graphics.rectangle('fill', panex, paney, panew, paneh)
   -- print("draw")
   -- local getN = 0
   -- for n in pairs(tbl) do 
@@ -89,11 +99,16 @@ function inventory:draw()
   -- make a color helper out of this
   local _r, _g, _b, _a = love.graphics.getColor()
   love.graphics.setColor(25,25,25,255)
-  for i=0, 10 do
+  for i=0, 9 do
   -- love.graphics.rectangle(mode,x,y,width,height)
     -- love.graphics.rectangle('fill', panex, paney, panew, paneh)
     -- love.graphics.rectangle('fill', (i*10)-10, 10, 20, 20)
-    love.graphics.rectangle('fill', panex+(10+(i*20)), paney+(10), 10, 10)
+    love.graphics.rectangle('fill',
+      panex + (10 + (i * 70)),
+      paney + (10),
+      64,
+      64
+    )
   end
   love.graphics.setColor(_r, _g, _b, _a)
 

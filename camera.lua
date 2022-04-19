@@ -62,6 +62,15 @@ function camera:setScale(sx, sy)
   self.scaleX = sx or self.scaleX
   self.scaleY = sy or self.scaleY
 end
+function camera:getScale(dimension)
+  local scale
+  if dimension == 'x' then
+    scale = self.scaleX
+  else 
+    scale = self.scaleY
+  end
+  return scale
+end
 
 function camera:getBounds()
   return unpack(self._bounds)

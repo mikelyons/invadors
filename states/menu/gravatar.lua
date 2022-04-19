@@ -1,4 +1,4 @@
-local socket = require "socket"
+-- local socket = require "socket"
 local http = require "socket.http"
 local md5 = require 'lib/md5'
 
@@ -25,8 +25,10 @@ function Gravatar:new(email, x,y)
 
   function gravatar:load()
     self.raintar = http.request('http://www.gravatar.com/avatar/'..hashedEmail)
-    self.raintar = love.filesystem.newFileData(self.raintar, "raintar.png")
-    self.raintar = love.graphics.newImage(self.raintar)
+    if self.raintar ~= nil then
+      self.raintar = love.filesystem.newFileData(self.raintar, "raintar.png")
+      self.raintar = love.graphics.newImage(self.raintar)
+    end
   end
 
   -- love.graphics.setColor(r, g, b, a)
