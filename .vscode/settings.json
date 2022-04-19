@@ -3,5 +3,13 @@
   "Lua.workspace.library": [
     "${3rd}/love2d/library"
   ],
-  "Lua.workspace.checkThirdParty": false
+  "Lua.workspace.checkThirdParty": false,
+  "audioCues.lineHasBreakpoint": "on",
+  "audioCues.lineHasError": "on",
+  "audioCues.lineHasFoldedArea": "on",
+  "audioCues.lineHasInlineSuggestion": "on",
+  "audioCues.lineHasWarning": "on",
+  "audioCues.noInlayHints": "on",
+  "audioCues.onDebugBreak": "on",
+  "lua.targetVersion": "5.3"
 }
