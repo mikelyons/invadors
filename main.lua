@@ -41,9 +41,7 @@ g_TileSize = 32
 g_MapSize  = 16
 
 score = Score:new()
--- PrintTable(score)
 score:load()
--- PrintTable(score)
 
 function love.load(...)
   -- print(arg[0])
@@ -133,10 +131,11 @@ function love.draw(dt)
   camera:unset()
 
   -- draws the static positioned HUD text
+  -- why doesn't this work?
   -- score:draw()
   -- mts:draw()
 
-  collectgarbage()
+  -- collectgarbage()
 end
 
 -- https://love2d.org/wiki/KeyConstant

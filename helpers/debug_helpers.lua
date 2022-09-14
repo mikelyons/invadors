@@ -20,7 +20,7 @@ function dump(t, indent, done)
     end
 end
 
--- A helper function to print the line number
+-- A helper function to print the line number and other information about the printable parameter
 function PrintDebug(f) --, args)
   print("")
   print("=========================================================")

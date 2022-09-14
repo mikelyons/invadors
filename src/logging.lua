@@ -17,13 +17,15 @@ local loggingOn = DEBUG_LOGGING_ON
 if loggingOn then
   -- broken?
   require("../lib/debug/lovedebug")
+  require("../tools/resolution")
 
   print("")
   print("")
-  print("//////////////////- LOGGING -/////////////////////")
+  print("/////////////////- LOGGING ON -////////////////////")
   print("")
 
   -- https://love2d.org/wiki/love.window.getMode -- information about the window mode (fullscreen, vsync, size, etc.)
+  -- record an
   local width, height, flags = love.window.getMode()
   print(width, height)
 
