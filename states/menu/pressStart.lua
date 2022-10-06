@@ -1,6 +1,9 @@
--- print('pressStart.lua -> ')
+print('pressStart.lua -> ')
 
 PressStart = Game:addState('PressStart')
+
+print(' -> PRESSSTART -> ')
+
 
 -- love.graphics.clear( r, g, b, a, clearstencil, cleardepth )
 function PressStart:enteredState()
@@ -13,7 +16,9 @@ function PressStart:enteredState()
   -- doom effect of frames not clearing
   -- love.graphics.clear = function() end
 
-  print(' -> entered PRESSSTART STATE -> ')
+  if DEBUG_PRESSSTART_OFF then
+    self:gotoState('menu')
+  end
 end
 
 function PressStart:mousereleased(x, y, button) end

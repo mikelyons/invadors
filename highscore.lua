@@ -3,6 +3,7 @@
 -- Score manager
 -- Currently only one save file with stats on lines
 -- future: @TODO - multiple save files with grades for different playstyles
+-- -- grid scores https://www.reddit.com/r/love2d/comments/w9us4g/comment/ii3w5nv/?utm_source=reddit&utm_medium=web2x&context=3
 local binser   = require 'lib/binser/binser'
 
 Score = {}

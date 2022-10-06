@@ -26,28 +26,7 @@ asm:add(love.graphics.newImage("assets/mouse.png"), 'mouse')
 
 Menu = Game:addState('menu')
 
--- trying to make menuhelper buttons configurable
-local menuSelections = {
-  {
-    ['buttonText'] = 'Start Game',
-    ['buttonFn'] = ''
-  },
-  {
-    ['buttonText'] = 'Load Game',
-    ['buttonFn'] = ''
-  },
-  {
-    ['buttonText'] = 'Options',
-    ['buttonFn'] = function() return Menu.openMenu('options') end
-  },
-  {
-    ['buttonText'] = 'Quit',
-    ['buttonFn'] = ''
-  }
-}
 
-Menu.testingMenu = {}
-local tm = Menu.testingMenu
   -- tm['trn']  = 'training'
   -- tm['biz']  = 'bizzaro'
   -- tm['sp1']  = 'space1'
@@ -55,7 +34,6 @@ local tm = Menu.testingMenu
   -- tm['cmd']  = 'commando'
   -- tm['gen']  = 'generate'
   -- tm['q']    = 'quit'
-  tm = {'return','bizzaro', 'space1', 'earth2', 'commando','generate','quit'}
   -- if key == ('1' or 'return') then self:pushState('Training') end
   -- if key == ('2' or 'space') then self:pushState('Bizzaro') end
   -- if key == ('3' or 'q') then self:pushState('space1') end
@@ -77,10 +55,6 @@ function Tlength(tbl)
   return getN
 end
 
-local getN = 0
-for n in pairs(tm) do 
-  getN = getN + 1 
-end
   -- find a value in a list
   -- print(tm['q'])
   -- print(Tlength(tm))
@@ -95,12 +69,11 @@ end
   --   if tm[i] == "quit" then 
   -- end
 
-
-
-
 function Menu:keypressed(key, code)
   -- if key == ('1' or 'return') then self:startGame() end
-  if key == ('1' or 'return') then self:pushState('generate') end
+  -- if key == ('1' or 'return') then self:pushState('generate') end
+  -- if key == ('1' or 'return') then self:pushState('dialogue') end
+  if key == ('1' or 'return') then self:pushState('computer') end
   -- if key == ('1' or 'return') then self:pushState('signin') end
   -- if key == ('1' or 'return') then self:pushState('generate') end
   if key == ('2' or 'space') then self:pushState('bizzaro') end
@@ -114,9 +87,9 @@ function Menu:keypressed(key, code)
   -- if key == ('6') then self:pushState('generate') end
   -- if key == ('6') then self:gotoState('generate') end
   
-  if key == ('escape') then self:popState('menu') end
+  -- if key == ('escape') then self:popState('menu') end
   -- if key == ('q') then love.event.push('quit') end
-  -- if key == ('escape') then love.event.push('quit') end
+  if key == ('escape') then love.event.push('quit') end
 end
 
 function Menu:mousepressed(x,y, button , istouch)
@@ -146,8 +119,7 @@ function Menu:mousereleased(x, y, button)
   end
 end
 
-function stackDebug(self)
-end
+function stackDebug(self) end
 
 function Menu:pushedState()
   print('')
@@ -180,12 +152,13 @@ function Menu:enteredState()
     print(string.format("ENTER Menu STATE - %s \n", os.date()))
   end
 
-  self.font = love.graphics.newImageFont("assets/newer/Imagefont.png",
-    " abcdefghijklmnopqrstuvwxyz" ..
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZ0" ..
-    "123456789.,!?-+/():;%&`'*#=[]\"")
+  -- is this in the wrong place?
+  -- self.font = love.graphics.newImageFont("assets/newer/Imagefont.png",
+  --   " abcdefghijklmnopqrstuvwxyz" ..
+  --   "ABCDEFGHIJKLMNOPQRSTUVWXYZ0" ..
+  --   "123456789.,!?-+/():;%&`'*#=[]\"")
 
-  self.font = love.graphics.newFont(32)
+  -- self.font = love.graphics.newFont(32)
 
   self:loadButtons(Menu)
   Gravatar:load()
@@ -200,7 +173,7 @@ function Menu:enteredState()
   -- entity componentize and animate this
   self.canvas = love.graphics.newCanvas(32, 32)
    
-    -- Rectangle is drawn to the canvas with the regular alpha blend mode.
+  -- Rectangle is drawn to the canvas with the regular alpha blend mode.
   love.graphics.setCanvas(self.canvas)
     love.graphics.clear()
     love.graphics.setBlendMode("alpha")
@@ -324,7 +297,17 @@ function Menu:draw()
   self:drawButtons()
 
   drawNote()
-  -- drawCanvas(self.canvas)
+  drawCanvas(self.canvas)
+
+  -- Pre-release version
+  -- Prerelease version watermark
+  _r, _g, _b, _a = love.graphics.getColor()
+  love.graphics.setColor(255, 0, 0, 255)
+  love.graphics.printf('PRE-ALPHA',
+    camera.pos.x, camera.pos.y + (love.graphics.getHeight() - 32),
+    620, 'left')
+  love.graphics.setColor(_r, _g, _b, _a)
+  -- love.graphics.printf(text,x,y,limit,align)
 end
 
 function Menu:exitedState()

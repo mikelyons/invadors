@@ -2,6 +2,10 @@
 require 'tools/physics_helper'
 require 'tools/world_physics'
 
+function combat_attack(obj)
+  print(obj.name .. ' ATTACKED')
+end
+
 local Player = {}
 local floor = math.floor
 -- local tiles = tlm.tiles[2] -- tiles of the spawn chunk
@@ -24,6 +28,8 @@ function Player:new(x,y)
   function player:load()
     renderer:addRenderer(self, 3)
     gameloop:addLoop(self)
+
+    self.name = 'Player'
 
     init_physics(self, 500)
     -- tiles = tlm.chunks[0].tiles -- tiles of the spawn chunk
@@ -65,7 +71,7 @@ function Player:new(x,y)
   function player:tick(dt)
     camera:goToPoint(self.pos) -- camera follows this player
 
-    if (DEBUG_HITBOX_VIS and key) then 
+    if (DEBUG_HITBOX_VIS and key) then
       box = rect:new(self.pos.x + (self.vel.x * dt * self.dir.x), self.pos.y + (self.vel.y * dt * self.dir.y),self.size.x,self.size.y)
     end
 
@@ -126,7 +132,8 @@ function Player:new(x,y)
     end
     -- attack
     if key('j') then
-      print('attack')
+      -- print('attack')
+      combat_attack(self)
     end
     -- if key("") then -- end
 
@@ -191,6 +198,7 @@ function Player:new(x,y)
     -- staticly positioned like the HUD layer
     love.graphics.setColor(0, 255,5) -- GREEN
     love.graphics.rectangle("fill",x_pos,y_pos, 2,2)
+    -- love.graphics.rectangle("line", 20,20, 200,200)
     -- love.graphics.setColor(255,5,5) -- RED
 
     -- love.graphics.print(

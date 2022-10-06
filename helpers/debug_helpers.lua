@@ -20,6 +20,8 @@ function dump(t, indent, done)
     end
 end
 
+--Need a pcall that will take a table of parameters
+
 -- A helper function to print the line number and other information about the printable parameter
 function PrintDebug(f) --, args)
   print("")

@@ -58,6 +58,15 @@ style guide - https://flamendless.github.io/lua-coding-style-guide/
 
 ## tools
 
+Flux animation curve visualized
+- https://idbrii.itch.io/lua-fluxvisualized
+
+physics collisions
+- https://github.com/a327ex/windfield
+
+Material UI
+- https://github.com/flamendless/material-love
+
 3d engine
 - https://love2d.org/forums/viewtopic.php?f=5&t=86350
 - https://love2d.org/forums/viewtopic.php?f=14&t=92041&hilit=raycast

@@ -31,6 +31,20 @@ if loggingOn then
 
   print(luaInfo())
 
+  print('clipboard : ')
+  print(love.system.getClipboardText())
+  print('OS : ')
+  print(love.system.getOS())
+  print('Power Info : ')
+  print(love.system.getPowerInfo())
+  print('Proc count: ')
+  print(love.system.getProcessorCount())
+  print('BMG : ')
+  print(love.system.hasBackgroundMusic)
+  -- love.system.openURL(sharewareURL)
+  -- love.system.setClipboardText(sharewareAffiliateAd)
+  -- love.system.vibrate() -- vibe when loaded
+
   -- print('flags: \n'..flags)
   print("\27[101;93m YOUR TEXT HERE \27[0m")
   -- text = string.gsub('raint', "[\27\155][][()#;?%d]*[A-PRZcf-ntqry=><~]", "")

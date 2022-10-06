@@ -3,6 +3,7 @@
 require 'src/devDependencies'
 
 -- Engine Initialize
+require 'colors'
 require 'src/constants'
 require 'src/logging'
 
@@ -19,8 +20,6 @@ Score    = require 'highscore'
 Renderer = require "tools/renderer"
 GameLoop = require "tools/gameloop"
 
--- main game launchpoint
-require 'game'
 
 -- serializer libarary
 -- ser = require 'lib/binser/binser'
@@ -30,6 +29,9 @@ asm    = require 'tools/asm' -- asset manager
 tlm    = require 'tiles/tlm' -- tile manager 
 obm    = require 'tools/obm' -- object manager
 camera = require 'tools/camera'
+
+-- main game launchpoint
+require 'game'
 
 -- require the gamestates
 -- require 'states/splash' -- vetted, passes to menu

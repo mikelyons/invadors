@@ -39,3 +39,5 @@ Continuing development during the 2020 pandemic
 #### Tools under consideration
 
 - http://pixelatorapp.com/download.html
+- https://github.com/flamendless/love-fuser - nightly builds
+- https://github.com/flamendless/moonshine - post-processing effects

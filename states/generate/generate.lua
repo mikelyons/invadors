@@ -124,14 +124,17 @@ end
 function generate:enteredState()
   print('ENTERED generate directory STATE!')
 
-  local customMap = false
+  local customMap = true 
+  -- local customMap = true
 
-  renderer:addRenderer(self, 2)
+  -- why doesn't this work? (should I use this to render more efficiently?)
+  -- renderer:addRenderer(self, 2)
   -- gameloop:addLoop(self)
 
   -- is canvas available?
   local canvas = love.graphics.getSupported()
   for k, v in pairs(canvas) do
+    print("IS CANVAS SUPPORTED?")
     print(k, v)
   end
 
@@ -316,6 +319,7 @@ function generate:keypressed(key, code)
   end --then love.event.push('quit') end
 
   if key == 'e' then self:pushState('inventory') end --then love.event.push('quit') end
+  if key == 'l' then self:pushState('dialogue') end --then love.event.push('quit') end
   if key == 'p' then self:pushState('Pause') end --then love.event.push('quit') end
 
   if key == 't' then

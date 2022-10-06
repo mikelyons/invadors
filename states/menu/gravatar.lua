@@ -25,9 +25,13 @@ function Gravatar:new(email, x,y)
 
   function gravatar:load()
     self.raintar = http.request('http://www.gravatar.com/avatar/'..hashedEmail)
+    -- print('-=-=-=-=-=-=-=-=-=-=-=-=-')
+    -- print(raintar)
     if self.raintar ~= nil then
       self.raintar = love.filesystem.newFileData(self.raintar, "raintar.png")
       self.raintar = love.graphics.newImage(self.raintar)
+    else -- Default avatar == no internet or gravatar down
+      self.raintar = love.graphics.newImage("assets/newer/brian.png")
     end
   end
 

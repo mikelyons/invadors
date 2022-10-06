@@ -1,7 +1,8 @@
-print('loadSave.lua -> ')
+print('newGame.lua -> ')
 
-fanfic = require 'states/menu/fanfic'
-print('loadSave -> ')
+-- local fanfic = require 'states/menu/fanfic'
+
+print('New Game -> ')
 
 local NewGame = Game:addState('newGame')
 
@@ -31,8 +32,34 @@ end
 function NewGame:buildSavesButtonTable(buttonsTable, states) 
   local buttons = {}
 
+  -- what are these?
+  print(states)
   -- for i=6, 15 do --#states do
-  for i=1, #states do
+  -- for i=13, #states-5 do
+  -- for i=1, #states do
+  for i=1, 6 do
+    -- skip mac DS_store file TODO - is this necessary?
+    if states[i] == '.DS_store' then
+      goto skip_state
+    end
+
+
+    -- Examine the state title by char (`states[i]`)
+    -- skip_state if first character is 'x'
+    for character in states[i]:gmatch"." do
+      print(character)
+      -- if (i == 1 and c ~= 'h') then
+      if (i == 6) then
+        goto skip_state
+      end
+    end
+
+    -- skip all states but the named one
+    -- if states[i] ~= 'computer' then
+    --   goto skip_state
+    -- end
+
+    -- insert the state into the buttons table
     table.insert(buttons, newButton(
       states[i] or 'empty',
       function()
@@ -40,6 +67,7 @@ function NewGame:buildSavesButtonTable(buttonsTable, states)
         self:pushState(states[i])
       end
     ))
+    ::skip_state::
   end
   return buttons
 end
@@ -58,7 +86,7 @@ function NewGame:drawButtons()
   local ww = love.graphics.getWidth()
   local wh = love.graphics.getHeight()
 
-  local button_height = 32
+  local button_height = 32 * 1.5
 
   local button_width = ww * (1/3)
   local margin = 16
