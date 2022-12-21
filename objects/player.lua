@@ -78,9 +78,27 @@ function Player:new(x,y)
     -- animation
     self.animation:set_animation(1)
     -- velocities
-    if (tlm.chunksLoaded == true) then
-      apply_gravity(self, dt)
-    end
+    -- if (tlm.chunksLoaded == true) then
+
+      -- raint = 1
+      if ( key("g") ) then 
+        raint = raint + 1
+        if raint > 97 then raint = 97 end
+        apply_gravity(self, dt)
+      end
+      if ( key("h") ) then 
+        raint = raint - 1
+        if raint < 91 then raint = 91 end
+        apply_gravity(self, -dt)
+        self.vel.y = 0
+        -- print(raint)
+      end
+      if ( key("b") ) then 
+        self.vel.y = 0
+        print(raint)
+      end
+
+    -- end
 
     -- walk left or right
     if ( key("left") or key('a') ) then
@@ -124,7 +142,7 @@ function Player:new(x,y)
       -- PrintTable(tlm.tiles, 1)
     end
     -- collision
-    update_physics(self, chunk, dt, true) --tlm.customMap)
+    -- update_physics(self, chunk, dt, true) --tlm.customMap)
 
     -- jump
     if ( key("space") or key('w') or key('up') ) then 

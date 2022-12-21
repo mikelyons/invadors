@@ -24,7 +24,7 @@ function Game:initialize()
   PrintColor('raint', 'red')
 
     -- try to get multithreading working
-    -- loadStateFile( 'mts')
+    loadStateFile( 'mts')
     -- self:gotoState('mts')
 
 

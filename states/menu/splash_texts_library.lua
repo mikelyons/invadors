@@ -1,4 +1,29 @@
 
+-- @TODO-do something with these
+tomsDialogueLines ={
+  'it’s hard being ugly, stupid, dumb as a fucking turd scraped on a rock, and a moron, and a loser.  it’s really wearing me down!',
+  'u save it somewhere special?',
+  ''
+}
+
+-- @TODO - these are adams
+adamsDialogueLines = {
+  'QoL: the game',
+  'rip',
+  'im ready to get built by the machines i destroyed',
+
+}
+
+gameShoutouts = {
+  'Try Noita!',
+  'Try Death Stranding!',
+  'Try Teardown',
+  'Try Stardew Valley!',
+  'Try Going to Work!',
+  'Try Hyper-Strike!',
+  'Try CrueltySquad!'
+}
+
 -- @TODO - get some way of toms getting in without the preamble
 tomsSplashWords ={
   "I'll think about it",

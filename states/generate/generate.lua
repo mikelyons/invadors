@@ -123,10 +123,6 @@ end
 
 function generate:enteredState()
   print('ENTERED generate directory STATE!')
-
-  local customMap = true 
-  -- local customMap = true
-
   -- why doesn't this work? (should I use this to render more efficiently?)
   -- renderer:addRenderer(self, 2)
   -- gameloop:addLoop(self)
@@ -146,9 +142,14 @@ function generate:enteredState()
 
 
   asm:load() -- load asset manager
-  asm:add(love.graphics.newImage("assets/maps/test/test.png"), 'tiles')
+  -- asm:add(love.graphics.newImage("assets/maps/test/test.png"), 'tiles')
+  -- asm:add(love.graphics.newImage("assets/images/terrain_32x32_by_sonicrumpets-d7vj9k7.png"),
+  --   'tiles'
+  -- )
   -- asm:add(love.graphics.newImage("assets/maps/test/test.png"), 'tiles')
 
+  -- local customMap = true
+  local customMap = false
 
   tlm:load(customMap) -- load tile manager
   obm:load() -- load object manager
@@ -157,8 +158,13 @@ function generate:enteredState()
   self.chunks = {}
   self.chunks.x = {}
 
-  if customMap then
-    tlm:loadMap('test/test')
+  -- menu of custom maps
+  if customMap then -- load the custom map
+    -- tlm:loadMap('test/test')
+    -- tlm:loadMap('bedroom/house1')
+  else
+    -- load
+    -- asm:add(love.graphics.newImage("assets/maps/test/test.png"), 'tiles')
   end
 
   -- load the map from file
@@ -191,6 +197,13 @@ function generate:enteredState()
 
   -- spawn an item
   obm:add(require( 'objects/item' ):new(320,280))
+
+  -- add lots of players
+  -- for i = 0, 16 do
+  --   obm:add(
+  --     require( 'objects/player' ):new(32 * i, 280)
+  --   )
+  -- end
 
   -- spawn in coins
   Coin.new(200, 200)
@@ -294,6 +307,7 @@ function generate:draw(dt)
   end
 end
 
+      raint = 1
 function coordToChunkCoord(x, y)
   local p = obm:get_closest_by_id(nil, 'player')
   -- local px = obm:get_closest_by_id(nil, 'player').pos.x
@@ -356,9 +370,9 @@ function generate:keypressed(key, code)
 
   -- let's generate a chunk next to the player
   if key == 'g' then
-    print('adding chunk at ')
+    -- print('adding chunk at ')
     -- print(obm:get_closest_by_id(nil, 'player').pos.x, obm:get_closest_by_id(nil, 'player').pos.y)
-    coordToChunkCoord()
+    -- coordToChunkCoord()
   end
 
   -- if key == 'o' and DEBUG_CONSOLE_FUNCTION then

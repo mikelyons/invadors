@@ -4,30 +4,112 @@ local tlm = {}
 
 local floor = math.floor
 local quad = love.graphics.newQuad
-local quads = {}
+quads = {}
 print('gen_quads')
 
--- these quads punch out the tiles from the tilemap
-function gen_quads()
+-- these quads punch out the tiles from the tileatlas
+function tlm:gen_quads(map)
+  -- print(map)
+  if not map then
+    print('no map')
+    print('no map')
+    print('no map')
+      for i = 1,floor(32/32) do
+        for j = 1, floor(64/32) do
+          -- print((32*j-32)..','..(32*i-32)..' '.. 32 ..',' .. 32 ..' ' .. 64 ..',' .. 32)
+          table.insert(quads,
+            quad(
+              32*j-32,
+              32*i-32,
+              32,
+              32,
+              64, 32))
+        end
+      end
+  else
+    print('map')
+    print('map')
+    print('map')
+    -- if map.tiledversion == "1.1.5" then
+    if true then
 
-  for i = 1,floor(32/32) do
-    for j = 1, floor(64/32) do
-      -- print((32*j-32)..','..(32*i-32)..' '.. 32 ..',' .. 32 ..' ' .. 64 ..',' .. 32)
-      table.insert(quads,quad(32*j-32, 32*i-32, 32, 32, 64, 32))
+      -- asm:add(love.graphics.newImage("assets/images/terrain_32x32_by_sonicrumpets-d7vj9k7.png"),
+      --   'tiles'
+      -- )
+      print('map.tiledversion = ' .. map.tiledversion)
+      -- for i = 1,floor(32/32) do
+      --   for j = 1, floor(64/32) do
+
+      local mt = map.tilesets
+      local iw, ih = mt.imagewidth, mt.imageheight
+      local tw, th =  mt.tilewidth, mt.tileheight
+      local imgsrc = mt.image
+
+      print(self.img.getPixelWidth)
+
+    asm:add(love.graphics.newImage("assets/maps/bedroom/house1.png"), 'im2')
+    self.img = asm:get('im2')
+      -- supports up to 256  32x32 tiles in a 512x512 png
+      -- for i = 1,floor(512/32) do
+      --   for j = 1, floor(512/32) do
+      for i = 1,floor(512/32) do
+        for j = 1, floor(512/32) do
+          -- print((32*j-32)..','..(32*i-32)..' '.. 32 ..',' .. 32 ..' ' .. 64 ..',' .. 32)
+          -- print(
+          --   'quad: ',
+          --   32*j-32,
+          --   32*i-32,
+          --   32,
+          --   32,
+          --   512,
+          --   512
+          -- )
+          -- table.insert(quads, quad(
+          --   32,32,
+          --   -- 32*j-32,
+          --   -- 32*i-32,
+          --   32,
+          --   32,
+          --   512,
+          --   512
+          -- ))
+          -- print('raint')
+          table.insert(quads, quad(
+            32*j-32,
+            32*i-32,
+            32,
+            32,
+            512,
+            512
+          ))
+          -- table.insert(quads, quad(
+          --   32*j-32,
+          --   32*i-32,
+          --   32,
+          --   32,
+          --   512,
+          --   512
+          -- ))
+        end
+      end
+      -- local y, x = map.height, map.width
+      -- for i = 1, floor(x/32) do
+      --   for j = 1, floor(y/32) do
+      -- -- for i = 1, floor(64) do
+      -- --   for j = 1, floor(32) do
+      --     print((32*j-32)..','..(32*i-32)..' '.. 32 ..',' .. 32 ..' ' .. 64 ..',' .. 32)
+      --     table.insert(quads,quad(32*j-32, 32*i-32, 32, 32, 64, 32))
+      --   end
+      -- end
+    else
+      print('PROBLEMMMMMMMMMMMMMMMMMMMMMM')
     end
   end
+        -- PrintTable(quads)
 
 end
-gen_quads()
+-- gen_quads()
 
-PrintTable(quads)
--- for _,t in ipairs(quads) do print(t) end
---   quad(0,0,32,32,64, 32),
---   quad(32,0,32,32,64, 32)
--- }
-
--- print(debug.getdeb)
--- print(quad(32*32, 32*32, 32, 32, 64, 32))
 
 -- WIP functions to create and load chunked maps in the users save
 -- function tlm:createMap() end
@@ -68,17 +150,11 @@ function tlm:load(isCustomMap)
 
   self.map = {}
   self.tiles = {}
-  -- WIP
   self.chunks = {}
   self.chunksByStrKey = {}
   self.chunksLoaded = false
 
-
-  self.img = asm:get('tiles')
-  self.img:setFilter("nearest", "nearest")
-  -- self.canvas = love.graphics.newCanvas(256, 64)
-  self.canvas = love.graphics.newCanvas(200,200)
-
+  self.canvas = love.graphics.newCanvas(200,200) -- what for?
 
   -- left to right then down
   function chunkdump(chunkCoords)
@@ -156,15 +232,18 @@ function tlm:load(isCustomMap)
     self.chunksLoaded = true
   end
 
-  -- dumpchunks = true
+  if not customMap then -- load default chunk test assets
+    asm:add(love.graphics.newImage("assets/maps/test/test.png"), 'tiles')
+    tlm:gen_quads()
+    self.img = asm:get('tiles') -- set TLM's img to the test assets
+    self.img:setFilter("nearest", "nearest") -- not sure what we're doing here
+    chunkdump() -- dump chunks!
+  else
 
-  if not customMap then
-    chunkdump()
-  else -- load custom map
-    -- tlm:loadMap('bedroom/house1')
-    -- tlm:loadMap('test/test')
+    -- do nothing because custom maps load their own assets
   end
 end
+
 function tlm:destroy() end
 function tlm:tick() end
 
@@ -380,41 +459,131 @@ function tlm:loadMap(mapname)
   -- PrintDebug(mapname)
   print('')
   print(' -> LOADING MAP ' .. 'assets/maps' .. mapname..' ->')
+  print('')
   self.map = require("assets/maps/"..mapname)
+
+  -- asm:add(love.graphics.newImage("assets/maps/test/test.png"), 'tiles')
+
+  local mp = self.map
+
   local map = self.map
-  PrintDebug(map)
-  -- PrintTable(map, 3)
+  -- PrintDebug(map)
+  PrintTable(map, 3)
+
+  if map.tiledversion == "1.1.5" then
+    print('')
+    print(' ->  ->  ->  ->  ->  ->')
+    print(' -> VERSION:      '.. mp.version ..'   ->')
+    print(' -> LUA VERSION:  '.. mp.luaversion ..'   ->')
+    print(' -> TILED VERSION '.. mp.tiledversion ..' ->')
+    print(' -> SOURCE IMAGE  '.. mp.tilesets[1].image ..' ->')
+    -- print(' ->  '.. true ..' ->')
+    -- print(' ->  '.. true ..' ->')
+    -- print(' ->  '.. true ..' ->')
+    -- print(' ->  '.. true ..' ->')
+    print(' ->  ->')
+    print('')
+
+    asm:add(love.graphics.newImage("assets/maps/test/"..mp.tilesets[1].image), 'tiles')
+  end
+  if map.tiledversion == "1.8.4" then
+    print('')
+    print(' ->  ->  ->  ->  ->  ->')
+    print(' -> VERSION:      '.. mp.version ..'   ->')
+    print(' -> LUA VERSION:  '.. mp.luaversion ..'   ->')
+    print(' -> TILED VERSION '.. mp.tiledversion ..' ->')
+    print(' -> SOURCE IMAGE  '.. mp.tilesets[1].filename..' ->')
+    print(' ->  ->')
+    print('')
+
+    -- asm:add(love.graphics.newImage("assets/maps/bedroom/"..mp.tilesets[1].filename), 'tiles')
+    -- asm:add(love.graphics.newImage("assets/maps/bedroom/"..mp.tilesets[1].name..'.png'), 'tiles')
+    asm:add(love.graphics.newImage("assets/maps/bedroom/house1.png"), 'tiles')
+  end
+
+
+  self.img = asm:get('tiles')
+  tlm:gen_quads(map)
 
   local ts = {
     w = map.tilewidth,
     h = map.tileheight
   }
 
-  -- self.tiles is {} on load
-  -- each layer
-  for layer = 1,#map.layers do
-    -- make a table for each layer in the self.tiles from load
-    self.tiles[layer] = {}
-    for i = 1,map.height do
-      -- each tiles layer table entry for each tile in layer, assumes a square map
-      self.tiles[layer][i] = {}
+  if map.tiledversion == "1.1.5" then
+    -- self.tiles is {} on load
+    -- each layer
+    for layer = 1,#map.layers do
+      -- make a table for each layer in the self.tiles from load
+      self.tiles[layer] = {}
+      for i = 1,map.height do
+        -- each tiles layer table entry for each tile in layer, assumes a square map
+        self.tiles[layer][i] = {}
+      end
+    end
+
+    for layer = 1,#map.layers do
+      local data = map.layers[layer].data
+      local prop = map.layers[layer].properties
+
+      for y = 1,map.height do
+        for x = 1,map.width do
+
+          local index = (y*map.height +(x-1)-map.width)+1
+
+          if data[index] ~= 0 then
+            local q = quads[data[index]]
+            local typevalue = data[index]
+                                  --  tile(x,y,w,h,quad,type)
+            self.tiles[layer][y][x] = tile(ts.w*x-ts.w,ts.h*y-ts.h,ts.w,ts.h,q,typevalue)
+          end
+        end
+      end
     end
   end
+  if map.tiledversion == "1.8.4" then
+    -- self.tiles is {} on load
+    -- each layer
+    for layer = 1,#map.layers do
+      -- make a table for each layer in the self.tiles from load
+      self.tiles[layer] = {}
+      for i = 1, map.height do
+        -- each tiles layer table entry for each tile in layer, assumes a square map
+        self.tiles[layer][i] = {}
+      end
+    end
 
-  for layer = 1,#map.layers do
-    local data = map.layers[layer].data
-    local prop = map.layers[layer].properties
 
-    for y = 1,map.height do
-      for x = 1,map.width do
+    for layer = 2,#map.layers do
+      local count = 0
+      local data = map.layers[layer].data
+      local prop = map.layers[layer].properties
 
-        local index = (y*map.height +(x-1)-map.width)+1
+      for y = 1, map.height do
+        for x = 1, map.width do
 
-        if data[index] ~= 0 then
-          local q = quads[data[index]]
-          local typevalue = data[index]
-                                --  tile(x,y,w,h,quad,type)
-          self.tiles[layer][y][x] = tile(ts.w*x-ts.w,ts.h*y-ts.h,ts.w,ts.h,q,typevalue)
+          count = count + 1
+
+          local index = 
+            (y * map.height + (x-1) - map.width) + 1
+
+          -- if data[index] ~= 0 then
+            local q = quads[data[index]]
+            -- local typevalue = data[index]
+            local typevalue = data[count]
+          -- if data[index] ~= 0 then
+            -- print(data[count])
+                                  --  tile(x,y,w,h,quad,type)
+            self.tiles[layer][y][x] = tile(
+              ts.w*x-ts.w,
+              ts.h*y-ts.h,
+              ts.w,
+              ts.h,
+              q,
+              typevalue,
+              count
+            )
+          -- end
         end
       end
     end
@@ -507,6 +676,7 @@ function tlm:drawChunk(chunk)
   for layer = 2,#chunk.tiles do
     for i = 1, 16 do
       for j = 1, 16 do
+
           -- ( texture, quad, x, y, r, sx, sy, ox, oy, kx, ky )
 
         if chunk.tiles[layer][i][j] ~= nil then
@@ -576,105 +746,193 @@ function tlm:drawChunk(chunk)
 
 end
 
-function tlm:drawCustomMap(string)
+function tlm:drawCustomMap(newstylemap)
   -- print("")
   -- print(' -> DRAWING OLDSKOOL MAP -> ')
   -- print("")
-  for layer = 1,#self.tiles do
-    for i = 1,16 do
-      for j = 1,16 do
+  local layers = self.tiles
 
-          -- PrintTable(self.tiles[1][1][1])
-          -- ( texture, quad, x, y, r, sx, sy, ox, oy, kx, ky )
-        if self.tiles[layer][i][j] ~= nil then
-          local tile = self.tiles[layer][i][j]
-          local text = tile.type
+  if newstylemap then
+    local map = self.map
 
-          -- save color from above
-          local _r, _g, _b, _a = love.graphics.getColor()
+    love.graphics.print(
+      -- love.timer.getFPS(),
+      'test',
+      camera.pos.x + 200,
+      camera.pos.y + 200
+    )
 
-          --set shadow color
-          -- lg.setColor(255,255,255,155)
-          -- lg.draw(self.img,tile.quad,tile.pos.x+7,tile.pos.y+7)
-          -- lg.draw(self.img,tile.quad,tile.pos.x+16,tile.pos.y+16)
-          -- Shadow alpha
+    local s = {
+      'raint',
+      'raint raint',
+      'raint raint raint'
+    }
 
-          --reset color
-          lg.setColor(_r, _g, _b, _a)
+    local layer = 2
 
-          -- Opaque tiles
-          lg.draw(self.img,tile.quad,tile.pos.x,tile.pos.y)
-          -- lg.draw(self.img,tile.quad,tile.pos.x+512,tile.pos.y+512)
-          -- lg.draw(self.img,tile.quad,tile.pos.x,tile.pos.y+512)
-          -- lg.draw(self.img,tile.quad,tile.pos.x+512,tile.pos.y)
-          -- lg.draw(self.img,tile.quad,tile.pos.x,tile.pos.y+512)
-          -- lg.draw(self.img,tile.quad,tile.pos.x+512,tile.pos.y)
-          -- lg.draw(self.img,tile.quad,tile.pos.x+(16), tile.pos.y+(32*32))
+        -- love.graphics.printf( text, x, y, limit, align, r, sx, sy, ox, oy, kx, ky )
+    for i = 1, map.height do
+      for j = 1, map.width do
+        local tile = layers[layer][i][j]
+        -- love.graphics.setColor(55,255,55,255)
+        love.graphics.setColor(255,255,255,255)
+        -- love.graphics.rectangle('fill',100,100,100,100)
+        -- love.graphics.rectangle('fill',100,100,100,100)
 
-          -- minimap?
-          -- love.graphics.draw(self.img,tile.quad,x_pos,y_pos,0,(1/16),(1/16))
-
-          -- broken   ...?
-                -- lg.setCanvas()
-          --   lg.rectangle("fill",x_pos,y_pos,0,(2),(2))
-          --   lg.setColor(255,255,255,255)
-          -- lg.setCanvas()
-
-          -- love.graphics.printf( text, x, y, limit, align, r, sx, sy, ox, oy, kx, ky )
-
-          -- save color from above
-          local _r, _g, _b, _a = love.graphics.getColor()
-          if tile.type == 0 then lg.setColor(255,255,255,155)
-          elseif tile.type == 1 then lg.setColor(255,0,255,155)
-          elseif tile.type == 2 then lg.setColor(0,255,255,155)
+        local key = love.keyboard.isDown
+        if DEBUG_GRID_ON or key('g') then
+          if (tile.pos.x and tile.pos.y) then
+            love.graphics.rectangle('line',
+              tile.pos.x, tile.pos.y, 32,32
+            )
           end
-          -- print the index of the tile on it colored by type
-          -- lg.printf(tile.index, tile.pos.x, tile.pos.y, 64, 'left', 0, .85)
-          -- print the layer data from the map on the tile
-          -- lg.printf(tile.type, tile.pos.x, tile.pos.y, 32, 'left', 0, .85)
-
-          --reset color
-          lg.setColor(_r, _g, _b, _a)
-          -- if turned off, tiles/background bizzaro flashes
-          lg.setColor(255,255,255,255)
         end
 
+        if quads[raint] == nil then 
+          raint = 1
+        end
+        raint = tile.type
+        love.graphics.setColor(255,255,255,255)
+        if tile.type == 0 then 
+          love.graphics.draw(
+            self.img,
+            quads[47],
+            tile.pos.x,tile.pos.y
+          )
+        else
+          love.graphics.draw(
+            self.img,
+            quads[raint+2], --or quads[1],
+            tile.pos.x,tile.pos.y
+          )
+        end
+        if DEBUG_GRID_ON then
+          local _r, _g, _b, _a = love.graphics.getColor()--255,255,255,155)
+          love.graphics.setColor(255,255,255,155)
+            lg.printf(
+              tile.type,
+              tile.pos.x,
+              tile.pos.y,
+              64,
+              'left',
+              0,
+              .55
+            )
+          love.graphics.setColor( _r, _g, _b, _a)
+        end
+
+        -- love.graphics.printf(
+        --   text,
+        --   tile.pos.x,
+        --   tile.pos.y,
+        --   limit,
+        --   align,
+        --   r,
+        --   sx,
+        --   sy,
+        --   ox,
+        --   oy,
+        --   kx,
+        --   ky
+        -- )
+    -- love.graphics.draw(
+    --   self.img,
+    --   tile.quad,
+    --   tile.pos.x,
+    --   tile.pos.y
+    -- )
+    -- love.graphics.rectangle(
+    --   'fill',
+    --   tile.pos.x,
+    --   tile.pos.y,
+    --   32,
+    --   32
+    -- )
+    -- love.graphics.draw(
+    --   self.img,
+    --   tile.quad,
+    --   teat.pos.x,
+    --   tile.pos.y
+    -- )
+    -- local _r, _g, _b, _a = love.graphics.getColor()
+    -- love.graphics.setColor(255,255,255,255)
+    -- love.graphics.setColor(_r, _g, _b, _a)
+    -- PrintTable(layers[layer][1][1], 1)
+    --   -- print(s[3])
+          -- if not layers[layer][i][j]  then
+    --   -- print(s[3])
+    --         -- local tile = layers[layer][i][j]
+    --         -- local text = tile.type
+    --         -- local _r, _g, _b, _a = love.graphics.getColor()
+    --         -- lg.setColor(_r, _g, _b, _a)
+    --         -- lg.draw(self.img,tile.quad,tile.pos.x,tile.pos.y)
+    --         -- lg.draw(self.img,tile.pos.x,tile.pos.y, 100, 100)
+    --         -- local _r, _g, _b, _a = love.graphics.getColor()
+    --         -- if tile.type == 0 then lg.setColor(255,255,255,155)
+    --         -- elseif tile.type == 1 then lg.setColor(255,0,255,155)
+    --         -- elseif tile.type == 2 then lg.setColor(0,255,255,155)
+    --         -- end
+    --         -- lg.setColor(_r, _g, _b, _a)
+    --         -- lg.setColor(255,255,255,255)
+    --       else
+    --         -- print('RAINT nil tile')
+          -- end
+
+        end
+      end
+    -- end
+
+    -- love.graphics.print(
+    --   -- love.timer.getFPS(),
+    --   'tile',
+    --   camera.pos.x + 32 + g_Width/2,
+    --   camera.pos.y + 32 + g_Height/2 
+    -- )
+  else
+
+    for layer = 1,#self.tiles do
+      for i = 1,16 do
+        for j = 1,16 do
+            -- PrintTable(self.tiles[1][1][1])
+            -- ( texture, quad, x, y, r, sx, sy, ox, oy, kx, ky )
+          if self.tiles[layer][i][j] ~= nil then
+            local tile = self.tiles[layer][i][j]
+            local text = tile.type
+            -- save color from above
+            local _r, _g, _b, _a = love.graphics.getColor()
+            --reset color
+            lg.setColor(_r, _g, _b, _a)
+            -- Opaque tiles
+            lg.draw(self.img,tile.quad,tile.pos.x,tile.pos.y)
+            -- minimap?
+            -- love.graphics.draw(self.img,tile.quad,x_pos,y_pos,0,(1/16),(1/16))
+            -- love.graphics.printf( text, x, y, limit, align, r, sx, sy, ox, oy, kx, ky )
+            -- save color from above
+            local _r, _g, _b, _a = love.graphics.getColor()
+            if tile.type == 0 then lg.setColor(255,255,255,155)
+            elseif tile.type == 1 then lg.setColor(255,0,255,155)
+            elseif tile.type == 2 then lg.setColor(0,255,255,155)
+            end
+            -- print the index of the tile on it colored by type
+            -- lg.printf(tile.index, tile.pos.x, tile.pos.y, 64, 'left', 0, .85)
+            -- print the layer data from the map on the tile
+            -- lg.printf(tile.type, tile.pos.x, tile.pos.y, 32, 'left', 0, .85)
+            --reset color
+            lg.setColor(_r, _g, _b, _a)
+            -- if turned off, tiles/background bizzaro flashes
+            lg.setColor(255,255,255,255)
+          end
+
+        end
       end
     end
+
   end
-  -- local string = string
-
-  -- string = 'there are currently '..#layers..' layers \n'
-  -- .. '' .. ' \n'
-  -- .. '' .. ' \n'
-  -- .. ' BOGUS'
-
-  
-  -- love.graphics.print(
-  --   -- love.timer.getFPS(),
-  --   'test',
-  --   camera.pos.x + 200,
-  --   camera.pos.y + 200
-  -- )
-  -- love.graphics.print(
-  --   -- love.timer.getFPS(),
-  --   string,
-  --   camera.pos.x,
-  --   camera.pos.y
-  -- )
-
-  -- for layer = 1, #layers do
-  --   love.graphics.print(
-  --     -- love.timer.getFPS(),
-  --     string,
-  --     camera.pos.x + 200,
-  --     camera.pos.y + 200
-  --   )
-  -- end
 end
 
 function tlm:draw()
   local customMap = self.customMap -- loaded or generated/chunked
+  local map = self.map
 
   if not customMap then -- generated chunks
     -- draw all the chunks
@@ -685,7 +943,12 @@ function tlm:draw()
 
   if customMap then
     -- print('custom map')
-    tlm:drawCustomMap('custom map')
+    if map.tiledversion == "1.1.5" then
+      tlm:drawCustomMap()
+    end
+    if map.tiledversion == "1.8.4" then
+      tlm:drawCustomMap(true)
+    end
   end
 
 

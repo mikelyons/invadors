@@ -1,23 +1,60 @@
 ## Unreleased
-## 0.4.7 ()
+## 0.4.7 (April 18, 2022)
 ### Added
 ### Changed
 ### Removed
 ### Fixed
 
-## 0.4.6 (April 18, 2022)
 
+## 0.4.7 (April 18, 2022 --  Dec 20, 2022)
 ### Added
 
 - can switch between generated chunks and loading a custom map
 - lots of assets
+- imagesequence video frames and support
+  - imageSequence files need compression)
+- bundle love executables for run.bats with the game
+- new map 'bedroom'
+- new constants
+- lots of files for tracking things like:
+  - colors
+  - hud
+  - videostate
+  - and more!
+- QoL improvements
+
+### Changed
+
+- Player, world and physics updated to account for different worldtypes
+- 3 run.bat files for launching with different versions
+
+### Removed
+
+- level1.lua extraneous file
+- lots of extraneous comments
+
+### Fixed
+
+- inventory now snapps to camera position (and scale sorta)
+- chunk tile collisions work (except on the right side between chunks)
+
+#### Known Issues
+- right side generate collission with tile scape chunks
+- lots of menu and other problems
+- long span between commits means this may ahve a quick update to follow
+
+## 0.4.6 (March 18, 2022)
+
+### Added
+
+- chunk generation
 
 ### Changed
 ### Removed
 ### Fixed
 
-- inventory now snapps to camera position (and scale sorta)
-- chunk tile collisions work (except on the right side between chunks)
+- Several menu bugs
+
 
 ## 0.4.5 (February 21, 2022)
 

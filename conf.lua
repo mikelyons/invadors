@@ -13,7 +13,10 @@
 -- ~ console in game - https://love2d.org/wiki/Cupid -- @TODO : separate dev libs
 -- require("./lib/cupid/cupid");
 
-local version_number = "0.4.6.1"
+__VERSION = "0.4.6.1"
+
+__TITLE_STR = string.format("Invadors v%s", __VERSION)
+
 
 function love.conf( t ) 
   t.console = true -- did this ever work?
@@ -23,11 +26,11 @@ function love.conf( t )
   -- change this with https://love2d.org/wiki/love.filesystem.setIdentity
   t.identity = "invadors_save_directory"       -- The name of the save directory (string)
   t.version = "0.10.2"                -- The LÖVE version this game was made for (string)
-  t.window.title = string.format("Invadors v%s", version_number)        -- The window title (string)
+  t.window.title = __TITLE_STR --string.format("Invadors v%s", __VERSION)        -- The window title (string)
   t.window.icon = 'assets/mushroom.png' -- Filepath to an image to use as the window's icon (string)
   
   t.window.width = 1340
-  t.window.height = 960 
+  t.window.height = 900 
 
   -- t.window.width  = 512
   -- t.window.height = 512

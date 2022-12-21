@@ -101,5 +101,6 @@ end
 function Synth:keypressed(key, code)
   if key == ('space' or 'return') then self:pushState('menu') end
   if key == ('2' or 'b') then self:pushState('bizzaro') end
+  if key == ('escape') then self:popState() end
   if key == ('q') then love.event.push('quit') end
 end
