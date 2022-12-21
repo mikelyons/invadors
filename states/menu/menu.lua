@@ -94,8 +94,8 @@ function Menu:keypressed(key, code)
   -- if key == ('4' or 'w') then self:pushState('Earth2') end
   -- if key == ('5') then self:pushState('commando') end
   -- if key == ('6') then self:pushState('generate') end
-  -- if key == ('6') then self:gotoState('generate') end
-  
+  if key == ('5') then self:gotoState('generate') end
+  if key == ('f') then self:pushState('editor') end
   -- if key == ('escape') then self:popState('menu') end
   -- if key == ('q') then love.event.push('quit') end
   if key == ('escape') then love.event.push('quit') end

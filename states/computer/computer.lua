@@ -47,7 +47,11 @@ function Computer:enteredState()
     -- attempt to set the canvas 
     -- self.canvas = love.graphics.newCanvas()
     print(string.format("canvas creating - ", os.date()))
-    self.canvas = love.graphics.newCanvas(320, 320)
+    -- self.canvas = love.graphics.newCanvas(320, 320)
+    self.canvas = love.graphics.newCanvas(
+      love.graphics.getWidth(),
+      love.graphics.getHeight()
+    )
     print(string.format("canvas created - ", os.date()))
 
 
@@ -58,7 +62,7 @@ function Computer:enteredState()
 
       -- DRAW THE COMPUTER
 
-      -- screenspace
+      -- screenspace - steel blue transparent squares from origin
       love.graphics.setColor(47,79,79,128)
       love.graphics.rectangle('fill', 0, 0, 100, 100)
       love.graphics.rectangle('fill', 100, 100, 100, 100)
@@ -91,15 +95,21 @@ function Computer:update(dt)
     self.canvas:renderTo(
       function()
         local _r, _g, _b, _a = love.graphics.getColor()
+        love.graphics.clear()
         -- love.graphics.setColor(love.math.random(), 0, 0);
 
         -- pink test squares
         love.graphics.setColor(255, 155, 200, 255);
-        love.graphics.rectangle('fill', 300, 300, 511, 511)
-        love.graphics.rectangle('fill', 0, 0, 111, 111)
+        -- love.graphics.rectangle('fill', 300, 300, 511, 511)
+        -- love.graphics.rectangle('fill', 0, 0, 111, 111)
 
         -- random test lines from origin 
-        love.graphics.setColor(love.math.random(), 0, 0);
+        -- love.graphics.setColor(love.math.random(), 0, 0);
+        love.graphics.setColor(
+          love.math.random(0, 255),
+          love.math.random(0, 255),
+          love.math.random(0, 255)
+        );
         love.graphics.line(0, 0,
           love.math.random(0, love.graphics.getWidth()),
           love.math.random(0, love.graphics.getHeight())

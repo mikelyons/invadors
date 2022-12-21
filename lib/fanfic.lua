@@ -24,6 +24,11 @@ freely, subject to the following restrictions:
    3. This notice may not be removed or altered from any source
    distribution.
 --]]
+--[[
+this version altered by Mike Lyons
+Additions:
+  - support for space characters in field string and display
+--]]
 
 --steal some stuff from the globals here, if needed
 local type = type
@@ -71,7 +76,7 @@ end
 
 function tbox:update(dt)
 	--update is entirely for the blinking cursor. go figure.
-	if self.finished then 
+	if self.finished then
 		dt = 0
 		self.showCursor = false
 	end
@@ -95,7 +100,7 @@ function tbox:draw()
 	end
 	if self.showCursor then love.graphics.print(self.cursor, self.x+self.font:getWidth(self.text), self.y-2) end
 
-	--love.graphics.setFont(self.labelFont)
+	love.graphics.setFont(self.labelFont)
 	love.graphics.setColor(255,255,255)--setColor(self.labelColor)
 	love.graphics.print(self.label, self.x, self.y-self.font:getHeight())
 
@@ -110,6 +115,8 @@ function tbox:keypressed(key, unicode)
 		end
 	elseif key == 'return' then
 		self.finished = true
+	elseif key == 'space' then
+		self.text = self.text..' '
 	elseif key:len() == 1 then --it's a single letter
 		self.text = self.text..string.char(unicode)
 		--using the unicode allows any character to be entered.  If just the key is used, there is a massive headache from using the shift keys, etc.
