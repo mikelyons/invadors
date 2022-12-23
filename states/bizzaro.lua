@@ -22,7 +22,7 @@ function Bizzaro:enteredState()
   r2:load()
   r3:load()
   r4:load()
-  self:popState('bizzaro')
+  -- self:popState('bizzaro')
 end
 
 function Bizzaro:exitedState() end

@@ -20,7 +20,9 @@ function dump(t, indent, done)
     end
 end
 
--- A helper function to print the line number
+--Need a pcall that will take a table of parameters
+
+-- A helper function to print the line number and other information about the printable parameter
 function PrintDebug(f) --, args)
   print("")
   print("=========================================================")
@@ -28,13 +30,28 @@ function PrintDebug(f) --, args)
   print("=========================================================")
   print("===")
 
-  print("=== Type of F: "..type(f))
-  print("=== Arguments: "..type(args))
+  -- print("=== Arguments: "..type(args))
+  -- print("=== Type of F: "..type(f))
+  if type(f) == 'string' then
+    print("=== String: "..f)
+    print("=== ")
+  end
+  if type(f) == 'table' then
+    print("=== Table: ", f)
+    print("=== ")
+  end
+  if type(f) ~= ('string') then
+    print("=== unknown: ",type(f))
+    print("=== ")
+  end
 
-  local i = debug.getinfo(1)
-  print("=== Current File: "..i.source)
-  print("=== Current Line: "..i.currentline)
-  print("=== The Variable: "..f)
+  -- this isn't getting the correct place
+  -- gets this file instead of the callsite
+  -- local i = debug.getinfo(1)
+  -- print("=== Current File: "..i.source)
+  -- print("=== Current Line: "..i.currentline)
+  -- print("=== The Variable: "..f)
+
   -- print("=== The variable: "..f)
   
   -- if type(f) == 'function' then

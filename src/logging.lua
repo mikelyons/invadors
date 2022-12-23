@@ -17,17 +17,33 @@ local loggingOn = DEBUG_LOGGING_ON
 if loggingOn then
   -- broken?
   require("../lib/debug/lovedebug")
+  require("../tools/resolution")
 
   print("")
   print("")
-  print("//////////////////- LOGGING -/////////////////////")
+  print("/////////////////- LOGGING ON -////////////////////")
   print("")
 
   -- https://love2d.org/wiki/love.window.getMode -- information about the window mode (fullscreen, vsync, size, etc.)
+  -- record an
   local width, height, flags = love.window.getMode()
   print(width, height)
 
   print(luaInfo())
+
+  print('clipboard : ')
+  print(love.system.getClipboardText())
+  print('OS : ')
+  print(love.system.getOS())
+  print('Power Info : ')
+  print(love.system.getPowerInfo())
+  print('Proc count: ')
+  print(love.system.getProcessorCount())
+  print('BMG : ')
+  print(love.system.hasBackgroundMusic)
+  -- love.system.openURL(sharewareURL)
+  -- love.system.setClipboardText(sharewareAffiliateAd)
+  -- love.system.vibrate() -- vibe when loaded
 
   -- print('flags: \n'..flags)
   print("\27[101;93m YOUR TEXT HERE \27[0m")

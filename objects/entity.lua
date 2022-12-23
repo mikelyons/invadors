@@ -17,6 +17,14 @@ function Entity:new(x,y,w,h,img,quad,id)
 
   entity.remove = false
 
+  function entity:checkCollision(e)
+    -- e will be the other entity with which we check if there is collision.
+    return self.x + self.width > e.x
+    and self.x < e.x + e.width
+    and self.y + self.height > e.y
+    and self.y < e.y + e.height
+  end
+
   function entity:load( ) end
   function entity:tick(dt) end
   function entity:draw( ) end

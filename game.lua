@@ -1,3 +1,5 @@
+-- networking tutorial with enet (which is installed)
+-- https://rvagamejams.com/learn2love/pages/02-18-networking-part-2.html
 -- https://www.reddit.com/r/love2d/comments/r3qg1k/luasocket_vs_luaenet/hmf4xk2/
 -- are these doing anything?
 renderer = Renderer:create()
@@ -22,7 +24,7 @@ function Game:initialize()
   PrintColor('raint', 'red')
 
     -- try to get multithreading working
-    -- loadStateFile( 'mts')
+    loadStateFile( 'mts')
     -- self:gotoState('mts')
 
 
@@ -31,6 +33,8 @@ function Game:initialize()
   loadStateFolder('synth')
   loadStateFolder('prog2')
   loadStateFolder('generate')
+  loadStateFolder('dialogue')
+  loadStateFolder('computer')
   loadStateFile  ('bizzaro')
   loadStateFolder('prog2')
   loadStateFile('pro')
@@ -58,6 +62,6 @@ function Game:mousereleased(x, y, button) end
 function Game:draw(dt)
   -- does this do anything? maybe in generate state?
   -- nothing for Menu
-  renderer:draw() -- why isn't this happening?
+  -- renderer:draw() -- why isn't this happening?
 end
 

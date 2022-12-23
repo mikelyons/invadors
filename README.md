@@ -1,5 +1,7 @@
 # Invadors
 
+Easy to use, it will make you more attractive and you feel sensual doing so.
+
 A Love2d platformer game prototype I wrote to learn more about game programming while travelling Europe.
 
 ### Starting the Game
@@ -43,3 +45,6 @@ Continuing development during the 2020 pandemic
 #### Tools under consideration
 
 - http://pixelatorapp.com/download.html
+- https://github.com/flamendless/love-fuser - nightly builds
+- https://github.com/flamendless/moonshine - post-processing effects
+

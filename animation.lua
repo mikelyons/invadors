@@ -14,9 +14,9 @@ return {
     a             = animation,
     play          = false,
     time          = time or 0.2,
-    counter       = 0, 
+    counter       = 0,
 
-    update = function(self, dt) 
+    update = function(self, dt)
       if self.play then
         self.counter = self.counter + dt
         if self.counter >= self.time then
@@ -38,7 +38,7 @@ return {
       self.play = false
     end,
     set_animation = function( self,anim )
-      if anim > #self.a then error('there is no animation'..anim); return end
+      if anim > #self.a then error('there is no animation '..anim); return end
       self.current_anim = anim
     end,
     draw = function( self,data )

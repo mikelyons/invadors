@@ -90,3 +90,6 @@ function Zombie:new(x,y)
 end
 
 return Zombie
+
+
+-- https://dev.to/jeansberg/make-a-shooter-in-lualove2d---part-3

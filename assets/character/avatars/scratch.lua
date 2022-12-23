@@ -1,0 +1,10 @@
+-- 
+-- This folder of avatars has pixel blur effect frames, can be made into a sprite sheet
+--
+-- From: https://pixel-me.tokyo/en/
+--
+--
+-- TODO - create sprite sheet for all levels of all character avatars, to blur in pixelation and out
+--      - when the character radios in and cuts out
+--
+--

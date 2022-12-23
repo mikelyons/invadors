@@ -13,7 +13,10 @@
 -- ~ console in game - https://love2d.org/wiki/Cupid -- @TODO : separate dev libs
 -- require("./lib/cupid/cupid");
 
-local version_number = "0.4.4"
+__VERSION = "0.4.6.1"
+
+__TITLE_STR = string.format("Invadors v%s", __VERSION)
+
 
 function love.conf( t ) 
   t.console = true -- did this ever work?
@@ -23,17 +26,18 @@ function love.conf( t )
   -- change this with https://love2d.org/wiki/love.filesystem.setIdentity
   t.identity = "invadors_save_directory"       -- The name of the save directory (string)
   t.version = "0.10.2"                -- The LÖVE version this game was made for (string)
-  t.window.title = string.format("Invadors v%s", version_number)        -- The window title (string)
+  t.window.title = __TITLE_STR --string.format("Invadors v%s", __VERSION)        -- The window title (string)
   t.window.icon = 'assets/mushroom.png' -- Filepath to an image to use as the window's icon (string)
   
-  t.window.width = 1024
-  t.window.height = 768
+  t.window.width = 1340
+  t.window.height = 900 
+
   -- t.window.width  = 512
   -- t.window.height = 512
   -- t.window.width  = 1024
   -- t.window.height = 768
-  t.window.x = 900                   -- set the position of the window on launch
-  t.window.y = 100
+  t.window.x = 600                   -- set the position of the window on launch
+  t.window.y = 30
   t.window.borderless = false        -- Remove all border visuals from the window (boolean)
   t.window.resizable = true          -- Let the window be user-resizable (boolean)
   t.window.minwidth = 1              -- Minimum window width if the window is resizable (number)
@@ -44,6 +48,7 @@ function love.conf( t )
 
   t.window.vsync = true              -- Enable vertical sync (boolean)
   t.window.fsaa = 0                  -- The number of samples to use with multi-sampled antialiasing (number)
+  -- t.window.msaa = 0                  -- The number of samples to use with multi-sampled antialiasing (number)
   t.window.display = 1               -- Index of the monitor to show the window in (number)
   t.window.highdpi = false           -- Enable high-dpi mode for the window on a Retina display (boolean). Added in 0.9.1
   t.window.srgb = false              -- Enable sRGB gamma correction when drawing to the screen (boolean). Added in 0.9.1
@@ -53,7 +58,7 @@ function love.conf( t )
   t.modules.event = true             -- Enable the event module (boolean)
   t.modules.graphics = true          -- Enable the graphics module (boolean)
   t.modules.image = true             -- Enable the image module (boolean)
-  t.modules.joystick = true          -- Enable the joystick module (boolean)
+  t.modules.joystick = false          -- Enable the joystick module (boolean)
   t.modules.keyboard = true          -- Enable the keyboard module (boolean)
   t.modules.math = true              -- Enable the math module (boolean)
   t.modules.mouse = true             -- Enable the mouse module (boolean)
@@ -65,6 +70,7 @@ function love.conf( t )
   t.modules.thread = true            -- Enable the thread module (boolean)
   t.modules.touch = false            -- Enable the touch module (boolean)
 end
+
 
 -- function love.conf(t)
 --     t.identity = nil                    -- The name of the save directory (string)

@@ -3,6 +3,7 @@
 -- Score manager
 -- Currently only one save file with stats on lines
 -- future: @TODO - multiple save files with grades for different playstyles
+-- -- grid scores https://www.reddit.com/r/love2d/comments/w9us4g/comment/ii3w5nv/?utm_source=reddit&utm_medium=web2x&context=3
 local binser   = require 'lib/binser/binser'
 
 Score = {}
@@ -49,16 +50,17 @@ function Score:new(self)
       print("")
       print("=================================")
       print("")
-      print(--'First Line of Save file: each line is a value to load\n'.. -- the Message of the day
-        "Times Launched     : "..self.saves              ..'\n' .. -- the number of times launched
-        "High Score         : "..self.highscore          ..'\n' .. -- the highest score achieved
-        "Score this time    : "..self.total              ..'\n' .. -- the highest score achieved
-        "Date               : "..os.date()               ..'\n' .. -- the recording of the current ending launch date
-        'PC Name            : '..os.getenv('USERDOMAIN') ..'\n' .. -- computers network name
-        'Email              : '..self.email              ..'\n' .. -- replace this with the users email address
-        'Key Strokes        : '..self.keyStroked         ..'\n' .. -- number of times a key was pressed
-        'Clicks             : '..self.clicks             ..'\n'    -- number of times mouse clicked
-      )
+      --TODO why does this break ?
+      -- print(--'First Line of Save file: each line is a value to load\n'.. -- the Message of the day
+      --   "Times Launched     : "..self.saves              ..'\n' .. -- the number of times launched
+      --   "High Score         : "..self.highscore          ..'\n' .. -- the highest score achieved
+      --   "Score this time    : "..self.total              ..'\n' .. -- the highest score achieved
+      --   "Date               : "..os.date()               ..'\n' .. -- the recording of the current ending launch date
+      --   'PC Name            : '..os.getenv('USERDOMAIN') ..'\n' .. -- computers network name
+      --   'Email              : '..self.email              ..'\n' .. -- replace this with the users email address
+      --   'Key Strokes        : '..self.keyStroked         ..'\n' .. -- number of times a key was pressed
+      --   'Clicks             : '..self.clicks             ..'\n'    -- number of times mouse clicked
+      -- )
       print("")
       print("")
       print("=================================")

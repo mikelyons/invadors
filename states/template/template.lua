@@ -1,10 +1,21 @@
+--[[
+  template.lua
+
+  a template for adding a new gamestate
+]]
+
 print('template.lua -> ')
 print('template -> ')
 
+-- dependencies
 local fanfic = require 'states/menu/fanfic'
+
 text = fanfic.new(200,300, "New textbox", false, 16)
 
+-- registering the gamestate
 local Signin = Game:addState('template')
+
+-- input
 function Signin:mousepressed(x,y, button , istouch) end
 function Signin:mousereleased(x, y, button) end
 function Signin:keypressed(key, code)
@@ -12,6 +23,7 @@ function Signin:keypressed(key, code)
   if key == ('escape') then love.event.push('quit') end
   if key == ('escape') then love.event.push('quit') end
 end
+
 function Signin:enteredState()
   if DEBUG_LOGGING_ON then
     print(string.format("ENTER template STATE - %s \n", os.date()))

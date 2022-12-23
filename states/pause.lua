@@ -16,13 +16,16 @@ end
 -- end
 
 function Pause:draw()
+  local x, y = camera.pos.x, camera.pos.y
   love.graphics.setBackgroundColor(51, 49, 99, 100)--BG_COLOR)
 
-  love.graphics.setColor(0,0,51,100)
-  love.graphics.rectangle('fill', 350, 350, 350, 350)
+  -- blue box
+  love.graphics.setColor(0,0,51,255)
+  love.graphics.rectangle('fill', x+350, y+(g_Height/2), 350, 350)
 
+  -- yellow GAME PAUSED text
   love.graphics.setColor(255, 223, 0)
-  love.graphics.printf('GAME PAUSED', 350, 220, 200, 'center')
+  love.graphics.printf('GAME PAUSED', x+350, 100+y+(g_Height/2), 200, 'center')
 end
 
 

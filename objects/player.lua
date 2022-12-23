@@ -2,9 +2,13 @@
 require 'tools/physics_helper'
 require 'tools/world_physics'
 
+function combat_attack(obj)
+  print(obj.name .. ' ATTACKED')
+end
+
 local Player = {}
 local floor = math.floor
-local tiles = tlm.tiles[2]
+-- local tiles = tlm.tiles[2] -- tiles of the spawn chunk
 
 local quad = love.graphics.newQuad
 local anim_data = {
@@ -25,7 +29,11 @@ function Player:new(x,y)
     renderer:addRenderer(self, 3)
     gameloop:addLoop(self)
 
+    self.name = 'Player'
+
     init_physics(self, 500)
+    -- tiles = tlm.chunks[0].tiles -- tiles of the spawn chunk
+    -- tiles = tlm:getTilesAtCoords(player.pos)
 
     -- rem
     self.animation = require('animation'):new(
@@ -61,51 +69,98 @@ function Player:new(x,y)
   local rect = require 'objects/rect'
 
   function player:tick(dt)
-    -- dt = dt
     camera:goToPoint(self.pos) -- camera follows this player
-    box = rect:new(self.pos.x + (self.vel.x * dt * self.dir.x), self.pos.y + (self.vel.y * dt * self.dir.y),self.size.x,self.size.y)
+
+    if (DEBUG_HITBOX_VIS and key) then
+      box = rect:new(self.pos.x + (self.vel.x * dt * self.dir.x), self.pos.y + (self.vel.y * dt * self.dir.y),self.size.x,self.size.y)
+    end
 
     -- animation
     self.animation:set_animation(1)
-
     -- velocities
-    apply_gravity(self, dt)
+    -- if (tlm.chunksLoaded == true) then
 
-    -- print(self.vel.y)
+      -- raint = 1
+      if ( key("g") ) then 
+        raint = raint + 1
+        if raint > 97 then raint = 97 end
+        apply_gravity(self, dt)
+      end
+      if ( key("h") ) then 
+        raint = raint - 1
+        if raint < 91 then raint = 91 end
+        apply_gravity(self, -dt)
+        self.vel.y = 0
+        -- print(raint)
+      end
+      if ( key("b") ) then 
+        self.vel.y = 0
+        print(raint)
+      end
+
+    -- end
 
     -- walk left or right
-    if ( key("left") or key('a') ) then 
+    if ( key("left") or key('a') ) then
       self.animation:set_animation(2)
       self.dir.x = -1
       self.vel.x = 100
     end
-    if ( key("right") or key('d') ) then 
+    if ( key("right") or key('d') ) then
       self.animation:set_animation(2)
       self.dir.x = 1
       self.vel.x = 100
     end
 
-    update_physics(self, tiles, dt)
+    local chunk = tlm.chunksByStrKey[
+      tostring(floor(self.pos.x / 32 / 16))
+      .. tostring(floor(self.pos.y / 32 / 16))
+    ]
+    if chunk == nil then
+      print(
+        'ERROR - chunk is nil: x'..self.pos.x
+        .. ' y'.. self.pos.y .. ' strkey= '
+        .. tostring(floor(self.pos.x / 32 / 16))
+        .. tostring(floor(self.pos.y / 32 / 16))
+      )
+      player.pos.move(player, 0, 0, dt)
+    else
+      if DEBUG_LOGGING_COLLISION then
+        print('player chunk strkey: '..chunk.strKey)
+      end
+    end
+    -- print(tostring(floor(self.pos.x / 32 / 16))..tostring(floor(self.pos.y / 32 / 16)))
+    -- print(tlm.chunksByStrKey[tostring(self.pos.x / 32 / 16)..tostring(self.pox.y / 32 / 16)].tiles)
+    -- print(tostring(self.pos.x / 32 / 16)..tostring(self.pos.y / 32 / 16))
+    -- print(tostring(self.pos.y / 32 / 16))
+    -- PrintTable(tlm.chunksByStrKey[tostring(floor(self.pos.x / 32 / 16))..tostring(floor(self.pos.y / 32 / 16))], 3)
+    
+
+    if tlm.customMap then
+      chunk.tiles = tlm.tiles
+      -- PrintTable(chunk.tiles, 1)
+      -- PrintTable(tlm.tiles, 1)
+    end
+    -- collision
+    -- update_physics(self, chunk, dt, true) --tlm.customMap)
 
     -- jump
     if ( key("space") or key('w') or key('up') ) then 
       physics_jump(self)
     end
-
     -- attack
     if key('j') then
-      print('attack')
+      -- print('attack')
+      combat_attack(self)
     end
+    -- if key("") then -- end
 
-    -- if key("") then
-    -- end
-
-    --Make the selfect move based on the velocities we set above
+    --Make the player move based on the velocities we set above
     self.pos.x  = self.pos.x + (self.vel.x * dt) * self.dir.x
     self.pos.y  = self.pos.y + (self.vel.y * dt) * self.dir.y
 
     self.vel.x = self.vel.x * (1-dt*8) -- friction entropy
- 
+
     self.animation:update(dt)
   end
 
@@ -116,22 +171,36 @@ function Player:new(x,y)
     -- love.graphics.setColor(0,255,0,255) -- GREEN
     -- love.graphics.setColor(255,255,255,255) -- WHITE reset
     
-    -- prediction box from check point origin
-    love.graphics.setColor(0,255,0,255) -- GREEN
-    love.graphics.rectangle("line",box.pos.x,box.pos.y,self.size.x,self.size.y)
-    love.graphics.setColor(255,255,255,255) -- WHITE reset
+    if (DEBUG_HITBOX_VIS) then 
+      -- prediction box from check point origin
+      love.graphics.setColor(0,255,0,255) -- GREEN
+      love.graphics.rectangle("line",box.pos.x,box.pos.y,self.size.x,self.size.y)
+      love.graphics.setColor(255,255,255,255) -- WHITE reset
+    end
+    if (DEBUG_HITBOX_VIS and key('j')) then 
+      -- prediction box from check point origin
+      love.graphics.setColor(255,0,0,255) -- RED
+      love.graphics.rectangle(
+        "line",
+        box.pos.x+self.size.x,
+        box.pos.y+self.size.y/2,
+        self.size.x,
+        self.size.y/10
+      )
+      love.graphics.setColor(255,255,255,255) -- WHITE reset
+    end
 
     -- 10.2 draw( texture, quad, x, y, r, sx, sy, ox, oy, kx, ky )
     self.animation:draw({self.pos.x,self.pos.y})
 
     -- a wall minimap position box for the player
-    local x = floor(self.pos.x / 32)
-    local y = floor(self.pos.y / 32)
-    local w = 2
-    local h = 2
-    love.graphics.setColor(255,0,0,255)
-    love.graphics.rectangle("fill",x,y,5,5)
-    love.graphics.setColor(255,255,255,255)
+    -- local x = floor(self.pos.x / 32)
+    -- local y = floor(self.pos.y / 32)
+    -- local w = 2
+    -- local h = 2
+    -- love.graphics.setColor(255,0,0,255)
+    -- love.graphics.rectangle("fill",x,y,5,5)
+    -- love.graphics.setColor(255,255,255,255)
  
 
 
@@ -147,9 +216,22 @@ function Player:new(x,y)
     -- staticly positioned like the HUD layer
     love.graphics.setColor(0, 255,5) -- GREEN
     love.graphics.rectangle("fill",x_pos,y_pos, 2,2)
+    -- love.graphics.rectangle("line", 20,20, 200,200)
     -- love.graphics.setColor(255,5,5) -- RED
+
+    -- love.graphics.print(
+    --   -- love.timer.getFPS(),
+    --   true,
+    --   player.pos.x, --  + (windowWidth - 64),
+    --   player.pos.y -- + (windowHeight - 64)
+    --   -- camera.pos.x, --  + (windowWidth - 64),
+    --   -- camera.pos.y -- + (windowHeight - 64)
+    -- )
+    love.graphics.print('WELCOME ...', 0, 0)
+
   end
 
+  -- return the constructed player to the global scope
   return player
 end
 
