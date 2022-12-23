@@ -1,5 +1,9 @@
 ### Dev Log
 
+##### 12-9-2022
+
+- Top priority - get score-reader working in denver, folderize it with that utility
+
 ##### 3-17-2022 
 
 trying to fix collisions to they work again after all the chunk tile stuff
@@ -20,6 +24,10 @@ Chunk loading unloading
 image sequencing - https://github.com/YoungNeer/clove
 
 ### Scratch
+
+
+Lua Reflection
+https://stackoverflow.com/questions/2620377/lua-reflection-get-list-of-functions-fields-on-an-object
 
 ##### Renderlayers: Top to Bottom
 

@@ -1,12 +1,31 @@
 ## Unreleased
-## 0.4.7 (April 18, 2022)
+## 0.4.7.1 (Jan 1, 2023)
 ### Added
 ### Changed
 ### Removed
 ### Fixed
 
+## Unreleased
+## 0.4.7.1 (~Jan 1, 2023)
+
+### Added
+
+- Many QoL improvements
+- The computer interface
+- A ui panel object editor (WIP)
+
+### Changed
+
+- Development workflow outline document to come
+
+### Removed
+
+- many features are switched off until we can have separate build streams
+
+### Fixed
 
 ## 0.4.7 (April 18, 2022 --  Dec 20, 2022)
+
 ### Added
 
 - can switch between generated chunks and loading a custom map

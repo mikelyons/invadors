@@ -30,5 +30,6 @@ function Bizzaro:update(dt) end
 function Bizzaro:draw(dt) end
 
 function Bizzaro:keypressed(key, code)
-  if key == 'escape' then self:popState('bizzaro') end
+  -- if key == 'escape' then self:popState('bizzaro') end
+  if key == 'escape' then self:popState() end
 end

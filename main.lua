@@ -139,8 +139,10 @@ function love.draw(dt)
 end
 
 -- https://love2d.org/wiki/KeyConstant
-function love.keypressed(key)
-  if (DEBUG_LOGGING_ON and key) then print('key pressed: '..key) end
+function love.keypressed(key, code)
+  if (DEBUG_LOGGING_ON and key) then
+    print('key pressed: '..key..' unicode: '..code)
+  end
 
   if game then
     -- PrintTable(game)
