@@ -4,17 +4,35 @@ Easy to use, it will make you more attractive and you feel sensual doing so.
 
 A Love2d platformer game prototype I wrote to learn more about game programming while travelling Europe.
 
-### Starting the Game
+## Installation / Starting the Game
 
-there are 3 run.bat files that do different things
+```
+git clone git@github.com:mikelyons/invadors.git
+```
 
-- run1.bat starts the game in LOVE 10.2
-- run2.bat starts the game in LOVE 11.3
-- run3.bat starts the game in LOVE 10.2 with color terminal logging (windows only)
+Then inside the `invadors` directory:
+
+there are 3 run.bat files that do different things for different platforms
+
+#### Windows
+
+- `run1.bat` starts the game in LOVE 10.2
+- `run2.bat` starts the game in LOVE 11.3
+- `run3.bat` starts the game in LOVE 10.2 with color terminal logging (windows only)
+
+#### MacOS
+
+- `run.command`  starts with 10.2
+- `run2.command` starts with 11.3
+
+MacOS may not support color terminal logging
 
 Continuing development during the 2020 pandemic
 
-### What I've Learned
+:scream:
+
+
+## What I've Learned
 
 * Tilemaps and sprites
 * How to roll you own basic 2D collisions
