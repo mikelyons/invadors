@@ -56,6 +56,15 @@ chunks
 https://github.com/Guthen/Chunk2D
 
 
+# feature ideas
+
+- Racial damage
+
+-- text to speech : https://gist.github.com/slemonide/625b0309bdf49d1ad4ea189d2892e956
+
+# Original open source libraries
+
+- extract out gravatar.lua and make a public project out of it
 
 
 # Consideration

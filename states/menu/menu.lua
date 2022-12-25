@@ -35,23 +35,21 @@ asm:add(love.graphics.newImage("assets/mouse.png"), 'mouse')
 Menu = Game:addState('menu')
 
 
-  -- tm['trn']  = 'training'
-  -- tm['biz']  = 'bizzaro'
-  -- tm['sp1']  = 'space1'
-  -- tm['e2']   = 'earth2'
-  -- tm['cmd']  = 'commando'
-  -- tm['gen']  = 'generate'
-  -- tm['q']    = 'quit'
-  -- if key == ('1' or 'return') then self:pushState('Training') end
-  -- if key == ('2' or 'space') then self:pushState('Bizzaro') end
-  -- if key == ('3' or 'q') then self:pushState('space1') end
-  -- if key == ('4' or 'w') then self:pushState('Earth2') end
-  -- if key == ('5') then self:pushState('commando') end
-  -- -- if key == ('6') then self:pushState('generate') end
-  -- if key == ('6') then self:gotoState('generate') end
-  
-  -- if key == ('q') then love.event.push('quit') end
+-- tm['trn']  = 'training'
+-- tm['biz']  = 'bizzaro'
+-- tm['sp1']  = 'space1'
+-- tm['e2']   = 'earth2'
+-- tm['cmd']  = 'commando'
+-- tm['gen']  = 'generate'
+-- tm['q']    = 'quit'
 
+-- find a value in a list
+-- print(tm['q'])
+-- print(Tlength(tm))
+
+-- for i=0, #tm do
+--   print('found ' .. tm[i])
+-- end
 
 -- what is this? find the length of the table?
 -- table length util function
@@ -62,20 +60,6 @@ function Tlength(tbl)
   end
   return getN
 end
-
-  -- find a value in a list
-  -- print(tm['q'])
-  -- print(Tlength(tm))
-
-  -- for i=0,tm do
-  --   print('found ' .. tm[i])
-  -- end
-
-  -- for i = 1,Tlength(tm),1 
-  -- do 
-  --   print(tm[i]) 
-  --   if tm[i] == "quit" then 
-  -- end
 
 function Menu:keypressed(key, code)
   -- if key == ('1' or 'return') then self:startGame() end
@@ -94,7 +78,7 @@ function Menu:keypressed(key, code)
   -- if key == ('4' or 'w') then self:pushState('Earth2') end
   -- if key == ('5') then self:pushState('commando') end
   -- if key == ('6') then self:pushState('generate') end
-  if key == ('5') then self:gotoState('generate') end
+  if key == ('6') then self:gotoState('generate') end
   if key == ('f') then self:pushState('editor') end
   -- if key == ('escape') then self:popState('menu') end
   -- if key == ('q') then love.event.push('quit') end
@@ -229,6 +213,7 @@ end
 -- we want multiline on this eventually: https://github.com/riidom/mlvtest/blob/master/multilineview.lua
 -- Draggable tutorial: http://nova-fusion.com/2011/09/06/mouse-dragging-in-love2d/
 -- https://gist.github.com/a-racoon/1ca3b9f467ed491d404035400dfd8953
+-- note rect
 rect = {
   x = 700,
   y = 500,

@@ -184,7 +184,6 @@ function generate:enteredState()
   -- local fn = tlm['generateChunk']
   -- print(pcall(fn, chunkCoords))
 
-
   -- PrintTable(self.chunk)
 
   love.timer.sleep(0.25)

@@ -1,3 +1,10 @@
+--[[
+  main.lua
+
+  The bootstrap loader file
+  MASTER CONTROL PROGRAM
+]]
+
 -- this is from: https://sheepolution.com/learn/book/bonus/vscode
 if arg[2] == "debug" then
   require("lldebugger").start()
@@ -6,7 +13,7 @@ end
 require 'src/dependencies'
 
 local game = {
-  _VERSION     = 'Invadors *SEE CONF VERSION #**',
+  _VERSION     = 'Invadors *SEE CONF.LUA for VERSION #*',
   _DESCRIPTION = 'Invadors Game',
   _URL         = 'https://github.com/mikelyons/invadors',
   _LICENSE     = [[
@@ -14,6 +21,7 @@ local game = {
   /*******************************************************
   * Copyright (C) 2015-2022 {Mike Lyons} <{lyons.mr@gmail.com}> - All Rights Reserved
   * 
+  * ALL RIGHTS RESERVED
   * This file is part of {invadors}.
   * 
   * {invadors} can not be copied and/or distributed without the express

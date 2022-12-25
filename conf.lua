@@ -13,7 +13,7 @@
 -- ~ console in game - https://love2d.org/wiki/Cupid -- @TODO : separate dev libs
 -- require("./lib/cupid/cupid");
 
-__VERSION = "0.4.6.1"
+__VERSION = "0.4.7.0"
 
 __TITLE_STR = string.format("Invadors v%s", __VERSION)
 
@@ -36,7 +36,7 @@ function love.conf( t )
   -- t.window.height = 512
   -- t.window.width  = 1024
   -- t.window.height = 768
-  t.window.x = 600                   -- set the position of the window on launch
+  t.window.x = 800                   -- set the position of the window on launch
   t.window.y = 30
   t.window.borderless = false        -- Remove all border visuals from the window (boolean)
   t.window.resizable = true          -- Let the window be user-resizable (boolean)

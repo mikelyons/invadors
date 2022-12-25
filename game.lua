@@ -1,3 +1,11 @@
+
+--[[
+  game.lua
+
+  The main game loop initializer this is loaded by the 
+  main bootstrap file main.lua
+]]
+
 -- networking tutorial with enet (which is installed)
 -- https://rvagamejams.com/learn2love/pages/02-18-networking-part-2.html
 -- https://www.reddit.com/r/love2d/comments/r3qg1k/luasocket_vs_luaenet/hmf4xk2/

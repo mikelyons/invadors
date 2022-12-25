@@ -13,12 +13,20 @@ print('computer.lua -> ')
 
 print('Computer -> ')
 
+  local stickyNote = require 'ui objects/evilNote'
+
 -- local fanfic = require 'states/menu/fanfic'
 -- local text = fanfic.new(200,300, "New textbox", false, 16)
 
 local Computer = Game:addState('computer')
-function Computer:mousepressed(x,y, button , istouch) end
-function Computer:mousereleased(x, y, button) end
+
+function Computer:mousepressed(x,y, button)
+  self.evilnote:mousepressed(x,y, button)
+end
+function Computer:mousereleased(x,y, button)
+  self.evilnote:mousereleased(x,y, button)
+end
+
 function Computer:keypressed(key, code)
   --   text:keypressed(key, code)
   if key == ('l') then self:popState('dialogue') end
@@ -29,12 +37,12 @@ function Computer:enteredState()
     print(string.format("ENTER computer STATE - %s \n", os.date()))
   end
 
-  
+  self.evilnote = stickyNote:new(200, 200, "rainting all the way to the ginko")
+
   -- love.graphics.setBackgroundColor( red, green, blue, alpha )
   -- love.graphics.setBackgroundColor(unpack(COLOR_GREEN_HUNTER))
   -- love.graphics.setBackgroundColor( 0, 1, 0, 1)
   -- love.graphics.setBackgroundColor( 1, 1, 1, 1)
-
 
   -- the character avatar
   -- https://pixel-me.tokyo/en/ - face to pixel art
@@ -86,6 +94,7 @@ function Computer:enteredState()
   end
 end
 function Computer:update(dt)
+  self.evilNote:update(dt)
   --   text:update(dt)
   --   data = text:enteredText()
 
@@ -133,6 +142,8 @@ tempcomp:setFilter("nearest", "nearest")
 --   0.5
 -- )
 function Computer:draw()
+  self.evilnote:draw()
+
   local _r, _g, _b, _a = love.graphics.getColor()
   local _lineWidth = love.graphics.getLineWidth()
 

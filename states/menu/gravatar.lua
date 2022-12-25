@@ -1,3 +1,13 @@
+--[[
+  gravatar.lua
+
+  The Gravatar module, amkes socket requests to gravatar and 
+  displays the avatar linked to the email address entered
+
+  This will eventually be broken out into it's own library 
+  and maintained separately as a public open source project
+]]
+
 -- local socket = require "socket"
 local http = require "socket.http"
 local md5 = require 'lib/md5'

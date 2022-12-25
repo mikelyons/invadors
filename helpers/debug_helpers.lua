@@ -1,3 +1,13 @@
+
+--[[
+  debug_helpers.lua
+
+  DEBUG HELPERS
+
+  Functions that read and instrospect game data and objects
+  for the purposes of easy debugging
+]]
+
 -- this doesn't seem to work
 function dump(t, indent, done)
     done = done or {}
