@@ -1,9 +1,22 @@
+--[[
+  player.lua
+
+  The entity controlled by the player
+
+  CURRENT TO DOs:
+  - need to track inventory
+  - directionalize walking anims and animation in general
+  - display a debug ui detailing an entity's data in realtime 
+  in editor mode, and click any entity to display it's debug info
+]]
+
 -- require 'tools/camera'
 require 'tools/physics_helper'
 require 'tools/world_physics'
 
 function combat_attack(obj)
   print(obj.name .. ' ATTACKED')
+
 end
 
 local Player = {}
@@ -17,6 +30,9 @@ local anim_data = {
   quad(32,0,16,16,192,16),
   quad(48,0,16,16,192,16),
   quad(64,0,16,16,192,16),
+  quad(80,0,16,16,192,16),
+  quad(96,0,16,16,192,16),
+  quad(112,0,16,16,192,16),
 }
 local image = love.graphics.newImage('assets/newer/Leo.png')
 image:setFilter("nearest","nearest")
@@ -30,6 +46,8 @@ function Player:new(x,y)
     gameloop:addLoop(self)
 
     self.name = 'Player'
+    self.attackvector = nil
+    self.inventory = {}
 
     init_physics(self, 500)
     -- tiles = tlm.chunks[0].tiles -- tiles of the spawn chunk
@@ -58,6 +76,10 @@ function Player:new(x,y)
             anim_data[4],
             anim_data[5]
           },
+          {-- attack animation
+            anim_data[7],
+            anim_data[8]
+          },
         },
         0.2
       )
@@ -71,23 +93,28 @@ function Player:new(x,y)
   function player:tick(dt)
     camera:goToPoint(self.pos) -- camera follows this player
 
+    -- is this a memory leak of boxes? update position instead?
     if (DEBUG_HITBOX_VIS and key) then
       box = rect:new(self.pos.x + (self.vel.x * dt * self.dir.x), self.pos.y + (self.vel.y * dt * self.dir.y),self.size.x,self.size.y)
     end
 
-    -- animation
     self.animation:set_animation(1)
     -- velocities
+
     -- if (tlm.chunksLoaded == true) then
 
+      -- these controls were to move around easily
+      -- stop using raint for varname here, fix physics
       -- raint = 1
       if ( key("g") ) then 
         raint = raint + 1
+        print(raint)
         if raint > 97 then raint = 97 end
         apply_gravity(self, dt)
       end
       if ( key("h") ) then 
         raint = raint - 1
+        print(raint)
         if raint < 91 then raint = 91 end
         apply_gravity(self, -dt)
         self.vel.y = 0
@@ -110,6 +137,9 @@ function Player:new(x,y)
       self.animation:set_animation(2)
       self.dir.x = 1
       self.vel.x = 100
+    end
+    if( key('j')) then
+      self.animation:set_animation(3)
     end
 
     local chunk = tlm.chunksByStrKey[
@@ -177,7 +207,10 @@ function Player:new(x,y)
       love.graphics.rectangle("line",box.pos.x,box.pos.y,self.size.x,self.size.y)
       love.graphics.setColor(255,255,255,255) -- WHITE reset
     end
+    
+    -- drawing the attack hitbox -- shortsword
     if (DEBUG_HITBOX_VIS and key('j')) then 
+
       -- prediction box from check point origin
       love.graphics.setColor(255,0,0,255) -- RED
       love.graphics.rectangle(

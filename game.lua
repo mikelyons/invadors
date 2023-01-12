@@ -53,6 +53,7 @@ function Game:initialize()
   -- menu states
   loadStateFolder('menu')
   loadMenuStateFile('newGame')
+  loadStateFile  ('createWorld')
   loadMenuStateFile('loadSave')
   loadMenuStateFile('signin')
   loadStateFolder('editor')

@@ -2,6 +2,7 @@
 -- https://www.youtube.com/watch?v=wjGbFrvt2Ok
 -- Score manager
 -- Currently only one save file with stats on lines
+-- add a bones directory that saves some constructed item
 -- future: @TODO - multiple save files with grades for different playstyles
 -- -- grid scores https://www.reddit.com/r/love2d/comments/w9us4g/comment/ii3w5nv/?utm_source=reddit&utm_medium=web2x&context=3
 local binser   = require 'lib/binser/binser'
@@ -18,6 +19,8 @@ function Score:new(self)
     total      = 0,
     handicap   = 0,
     showscore = false,
+    -- each digit extracted from this string is the achievement's level, 0 means no acheivement, 7 means maximum
+    achievements = '0000000000',
     init = function() end,
     load = function(self)
       if not love.filesystem.exists('scores.lua') then
@@ -28,6 +31,7 @@ function Score:new(self)
         table.insert(self.highscores, lines)
       end
 
+      self.achievements=self.highscores[9] or '0000000000'
       self.clicks     = self.highscores[8] or 0
       self.keyStroked = self.highscores[7] or 0
       self.email      = self.highscores[6] or 'lyons.mr@gmail.com'
@@ -51,16 +55,17 @@ function Score:new(self)
       print("=================================")
       print("")
       --TODO why does this break ?
-      -- print(--'First Line of Save file: each line is a value to load\n'.. -- the Message of the day
-      --   "Times Launched     : "..self.saves              ..'\n' .. -- the number of times launched
-      --   "High Score         : "..self.highscore          ..'\n' .. -- the highest score achieved
-      --   "Score this time    : "..self.total              ..'\n' .. -- the highest score achieved
-      --   "Date               : "..os.date()               ..'\n' .. -- the recording of the current ending launch date
-      --   'PC Name            : '..os.getenv('USERDOMAIN') ..'\n' .. -- computers network name
-      --   'Email              : '..self.email              ..'\n' .. -- replace this with the users email address
-      --   'Key Strokes        : '..self.keyStroked         ..'\n' .. -- number of times a key was pressed
-      --   'Clicks             : '..self.clicks             ..'\n'    -- number of times mouse clicked
-      -- )
+      print(--'First Line of Save file: each line is a value to load\n'.. -- the Message of the day
+        "Times Launched     : "..self.saves              ..'\n' .. -- the number of times launched
+        "High Score         : "..self.highscore          ..'\n' .. -- the highest score achieved
+        "Score this time    : "..self.total              ..'\n' .. -- the highest score achieved
+        "Date               : "..os.date()               ..'\n' .. -- the recording of the current ending launch date
+        'PC Name            : '..os.getenv('USERDOMAIN') ..'\n' .. -- computers network name
+        'Email              : '..self.email              ..'\n' .. -- replace this with the users email address
+        'Key Strokes        : '..self.keyStroked         ..'\n' .. -- number of times a key was pressed
+        'Clicks             : '..self.clicks             ..'\n' ..   -- number of times mouse clicked
+        'achievements       : '..self.achievements       ..'\n'    -- number of times mouse clicked
+      )
       print("")
       print("")
       print("=================================")
@@ -109,7 +114,8 @@ function Score:new(self)
         'PC Name            : '..os.getenv('USERDOMAIN') ..'\n' .. -- computers network name
         'Email              : '..self.email              ..'\n' .. -- replace this with the users email address
         'Key Strokes        : '..self.keyStroked         ..'\n' .. -- number of times a key was pressed
-        'Clicks             : '..self.clicks             ..'\n'    -- number of times mouse clicked
+        'Clicks             : '..self.clicks             ..'\n' .. -- number of times mouse clicked
+        'Achievements       : '..self.achievements       ..'\n'    -- number of times mouse clicked
 
 
       if self.showscore then
@@ -151,7 +157,8 @@ function Score:new(self)
         os.getenv('USERDOMAIN') ..'\n' .. -- computers network name
         self.email              ..'\n' .. -- replace this with the users email address
         self.keyStroked         ..'\n' .. -- number of times a key was pressed
-        self.clicks             ..'\n'    -- number of times mouse clicked
+        self.clicks             ..'\n' .. -- number of times mouse clicked
+        self.achievements             ..'\n'    -- number of times mouse clicked
       )
 
     end

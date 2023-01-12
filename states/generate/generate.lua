@@ -218,7 +218,7 @@ end
 function generate:exitedState()
 
   -- figure out why mouse gets off when we pause
-  camera:goToPoint({x=0,y=0})
+  -- camera:goToPoint({x=0,y=0})
   -- player.pos.move(0,0)
 
   -- love.graphics.clear()
@@ -246,7 +246,8 @@ function generate:update(dt)
 end
 
 function generate:draw(dt)
-  local willDraw = false
+  -- background image behind tiles? (skybox? Parallax?)
+  local willDraw = false -- day night cycle?
   drawBackground(willDraw)
   -- camera not necessary here because camera is set around renderer and game draw, does game draw nee to be passed in love.draw in root main?
 
@@ -327,8 +328,9 @@ end
 function generate:keypressed(key, code)
   -- this should go to menu
   if key == 'escape' then
-    self:popState('generate')
-    self:gotoState('PressStart')
+    -- self:popState('generate')
+    self:gotoState('menu')
+    -- self:gotoState('PressStart')
   end --then love.event.push('quit') end
 
   if key == 'e' then self:pushState('inventory') end --then love.event.push('quit') end
@@ -376,7 +378,7 @@ function generate:keypressed(key, code)
 
   -- if key == 'o' and DEBUG_CONSOLE_FUNCTION then
   if key == 'o' then -- does this work at all?
-    debug.debug() -- how do we inspect variables with this?
+    debug.debug() -- how do we inspect variables with this: https://www.tutorialspoint.com/lua/lua_debugging.htm#
     print(debug)
     -- PrintTable(debug)
     -- PrintTable(debug.debug())

@@ -61,11 +61,20 @@ https://github.com/Guthen/Chunk2D
 - Racial damage
 
 -- text to speech : https://gist.github.com/slemonide/625b0309bdf49d1ad4ea189d2892e956
+https://www.reddit.com/r/love2d/comments/4185xi/quick_question_typing_effect/
+
+# Automated builds
+
+- https://github.com/nhartland/love-build
+
+# dependency management
+
+- https://gitea.it/1414codeforge/crush
+- https://github.com/Alloyed/loverocks
 
 # Original open source libraries
 
 - extract out gravatar.lua and make a public project out of it
-
 
 # Consideration
 
@@ -84,10 +93,10 @@ physics collisions
 Material UI
 - https://github.com/flamendless/material-love
 
-3d engine
+# 3d engine
 - https://love2d.org/forums/viewtopic.php?f=5&t=86350
 - https://love2d.org/forums/viewtopic.php?f=14&t=92041&hilit=raycast
-another - https://github.com/AndrewMicallef/ss3d
+-  another - https://github.com/AndrewMicallef/ss3d
 
 the most fleshed out game I've seen
 - https://github.com/hawkthorne
@@ -110,7 +119,7 @@ iqm/exm models? - blender
 mariokart style levels
 - https://github.com/hatninja/Playmat
 
-video
+# video
 - https://love2d.org/forums/viewtopic.php?f=5&t=9275
 - https://love2d.org/forums/viewtopic.php?f=5&t=10396
 - https://love2d.org/forums/viewtopic.php?f=5&t=9275
@@ -121,7 +130,9 @@ bone animation - https://github.com/pfirsich/andross
 flux tweening - https://github.com/flamendless/Anagramer/tree/master/modules/flux
 slab ui windows - https://github.com/flamendless/Slab
 
-post processing shaders - https://github.com/flamendless/moonshine
+# post processing shaders
+- https://github.com/flamendless/moonshine
+- https://github.com/veethree/POSTER
 
 pack assets into datafile to hide them - https://github.com/flamendless/love_seal
 

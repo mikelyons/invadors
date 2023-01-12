@@ -2,6 +2,7 @@
 function logLoad(name)
   print('LOADING: ' .. name..'-state')
 end
+
 -- loads states that are a folder instead of a file
 function loadStateFolder(name)
   local path = "states/" .. name .. '/' .. name

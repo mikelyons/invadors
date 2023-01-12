@@ -33,7 +33,8 @@ function prog:enteredState()
 end
 
 function prog:exitedState()
-  camera:goToPoint({x=0,y=0})
+  -- camera:goToPoint({x=0,y=0})
+  love.graphics.clear()
   self:pushState('menu')
 end
 function prog:update(dt) end

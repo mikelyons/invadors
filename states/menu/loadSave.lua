@@ -1,3 +1,19 @@
+--[[
+  loadSave.lua
+
+  This screen navigates the save files and displays their information
+  for the purpose of loading specific saved games and player profiles
+
+
+  TODO:
+  - display the gravatar for the associated email address when
+  created the game save
+  - display other savegame stats (date created, date last save)
+  - display score, time, karma, other things
+  - display an image derived from the save file
+  - actually load in a save game
+]]
+
 print('loadSave.lua -> ')
 
 fanfic = require 'states/menu/fanfic'
@@ -144,8 +160,8 @@ function LoadSave:loadButtons()
 	local filesTable = lfs.getDirectoryItems('/saves')
 
   -- print(filesTable)
-  -- print("filestable")
-  -- PrintTable(filesTable)
+  print("filestable")
+  PrintTable(filesTable)
 
   self.buttons = buildSavesButtonTable(self.buttons, filesTable) 
 

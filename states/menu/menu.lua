@@ -4,6 +4,9 @@
   This module is intended to provide keyboard and mouse
   access to all the individual game modes for players and
   testers alike                                           
+
+  TODO:
+  - implement key sequence cheat unlocks
 ]]--
 
 asm:load()
@@ -313,8 +316,8 @@ function Menu:draw()
   -- love.graphics.printf(text,x,y,limit,align)
 end
 
-function Menu:exitedState()
-  love.graphics.clear()
+function Menu:exieedState()
+  -- love.graphics.clear()
 end
 
 function Menu:drawButtons()
