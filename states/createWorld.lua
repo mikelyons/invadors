@@ -46,8 +46,9 @@ function CreateWorld:buildSavesButtonTable(buttonsTable, states)
 
     -- Examine the state title by char (`states[i]`)
     -- skip_state if first character is 'x'
-    for character in states[i]:gmatch"." do
-      print(character)
+    for character in states[i]:gmatch"." do -- this matches 1 character
+      -- print each character in each name
+      -- print(character)
       -- if (i == 1 and c ~= 'h') then
       if (i == 6) then
         goto skip_state
@@ -163,6 +164,8 @@ function CreateWorld:enteredState()
 
   self:loadButtons()
 
+  saveslist = love.filesystem.getDirectoryItems('/saves')
+
   -- Gravatar:load()
   -- love.graphics.clear( )
 
@@ -244,6 +247,9 @@ function CreateWorld:draw(dt)
   -- draw a pointer
   love.graphics.draw(brian, mx, my)
   -- love.graphics.draw(mouse, mx, my)
+
+	love.graphics.print(#saveslist or "no save files found", 200, 350)
+  PrintTable(saveslist)
 
 -- sign in text box
 	-- self.text:draw()

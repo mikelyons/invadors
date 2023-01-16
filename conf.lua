@@ -30,7 +30,7 @@ function love.conf( t )
   t.window.icon = 'assets/mushroom.png' -- Filepath to an image to use as the window's icon (string)
   
   t.window.width = 1340
-  t.window.height = 900 
+  t.window.height = 900
 
   -- t.window.width  = 512
   -- t.window.height = 512

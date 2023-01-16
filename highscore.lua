@@ -158,7 +158,7 @@ function Score:new(self)
         self.email              ..'\n' .. -- replace this with the users email address
         self.keyStroked         ..'\n' .. -- number of times a key was pressed
         self.clicks             ..'\n' .. -- number of times mouse clicked
-        self.achievements             ..'\n'    -- number of times mouse clicked
+        self.achievements       ..'\n'    -- number of times mouse clicked
       )
 
     end

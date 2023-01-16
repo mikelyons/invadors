@@ -33,6 +33,7 @@ function Game:initialize()
 
     -- try to get multithreading working
     loadStateFile( 'mts')
+    loadStateFile( 'orbital')
     -- self:gotoState('mts')
 
 

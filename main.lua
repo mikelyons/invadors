@@ -64,6 +64,14 @@ function love.load(...)
   -- PrintTable(debug.getinfo(1))
   -- PrintDebug()
 
+  -- required to make window resizable
+  love.window.setMode(1340, 900, {
+    resizable=true,
+    vsync=false,
+    minwidth=400,
+    minheight=300
+  })
+
   -- @TODO need to make world state save and load
   -- The initialization of the main game launch point with splash and menu maby?
   game = Game:new()
@@ -108,23 +116,23 @@ function love.update(dt)
 end
 
 -- need a better debug background
--- background = love.graphics.newImage("assets/galaxy.png")
--- local function drawBackground(willDraw)
---   if not willDraw then return end
+background = love.graphics.newImage("assets/galaxy.png")
+local function drawBackground(willDraw)
+  if not willDraw then return end
 
---   love.graphics.setColor(255, 255, 255, 145)
---   for i = 0, love.graphics.getWidth() / background:getWidth() do
---     for j = 0, love.graphics.getHeight() / background:getHeight() do
---         love.graphics.draw(background, i * background:getWidth(), j * background:getHeight())
---     end
---   end
--- end
+  love.graphics.setColor(255, 255, 255, 145)
+  for i = 0, love.graphics.getWidth() / background:getWidth() do
+    for j = 0, love.graphics.getHeight() / background:getHeight() do
+        love.graphics.draw(background, i * background:getWidth(), j * background:getHeight())
+    end
+  end
+end
 
 -- @todo figure out renerer layers
 function love.draw(dt)
   -- galaxy background defined above pre- renderer layers
-  -- willDraw = true
-  -- drawBackground(willDraw)
+  willDraw = true
+  drawBackground(willDraw)
 
   -- game camera
   camera:set()
