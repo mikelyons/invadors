@@ -18,7 +18,7 @@ __VERSION = "0.4.7.0"
 __TITLE_STR = string.format("Invadors v%s", __VERSION)
 
 
-function love.conf( t ) 
+function love.conf( t )
   t.console = true -- did this ever work?
 
   -- where is this directory?
@@ -28,7 +28,7 @@ function love.conf( t )
   t.version = "0.10.2"                -- The LÖVE version this game was made for (string)
   t.window.title = __TITLE_STR --string.format("Invadors v%s", __VERSION)        -- The window title (string)
   t.window.icon = 'assets/mushroom.png' -- Filepath to an image to use as the window's icon (string)
-  
+
   t.window.width = 1340
   t.window.height = 900
 

@@ -3,14 +3,21 @@
 local Synth = Game:addState('synth')
 
 local denver = require '../../lib/denver'
+local scorereader = require '../../lib/denver_scorereader'
 
 
-sheet = {'B4', 'E5'}
+-- sheet = {'B4', 'E5'}
 
 -- image version of this
 -- https://www.reddit.com/r/gamedev/comments/7ylvt9/pixelator_a_gamedev_tool_i_wrote_to_convert_any/
 function Synth:enteredState()
   love.audio.setVolume(0.5)
+
+  sheet = {'C3', 'C4', 'G3', 'C4', 'C3', 'C4', 'G3', 'C4',
+  'D3', 'D4', 'A3', 'D4', 'G3', 'F3', 'E3', 'D3'}
+  player = scorereader:new('square', sheet, 200)
+  player:setLooping(true)
+  player:play()
 
   -- for i=4,1,-1 do print(i)
   --   local sine = denver.get({waveform='sinus', frequency=540, length=1})
@@ -103,4 +110,11 @@ function Synth:keypressed(key, code)
   if key == ('2' or 'b') then self:pushState('bizzaro') end
   if key == ('escape') then self:popState() end
   if key == ('q') then love.event.push('quit') end
+end
+
+
+function Synth:update(dt)
+
+  player:update(dt)
+
 end

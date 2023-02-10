@@ -25,7 +25,7 @@ function CreateWorld:loadButtons()
 
   PrintTable(filesTable)
 
-  self.buttons = self:buildSavesButtonTable(self.buttons, filesTable) 
+  self.buttons = self:buildSavesButtonTable(self.buttons, filesTable)
 
 end
 

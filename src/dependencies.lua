@@ -7,7 +7,6 @@ require 'colors'
 require 'src/constants'
 require 'src/logging'
 
-
 -- Libraries
 -- based on http://aalvarez.me/blog/posts/an-introduction-to-game-states-in-love2d.html
 Class    = require 'lib/middleclass/middleclass'

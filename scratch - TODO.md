@@ -58,6 +58,11 @@ https://github.com/Guthen/Chunk2D
 
 # feature ideas
 
+#### multiple characters
+- co-op scaling of combat difficulty
+- each character takes a place in the owlr
+- mega runs of each characters life you play out
+
 - Racial damage
 
 -- text to speech : https://gist.github.com/slemonide/625b0309bdf49d1ad4ea189d2892e956

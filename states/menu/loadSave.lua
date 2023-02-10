@@ -23,7 +23,7 @@ local LoadSave = Game:addState('loadSave')
 
 function buildSavesButtonTable(buttonsTable, savesTable) 
   -- print("raint raint")
-  PrintTable(savesTable)
+  -- PrintTable(savesTable)
   -- self.buttons = {}
   -- local buttons = self.buttons
   local buttons = {}
@@ -161,7 +161,14 @@ function LoadSave:loadButtons()
 
   -- print(filesTable)
   print("filestable")
-  PrintTable(filesTable)
+  -- PrintTable(filesTable)
+  -- print(filesTable[1])
+  print('RAINTUH')
+  -- local fileinfo = lfs.getInfo('scores.lua')
+  local fileinfo = lfs.getIdentity()
+  print('RAINTUH')
+  print(fileinfor)
+  print('RAINTUH')
 
   self.buttons = buildSavesButtonTable(self.buttons, filesTable) 
 
