@@ -4,6 +4,9 @@ print('createWorld.lua -> ')
 
 print('Create World -> ')
 
+require('ui objects.button')
+print('did button load?')
+
 local CreateWorld = Game:addState('createWorld')
 
 function newButton(text, fn)
@@ -23,9 +26,11 @@ function CreateWorld:loadButtons()
 	local lfs = love.filesystem
 	local filesTable = lfs.getDirectoryItems('/states')
 
-  PrintTable(filesTable)
+  -- PrintTable(filesTable)
 
   self.buttons = self:buildSavesButtonTable(self.buttons, filesTable)
+
+  newestButton = Button:new()
 
 end
 
@@ -33,7 +38,7 @@ function CreateWorld:buildSavesButtonTable(buttonsTable, states)
   local buttons = {}
 
   -- what are these?
-  print(states)
+  -- print(states)
   -- for i=6, 15 do --#states do
   -- for i=13, #states-5 do
   -- for i=1, #states do
@@ -226,6 +231,44 @@ end
 function CreateWorld:draw(dt)
   self:drawButtons()
 
+  -- love.graphics.setColor(unpack(color))
+  love.graphics.setColor(0, 255, 255, 255)
+  -- draw Panels
+  love.graphics.rectangle(
+    'fill',
+    50,
+    50,
+    screen_width - 100,
+    200
+  )
+  love.graphics.rectangle(
+    'fill',
+    50,
+    screen_height - 250,
+    screen_width - 100,
+    200
+  )
+  -- move and rotate the coordinate system 
+  love.graphics.push()
+    love.graphics.setColor(255, 0, 255, 255)
+    love.graphics.translate(200, 200)
+    love.graphics.rotate(65)
+    love.graphics.rectangle(
+      'fill',
+      0,
+      0,
+      100,
+      200
+    )
+	love.graphics.pop()
+    love.graphics.rectangle(
+      'fill',
+      0,
+      0,
+      100,
+      200
+    )
+
   -- ensure proper gravatar color
   local _r, _g, _b, _a = love.graphics.getColor()
   -- love.graphics.setColor(r, g, b, a)
@@ -245,11 +288,16 @@ function CreateWorld:draw(dt)
   -- http://nova-fusion.com/2012/09/20/custom-cursors-in-love2d/
   love.mouse.isVisible(true)
   -- draw a pointer
-  love.graphics.draw(brian, mx, my)
+  -- love.graphics.draw(brian, mx, my)
   -- love.graphics.draw(mouse, mx, my)
+  if mx > 1000 then
+    love.graphics.print("x: "..mx.." y: "..my, mx-200, my)
+  else
+    love.graphics.print("x: "..mx.." y: "..my, mx, my)
+  end
 
 	love.graphics.print(#saveslist or "no save files found", 200, 350)
-  PrintTable(saveslist)
+  -- PrintTable(saveslist)
 
 -- sign in text box
 	-- self.text:draw()
@@ -266,13 +314,15 @@ function CreateWorld:draw(dt)
 	-- 	love.graphics.setColor(255,255,255)
 	-- 	love.graphics.print("You typed: '"..data.."' in the text box", 200, 350)
 	-- end
+  newestButton:draw()
+  -- PrintTable(self.newestButton)
 end
 
 function CreateWorld:exitedState()
   self.buttons = nil
   love.graphics.clear()
 end
-function CreateWorld:mousepressed(x,y, button , istouch) end
+function CreateWorld:mousepressed(x,y, button, istouch) end
 function CreateWorld:mousereleased(x, y, button) end
 function CreateWorld:keypressed(key, code)
   -- how to set up text again?

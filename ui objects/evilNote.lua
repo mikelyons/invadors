@@ -26,7 +26,7 @@ return {
         height = 232,
         dragging = { active = false, diffX = 0, diffY = 0 }
       },
-      
+
       mousepressed = function(x,y, button)
         -- print('Mouse '..button)
         -- print('Mouse '..x)

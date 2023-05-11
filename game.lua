@@ -46,6 +46,7 @@ function Game:initialize()
   loadStateFolder('computer')
   loadStateFile  ('bizzaro')
   loadStateFolder('prog2')
+  loadStateFolder('shop')
   loadStateFile('pro')
 
   -- ingame UIs

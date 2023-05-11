@@ -349,3 +349,28 @@ paying homage to other games or something
   -- elseif love.keyboard.isDown('up') then
   --   dy = -speed * dt
   -- end
+
+## Inspo Ideas
+
+- Driving simulation with pixel art envs 2.5d
+- motorcycle driving
+  - dodging potholes
+
+- Street walking
+  - vaping
+  - smoking
+  - shrooming
+  - street hazards
+
+- border crossing
+  - having papers in order
+  - tickets
+  - checkpoints
+  - money
+
+- shops
+  - shelves full of items
+  - checkout
+  - bag / wallet
+
+- 

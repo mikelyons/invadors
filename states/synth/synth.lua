@@ -15,6 +15,7 @@ function Synth:enteredState()
 
   sheet = {'C3', 'C4', 'G3', 'C4', 'C3', 'C4', 'G3', 'C4',
   'D3', 'D4', 'A3', 'D4', 'G3', 'F3', 'E3', 'D3'}
+
   player = scorereader:new('square', sheet, 200)
   player:setLooping(true)
   player:play()

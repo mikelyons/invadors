@@ -7,6 +7,7 @@
 
   TODO:
   - implement key sequence cheat unlocks
+  - automate debug menu game states addition pickup
 ]]--
 
 asm:load()
@@ -83,6 +84,7 @@ function Menu:keypressed(key, code)
   -- if key == ('6') then self:pushState('generate') end
   if key == ('6') then self:gotoState('generate') end
   if key == ('7') then self:pushState('orbital') end
+  if key == ('8') then self:pushState('shop') end
   if key == ('f') then self:pushState('editor') end
   -- if key == ('escape') then self:popState('menu') end
   -- if key == ('q') then love.event.push('quit') end
