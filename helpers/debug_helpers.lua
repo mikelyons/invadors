@@ -29,6 +29,22 @@ function dump(t, indent, done)
     end
 end
 
+function PrintXY(x, y)
+  print(
+    'x: '.. x .. ' ' ..
+    'y: '.. y .. ' '
+  )
+end
+function PrintTileXY(x, y)
+  print(
+    'Tile @ '..
+    'x: '.. x .. ' ' ..
+    'y: '.. y .. ' '..
+    'Tx: '.. math.floor(x/32)..
+    ' Ty: '.. math.floor(y/32)
+  )
+end
+
 --Need a pcall that will take a table of parameters
 
 -- A helper function to print the line number and other information about the printable parameter

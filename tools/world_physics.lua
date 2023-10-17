@@ -36,29 +36,61 @@ function physics_jump (obj)
   end
 end
 
+--[[
+  NEW CUSTOM MAP COLLISION DETECTION
+
+  @TODO - find a way to highlight the occupied tile
+
+]]
+function newupdate_physics(obj, dt)
+  -- print('CUSTOM MAP - '..tlm.map.tilesets[1].name)
+  -- print('ERROR: no tiles at')
+    -- print(math.floor(obj.pos.x/32), math.floor(obj.pos.y/32))
+
+  love.graphics.setColor(25,25,255,255)
+  love.graphics.rectangle('line', 100,100, 32,32)
+
+  -- love.graphics.setColor(25,25,255,255)
+  -- love.graphics.rectangle('line',
+  --   math.floor(obj.pos.x/32),
+  --   math.floor(obj.pos.y/32),
+  --   32,32
+  -- )
+  tiles = tlm.tiles[2]
+  -- PrintTable(tiles, 1)
+  -- PrintTable(tiles[1][1], 1)
+  if tiles then
+    local tile = tiles
+      [math.floor(obj.pos.y / 32)]
+      [math.floor(obj.pos.x / 32)]
+    PrintTileXY(tile.pos.x, tile.pos.y)
+
+    -- PrintXY(
+    --   tiles
+    --   [math.floor(obj.pos.y / 32)]
+    --   [math.floor(obj.pos.x / 32)].pos.x or 'error',
+    --   tiles
+    --   [math.floor(obj.pos.y / 32) ]
+    --   [math.floor(obj.pos.x / 32) ].pos.y or 'error'
+    -- )
+    -- print(tile.pos.x, tile.pos.y)
+
+    -- if object_tile ~= nil then
+    --   love.graphics.rectangle('line',
+    --     object_tile.pos.x, object_tile.pos.y, 32,32
+    --   )
+    -- end
+  else
+    print('ERROR: no tiles at')
+  end
+end
+
 -- TODO update this
 -- -- currently doesn't offset for proper chunk tile collision
 -- -- still set to the first chunk only and that column's
 -- -- bottom row due to floor
-function newupdate_physics(obj, dt)
-  -- WIP
-  print('new update physics')
-end
 function update_physics(obj, chunk, dt, customMap)
   local tiles
-  -- https://stackoverflow.com/a/60442670/637283 - # region folding
-  --#region <customMap> -- vscode folding
-    -- this breaks player movement / collisions / world physics
-    -- if customMap then
-    --   print('CUSTOM MAP - '..customMap)
-    --   tiles = tlm.tiles[2]
-    --   print(tiles)
-    -- else
-    --   print('CUSTOM MAP - '..customMap)
-    --   tiles = chunk.tiles[2]
-    --   print(tiles)
-    -- end
-  --#endregion
   tiles = chunk.tiles[2]
   -- PrintTable(tiles)
   -- print("chunk")
