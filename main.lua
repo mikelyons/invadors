@@ -41,17 +41,11 @@ local game = {
   ]]
 }
 
--- @TODO - move these to src/constants.lua
-g_Width  = love.graphics.getWidth()
-g_Height = love.graphics.getHeight()
-g_GameTime = 0
-g_TileSize = 32
-g_MapSize  = 16
 
-score = Score:new()
-score:load()
 
 function love.load(...)
+  score = Score:new()
+  score:load()
   -- print(arg[0])
   -- print("love.load("..arg[1]..")")
   -- print(arg[2])
@@ -71,6 +65,12 @@ function love.load(...)
     minwidth=400,
     minheight=300
   })
+  screen_height = 900
+  screen_width = 1340
+
+  -- this is not necessary when the conf.lua is set properly for the platform requirements
+  -- local mushroom = love.image.newImageData("assets/shroom.png")
+  -- local rainty = love.window.setIcon( mushroom )
 
   -- @TODO need to make world state save and load
   -- The initialization of the main game launch point with splash and menu maby?
@@ -186,6 +186,8 @@ function love.mousereleased(x, y, button)
 end
 function love.resize(w, h)
   print(("Window resized to width: %d and height: %d."):format(w, h))
+  screen_width = w
+  screen_height = h
 end
 function love.quit()
   score:quit()

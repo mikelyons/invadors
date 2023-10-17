@@ -1,4 +1,5 @@
 -- first pass proc gen map 
+-- local quad = love.graphics.newQuad
 -- using sti for the map loading
 -- (Simple Tiled Implementation)
 local sti = require("../../lib/sti")

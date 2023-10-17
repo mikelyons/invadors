@@ -1,0 +1,9 @@
+Error: [string "boot.lua"]:577: Cannot load game at path '/mnt/c/users/Mike/Dev/invadors/i1/main.lua'.
+Make sure a folder exists at the specified path.
+stack traceback:
+	[string "boot.lua"]:777: in function <[string "boot.lua"]:773>
+	[C]: in function 'error'
+	[string "boot.lua"]:577: in function <[string "boot.lua"]:380>
+	[C]: in function 'xpcall'
+	[string "boot.lua"]:787: in function <[string "boot.lua"]:780>
+	[C]: in function 'xpcall'

@@ -7,7 +7,7 @@
   <property name="author" value="Mike Lyons"/>
  </properties>
  <tileset firstgid="1" source="terrain-sonicrumpets.tsx"/>
- <layer id="3" name="nonsolid background" width="64" height="32">
+ <layer id="3" name="nonsolid background" width="64" height="32" visible="0">
   <properties>
    <property name="solid" type="bool" value="false"/>
   </properties>
@@ -46,7 +46,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="4" name="indoor background" width="64" height="32">
+ <layer id="4" name="indoor background" width="64" height="32" visible="0">
   <properties>
    <property name="solid" type="bool" value="false"/>
   </properties>
@@ -87,7 +87,7 @@
  </layer>
  <layer id="1" name="solid world" width="64" height="32">
   <properties>
-   <property name="solid" type="bool" value="false"/>
+   <property name="solid" type="bool" value="true"/>
   </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -124,7 +124,7 @@
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 </data>
  </layer>
- <layer id="2" name="nonsolid world" width="64" height="32">
+ <layer id="2" name="nonsolid world" width="64" height="32" visible="0">
   <properties>
    <property name="solid" type="bool" value="false"/>
   </properties>

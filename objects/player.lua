@@ -13,17 +13,16 @@
 -- require 'tools/camera'
 require 'tools/physics_helper'
 require 'tools/world_physics'
+local floor = math.floor
+local quad = love.graphics.newQuad
 
 function combat_attack(obj)
   print(obj.name .. ' ATTACKED')
-
 end
 
 local Player = {}
-local floor = math.floor
 -- local tiles = tlm.tiles[2] -- tiles of the spawn chunk
 
-local quad = love.graphics.newQuad
 local anim_data = {
   quad(0,0,16,16,192,16),
   quad(16,0,16,16,192,16),
@@ -39,7 +38,9 @@ image:setFilter("nearest","nearest")
 
 function Player:new(x,y)
   -- x,y,w,h,img,quad,id
-  local player = require('objects/entity'):new(x,y,32,32,nil,nil,"player")
+  local player = require('objects/entity'):new(
+    x,y,32,32,nil,nil,"player"
+  )
 
   function player:load()
     renderer:addRenderer(self, 3)
@@ -101,31 +102,32 @@ function Player:new(x,y)
     self.animation:set_animation(1)
     -- velocities
 
-    -- if (tlm.chunksLoaded == true) then
+    if (tlm.chunksLoaded == true) then
 
       -- these controls were to move around easily
       -- stop using raint for varname here, fix physics
       -- raint = 1
-      if ( key("g") ) then 
-        raint = raint + 1
-        print(raint)
-        if raint > 97 then raint = 97 end
-        apply_gravity(self, dt)
-      end
-      if ( key("h") ) then 
-        raint = raint - 1
-        print(raint)
-        if raint < 91 then raint = 91 end
-        apply_gravity(self, -dt)
-        self.vel.y = 0
-        -- print(raint)
-      end
-      if ( key("b") ) then 
-        self.vel.y = 0
-        print(raint)
-      end
+      -- if ( key("g") ) then 
+      --   raint = raint + 1
+      --   print(raint)
+      --   if raint > 97 then raint = 97 end
+      --   apply_gravity(self, dt)
+      -- end
+      -- if ( key("h") ) then 
+      --   raint = raint - 1
+      --   print(raint)
+      --   if raint < 91 then raint = 91 end
+      --   apply_gravity(self, -dt)
+      --   self.vel.y = 0
+      --   -- print(raint)
+      -- end
+      -- if ( key("b") ) then 
+      --   self.vel.y = 0
+      --   print(raint)
+      -- end
+      apply_gravity(self, dt)
 
-    -- end
+    end
 
     -- walk left or right
     if ( key("left") or key('a') ) then
@@ -164,15 +166,16 @@ function Player:new(x,y)
     -- print(tostring(self.pos.x / 32 / 16)..tostring(self.pos.y / 32 / 16))
     -- print(tostring(self.pos.y / 32 / 16))
     -- PrintTable(tlm.chunksByStrKey[tostring(floor(self.pos.x / 32 / 16))..tostring(floor(self.pos.y / 32 / 16))], 3)
-    
+
 
     if tlm.customMap then
       chunk.tiles = tlm.tiles
       -- PrintTable(chunk.tiles, 1)
       -- PrintTable(tlm.tiles, 1)
     end
-    -- collision
-    -- update_physics(self, chunk, dt, true) --tlm.customMap)
+
+    -- COLLISION HANDLING in world_physics.lua WIP
+    update_physics(self, chunk, dt, true) --tlm.customMap)
 
     -- jump
     if ( key("space") or key('w') or key('up') ) then 

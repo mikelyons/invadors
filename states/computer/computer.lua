@@ -142,7 +142,6 @@ tempcomp:setFilter("nearest", "nearest")
 --   0.5
 -- )
 function Computer:draw()
-  self.evilnote:draw()
 
   local _r, _g, _b, _a = love.graphics.getColor()
   local _lineWidth = love.graphics.getLineWidth()
@@ -446,6 +445,8 @@ function Computer:draw()
     love.graphics.setLineWidth(_lineWidth)
     love.graphics.setColor(_r, _g, _b, _a)
   end
+
+  self.evilnote:draw()
 end
 
 function drawCanvas(c)

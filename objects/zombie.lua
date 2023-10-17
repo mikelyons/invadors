@@ -4,6 +4,8 @@ require 'tools/world_physics'
 local Zombie = {}
 local floor = math.floor
 local tiles = tlm.tiles[2]
+local image = love.graphics.newImage('assets/zombie/zombie.png')
+image:setFilter("nearest","nearest")
 
 function Zombie:new(x,y)
   -- x,y,w,h,img,quad,id
@@ -13,14 +15,34 @@ function Zombie:new(x,y)
     renderer:addRenderer(self, 3)
     gameloop:addLoop(self)
 
+    self.name = "zombie"
+    self.attackvector = nil
+    self.inventory = {}
+
     init_physics(self, 500)
+
+    self.animation = require('animation'):new(
+      image,
+      { -- idle animation
+        -- anim_data[1],
+        -- anim_data[1],
+        -- anim_data[1]
+      },
+      0.2
+    )
+    self.animation:play()
   end
 
   function zombie:tick(dt)
     -- velocities
     apply_gravity(self, dt)
 
-    -- hunt the player
+    -- is this a memory leak of boxes? update position instead?
+    if (DEBUG_HITBOX_VIS and key) then
+      box = rect:new(self.pos.x + (self.vel.x * dt * self.dir.x), self.pos.y + (self.vel.y * dt * self.dir.y),self.size.x,self.size.y)
+    end
+
+    -- hunt the player - **move AI code**
     local player = obm:get_closest_by_id(self, "player")
     if self.on_ground then
       if self.pos.x < player.pos.x then
@@ -31,6 +53,9 @@ function Zombie:new(x,y)
         self.dir.x = -1
       end
     end
+
+    -- set the animation? every frame or else?
+    self.animation:set_animation(1)
 
     -- if math.random(1,100) == 1 then
     --   physics_jump(self)
@@ -84,6 +109,14 @@ function Zombie:new(x,y)
     --minimap?
     love.graphics.rectangle("fill",x_pos,y_pos,2,2)
     love.graphics.setColor(255,255,255)
+
+    if (DEBUG_HITBOX_VIS) then 
+      -- prediction box from check point origin
+      love.graphics.setColor(0,255,0,255) -- GREEN
+      love.graphics.rectangle("line",box.pos.x,box.pos.y,self.size.x,self.size.y)
+      love.graphics.setColor(255,255,255,255) -- WHITE reset
+    end
+
   end
 
   return zombie

@@ -16,14 +16,15 @@ require 'states/menu/splash_texts_library'
 splashtext = require('states/menu/splash_texts')
 SplashText = splashtext:new()
 
-gravatar = require('states/menu/gravatar')
+-- gravatar = require('states/menu/gravatar')
 -- was this just a note or experiment?
-Gravatar = gravatar:new(score['email'], 100, 100)
+-- Gravatar = gravatar:new(score['email'], 100, 100)
 -- Gravatar = gravatar:new('', 100, 100)
 
 -- test particle
 particle = require('../src/particles/baseParticle')
 Particle = particle:new(300, 300, img)
+-- Particle = particle:new(300, 300, particle or img)
 Particle:load()
 
 -- blood particle on click
@@ -58,8 +59,8 @@ Menu = Game:addState('menu')
 -- table length util function
 function Tlength(tbl)
   local getN = 0
-  for n in pairs(tbl) do 
-    getN = getN + 1 
+  for n in pairs(tbl) do
+    getN = getN + 1
   end
   return getN
 end
@@ -67,27 +68,39 @@ end
 function Menu:keypressed(key, code)
   -- if key == ('1' or 'return') then self:startGame() end
   -- if key == ('1' or 'return') then self:pushState('generate') end
-  -- if key == ('1' or 'return') then self:pushState('dialogue') end
+  if key == ('e' or 'l') then self:pushState('dialogue') end
   if key == ('1' or 'return') then self:pushState('computer') end
+  if key == ('b') then self:pushState('book') end
   -- if key == ('1' or 'return') then self:pushState('signin') end
   -- if key == ('1' or 'return') then self:pushState('generate') end
   if key == ('2' or 'space') then self:pushState('bizzaro') end
   if key == ('3' or 's') then self:pushState('synth') end
   if key == ('4' or 'm') then self:pushState('mts') end
   -- if key == ('4' or 'g') then self:pushState('prog2') end
-  if key == ('5' or 'g') then self:pushState('prog2') end
+  if key == ('5') then self:pushState('prog2') end
+  if key == ('w') then self:pushState('wireArt') end
   -- if key == ('6' or 'h') then self:pushState('pro') end
   -- if key == ('3' or 'q') then self:pushState('space1') end
   -- if key == ('4' or 'w') then self:pushState('Earth2') end
   -- if key == ('5') then self:pushState('commando') end
   -- if key == ('6') then self:pushState('generate') end
-  if key == ('6') then self:gotoState('generate') end
+  if key == ('g') then self:gotoState('generate') end
   if key == ('7') then self:pushState('orbital') end
+  if key == ('8') then self:pushState('characterCreation') end
+  -- if key == ('9') then self:pushState('generate') end
+  if key == ('9') then self:pushState('kitchen') end
   if key == ('f') then self:pushState('editor') end
+  if key == ('i') then self:pushState('infiniteRunner') end
   -- if key == ('escape') then self:popState('menu') end
   -- if key == ('q') then love.event.push('quit') end
   if key == ('escape') then love.event.push('quit') end
 end
+
+-- get the mouse position with the proper camera scaling
+-- function mouse_pos()
+--     mouse.x, mouse.y = love.mouse.getPosition()
+--     mouse.x, mouse.y = (mouse.x + (camera.x - camera.w/2)*window.scale)/window.scale, (mouse.y + (camera.y - camera.h/2)*window.scale)/window.scale
+-- end
 
 function Menu:mousepressed(x,y, button , istouch)
   if love.mouse.isDown(1) then
@@ -111,11 +124,12 @@ function Menu:mousepressed(x,y, button , istouch)
 end
 function Menu:mousereleased(x, y, button)
   --draggable note rect
-  if button == 1 then 
-    rect.dragging.active = false 
+  if button == 1 then
+    rect.dragging.active = false
   end
 end
 
+-- was this going to be a debug function?
 function stackDebug(self) end
 
 function Menu:pushedState()
@@ -158,7 +172,7 @@ function Menu:enteredState()
   -- self.font = love.graphics.newFont(32)
 
   self:loadButtons(Menu)
-  Gravatar:load()
+  -- Gravatar:load()
 
   love.graphics.clear()
   brian = asm:get('brian')
@@ -169,7 +183,7 @@ function Menu:enteredState()
 
   -- entity componentize and animate this
   self.canvas = love.graphics.newCanvas(32, 32)
-   
+
   -- Rectangle is drawn to the canvas with the regular alpha blend mode.
   love.graphics.setCanvas(self.canvas)
     love.graphics.clear()
@@ -276,7 +290,7 @@ function Menu:draw()
   love.graphics.setColor(_r, _g, _b, _a)
   local _r, _g, _b, _a = love.graphics.getColor()
   love.graphics.setColor(0, 255, 255, 255)
-  Gravatar:draw()
+  -- Gravatar:draw()
 
   love.graphics.setColor(_r, _g, _b, _a)
 
@@ -417,6 +431,7 @@ function Menu:loadButtons(menu)
 	local lfs = love.filesystem
 	local filesTable = lfs.getDirectoryItems('/saves')
 
+  -- WINDOWS: %appdata%\LOVE\invadors_save_directory
   success = love.filesystem.createDirectory( 'saves' )
 
   if not love.filesystem.exists('saves/scores.lua') then
@@ -501,7 +516,7 @@ function Menu.numericKeyboarMenu(key, code)
   -- if key == ('5') then self:pushState('commando') end
   -- if key == ('6') then self:pushState('generate') end
   -- if key == ('6') then self:gotoState('generate') end
-  
+
   if key == ('q') then love.event.push('quit') end
   if key == ('escape') then love.event.push('quit') end
 
@@ -516,4 +531,4 @@ function Menu.numericKeyboarMenu(key, code)
 
     END OF TRANSMISSION]]
     , 50, 320, 620, 'left')
-end-- 
+end

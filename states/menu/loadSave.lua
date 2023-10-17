@@ -21,7 +21,7 @@ print('loadSave -> ')
 
 local LoadSave = Game:addState('loadSave')
 
-function buildSavesButtonTable(buttonsTable, savesTable) 
+function buildSavesButtonTable(buttonsTable, savesTable)
   -- print("raint raint")
   PrintTable(savesTable)
   -- self.buttons = {}
@@ -37,7 +37,7 @@ function buildSavesButtonTable(buttonsTable, savesTable)
     -- table.insert(buttons, " raint")
 
     table.insert(buttons, newButton(
-      savesTable[i] or 'empty',
+      savesTable[i] or '--',
       function()
         -- print('===')
         -- print('button')
@@ -51,7 +51,7 @@ function buildSavesButtonTable(buttonsTable, savesTable)
     print('===')
   end
   -- self.buttons = buttons
-  PrintTable(buttons)
+  -- PrintTable(buttons)
   -- PrintTable(buttons)
   -- for i=1, #savesTable do
   --   print('===')
@@ -157,13 +157,14 @@ function LoadSave:loadButtons()
 
   local saveFiles = {}
 	local lfs = love.filesystem
+ -- https://love2d.org/wiki/love.filesystem - %appdata%\LOVE\invadors_save_directory
 	local filesTable = lfs.getDirectoryItems('/saves')
 
   -- print(filesTable)
   print("filestable")
   PrintTable(filesTable)
 
-  self.buttons = buildSavesButtonTable(self.buttons, filesTable) 
+  self.buttons = buildSavesButtonTable(self.buttons, filesTable)
 
 end
 
@@ -171,7 +172,7 @@ end
 
 function LoadSave:enteredState()
   -- love.graphics.clear(255,255,255,255)
-  love.graphics.clear(1,1,1,1)
+  -- love.graphics.clear(1,1,1,1)
   if DEBUG_LOGGING_ON then
     print(string.format("ENTER LoadSave STATE - %s \n", os.date()))
   end
@@ -267,7 +268,7 @@ function LoadSave:draw(dt)
   local _r, _g, _b, _a = love.graphics.getColor()
   -- love.graphics.setColor(r, g, b, a)
   love.graphics.setColor(0, 255, 255, 255)
-  Gravatar:draw()
+  -- Gravatar:draw()
   -- love.graphics.reset()
   -- love.graphics.pop()
   love.graphics.setColor(_r, _g, _b, _a)

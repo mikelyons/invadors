@@ -1,4 +1,3 @@
-
 --[[
   debug_helpers.lua
 
@@ -149,8 +148,12 @@ function PrintTable(tbl, depth, n)
 end
 
 -- this only works if you run the game with RUN.BAT
+-- link to color definitions and figure out how to reset
+-- examples here: https://learn.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences#samples
 function PrintColor(p, colorName)
   local n = colorName
+  local string = p
+  local final = ""
   local pc = {
     ['red'] = ''
   }
@@ -164,14 +167,21 @@ function PrintColor(p, colorName)
 
     -- print('\27[0mReset!')
     -- print('\27[mReset!')
-    -- print("")
+    if     colorName == "yellow" then final = final..  '\27[33m'..p..''
+    elseif colorName == "red" then final = final..  '\27[31m'..p..''
+    elseif colorName == "---------" then final = final..  '\27[31m'..p..''
+    elseif colorName == "green" then final = final.. '\27[32m'..p..''
+    elseif colorName == "white" then final = final.. '\27[37m'..p..''
+    else   final = "-- ERROR ERROR ERROR ERROR -- "
+    end
+    print("")
+    print(final)
+    print("\x1b[34;46mThis text shows the foreground and background change at the same time."); --\r\n
+    print("\x1b[0mThis text has returned to default colors using SGR.0 explicitly.");
 
-    print(
-      '\27[31m'..p..'! - ' .. 
-      'red' ..
-      '\27[31mRed!' .. 
-      ''
-    )
+
+    print("")
+    -- print('\x1b[31mtest\033[0ming')
     -- print('\27[32mGreen!')
     -- print('\27[33mYello!')
     -- print('\27[34mBlue!')
@@ -182,5 +192,24 @@ function PrintColor(p, colorName)
     -- print('\27[0mReset!')
     -- print('\27[mReset!')
     -- print("")
-  
 end
+
+--[[
+  colors
+  1 = Blue        
+  2 = Green       
+  3 = Aqua        
+  4 = Red         
+  5 = Purple      
+  6 = Yellow      
+  7 = White       
+  8 = Gray
+  9 = Light Blue
+  0 = Black       
+  A = Light Green
+  B = Light Aqua
+  C = Light Red
+  D = Light Purple
+  E = Light Yellow
+  F = Bright White
+]]

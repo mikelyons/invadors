@@ -50,6 +50,7 @@ function addLayer(map, name)
   table.insert(map.layers, layer)
   return layer
 end
+-- add a layer to the map object's table
 local layer = addLayer(map, "grass")
 
 -- populate the layer with a default tile ID
@@ -61,6 +62,7 @@ end
 
 -- helper function to get the ID of a tile from the tileset using x,y coordinates
 function getTileID(tileset, x, y)
+  -- the width of each tile in image pixels
   local width = tileset.imagewidth / tileset.tilewidth
   return x + y * width + 1 -- +1 because Tile ID 0 represents an empty tile
 end
@@ -101,6 +103,7 @@ Tree:load(objects_layer)
 Tree:randomTree(objects_layer, tileset)
 
 
+-- need to figure out sti tilemap:draw()
 local tileMap = sti(map)
 local w, h = tileMap.tilewidth * tileMap.width, tileMap.tileheight * tileMap.height
 local camera = gamera.new(0, 0, w, h)
@@ -111,6 +114,8 @@ function love.draw()
   camera:draw(function(l, t, w, h)
     tileMap:update(dt)
     tileMap:setDrawRange(-l, -t, w, h)
+-- @TODO
+-- need to figure out sti tilemap:draw()
     tileMap:draw()
   end)
 end

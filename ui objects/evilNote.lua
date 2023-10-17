@@ -16,7 +16,7 @@
 
 
 return {
-  new = function(self, x, y, text) 
+  new = function(self, x, y, text)
     return {
       text = text,
       rect = {
@@ -26,7 +26,7 @@ return {
         height = 232,
         dragging = { active = false, diffX = 0, diffY = 0 }
       },
-      
+
       mousepressed = function(x,y, button)
         -- print('Mouse '..button)
         -- print('Mouse '..x)
@@ -50,8 +50,8 @@ return {
       end,
       mousereleased = function(x, y, button)
         -- Stop dragging
-        if button == 1 then 
-          rect.dragging.active = false 
+        if button == 1 then
+          rect.dragging.active = false
         end
       end,
 
@@ -59,7 +59,7 @@ return {
       new = function(self) end,
       load = function(self) end,
 
-      update= function(self)
+      update = function(self)
         if rect.dragging.active then
           rect.x = love.mouse.getX() - rect.dragging.diffX
           rect.y = love.mouse.getY() - rect.dragging.diffY
@@ -72,8 +72,11 @@ return {
         love.graphics.rectangle("fill", rect.x, rect.y, rect.width, rect.height)
         love.graphics.setColor(205, 5, 5, 255)
         love.graphics.printf(
-          text--SplashText:getText()
-          ,rect.x+20,rect.y+20,220)
+          text, --SplashText:getText()
+          rect.x+20,
+          rect.y+20,
+          220
+        )
         love.graphics.setColor(255, 255, 255, 255)
       end,
     }

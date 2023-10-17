@@ -1,3 +1,12 @@
+--[[
+  world_physics.lua
+  
+  WORLD PHYSICS
+
+  Handles collision for the chunk the player is in
+  needs updated to handle surrounding chunks and seams/borders of chunks
+  -- does it work on custom maps? not the new ones
+]]
 
 local floor = math.floor
 
@@ -5,7 +14,7 @@ local rect = require('objects/rect')
 local vec2 = require('tools/vec2')
 
 function init_physics( obj, gravity, dt )
-  obj.on_ground = false 
+  obj.on_ground = false
   obj.gravity = gravity or 500
 end
 function apply_gravity(obj,dt)
@@ -31,23 +40,39 @@ end
 -- -- currently doesn't offset for proper chunk tile collision
 -- -- still set to the first chunk only and that column's
 -- -- bottom row due to floor
+function newupdate_physics(obj, map, dt, customMap)
+-- WIP
+end
 function update_physics(obj, chunk, dt, customMap)
   local tiles
-  -- if customMap then
-  --   print('CUSTOM MAP - '..customMap)
-  --   tiles = tlm.tiles[2]
-  --   print(tiles)
-  -- else
-  --   print('CUSTOM MAP - '..customMap)
-  --   tiles = chunk.tiles[2]
-  --   print(tiles)
-  -- end
+  -- https://stackoverflow.com/a/60442670/637283 - # region folding
+  --#region <customMap> -- vscode folding
+    -- this breaks player movement / collisions / world physics
+    -- if customMap then
+    --   print('CUSTOM MAP - '..customMap)
+    --   tiles = tlm.tiles[2]
+    --   print(tiles)
+    -- else
+    --   print('CUSTOM MAP - '..customMap)
+    --   tiles = chunk.tiles[2]
+    --   print(tiles)
+    -- end
+  --#endregion
   tiles = chunk.tiles[2]
+  -- PrintTable(tiles)
+  -- print("chunk")
+  -- PrintTable(tiles, 1)
+  -- PrintTable(chunk, 1)
+  -- love.timer.sleep( 1000 )
+
   local chunksize = g_MapSize -- 16
 
+  -- print("TILES[4]12, 1")
   -- PrintTable(tiles[4][12], 1) --h[1][1].pos, 1)
+  -- PrintTable(tiles[4], 1) --h[1][1].pos, 1)
   -- PrintTable(obj.pos, 1)
 
+  -- update_physics in world_physics.lua handler?
     -- collisions
   -- objects position integer and
   -- made positive to work as table index
@@ -76,10 +101,20 @@ function update_physics(obj, chunk, dt, customMap)
   --   print('box: '..x..'x '..y..'y ')
   -- end
 
+  -- WORLD COLLISION HANDLING
+  --[[
+    in the chunk, loop over all the tiles and see if the obj's
+    prediction box overlaps the tile on the next tick (now + dt)
+    @TODO - https://stackoverflow.com/questions/7148678/lua-print-on-the-same-line
+     - print the shape of the table iteration to the console with ascii
+  ]]
   -- for i = y, y + h do
   --   for j = x, x + w do
-  for i = 1,16 do
-    for j = 1,16 do
+  -- attempt to collide larger map
+  for i = 1,32 do
+    for j = 1,64 do
+  -- for i = 1,16 do
+  --   for j = 1,16 do
       if i > chunksize then i = chunksize end
       if j > chunksize then j = chunksize end
 
@@ -94,7 +129,7 @@ function update_physics(obj, chunk, dt, customMap)
       end
 
       -- print(tile)
-      if tile == nil then 
+      if tile == nil then
         -- obj.on_ground = false 
         -- do I even need to know if the character is falling?
         -- Do nothing

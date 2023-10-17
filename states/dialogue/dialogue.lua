@@ -11,23 +11,45 @@ print('dialogue.lua -> ')
 -- -- seems to handle that
 --
 
-print('Dialogue -> ')
-
 -- local fanfic = require 'states/menu/fanfic'
 -- local text = fanfic.new(200,300, "New textbox", false, 16)
 
+print('Dialogue -> ')
 local Dialogue = Game:addState('dialogue')
+
 function Dialogue:mousepressed(x,y, button , istouch) end
 function Dialogue:mousereleased(x, y, button) end
+
 function Dialogue:keypressed(key, code)
 --   text:keypressed(key, code)
-  if key == ('l') then self:popState('dialogue') end
+  if key == ('l' or 'e') then self:popState('dialogue') end -- if key == ('l') then self:popState('dialogue') end
+
+  if key == ('return') then
+
+    Dialogue.number = Dialogue.number + 1
+    print(
+      Dialogue.script[Dialogue.number]
+      .. ' number #' .. Dialogue.number)
+    -- love.event.push('quit')
+
+  end -- advance dialogue
+
   if key == ('escape') then love.event.push('quit') end
 end
+
 function Dialogue:enteredState()
   if DEBUG_LOGGING_ON then
     print(string.format("ENTER dialogue STATE - %s \n", os.date()))
   end
+
+  Dialogue.number = 0
+  Dialogue.limit = 5
+  Dialogue.script = {
+    -- ["elon"] = 'raint'
+    'raint',
+    'raint number two',
+    "raint 3"
+  }
 
   -- the character avatar
   -- https://pixel-me.tokyo/en/ - face to pixel art
@@ -55,6 +77,36 @@ function Dialogue:draw()
   self.panex = camera.pos.x + (self.width/11)
   self.paney = camera.pos.y + (self.height - self.height/3) - 64
 
+
+  -- local hero = love.graphics.newImage("assets/character/avatars/EM.png")
+  -- love.graphics.setColor(255,255,255)
+  -- local hero = love.graphics.newImage("states/dialogue/character/elon.png")
+
+  -- conversation scene background image
+  -- love.graphics.setColor(255,255,255, 255)
+  -- local background = love.graphics.newImage("assets/character/avatars/elon/hello.PNG")
+  -- love.graphics.draw(background,
+  --   -- self.panex+32, self.paney+32,
+  --   10, 20,
+  --   nil,
+  --   -- 0.75
+  --   0.5
+  --   -- 1
+  -- )
+
+  -- character expression hero image
+  love.graphics.setColor(255,255,255, 255)
+  local hero = love.graphics.newImage("assets/character/avatars/elon/hello.PNG")
+  love.graphics.draw(hero,
+    -- self.panex+32, self.paney+32,
+    10, 20,
+    nil,
+    -- 0.75
+    0.5
+    -- 1
+  )
+
+
   -- self.panexx = (self.width/4)*3
   -- self.paneyy = (self.height/4)*3
   self.panew = self.width - (self.width/6)
@@ -77,13 +129,14 @@ function Dialogue:draw()
 
   love.graphics.setColor(55, 55, 155, 255)
 
-  local txt = [[rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away]]
+  -- local txt = [[rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away]]
 
   love.graphics.rectangle('fill', panex-25, paney-25, panew+50, paneh+50, 32, 32)
   love.graphics.setColor(255, 255, 255, 255)
   love.graphics.rectangle('line', panex-25, paney-25, panew+50, paneh+50, 32, 32)
   love.graphics.printf(
-    txt,
+    -- txt,
+    script[Dialogue.number or 1],
     panex+32 + 200,
     paney,--+32,
     panew-32 - 200,
@@ -136,8 +189,8 @@ function Dialogue:draw()
 
     -- coorinates of the dialogue action indicator
     -- This table could be built incrementally too.
-    -- local vertices = {100,100, 200,100, 150,200}
-    local vertices = {0,0, 0,100, 200,200, 250,300, 110,200, 100,100}
+    local vertices = {100,100, 200,100, 150,200}
+    -- local vertices = {0,0, 0,100, 200,200, 250,300, 110,200, 100,100}
 
     -- Passing the table to the function as a second argument.
     love.graphics.setColor(55, 255, 55, 255)
@@ -148,7 +201,7 @@ function Dialogue:draw()
     -- local vertices = {100,100, 200,100, 150,200}
     love.graphics.setColor(55, 55, 55, 255)
     love.graphics.setLineWidth(3)
-    love.graphics.polygon("line", vertices)
+    -- love.graphics.polygon("line", vertices)
   end
 
 
@@ -158,12 +211,16 @@ function Dialogue:draw()
   --   self.raintar = love.graphics.newImage(self.raintar)
   -- else -- Default avatar == no internet or gravatar down
   -- local raintar = love.graphics.newImage("assets/newer/brian.png")
+  --
   local raintar = love.graphics.newImage("assets/character/avatars/EM.png")
   love.graphics.draw(raintar,
     self.panex+32, self.paney+32,
     nil,
     0.5
   )
+
+
+
   -- love.graphics.rectangle("fill",
   --   self.panex+32,self.paney+32,
   --   96,96)

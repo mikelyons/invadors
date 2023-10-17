@@ -22,3 +22,7 @@ function loadMenuStateFile(name)
   require(path)
   logLoad(name..' file')
 end
+
+function loadState(name, fileorfolder) end
+
+function loadAllStates() end

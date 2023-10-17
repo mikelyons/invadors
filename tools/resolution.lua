@@ -8,14 +8,20 @@
 -- https://love2d.org/wiki/love.window.setMode
 --
 
+print('')
+print('resolution.lua -> ')
+print('')
+
 -- record current window dimensions
 function windowDimensions()
     local width, height, flags = love.window.getMode()
     if DEBUG_LOGGING_ON then
+        print('')
         print('Current device resolution -- .getMode() :')
         print(width, height)
-        print('FLAGS -- ')
+        print('begin FLAGS -- ')
         PrintTable(flags)
+        print(' end  FLAGS -- ')
     end
     return {width, height, flags}
 end
@@ -42,6 +48,8 @@ end
 
 -- logg the window and device dimensions on startup if debug logging on
 if DEBUG_LOGGING_ON then
+    print('')
+    print('resolution.lua -- debug logging dimensions functions -- -> ')
     deviceDimensions()
     windowDimensions()
 end

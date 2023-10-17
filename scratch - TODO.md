@@ -1,4 +1,21 @@
+TO DO:
+see lua-project/basic for many goodies to incorporate
+
+
 ### Dev Log
+
+##### 10-13-2023 Friday
+
+- Many things in the works
+- need to git commit, way too much uncommitted stuff
+  - need to make a release with all new features showcased
+- need to list all new things in devlog
+
+##### 10-2-2023
+
+- GRAVATAR is broken, breaks any module it's included in, commenting out for now
+- the layers of the world render now, but collision isn't working with the
+- - new style worlds
 
 ##### 12-9-2022
 
@@ -14,6 +31,15 @@ trying to fix collisions to they work again after all the chunk tile stuff
 
 - Add The Herobrine
 -  
+
+## Wizard Chores
+
+- the toxic crisis as the drowning music and other cruS OST as radio items w chuckable radio item in invadortz
+- chuckable radio item has all tracks encountered in the while in situations that play those tracks as their sound track
+-
+
+## Ape meat suits
+- hollowed out ape body with skull helmet but works as a cyber suit
 
 ## Priorities
 

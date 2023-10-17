@@ -2,7 +2,6 @@
 @rem Version Manager for LOVE
 
 @REM @echo off 
-@REM eventually we want to be able to input the version we want and auto-select conf'd
 
 
 
@@ -47,8 +46,6 @@
 @REM  %Print%{150;150;80}marker and erase macro.\n
 
 
-
-
 @REM https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
 
 @ECHO OFF
@@ -56,7 +53,26 @@ SETLOCAL EnableExtensions DisableDelayedExpansion
 for /F %%a in ('echo prompt $E ^| cmd') do (
   set "ESC=%%a"
 )
-echo ^<ESC^>[4m %ESC%[4mUnderline DisableDelayedExpansion%ESC%[0m
+
+:: eventually we want to be able to input the version we want and auto-select conf'd
+TITLE "Invadors Console Log"
+
+:: Below is a bunch of stuff about launching the game with logging enabled
+
+echo ^<run.BAT^> %ESC%[4m-run.bat-%ESC%[0m
+@REM echo ^<ESC^>[4m %ESC%[4mDisableDelayedExpansion%ESC%[0m
+echo.
+echo.
+echo %ESC%[4m %DATE% - %TIME% %ESC%[0m
+echo.
+@REM echo %ESC%[4m %PATH% %ESC%[0m
+echo ^<run.BAT^> %ESC%[4m-run.bat-%ESC%[0m
+echo %ESC%[%ESC%[0m
+@REM echo %ESC%[4m %ESC%[0m
+@REM echo ^<ESC^>[4m %ESC%[4mDisableDelayedExpansion%ESC%[0m
+echo %ESC%[4m Begin LOVE.exe execution %ESC%[0m
+echo %ESC%[%ESC%[0m
+@REM echo %ESC%[4m %ESC%[0m
 
 @REM SETLOCAL EnableDelayedExpansion
 
@@ -122,7 +138,8 @@ echo ^<ESC^>[4m %ESC%[4mUnderline DisableDelayedExpansion%ESC%[0m
 @REM start %CD%\lib\love\10.2\love.exe %CD%\
 
 @REM 11.3 is broken currently
-start %CD%\lib\love\11.3\love.exe %CD%\
+@REM start %CD%\lib\love\11.3\love.exe %CD%\ > lastrunbat.txt
+start %CD%\lib\love\10.2\love.exe %CD%\ > lastrunbat.txt
 
 @REM attaches a consoel
 @REM start %CD%\lib\love\11.3\lovec.exe %CD%\ "run.BAT"
@@ -138,5 +155,5 @@ start %CD%\lib\love\11.3\love.exe %CD%\
 
 @REM @ECHO OFF
 
-@REM keep open
-cmd /k
+@REM keep open - this prevents the console from closing
+@REM cmd /k

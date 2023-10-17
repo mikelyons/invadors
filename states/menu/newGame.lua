@@ -188,7 +188,7 @@ function NewGame:enteredState()
 
   -- really? vvv
   -- THIS CRUCIAL STEP needs to be added for all other renderables!! @TODO
-  renderer:addRenderer(self, 5)
+  -- renderer:addRenderer(self, 5)
 end
 
 -- we want multiline on this eventually: https://github.com/riidom/mlvtest/blob/master/multilineview.lua
@@ -247,7 +247,7 @@ function NewGame:draw(dt)
   local _r, _g, _b, _a = love.graphics.getColor()
   -- love.graphics.setColor(r, g, b, a)
   love.graphics.setColor(0, 255, 255, 255)
-  Gravatar:draw()
+  -- Gravatar:draw()
   -- love.graphics.reset()
   -- love.graphics.pop()
   love.graphics.setColor(_r, _g, _b, _a)

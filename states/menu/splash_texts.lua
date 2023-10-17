@@ -1,3 +1,8 @@
+--[[
+  splash_texts.lua
+
+  The splash message on the title screen taken at random from the splash_texts_library
+]]
 
 require('helpers/font_helpers')
 require 'states/menu/splash_texts_library'

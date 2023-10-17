@@ -10,6 +10,9 @@
 
 -- make console work?
 -- io.stdout:setvbuf("full")
+io.write("hello", "Lua"); io.write("Hi", "\n")
+-- make sure the standard io works
+
 -- ~ console in game - https://love2d.org/wiki/Cupid -- @TODO : separate dev libs
 -- require("./lib/cupid/cupid");
 
@@ -27,8 +30,12 @@ function love.conf( t )
   t.identity = "invadors_save_directory"       -- The name of the save directory (string)
   t.version = "0.10.2"                -- The LÖVE version this game was made for (string)
   t.window.title = __TITLE_STR --string.format("Invadors v%s", __VERSION)        -- The window title (string)
-  t.window.icon = 'assets/mushroom.png' -- Filepath to an image to use as the window's icon (string)
-  
+
+  -- mushroom wasn't 32x32 and wouldn't work on windows so I made small one named shroom
+  -- t.window.icon = 'assets/mushroom.png' -- Filepath to an image to use as the window's icon (string)
+
+  t.window.icon = 'assets/shroom.png' -- Filepath to an image to use as the window's icon (string)
+
   t.window.width = 1340
   t.window.height = 900
 

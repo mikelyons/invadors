@@ -142,7 +142,7 @@ return {
       parallaxx = 1,
       parallaxy = 1,
       properties = {
-        ["solid"] = false
+        ["solid"] = true
       },
       encoding = "lua",
       data = {

@@ -84,6 +84,8 @@ function orbital:update(dt)
 end
 
 function orbital:draw(dt)
+  -- draw this to a canvas to put on screen
+
     -- Get the info channel and pop the next message from it.
     local info = love.thread.getChannel( 'info' ):pop()
       -- print(info or 'raint')

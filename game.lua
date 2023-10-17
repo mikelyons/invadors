@@ -1,9 +1,10 @@
-
 --[[
   game.lua
 
   The main game loop initializer this is loaded by the 
   main bootstrap file main.lua
+
+  Loads all the states, which are essentially cartridges
 ]]
 
 -- networking tutorial with enet (which is installed)
@@ -27,15 +28,23 @@ function Game:new() end
 
 function Game:initialize()
   print('Game init')
+
   -- this only works if launched through run.BAT
   -- https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
-  PrintColor('raint', 'red')
+  -- https://learn.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences#samples
+  print(" -- TESTING logging color output -- ")
+    PrintColor('print yellow', 'yellow')
+    PrintColor('print red', 'red')
+    PrintColor('print green', 'green')
+    PrintColor('print white', 'white')
+  print(" -- TESTING logging color output END -- ")
 
     -- try to get multithreading working
     loadStateFile( 'mts')
     loadStateFile( 'orbital')
     -- self:gotoState('mts')
 
+    loadStateFolder( 'characterCreation')
 
   loadStateFile  ('pause')
   -- Various mini-games 
@@ -44,25 +53,30 @@ function Game:initialize()
   loadStateFolder('generate')
   loadStateFolder('dialogue')
   loadStateFolder('computer')
+  loadStateFolder('book')
   loadStateFile  ('bizzaro')
   loadStateFolder('prog2')
   loadStateFile('pro')
+  loadStateFolder('kitchen')
 
   -- ingame UIs
   loadStateFolder('inventory')
 
   -- menu states
   loadStateFolder('menu')
+  loadStateFolder('wireArt')
   loadMenuStateFile('newGame')
   loadStateFile  ('createWorld')
   loadMenuStateFile('loadSave')
   loadMenuStateFile('signin')
-  loadStateFolder('editor')
+  loadStateFolder('infiniteRunner')
+  -- loadStateFolder('editor')
   -- loadStateFolder('template')
   -- self:gotoState('template')
-  loadMenuStateFile('pressStart')
-  self:gotoState('PressStart')
-  -- self:gotoState('menu')
+  -- loadMenuStateFile('pressStart')
+  -- self:gotoState('PressStart')
+  self:gotoState('menu')
+  -- self:gotoState('generate')
 end
 
 function Game:update(dt) end

@@ -25,7 +25,7 @@ function CreateWorld:loadButtons()
 
   PrintTable(filesTable)
 
-  self.buttons = self:buildSavesButtonTable(self.buttons, filesTable) 
+  self.buttons = self:buildSavesButtonTable(self.buttons, filesTable)
 
 end
 
@@ -164,7 +164,9 @@ function CreateWorld:enteredState()
 
   self:loadButtons()
 
-  saveslist = love.filesystem.getDirectoryItems('/saves')
+  love.filesystem.createDirectory( 'saves/raint' )
+
+  saveslist = love.filesystem.getDirectoryItems('saves')
 
   -- Gravatar:load()
   -- love.graphics.clear( )
@@ -224,16 +226,54 @@ end
 -- end
 
 function CreateWorld:draw(dt)
+  local header_h, header_w = 200, screen_width
+  -- love.graphics.setColor(unpack(color))
+  love.graphics.setColor(100, 200, 250, 255)
+  -- header
+  love.graphics.rectangle(
+    'fill',
+    camera.pos.x + 20,
+    camera.pos.y + 20,
+    header_w - 40,
+    header_h
+  )
+  local _r, _g, _b, _a = love.graphics.getColor()
+  love.graphics.setColor(250, 250, 50, 255)
+	love.graphics.print("Create new World",
+    camera.pos.x + 200,
+    camera.pos.y + 50
+  )
+  love.graphics.setColor(_r, _g, _b, _a)
+
+  love.graphics.setColor(0, 0, 0, 255)
+  love.graphics.rectangle(
+    'fill',
+    camera.pos.x + screen_width - 80 - (screen_width / 8),
+    camera.pos.y + 80,
+    screen_width / 8,
+    32 * 1.5
+  )
+
+  love.graphics.setColor(_r, _g, _b, _a)
+  -- footer
+  love.graphics.rectangle(
+    'fill',
+    camera.pos.x,
+    camera.pos.y + screen_height - header_h,
+    header_w,
+    header_h
+  )
+
   self:drawButtons()
 
   -- ensure proper gravatar color
-  local _r, _g, _b, _a = love.graphics.getColor()
+  -- local _r, _g, _b, _a = love.graphics.getColor()
   -- love.graphics.setColor(r, g, b, a)
-  love.graphics.setColor(0, 255, 255, 255)
-  Gravatar:draw()
+  -- love.graphics.setColor(0, 255, 255, 255)
+  -- Gravatar:draw()
   -- love.graphics.reset()
   -- love.graphics.pop()
-  love.graphics.setColor(_r, _g, _b, _a)
+  -- love.graphics.setColor(_r, _g, _b, _a)
 
   local mx = love.mouse.getX()
   local my = love.mouse.getY()
@@ -249,7 +289,7 @@ function CreateWorld:draw(dt)
   -- love.graphics.draw(mouse, mx, my)
 
 	love.graphics.print(#saveslist or "no save files found", 200, 350)
-  PrintTable(saveslist)
+  -- PrintTable(saveslist)
 
 -- sign in text box
 	-- self.text:draw()

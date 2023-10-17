@@ -1,3 +1,14 @@
+--[[
+  tlm.lua - The tile handling code
+
+    Handles generation of chunks of tiles for the world
+    loads custom tile worlds
+    many other things
+
+    DOES NOT 
+    -- handle gravity
+    -- handle assets or player code
+]]
 local vec2 = require "tools/vec2"
 
 local tlm = {}
@@ -8,8 +19,13 @@ quads = {}
 print('gen_quads')
 
 -- these quads punch out the tiles from the tileatlas
+--[[
+  This function creates the table of quads that have the proper coordinates on the tile atlas to mask each tile as it's
+    repeated on the tile gird world
+]]
 function tlm:gen_quads(map)
   -- print(map)
+  print ("GENERATING QUADS [___]")
   if not map then
     print('no map')
     print('no map')
@@ -102,7 +118,7 @@ function tlm:gen_quads(map)
       --   end
       -- end
     else
-      print('PROBLEMMMMMMMMMMMMMMMMMMMMMM')
+      print('PROBLEMMMMMMMMMMMMMMMMMMMMMM tlm.gen_quads()')
     end
   end
         -- PrintTable(quads)
@@ -145,6 +161,7 @@ function tlm:load(isCustomMap)
   print('tlm loaded ->')
   renderer:addRenderer(self, 1)
 
+  -- switches between not-chunk-based-pre-built and chunk based generated map,
   -- self.customMap = false
   self.customMap = isCustomMap
 
@@ -170,65 +187,6 @@ function tlm:load(isCustomMap)
       end
     end
 
-    -- -- top top row
-    -- coords = vec2:new(-2, -2)
-    -- tlm:generateChunk(coords)
-    -- coords = vec2:new(-1, -2)
-    -- tlm:generateChunk(coords)
-    -- coords = vec2:new(0, -2)
-    -- tlm:generateChunk(coords)
-    -- coords = vec2:new(1, -2)
-    -- tlm:generateChunk(coords)
-    -- coords = vec2:new(2, -2)
-    -- tlm:generateChunk(coords)
-
-    -- -- top row
-    -- coords = vec2:new(-2, -1)
-    -- tlm:generateChunk(coords)
-    -- coords = vec2:new(-1, -1)
-    -- tlm:generateChunk(coords)
-    -- coords = vec2:new(0, -1)
-    -- tlm:generateChunk(coords)
-    -- coords = vec2:new(1, -1)
-    -- tlm:generateChunk(coords)
-    -- coords = vec2:new(2, -1)
-    -- tlm:generateChunk(coords)
-
-    -- -- middle row
-    -- coords = vec2:new(-2, 0)
-    -- tlm:generateChunk(coords)
-    -- coords = vec2:new(-1, 0)
-    -- tlm:generateChunk(coords)
-    -- coords = vec2:new(0, 0)
-    -- tlm:generateChunk(coords)
-    -- coords = vec2:new(1, 0)
-    -- tlm:generateChunk(coords)
-    -- coords = vec2:new(2, 0)
-    -- tlm:generateChunk(coords)
-
-    -- -- bottom row
-    -- coords = vec2:new(-2, 1)
-    -- tlm:generateChunk(coords)
-    -- coords = vec2:new(-1, 1)
-    -- tlm:generateChunk(coords)
-    -- coords = vec2:new(0, 1)
-    -- tlm:generateChunk(coords)
-    -- coords = vec2:new(1, 1)
-    -- tlm:generateChunk(coords)
-    -- coords = vec2:new(2, 1)
-    -- tlm:generateChunk(coords)
-
-    -- -- bottom bottom row
-    -- coords = vec2:new(-2, 2)
-    -- tlm:generateChunk(coords)
-    -- coords = vec2:new(-1, 2)
-    -- tlm:generateChunk(coords)
-    -- coords = vec2:new(0, 2)
-    -- tlm:generateChunk(coords)
-    -- coords = vec2:new(1, 2)
-    -- tlm:generateChunk(coords)
-    -- coords = vec2:new(2, 2)
-    -- tlm:generateChunk(coords)
     self.chunksLoaded = true
   end
 
@@ -349,6 +307,12 @@ function tlm:generateChunk(chunkCoords, chunkOptions)
 end
 
 -- coordinate helpers
+--[[
+  a set of ohelper functions to convert between screen space SS, chunk space CS, and tile space TS
+  this allows different coordinate systems to be used for collision detection and world generation
+  @TODO - WIP: SS,CS,TS are still to be renamed and implemented/refined
+]]
+-- screenspace position coordinates to chunkspace coordinates
 function tlm:posToCCoords(coords)
   local chunkCoords = require('tools/vec2'):new(
     (x / 32) / 16,
@@ -356,6 +320,7 @@ function tlm:posToCCoords(coords)
   )
   return chunkCoords
 end
+-- chunkspace coordinate to screenspace coordinate
 function tlm:chunkCoordsToPos(chunkCoords)
   local coords = require('tools/vec2'):new(
     (chunkCoords.x * 32) * 16,
@@ -363,6 +328,7 @@ function tlm:chunkCoordsToPos(chunkCoords)
   )
   return coords
 end
+-- screenspace coordinate to tilespace coordinate
 function tlm:coordsToTile(coords)
   local tileCoords = require('tools/vec2'):new(
     (coords.x / 32) / 16,
@@ -402,6 +368,7 @@ function tlm:strKeyAtPos(pos)
 end
 
 -- @TODO:  Oldschool map loader - TODO update this to chunkloader
+
 function tlm:generateMap()--mapname)
   local map = require("assets/maps/generator/template")--..mapname)
   -- tile size
@@ -458,9 +425,10 @@ end
 function tlm:loadMap(mapname)
   -- PrintDebug(mapname)
   print('')
-  print(' -> LOADING MAP ' .. 'assets/maps' .. mapname..' ->')
+  print('TLM427 -> LOADING MAP ' .. 'assets/maps/' .. mapname..'.lua ->')
   print('')
   self.map = require("assets/maps/"..mapname)
+  -- self.map = require("assets/maps/test/")
 
   -- asm:add(love.graphics.newImage("assets/maps/test/test.png"), 'tiles')
 
@@ -470,8 +438,10 @@ function tlm:loadMap(mapname)
   -- PrintDebug(map)
   PrintTable(map, 3)
 
+  -- what map uses this version?
   if map.tiledversion == "1.1.5" then
     print('')
+    print(' -> LOADING TILED MAP->')
     print(' ->  ->  ->  ->  ->  ->')
     print(' -> VERSION:      '.. mp.version ..'   ->')
     print(' -> LUA VERSION:  '.. mp.luaversion ..'   ->')
@@ -486,8 +456,25 @@ function tlm:loadMap(mapname)
 
     asm:add(love.graphics.newImage("assets/maps/test/"..mp.tilesets[1].image), 'tiles')
   end
+  -- house1.tmx, 
   if map.tiledversion == "1.8.4" then
     print('')
+    print(' -> LOADING TILED MAP->')
+    print(' ->  ->  ->  ->  ->  ->')
+    print(' -> VERSION:      '.. mp.version ..'   ->')
+    print(' -> LUA VERSION:  '.. mp.luaversion ..'   ->')
+    print(' -> TILED VERSION '.. mp.tiledversion ..' ->')
+    print(' -> SOURCE IMAGE  '.. mp.tilesets[1].filename..' ->')
+    print(' ->  ->')
+    print('')
+
+    -- asm:add(love.graphics.newImage("assets/maps/bedroom/"..mp.tilesets[1].filename), 'tiles')
+    -- asm:add(love.graphics.newImage("assets/maps/bedroom/"..mp.tilesets[1].name..'.png'), 'tiles')
+    asm:add(love.graphics.newImage("assets/maps/bedroom/house1.png"), 'tiles')
+  end
+  if map.tiledversion == "1.10.2" then
+    print('')
+    print(' -> LOADING TILED MAP->')
     print(' ->  ->  ->  ->  ->  ->')
     print(' -> VERSION:      '.. mp.version ..'   ->')
     print(' -> LUA VERSION:  '.. mp.luaversion ..'   ->')
@@ -510,7 +497,10 @@ function tlm:loadMap(mapname)
     h = map.tileheight
   }
 
+  -- explain in documentation how these versions load differently
+  -- so that we can fix it and also document for map makers
   if map.tiledversion == "1.1.5" then
+    print("tiled 1.1.5")
     -- self.tiles is {} on load
     -- each layer
     for layer = 1,#map.layers do
@@ -541,7 +531,9 @@ function tlm:loadMap(mapname)
       end
     end
   end
+  -- house1.tmx
   if map.tiledversion == "1.8.4" then
+    print("tiled 1.8.4")
     -- self.tiles is {} on load
     -- each layer
     for layer = 1,#map.layers do
@@ -553,8 +545,11 @@ function tlm:loadMap(mapname)
       end
     end
 
+    -- see gen_quads, this creates all the tiles for the layer
+    -- but why is only one layer showing up?
+    -- need to handle all layers here an in drawing
 
-    for layer = 2,#map.layers do
+    for layer = 2, #map.layers do
       local count = 0
       local data = map.layers[layer].data
       local prop = map.layers[layer].properties
@@ -564,7 +559,59 @@ function tlm:loadMap(mapname)
 
           count = count + 1
 
-          local index = 
+          local index =
+            (y * map.height + (x-1) - map.width) + 1
+
+          -- if data[index] ~= 0 then
+            local q = quads[data[index]]
+            -- local typevalue = data[index]
+            local typevalue = data[count]
+          -- if data[index] ~= 0 then
+            -- print(data[count])
+                                  --  tile(x,y,w,h,quad,type)
+            self.tiles[layer][y][x] = tile(
+              ts.w*x-ts.w,
+              ts.h*y-ts.h,
+              ts.w,
+              ts.h,
+              q,
+              typevalue,
+              count
+            )
+          -- end
+        end
+      end
+    end
+  end
+  -- stonebox.tmx (.lua)
+  if map.tiledversion == "1.8.4" then
+    print("tiled 1.8.4")
+    -- self.tiles is {} on load
+    -- each layer
+    for layer = 1,#map.layers do
+      -- make a table for each layer in the self.tiles from load
+      self.tiles[layer] = {}
+      for i = 1, map.height do
+        -- each tiles layer table entry for each tile in layer, assumes a square map
+        self.tiles[layer][i] = {}
+      end
+    end
+
+    -- see gen_quads, this creates all the tiles for the layer
+    -- but why is only one layer showing up?
+    -- need to handle all layers here an in drawing
+
+    for layer = 1, #map.layers do
+      local count = 0
+      local data = map.layers[layer].data
+      local prop = map.layers[layer].properties
+
+      for y = 1, map.height do
+        for x = 1, map.width do
+
+          count = count + 1
+
+          local index =
             (y * map.height + (x-1) - map.width) + 1
 
           -- if data[index] ~= 0 then
@@ -603,7 +650,7 @@ function tlm:loadMiniMap()
   local cy = camera.pos.y
 
   lg.setCanvas(self.canvas)
-    lg.clear() -- no trailing effect
+    -- lg.clear() -- no trailing effect
 
     lg.setColor(10, 10, 10, 155) -- GREY medium translucent
     lg.rectangle("fill", cx, cy, 128, 64)
@@ -615,6 +662,8 @@ function tlm:loadMiniMap()
     lg.setLineWidth(1) -- stroke reset
     lg.setColor(255, 255, 255, 255) -- WHITE reset
   lg.setCanvas()
+
+  -- what is this doing?
   for layer = 1,#self.tiles do
     for i = 1,16 do
       for j = 1,16 do
@@ -768,9 +817,15 @@ function tlm:drawCustomMap(newstylemap)
       'raint raint raint'
     }
 
-    local layer = 2
 
+        -- what was I doing? 
         -- love.graphics.printf( text, x, y, limit, align, r, sx, sy, ox, oy, kx, ky )
+
+  -- works for tiled versions:
+  -- 1.8.4, ... what else? (does NOT work for 1.10.2)
+  for k = 1, #layers do -- for each layer
+    local layer = k
+
     for i = 1, map.height do
       for j = 1, map.width do
         local tile = layers[layer][i][j]
@@ -788,25 +843,42 @@ function tlm:drawCustomMap(newstylemap)
           end
         end
 
-        if quads[raint] == nil then 
-          raint = 1
+        -- why this nil check?
+        if quads[raint] == nil then
+          raint = 3
         end
+
         raint = tile.type
         love.graphics.setColor(255,255,255,255)
-        if tile.type == 0 then 
+        -- 0 tile type is air block
+        if tile.type == 0 then
+          -- love.graphics.setColor( 205, 205, 195, 255)
+          -- love.graphics.rectangle("fill",
+          -- tile.pos.x,
+          -- tile.pos.y,
+          -- 64,
+          -- 64)
+
+          -- air block
+          -- love.graphics.draw(
+          --   self.img,
+          --   -- quads[47],
+          --   quads[4],
+          --   tile.pos.x,tile.pos.y
+          -- )
+
+        else -- other tile type than 0 is a tile specified by the editor
           love.graphics.draw(
             self.img,
-            quads[47],
-            tile.pos.x,tile.pos.y
-          )
-        else
-          love.graphics.draw(
-            self.img,
-            quads[raint+2], --or quads[1],
-            tile.pos.x,tile.pos.y
+            quads[raint+2], --or quads[1], -- raint+2 offsets the tileset texture ids
+            tile.pos.x,
+            tile.pos.y
           )
         end
+
+        -- Tile type index numbers
         if DEBUG_GRID_ON then
+        -- if true then
           local _r, _g, _b, _a = love.graphics.getColor()--255,255,255,155)
           love.graphics.setColor(255,255,255,155)
             lg.printf(
@@ -880,7 +952,7 @@ function tlm:drawCustomMap(newstylemap)
 
         end
       end
-    -- end
+  end
 
     -- love.graphics.print(
     --   -- love.timer.getFPS(),
@@ -912,11 +984,13 @@ function tlm:drawCustomMap(newstylemap)
             if tile.type == 0 then lg.setColor(255,255,255,155)
             elseif tile.type == 1 then lg.setColor(255,0,255,155)
             elseif tile.type == 2 then lg.setColor(0,255,255,155)
+            -- else lg.setColor(255,5,5,255)
             end
             -- print the index of the tile on it colored by type
             -- lg.printf(tile.index, tile.pos.x, tile.pos.y, 64, 'left', 0, .85)
             -- print the layer data from the map on the tile
             -- lg.printf(tile.type, tile.pos.x, tile.pos.y, 32, 'left', 0, .85)
+
             --reset color
             lg.setColor(_r, _g, _b, _a)
             -- if turned off, tiles/background bizzaro flashes
@@ -941,12 +1015,16 @@ function tlm:draw()
     end
   end
 
+  -- TODO - deprecate and update all maps (or not?)
   if customMap then
     -- print('custom map')
     if map.tiledversion == "1.1.5" then
       tlm:drawCustomMap()
     end
     if map.tiledversion == "1.8.4" then
+      tlm:drawCustomMap(true)
+    end
+    if map.tiledversion == "1.10.2" then
       tlm:drawCustomMap(true)
     end
   end

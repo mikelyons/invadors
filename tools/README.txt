@@ -1,0 +1,1 @@
+Resource hacker is for changing the compiled game's icon

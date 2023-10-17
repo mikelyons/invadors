@@ -1,3 +1,15 @@
+--[[
+  generate.lua
+
+  The side-scroller game scene
+  
+  Uses tiled maps, collisions, generation and chunks
+
+  This game mode was meant to be an infinite generating world
+  hence the name "generate", this is still in the WIPs, but for
+  now will load custom maps made in the Tiled map editor
+]]
+
 -- COINT
 -- print(pcall(require("../objects/coin.lua")))
 -- require '/lib/fanfic'
@@ -10,14 +22,13 @@
 -- -- print(pcall(require("../objects/coin.lua")))
 -- end
 
-
 -- print(pcall(test, nil))
 
 require("../../objects/coin")
 local floor = math.floor
 
-
 -- Example gamestate directory main file
+-- registering the gamestate
 local generate = Game:addState('generate')
 
 -- based on : https://love2d.org/wiki/Tutorial:Baseline_2D_Platformer
@@ -25,14 +36,15 @@ local generate = Game:addState('generate')
 
 entity_factory =  require 'entity_factory'
 
-
 -- force lightening
 -- local function generateLighteningVertecies() end
 
   -- asm:add(love.graphics.newImage("assets"), 'tiles')
 
 -- BEGIN video backgrounds
+  -- plays a series of video frames for a video intro
   if false then
+  -- if true then
     default_background = love.graphics.newImage("assets/galaxy.png")
     background = default_background
     video_length = 748
@@ -70,7 +82,7 @@ local function drawPacman()
   pacwidth = math.pi / 6 -- size of his mouth
   -- love.graphics.setColor( 255, 255, 0 ) -- pacman needs to be yellow
   -- love.graphics.arc( "fill", 400, 100, 100, pacwidth, (math.pi * 2) - pacwidth )
-  
+
   -- draw trees
   local vertices = {0, 0, -100, -100, -100, 0}
   love.graphics.setColor( 0, 155, 55, 1000 ) -- pacman needs to be yellow
@@ -94,7 +106,7 @@ local function drawPacman()
 
   -- @TODO - implement the generation 
   anotherTable = generateLighteningVertecies()
-  
+
   -- shoot lightening
   love.graphics.setColor( 255, 255, 255, 80 )
 
@@ -123,6 +135,21 @@ end
 
 function generate:enteredState()
   print('ENTERED generate directory STATE!')
+  -- generate.editmode = false
+  generate.editmode = true
+
+  print("=================================")
+  print("=================================")
+  print("=================================")
+  print("===       GENERATE            ===")
+  if generate.editmode then
+    print("===     EDITOR  MODE          ===")
+  end
+  print("flags:".."")
+  print("=================================")
+  print("=================================")
+  print("=================================")
+
   -- why doesn't this work? (should I use this to render more efficiently?)
   -- renderer:addRenderer(self, 2)
   -- gameloop:addLoop(self)
@@ -148,24 +175,24 @@ function generate:enteredState()
   -- )
   -- asm:add(love.graphics.newImage("assets/maps/test/test.png"), 'tiles')
 
+  -- switch for loading custom map vs generating
   -- local customMap = true
   local customMap = false
 
   tlm:load(customMap) -- load tile manager
   obm:load() -- load object manager
 
-
+  -- what are these used for?
   self.chunks = {}
   self.chunks.x = {}
 
   -- menu of custom maps
   if customMap then -- load the custom map
-    -- tlm:loadMap('test/test')
-    -- tlm:loadMap('bedroom/house1')
-  else
-    -- load
-    -- asm:add(love.graphics.newImage("assets/maps/test/test.png"), 'tiles')
-  end
+    print("custom map")
+    -- broken
+    -- tlm:loadMap('test/stonebox')
+    -- broken
+    -- tlm:loadMap('test/test-simplify')
 
   -- load the map from file
   -- tlm:loadMap('test/test')
@@ -173,6 +200,21 @@ function generate:enteredState()
   -- tlm:loadMap('test2/test2')
   -- tlm:loadMap('test2/test')
   -- tlm:loadMap('testMap')
+
+    -- renders multiple layers WITHOUT collisions
+    tlm:loadMap('bedroom/house1')
+
+    -- renders with collisions
+    -- tlm:loadMap('test2/test')
+    -- tlm:loadMap('generator/template')
+
+
+  else
+    print("generating map")
+    -- load
+    -- asm:add(love.graphics.newImage("assets/maps/test/test.png"), 'tiles')
+  end
+
 
   -- generate map from template
   -- tlm:generateMap()
@@ -186,7 +228,10 @@ function generate:enteredState()
 
   -- PrintTable(self.chunk)
 
+  -- does this prevent spawning
+  -- a player before some race condition?
   love.timer.sleep(0.25)
+
   -- spawn 2 players
   -- obm:add(require('objects/player'):new(32,170))
   obm:add(require('objects/player'):new(32, 32))
@@ -209,8 +254,8 @@ function generate:enteredState()
   Coin.new(400, 300)
   Coin.new(500, 250)
 
-  local rect = entity_factory:new_rectangle(-128, 128, 128, 128)
-  rect:init()
+  -- local rect = entity_factory:new_rectangle(-128, 128, 128, 128)
+  -- rect:init()
 
   print(" -> GENERATE STATE ENTERED -> ")
 end
@@ -242,7 +287,7 @@ function generate:update(dt)
     -- camera.pos.x = camera.pos.x + math.cos(g_GameTime) 
     -- camera.pos.x = camera.pos.x + math.cos(g_GameTime) -- jiggle the camera
   gameloop:update(dt)
-  Coin.updateAll(dt)
+  Coin.updateAll(dt) -- use the gameloop to update coins and other objects
 end
 
 function generate:draw(dt)
@@ -254,6 +299,7 @@ function generate:draw(dt)
   -- tlm:drawMinimap()
   -- drawPacman()
 
+  -- if DEBUG_GRID_ON or generate.editmode then
   if DEBUG_GRID_ON then
     -- thick line?
     for i = -16, 16 do
@@ -336,6 +382,8 @@ function generate:keypressed(key, code)
   if key == 'e' then self:pushState('inventory') end --then love.event.push('quit') end
   if key == 'l' then self:pushState('dialogue') end --then love.event.push('quit') end
   if key == 'p' then self:pushState('Pause') end --then love.event.push('quit') end
+  if key == 'k' then self:pushState('synth') end -- experimental @TODO do something
+  if key == 'm' then self:pushState('mts') end -- experimental @TODO do something
 
   if key == 't' then
     print('=======================')
