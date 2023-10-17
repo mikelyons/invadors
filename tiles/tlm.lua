@@ -167,11 +167,12 @@ function tlm:load(isCustomMap)
 
   self.map = {}
   self.tiles = {}
+
   self.chunks = {}
   self.chunksByStrKey = {}
   self.chunksLoaded = false
 
-  self.canvas = love.graphics.newCanvas(200,200) -- what for?
+  -- self.canvas = love.graphics.newCanvas(200,200) -- what for?
 
   -- left to right then down
   function chunkdump(chunkCoords)
@@ -190,15 +191,22 @@ function tlm:load(isCustomMap)
     self.chunksLoaded = true
   end
 
-  if not customMap then -- load default chunk test assets
+  -- this is the single point failure of movement in the world
+  if not self.customMap then -- load default chunk test assets
     asm:add(love.graphics.newImage("assets/maps/test/test.png"), 'tiles')
     tlm:gen_quads()
     self.img = asm:get('tiles') -- set TLM's img to the test assets
     self.img:setFilter("nearest", "nearest") -- not sure what we're doing here
     chunkdump() -- dump chunks!
   else
+    -- do nothing because custom maps load their own assets?
 
-    -- do nothing because custom maps load their own assets
+    asm:add(love.graphics.newImage("assets/maps/test/test.png"), 'tiles')
+    tlm:gen_quads()
+    self.img = asm:get('tiles') -- set TLM's img to the test assets
+    self.img:setFilter("nearest", "nearest") -- not sure what we're doing here
+
+    -- chunkdump() -- dump chunks!
   end
 end
 
@@ -296,13 +304,14 @@ function tlm:generateChunk(chunkCoords, chunkOptions)
     end
   end
 
-  -- loaded chunks
+  -- loaded chunks added to tlm.chunks table
   self.chunks[#self.chunks+1] = chunk
   self.chunksByStrKey[chunk.strKey] = chunk
 
   if DEBUG_LOGGING_CHUNKS then
     print('CHUNK generated@: x'..tostring(chunkCoords.x)..' y'..tostring(chunkCoords.y))
   end
+
   return chunk
 end
 
@@ -368,7 +377,7 @@ function tlm:strKeyAtPos(pos)
 end
 
 -- @TODO:  Oldschool map loader - TODO update this to chunkloader
-
+  -- does this not do anything anymore?
 function tlm:generateMap()--mapname)
   local map = require("assets/maps/generator/template")--..mapname)
   -- tile size
@@ -423,70 +432,35 @@ function tlm:generateMap()--mapname)
 end
 
 function tlm:loadMap(mapname)
-  -- PrintDebug(mapname)
   print('')
   print('TLM427 -> LOADING MAP ' .. 'assets/maps/' .. mapname..'.lua ->')
-  print('')
+
   self.map = require("assets/maps/"..mapname)
-  -- self.map = require("assets/maps/test/")
-
-  -- asm:add(love.graphics.newImage("assets/maps/test/test.png"), 'tiles')
-
-  local mp = self.map
-
   local map = self.map
-  -- PrintDebug(map)
   PrintTable(map, 3)
 
+  print('')
+  print(' -> LOADING TILED MAP->')
+  print(' ->  ->  ->  ->  ->  ->')
+  print(' -> VERSION:      '.. map.version ..'   ->')
+  print(' -> LUA VERSION:  '.. map.luaversion ..'   ->')
+  print(' -> TILED VERSION '.. map.tiledversion ..' ->')
   -- what map uses this version?
   if map.tiledversion == "1.1.5" then
-    print('')
-    print(' -> LOADING TILED MAP->')
-    print(' ->  ->  ->  ->  ->  ->')
-    print(' -> VERSION:      '.. mp.version ..'   ->')
-    print(' -> LUA VERSION:  '.. mp.luaversion ..'   ->')
-    print(' -> TILED VERSION '.. mp.tiledversion ..' ->')
-    print(' -> SOURCE IMAGE  '.. mp.tilesets[1].image ..' ->')
-    -- print(' ->  '.. true ..' ->')
-    -- print(' ->  '.. true ..' ->')
-    -- print(' ->  '.. true ..' ->')
-    -- print(' ->  '.. true ..' ->')
-    print(' ->  ->')
-    print('')
-
-    asm:add(love.graphics.newImage("assets/maps/test/"..mp.tilesets[1].image), 'tiles')
+    print(' -> SOURCE IMAGE  '.. map.tilesets[1].image ..' ->')
+    asm:add(love.graphics.newImage("assets/maps/test/"..map.tilesets[1].image), 'tiles')
   end
   -- house1.tmx, 
   if map.tiledversion == "1.8.4" then
-    print('')
-    print(' -> LOADING TILED MAP->')
-    print(' ->  ->  ->  ->  ->  ->')
-    print(' -> VERSION:      '.. mp.version ..'   ->')
-    print(' -> LUA VERSION:  '.. mp.luaversion ..'   ->')
-    print(' -> TILED VERSION '.. mp.tiledversion ..' ->')
-    print(' -> SOURCE IMAGE  '.. mp.tilesets[1].filename..' ->')
-    print(' ->  ->')
-    print('')
-
-    -- asm:add(love.graphics.newImage("assets/maps/bedroom/"..mp.tilesets[1].filename), 'tiles')
-    -- asm:add(love.graphics.newImage("assets/maps/bedroom/"..mp.tilesets[1].name..'.png'), 'tiles')
+    print(' -> SOURCE IMAGE  '.. map.tilesets[1].filename..' ->')
     asm:add(love.graphics.newImage("assets/maps/bedroom/house1.png"), 'tiles')
   end
   if map.tiledversion == "1.10.2" then
-    print('')
-    print(' -> LOADING TILED MAP->')
-    print(' ->  ->  ->  ->  ->  ->')
-    print(' -> VERSION:      '.. mp.version ..'   ->')
-    print(' -> LUA VERSION:  '.. mp.luaversion ..'   ->')
-    print(' -> TILED VERSION '.. mp.tiledversion ..' ->')
-    print(' -> SOURCE IMAGE  '.. mp.tilesets[1].filename..' ->')
-    print(' ->  ->')
-    print('')
-
-    -- asm:add(love.graphics.newImage("assets/maps/bedroom/"..mp.tilesets[1].filename), 'tiles')
-    -- asm:add(love.graphics.newImage("assets/maps/bedroom/"..mp.tilesets[1].name..'.png'), 'tiles')
+    print(' -> SOURCE IMAGE  '.. map.tilesets[1].filename..' ->')
     asm:add(love.graphics.newImage("assets/maps/bedroom/house1.png"), 'tiles')
   end
+  print(' ->  ->')
+  print('')
 
 
   self.img = asm:get('tiles')
@@ -549,58 +523,6 @@ function tlm:loadMap(mapname)
     -- but why is only one layer showing up?
     -- need to handle all layers here an in drawing
 
-    for layer = 2, #map.layers do
-      local count = 0
-      local data = map.layers[layer].data
-      local prop = map.layers[layer].properties
-
-      for y = 1, map.height do
-        for x = 1, map.width do
-
-          count = count + 1
-
-          local index =
-            (y * map.height + (x-1) - map.width) + 1
-
-          -- if data[index] ~= 0 then
-            local q = quads[data[index]]
-            -- local typevalue = data[index]
-            local typevalue = data[count]
-          -- if data[index] ~= 0 then
-            -- print(data[count])
-                                  --  tile(x,y,w,h,quad,type)
-            self.tiles[layer][y][x] = tile(
-              ts.w*x-ts.w,
-              ts.h*y-ts.h,
-              ts.w,
-              ts.h,
-              q,
-              typevalue,
-              count
-            )
-          -- end
-        end
-      end
-    end
-  end
-  -- stonebox.tmx (.lua)
-  if map.tiledversion == "1.8.4" then
-    print("tiled 1.8.4")
-    -- self.tiles is {} on load
-    -- each layer
-    for layer = 1,#map.layers do
-      -- make a table for each layer in the self.tiles from load
-      self.tiles[layer] = {}
-      for i = 1, map.height do
-        -- each tiles layer table entry for each tile in layer, assumes a square map
-        self.tiles[layer][i] = {}
-      end
-    end
-
-    -- see gen_quads, this creates all the tiles for the layer
-    -- but why is only one layer showing up?
-    -- need to handle all layers here an in drawing
-
     for layer = 1, #map.layers do
       local count = 0
       local data = map.layers[layer].data
@@ -635,6 +557,7 @@ function tlm:loadMap(mapname)
       end
     end
   end
+  -- stonebox.tmx (.lua) ? 1.10.2?
   tlm:loadMiniMap()
 end
 

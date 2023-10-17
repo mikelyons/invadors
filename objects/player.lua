@@ -125,9 +125,9 @@ function Player:new(x,y)
       --   self.vel.y = 0
       --   print(raint)
       -- end
-      apply_gravity(self, dt)
 
     end
+      apply_gravity(self, dt)
 
     -- walk left or right
     if ( key("left") or key('a') ) then
@@ -144,21 +144,25 @@ function Player:new(x,y)
       self.animation:set_animation(3)
     end
 
-    local chunk = tlm.chunksByStrKey[
-      tostring(floor(self.pos.x / 32 / 16))
-      .. tostring(floor(self.pos.y / 32 / 16))
-    ]
-    if chunk == nil then
-      print(
-        'ERROR - chunk is nil: x'..self.pos.x
-        .. ' y'.. self.pos.y .. ' strkey= '
-        .. tostring(floor(self.pos.x / 32 / 16))
+
+    if not tlm.customMap then
+      local chunk = tlm.chunksByStrKey[
+        tostring(floor(self.pos.x / 32 / 16))
         .. tostring(floor(self.pos.y / 32 / 16))
-      )
-      player.pos.move(player, 0, 0, dt)
-    else
-      if DEBUG_LOGGING_COLLISION then
-        print('player chunk strkey: '..chunk.strKey)
+      ]
+      if chunk == nil then
+        print(
+          'ERROR - chunk is nil: x'..self.pos.x
+          .. ' y'.. self.pos.y .. ' strkey= '
+          .. tostring(floor(self.pos.x / 32 / 16))
+          .. tostring(floor(self.pos.y / 32 / 16))
+        )
+        player.pos.move(player, 0, 0, dt)
+      else
+        if DEBUG_LOGGING_COLLISION then
+          print('player chunk strkey: '..chunk.strKey)
+        end
+        update_physics(self, chunk, dt, true) --tlm.customMap)
       end
     end
     -- print(tostring(floor(self.pos.x / 32 / 16))..tostring(floor(self.pos.y / 32 / 16)))
@@ -168,14 +172,15 @@ function Player:new(x,y)
     -- PrintTable(tlm.chunksByStrKey[tostring(floor(self.pos.x / 32 / 16))..tostring(floor(self.pos.y / 32 / 16))], 3)
 
 
-    if tlm.customMap then
-      chunk.tiles = tlm.tiles
-      -- PrintTable(chunk.tiles, 1)
-      -- PrintTable(tlm.tiles, 1)
-    end
+    -- if tlm.customMap then
+    --   chunk.tiles = tlm.tiles
+    --   -- PrintTable(chunk.tiles, 1)
+    --   -- PrintTable(tlm.tiles, 1)
+    -- end
 
     -- COLLISION HANDLING in world_physics.lua WIP
-    update_physics(self, chunk, dt, true) --tlm.customMap)
+    -- update_physics(self, chunk, dt, true) --tlm.customMap)
+    newupdate_physics(self, dt) --tlm.customMap)
 
     -- jump
     if ( key("space") or key('w') or key('up') ) then 
@@ -194,7 +199,11 @@ function Player:new(x,y)
 
     self.vel.x = self.vel.x * (1-dt*8) -- friction entropy
 
+    -- player movement test
+    -- self.pos.y = self.pos.y +1
+
     self.animation:update(dt)
+    -- print(self.pos.y)
   end
 
   function player:draw()

@@ -40,8 +40,9 @@ end
 -- -- currently doesn't offset for proper chunk tile collision
 -- -- still set to the first chunk only and that column's
 -- -- bottom row due to floor
-function newupdate_physics(obj, map, dt, customMap)
--- WIP
+function newupdate_physics(obj, dt)
+  -- WIP
+  print('new update physics')
 end
 function update_physics(obj, chunk, dt, customMap)
   local tiles

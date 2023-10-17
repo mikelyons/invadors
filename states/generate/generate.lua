@@ -10,17 +10,12 @@
   now will load custom maps made in the Tiled map editor
 ]]
 
--- COINT
--- print(pcall(require("../objects/coin.lua")))
 -- require '/lib/fanfic'
 -- text = fanfic.new(200,300, "New textbox", false, 16)
 -- function test()
 --   text = fanfic.new(200,300, "New textbox", false, 16)
 -- end
 -- function test()
--- require("../../objects/coin")
--- -- print(pcall(require("../objects/coin.lua")))
--- end
 
 -- print(pcall(test, nil))
 
@@ -35,11 +30,6 @@ local generate = Game:addState('generate')
 -- Libraries
 
 entity_factory =  require 'entity_factory'
-
--- force lightening
--- local function generateLighteningVertecies() end
-
-  -- asm:add(love.graphics.newImage("assets"), 'tiles')
 
 -- BEGIN video backgrounds
   -- plays a series of video frames for a video intro
@@ -77,54 +67,6 @@ entity_factory =  require 'entity_factory'
   end
 -- END video backgrounds
 
-local function drawPacman()
-  -- drawBox(player, 0, 255, 0)
-  pacwidth = math.pi / 6 -- size of his mouth
-  -- love.graphics.setColor( 255, 255, 0 ) -- pacman needs to be yellow
-  -- love.graphics.arc( "fill", 400, 100, 100, pacwidth, (math.pi * 2) - pacwidth )
-
-  -- draw trees
-  local vertices = {0, 0, -100, -100, -100, 0}
-  love.graphics.setColor( 0, 155, 55, 1000 ) -- pacman needs to be yellow
-  love.graphics.polygon('fill', vertices)
-
-  -- draw clouds
-  love.graphics.setColor( 255, 255, 255, 30 ) -- pacman needs to be yellow
-
-  -- https://love2d.org/wiki/love.graphics.arc
-  -- love.graphics.arc( drawmode, x, y, radius, angle1, angle2, segments )
-  love.graphics.arc( "fill", 400, 200, 200, pacwidth, (math.pi * 2) - pacwidth )
-
-  -- draw lightening
-  sometable = {
-    100, 100,
-    200, 200,
-    300, 100,
-    400, 200,
-  }
-  love.graphics.line(sometable)
-
-  -- @TODO - implement the generation 
-  anotherTable = generateLighteningVertecies()
-
-  -- shoot lightening
-  love.graphics.setColor( 255, 255, 255, 80 )
-
-  -- love.graphics.setLine(2, "smooth") -- removed
-  local width = 2
-  -- local style = 'smooth'
-  local style = 'rough'
-  love.graphics.setLineStyle( style )
-  love.graphics.setLineWidth( width )
-
-  -- why is this not aligned with the camera?
-  w = love.graphics.getWidth() --/ 2   -- half the window width
-  h = love.graphics.getHeight() --/ 2   -- half the window height
-  local mx, my = love.mouse.getPosition()  -- current position of the mouse
-  love.graphics.line(w, h, mx, my)
-
-end
-
 -- -----------------------------------------
 --
 --
@@ -154,30 +96,14 @@ function generate:enteredState()
   -- renderer:addRenderer(self, 2)
   -- gameloop:addLoop(self)
 
-  -- is canvas available?
-  local canvas = love.graphics.getSupported()
-  for k, v in pairs(canvas) do
-    print("IS CANVAS SUPPORTED?")
-    print(k, v)
-  end
-
-  -- camera.scale.x = 0.6 -- 3 --1
-  -- camera.scale.y = 0.6 -- 3 --1
   camera.scale.x = 1
   camera.scale.y = 1
-  -- PrintTable(camera, 3)
-
 
   asm:load() -- load asset manager
-  -- asm:add(love.graphics.newImage("assets/maps/test/test.png"), 'tiles')
-  -- asm:add(love.graphics.newImage("assets/images/terrain_32x32_by_sonicrumpets-d7vj9k7.png"),
-  --   'tiles'
-  -- )
-  -- asm:add(love.graphics.newImage("assets/maps/test/test.png"), 'tiles')
 
   -- switch for loading custom map vs generating
-  -- local customMap = true
-  local customMap = false
+  local customMap = true
+  -- local customMap = false
 
   tlm:load(customMap) -- load tile manager
   obm:load() -- load object manager
@@ -215,47 +141,17 @@ function generate:enteredState()
     -- asm:add(love.graphics.newImage("assets/maps/test/test.png"), 'tiles')
   end
 
-
-  -- generate map from template
-  -- tlm:generateMap()
-
-  -- local chunkCoords = vec2:new(1,1)
-  -- PrintTable(chunkCoords)
-  -- self.chunk = tlm:generateChunk(chunkCoords)
-  -- PrintTable(self.chunk)
-  -- local fn = tlm['generateChunk']
-  -- print(pcall(fn, chunkCoords))
-
-  -- PrintTable(self.chunk)
-
   -- does this prevent spawning
   -- a player before some race condition?
   love.timer.sleep(0.25)
 
-  -- spawn 2 players
-  -- obm:add(require('objects/player'):new(32,170))
   obm:add(require('objects/player'):new(32, 32))
-
-  -- spawn an enemy
   obm:add(require('objects/zombie'):new(320,180))
-
-  -- spawn an item
   obm:add(require( 'objects/item' ):new(320,280))
 
-  -- add lots of players
-  -- for i = 0, 16 do
-  --   obm:add(
-  --     require( 'objects/player' ):new(32 * i, 280)
-  --   )
-  -- end
-
-  -- spawn in coins
   Coin.new(200, 200)
   Coin.new(400, 300)
   Coin.new(500, 250)
-
-  -- local rect = entity_factory:new_rectangle(-128, 128, 128, 128)
-  -- rect:init()
 
   print(" -> GENERATE STATE ENTERED -> ")
 end
@@ -301,26 +197,24 @@ function generate:draw(dt)
 
   -- if DEBUG_GRID_ON or generate.editmode then
   if DEBUG_GRID_ON then
-    -- thick line?
-    for i = -16, 16 do
-      for j = -16, 16 do
-        -- love.graphics.line(i, j, i+256, j+256)
-        love.graphics.line(i, j, i*10, j*10)
-      end
-    end
+    -- -- starbust line pattern
+    -- for i = -16, 16 do
+    --   for j = -16, 16 do
+    --     -- love.graphics.line(i, j, i+256, j+256)
+    --     love.graphics.line(i, j, i*10, j*10)
+    --     -- chunk lines (OLD)
+    --     love.graphics.line(i-500, j*32*16, i+1000, j*32*16)
+    --     love.graphics.line(i*32*16, j-500, i*32*16, j+1000)
+    --     -- tile grid lines (OLD)
+    --     love.graphics.line(i-500, j*32*16, i+1000, j*32*16)
+    --     love.graphics.line(i*32*16, j-500, i*32*16, j+1000)
+    --     love.graphics.line(i, j*32, i+1000, j*32)
 
-    -- love.graphics.line(i-500, j*32*16, i+1000, j*32*16)
-    -- love.graphics.line(i*32*16, j-500, i*32*16, j+1000)
-
-    for i = -16, 16 do
-      for j = -16, 16 do
-        love.graphics.line(i-500, j*32*16, i+1000, j*32*16)
-        love.graphics.line(i*32*16, j-500, i*32*16, j+1000)
-        love.graphics.line(i, j*32, i+1000, j*32)
-        -- love.graphics.line(i*16*32, j, i+256, j)
-        -- love.graphics.line(i, j*16*32, i, j+256)
-      end
-    end
+    --     -- thick lines
+    --     love.graphics.line(i*16*32, j, i+256, j)
+    --     love.graphics.line(i, j*16*32, i, j+256)
+    --   end
+    -- end
   end
 
   -- camera:unset()
@@ -353,7 +247,6 @@ function generate:draw(dt)
   end
 end
 
-      raint = 1
 function coordToChunkCoord(x, y)
   local p = obm:get_closest_by_id(nil, 'player')
   -- local px = obm:get_closest_by_id(nil, 'player').pos.x
