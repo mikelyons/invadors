@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="64" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="1">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="64" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="1">
  <editorsettings>
   <export target="house1.lua" format="lua"/>
  </editorsettings>
@@ -7,7 +7,7 @@
   <property name="author" value="Mike Lyons"/>
  </properties>
  <tileset firstgid="1" source="terrain-sonicrumpets.tsx"/>
- <layer id="3" name="nonsolid background" width="64" height="32" visible="0">
+ <layer id="3" name="nonsolid background" width="64" height="32">
   <properties>
    <property name="solid" type="bool" value="false"/>
   </properties>
@@ -46,7 +46,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="4" name="indoor background" width="64" height="32" visible="0">
+ <layer id="4" name="indoor background" width="64" height="32">
   <properties>
    <property name="solid" type="bool" value="false"/>
   </properties>
@@ -124,7 +124,7 @@
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 </data>
  </layer>
- <layer id="2" name="nonsolid world" width="64" height="32" visible="0">
+ <layer id="2" name="nonsolid world" width="64" height="32">
   <properties>
    <property name="solid" type="bool" value="false"/>
   </properties>

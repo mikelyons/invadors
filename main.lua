@@ -3,6 +3,7 @@
 
   The bootstrap loader file
   MASTER CONTROL PROGRAM
+  @TODO use this - https://github.com/rxi/lovebird
 ]]
 
 -- this is from: https://sheepolution.com/learn/book/bonus/vscode
@@ -58,15 +59,15 @@ function love.load(...)
   -- PrintTable(debug.getinfo(1))
   -- PrintDebug()
 
+  screen_height = 900
+  screen_width = 1340
   -- required to make window resizable
-  love.window.setMode(1340, 900, {
+  love.window.setMode(screen_width, screen_height, {
     resizable=true,
     vsync=false,
     minwidth=400,
     minheight=300
   })
-  screen_height = 900
-  screen_width = 1340
 
   -- this is not necessary when the conf.lua is set properly for the platform requirements
   -- local mushroom = love.image.newImageData("assets/shroom.png")
@@ -132,6 +133,7 @@ end
 function love.draw(dt)
   -- galaxy background defined above pre- renderer layers
   willDraw = true
+  -- willDraw = false
   drawBackground(willDraw)
 
   -- game camera
@@ -152,6 +154,31 @@ function love.draw(dt)
   -- mts:draw()
 
   -- collectgarbage()
+
+  if tiles == nil then
+    tiles = 'tiles nil'
+  end
+  -- print(tiles[1])
+  -- PrintTable(tiles[1][1]['occupied'], 1)
+  -- print(tiles[1][1]['occupied'])
+  falsey = tiles[1][1]['occupied']
+  -- print(falsey)
+  love.graphics.print("PRE-ALPHA", 0, 0, nil, 4, 4)
+  love.graphics.print(
+    "Debug Info:"..'\n' ..
+    -- tiles[1][1]['occupied'] or 'nil' ..
+    tostring(falsey),
+    screen_width - 300, 0, nil, 4, 4
+  )
+
+  -- love.graphics.print({'rainty', screen_width - 300, 0, nil, 4, 4})
+
+  -- hand, job = pcall(
+  --   love.graphics.print,
+  --   tostring(tiles),
+  --   screen_width - 300, 0, nil, 4, 4
+  -- )
+  -- print(hand, job)
 end
 
 -- https://love2d.org/wiki/KeyConstant
@@ -170,7 +197,7 @@ function love.keypressed(key, code)
   if key == '=' then
     score:add(100)
     print('SCORE + 100! = '..score:get())
-  end 
+  end
 end
 function love.keyreleased( key, scancode )
   -- if (DEBUG_LOGGING_ON and key) then print('key released: '..key) end

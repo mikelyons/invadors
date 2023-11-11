@@ -1,10 +1,24 @@
--- Score needs renamed and refactored:
--- https://www.youtube.com/watch?v=wjGbFrvt2Ok
--- Score manager
--- Currently only one save file with stats on lines
--- add a bones directory that saves some constructed item
--- future: @TODO - multiple save files with grades for different playstyles
--- -- grid scores https://www.reddit.com/r/love2d/comments/w9us4g/comment/ii3w5nv/?utm_source=reddit&utm_medium=web2x&context=3
+
+--[[
+  highscore.lua
+
+  This file handles saving statistics, high scores, and data about the players and the system
+
+  -- Score needs renamed and refactored:
+  -- https://www.youtube.com/watch?v=wjGbFrvt2Ok
+  -- Score manager
+  -- Currently only one save file with stats on lines
+  -- add a bones directory that saves some constructed item
+  -- future: @TODO - multiple save files with grades for different playstyles
+  -- -- grid scores https://www.reddit.com/r/love2d/comments/w9us4g/comment/ii3w5nv/?utm_source=reddit&utm_medium=web2x&context=3
+  -- -- Reorganize saving version information first to interpret different versions of save file
+  -- -- Label the save data better
+  -- -- include a template save file for revising and a firstrun save filestate
+  -- -- date of first run, time spent in game, number of player deaths
+  -- -- keep a global scratch of the inputs of the user and keep them as bones for randomly generated feedbacks that spookes
+]]
+
+-- did we ever serialize with this?
 local binser   = require 'lib/binser/binser'
 
 Score = {}
@@ -23,6 +37,7 @@ function Score:new(self)
     achievements = '0000000000',
     init = function() end,
     load = function(self)
+      -- where is this file? %appdata%\LOVE\
       if not love.filesystem.exists('scores.lua') then
         scores = love.filesystem.newFile('scores.lua')
       end
@@ -31,6 +46,7 @@ function Score:new(self)
         table.insert(self.highscores, lines)
       end
 
+      self.save_file_version = self.highscores[10] or '0.4.7.1'
       self.achievements=self.highscores[9] or '0000000000'
       self.clicks     = self.highscores[8] or 0
       self.keyStroked = self.highscores[7] or 0
@@ -64,7 +80,9 @@ function Score:new(self)
         'Email              : '..self.email              ..'\n' .. -- replace this with the users email address
         'Key Strokes        : '..self.keyStroked         ..'\n' .. -- number of times a key was pressed
         'Clicks             : '..self.clicks             ..'\n' ..   -- number of times mouse clicked
-        'achievements       : '..self.achievements       ..'\n'    -- number of times mouse clicked
+        'achievements       : '..self.achievements       ..'\n'--..    -- number of times mouse clicked
+        -- 'save file version '..self.save_file_version  ..'\n'--..
+        -- 'letter grade    : '..self.letter_grade       ..'\n'--..
       )
       print("")
       print("")
@@ -102,11 +120,10 @@ function Score:new(self)
       return self.total
     end,
 
-    update = function(self)
-    end,
+    update = function(self) end,
 
     draw = function(self)
-      local block = 
+      local block =
         "Times Launched     : "..self.saves              ..'\n' .. -- the number of times launched
         "High Score         : "..self.highscore          ..'\n' .. -- the highest score achieved
         "Total this time    : "..self.total              ..'\n' .. -- this round's score
@@ -116,6 +133,8 @@ function Score:new(self)
         'Key Strokes        : '..self.keyStroked         ..'\n' .. -- number of times a key was pressed
         'Clicks             : '..self.clicks             ..'\n' .. -- number of times mouse clicked
         'Achievements       : '..self.achievements       ..'\n'    -- number of times mouse clicked
+        -- 'save file version '..self.save_file_version  ..'\n'--..
+        -- 'letter grade    : '..self.letter_grade       ..'\n'--..
 
 
       if self.showscore then
@@ -149,6 +168,8 @@ function Score:new(self)
         -- print(debug.getfenv(Game)) -- not sure what this does
         -- https://www.tenforums.com/tutorials/3234-environment-variables-windows-10-a.html
 
+      -- new stats ideas
+      -- - Grade: days_played/days_since_started_playing = every day? letter grades
       love.filesystem.write('scores.lua',
         'First Line of Save file: each line is a value to load\n'.. -- the Message of the day
         self.saves              ..'\n' .. -- the number of times launched
@@ -159,6 +180,8 @@ function Score:new(self)
         self.keyStroked         ..'\n' .. -- number of times a key was pressed
         self.clicks             ..'\n' .. -- number of times mouse clicked
         self.achievements       ..'\n'    -- number of times mouse clicked
+        -- 'save file version '..self.save_file_version  ..'\n'--..
+        -- 'letter grade    : '..self.letter_grade       ..'\n'--..
       )
 
     end

@@ -41,16 +41,17 @@ trying to fix collisions to they work again after all the chunk tile stuff
 ## Ape meat suits
 - hollowed out ape body with skull helmet but works as a cyber suit
 
-## Priorities
+## Priorities ?
 
+DONe v
 Chunk loading unloading 
 - https://www.youtube.com/watch?v=uE36MVjB5-8
 - https://github.com/NesiAwesomeneess/ChunkLoader-CSharp
 
+Done v
 image sequencing - https://github.com/YoungNeer/clove
 
 ### Scratch
-
 
 Lua Reflection
 https://stackoverflow.com/questions/2620377/lua-reflection-get-list-of-functions-fields-on-an-object
@@ -288,6 +289,9 @@ https://github.com/superzazu/denver.lua - make custom sound effects
 
 ### Bookmarks
 
+* inspo / pixel art
+https://www.reddit.com/r/PixelArt/comments/17c4mp7/gorgeous_clouds_by_6vcr/
+
 * shaders - http://blogs.love2d.org/content/beginners-guide-shaders
 - https://github.com/vrld/shine/wiki
 
@@ -370,3 +374,18 @@ paying homage to other games or something
   -- elseif love.keyboard.isDown('up') then
   --   dy = -speed * dt
   -- end
+
+## inspo
+
+    - packages take up space in the house unless they are opened and then become the assembled item (ie coatrack or any other efficiency creator)
+      - draw pixel art scenes of bedroom and living room, parts of the house with items everywhere, then cut out the items
+
+
+## hack libs
+
+https://github.com/EngineerSmith/nativefs
+https://github.com/zorggn/love-fml
+
+## Sound FX
+
+https://www.youtube.com/shorts/UyPWELhAjLU

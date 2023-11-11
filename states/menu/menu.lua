@@ -32,6 +32,7 @@ blood = require('../src/particles/blood')
 Blood = blood:new(50, 50)
 Blood:load()
 
+asm:add(love.graphics.newImage("assets/Z.png"), 'z')
 asm:add(love.graphics.newImage("assets/conversions/invadors.png"), 'hamster')
 asm:add(love.graphics.newImage("assets/newer/brian.png"), 'brian')
 asm:add(love.graphics.newImage("assets/mouse.png"), 'mouse')
@@ -77,19 +78,26 @@ function Menu:keypressed(key, code)
   if key == ('3' or 's') then self:pushState('synth') end
   if key == ('4' or 'm') then self:pushState('mts') end
   -- if key == ('4' or 'g') then self:pushState('prog2') end
+  if key == ('p') then self:pushState('asciiGame') end
   if key == ('5') then self:pushState('prog2') end
   if key == ('w') then self:pushState('wireArt') end
+  if key == ('t') then self:pushState('tiledZoom') end
+  if key == ('c') then self:pushState('face') end
+  if key == ('q') then self:pushState('quadtree') end
   -- if key == ('6' or 'h') then self:pushState('pro') end
   -- if key == ('3' or 'q') then self:pushState('space1') end
   -- if key == ('4' or 'w') then self:pushState('Earth2') end
   -- if key == ('5') then self:pushState('commando') end
   -- if key == ('6') then self:pushState('generate') end
+  if key == ('u') then self:gotoState('uiTest') end
   if key == ('g') then self:gotoState('generate') end
   if key == ('7') then self:pushState('orbital') end
   if key == ('8') then self:pushState('characterCreation') end
   -- if key == ('9') then self:pushState('generate') end
   if key == ('9') then self:pushState('kitchen') end
+
   if key == ('f') then self:pushState('editor') end
+
   if key == ('i') then self:pushState('infiniteRunner') end
   -- if key == ('escape') then self:popState('menu') end
   -- if key == ('q') then love.event.push('quit') end
@@ -176,6 +184,7 @@ function Menu:enteredState()
 
   love.graphics.clear()
   brian = asm:get('brian')
+  z = asm:get('z')
   hamster = asm:get('hamster')
 
   -- THIS CRUCIAL STEP needs to be added for all other renderables!! @TODO
@@ -277,6 +286,8 @@ function Menu:draw()
   -- https://fontmeme.com/doom-font/
   love.graphics.setColor(255, 255, 255, 255)
   love.graphics.draw(hamster, 50, 50, 0, 2.2, 2.2)
+  love.graphics.draw(z, g_Width/2, 50, 0, 2.2, 2.2)
+  love.graphics.draw(z, mx, my)
   love.graphics.setColor(_r, _g, _b, _a)
 
   -- MenuHelper:drawMenu()
@@ -312,6 +323,8 @@ function Menu:draw()
   drawNote()
   drawCanvas(self.canvas)
 
+  -- drawKeybinds()
+
   -- Pre-release version
   -- Prerelease version watermark
   _r, _g, _b, _a = love.graphics.getColor()
@@ -331,8 +344,8 @@ function Menu:draw()
   -- love.graphics.printf(text,x,y,limit,align)
 end
 
-function Menu:exieedState()
-  -- love.graphics.clear()
+function Menu:exitedState()
+  love.graphics.clear()
 end
 
 function Menu:drawButtons()
@@ -467,13 +480,22 @@ function Menu:loadButtons(menu)
     'Options',
     function()
       self:popState('menu')
-      print('Go to Options menu')
+      self:pushState('options')
+      print('Go to Options menu??????????????????????????????????????????????????????????????????????????')
     end
   ))
   table.insert(buttons, self:newButton(
     'Quit',
     function()
       print('Goodbye')
+      score:quit()
+      love.event.quit(0)
+    end
+  ))
+  table.insert(buttons, self:newButton(
+    'CHEAT',
+    function()
+      print('Goodbye fucker')
       score:quit()
       love.event.quit(0)
     end
@@ -531,4 +553,66 @@ function Menu.numericKeyboarMenu(key, code)
 
     END OF TRANSMISSION]]
     , 50, 320, 620, 'left')
+end
+
+function drawKeybinds()
+
+  --[[
+
+  -- if key == ('1' or 'return') then self:startGame() end
+  -- if key == ('1' or 'return') then self:pushState('generate') end
+  if key == ('e' or 'l') then self:pushState('dialogue') end
+  if key == ('1' or 'return') then self:pushState('computer') end
+  if key == ('b') then self:pushState('book') end
+  -- if key == ('1' or 'return') then self:pushState('signin') end
+  -- if key == ('1' or 'return') then self:pushState('generate') end
+  if key == ('2' or 'space') then self:pushState('bizzaro') end
+  if key == ('3' or 's') then self:pushState('synth') end
+  if key == ('4' or 'm') then self:pushState('mts') end
+  -- if key == ('4' or 'g') then self:pushState('prog2') end
+  if key == ('5') then self:pushState('prog2') end
+  if key == ('w') then self:pushState('wireArt') end
+  -- if key == ('6' or 'h') then self:pushState('pro') end
+  -- if key == ('3' or 'q') then self:pushState('space1') end
+  -- if key == ('4' or 'w') then self:pushState('Earth2') end
+  -- if key == ('5') then self:pushState('commando') end
+  -- if key == ('6') then self:pushState('generate') end
+  if key == ('g') then self:gotoState('generate') end
+  if key == ('7') then self:pushState('orbital') end
+  if key == ('8') then self:pushState('characterCreation') end
+  -- if key == ('9') then self:pushState('generate') end
+  if key == ('9') then self:pushState('kitchen') end
+
+  if key == ('f') then self:pushState('editor') end
+
+  if key == ('i') then self:pushState('infiniteRunner') end
+  -- if key == ('escape') then self:popState('menu') end
+  -- if key == ('q') then love.event.push('quit') end
+  if key == ('escape') then love.event.push('quit') end
+
+  ]]
+
+  local _r, _g, _b, _a = love.graphics.getColor()
+
+  love.graphics.setColor(255, 255, 255, 255)
+
+  love.graphics.rectangle('fill', 0,0, screenWidth, screenHeight)
+  -- love.graphics.setColor(5, 5, 5, 255)
+  -- love.graphics.print("('e' or 'l') then ('dialogue')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("('1' or 'return') then self:pushState('computer')", 40, 20, nil, 2, 2)
+  -- love.graphics.print("('b') then self:pushState('book')", 80, 20, nil, 2, 2)
+  -- love.graphics.print("if key == ('2' or 'space') then self:pushState('bizzaro')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("('3' or 's') then self:pushState('synth')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("('4' or 'm') then self:pushState('mts')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("('5') then self:pushState('prog2')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("('w') then self:pushState('wireArt')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("('g') then self:gotoState('generate')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("('7') then self:pushState('orbital')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("('8') then self:pushState('characterCreation')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("('9') then self:pushState('kitchen')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("('f') then self:pushState('editor')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("('i') then self:pushState('infiniteRunner')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("('escape') then love.event.push('quit')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("RAINT", 20, 20, nil, 2, 2)
+  love.graphics.setColor(_r, _g, _b, _a)
 end

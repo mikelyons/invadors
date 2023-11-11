@@ -1,12 +1,18 @@
---
--- Helper functions for screen resolution
---
--- API:
---
--- information about the window mode (fullscreen, vsync, size, etc.)
--- https://love2d.org/wiki/love.window.getMode
--- https://love2d.org/wiki/love.window.setMode
---
+--[[
+resolution.lua
+
+Helper functions for screen resolution
+
+API:
+information about the window mode (fullscreen, vsync, size, etc.)
+https://love2d.org/wiki/love.window.getMode
+https://love2d.org/wiki/love.window.setMode
+
+@TODO - make the resolution alwasy open in a window 
+- with a 1/4 margin and only when the player
+- maximizes it do they see the evilnote.lua
+- Add this to the Options menu
+]]--
 
 print('')
 print('resolution.lua -> ')

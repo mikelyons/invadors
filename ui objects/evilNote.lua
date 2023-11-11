@@ -20,8 +20,8 @@ return {
     return {
       text = text,
       rect = {
-        x = 700,
-        y = 500,
+        x = x or 700,
+        y = y or 500,
         width = 232,
         height = 232,
         dragging = { active = false, diffX = 0, diffY = 0 }
@@ -66,11 +66,18 @@ return {
         end
       end,
 
+        -- love.graphics.setColor(25, 25, 195, 255)
+        -- love.graphics.setColor(205, 5, 5, 255)
+
       draw = function(self)
         -- draggable rect
-        love.graphics.setColor(25, 25, 195, 255)
+        love.graphics.setColor(175, 225, 195, 255)
         love.graphics.rectangle("fill", rect.x, rect.y, rect.width, rect.height)
-        love.graphics.setColor(205, 5, 5, 255)
+        love.graphics.setColor(205, 255, 205, 255)
+        love.graphics.rectangle("fill", rect.x, rect.y, rect.width, rect.height/20)
+        -- love.graphics.setColor(205, 5, 5, 255)
+
+        love.graphics.setColor(0, 0, 0, 255)
         love.graphics.printf(
           text, --SplashText:getText()
           rect.x+20,

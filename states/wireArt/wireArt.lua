@@ -18,80 +18,58 @@
 
 print('wireArt.lua -> ')
 
-local colors = {
-  {152, 80, 6},
-  {212, 116, 26},
-}
 
 
 -- dependencies
--- local fanfic = require 'states/menu/fanfic'
-
--- text = fanfic.new(200,300, "New textbox", false, 16)
+  local Wire = require 'states/wireArt/wire'
 
 -- registering the gamestate
 local WireArt = Game:addState('wireArt')
-
--- input
-function WireArt:mousepressed(x,y, button , istouch) end
-function WireArt:mousereleased(x, y, button) end
-function WireArt:keypressed(key, code)
-  if key == ('escape') then love.event.push('quit') end
-
-  -- text:keypressed(key, code)
-
-  if key == ('w') then
-    -- love.event.push('quit')
-    -- addTwist()
-    draw2WireTwist(100)
-    print("draw more wire")
-    raintor = raintor + 1
-  elseif key == ('s') then
-    raintor = raintor + 2
-  end
-
-  -- if key == ('escape') then love.event.push('quit') end
-end
+-- wire colors @TODO move this
+local colors = {
+  {152, 80, 6}, -- dark copper
+  {212, 116, 26}, -- light copper
+  {100, 100, 100}, -- Titanium
+  {200, 200, 200}, -- silver
+}
 
 function WireArt:enteredState()
-print('wireArt -> ')
+  print('wireArt -> ')
   if DEBUG_LOGGING_ON then
     print(string.format("ENTER wireArt STATE - %s \n", os.date()))
   end
+
+  WireArt.number_of_wires = 20
+
+  WireArt.wires = {}
+
+  for i = 1, WireArt.number_of_wires, 1 do
+    table.insert(WireArt.wires,
+      Wire:new(10, 20 * i)
+    )
+  end
+
+
   raintor = 10
 end
+
 function WireArt:update(dt)
-  -- text:update(dt)
-  -- data = text:enteredText()
 end
+
 function WireArt:draw()
+
+  for i = 1, WireArt.number_of_wires, 1 do
+    WireArt.wires[i]:draw()
+  end
+
   -- store colors and linewidth from before
   local _r, _g, _b, _a = love.graphics.getColor()
   local _linewidth = love.graphics.getLineWidth()
 
-
   love.graphics.setColor(0, 255, 255, 255)
-  -- love.graphics.reset()
-  -- love.graphics.pop()
   love.graphics.setColor(_r, _g, _b, _a)
 
-  -- PrintDebug(fanfic)
-
-  -- sign in text box
-	-- text:draw()
-	if data then
-		love.graphics.setColor(255,255,255)
-		-- love.graphics.print("You typed: '"..data.."' in the text box", 200, 350)
-		love.graphics.print(
-      "You typed: '"
-      .."RAINT"
-      .."' in the text box"
-      , 200, 350
-    )
-    -- DO SOMTHING todo ToDO WITH THE DATA
-	end
-
-  -- local _r, _g, _b, _a = love.graphics.getColor()
+  -- red trapezoid
   love.graphics.setColor(200, 55, 55, 255)
   love.graphics.line(200,50, 400,50, 500,300, 100,300, 200,50)   -- last pair is a repeat to complete the trapezoid
 
@@ -107,8 +85,6 @@ function WireArt:draw()
 
   local x2 = margin_x + margin_x * wrap_count
   local y2 = margin_y + margin_y * wrap_count
-
-
 
   local line = {
     margin_x,margin_y,
@@ -139,13 +115,14 @@ function WireArt:draw()
   --   100,300,
   --   200,50)   -- last pair is a repeat to complete the trapezoid
 
-  love.graphics.setLineWidth( 3 )
+  love.graphics.setLineWidth( 1 )
 
   -- line style doesn't work because we are pixel-perfect rendering
   -- love.graphics.setLineStyle( "rough" )
   -- love.graphics.setLineStyle( "smooth" )
 
-  draw2WireTwist(raintor or 10)
+  draw2WireTwist(raintor or 10, 0)
+  draw2WireTwist(raintor or 10, 100)
 
   -- reset drawing color
   -- reset the line width
@@ -164,14 +141,14 @@ function calculateNextBend() end
 function insertNextWireEndPosition() end
 
 -- draw a twisted wire n twists in length
-function draw2WireTwist(n)
+function draw2WireTwist(n, spacing, color)
   local _r, _g, _b, _a = love.graphics.getColor()
   local wire = {}
 
   local wire1 = {}
   local wire2 = {}
 
-  local margin_x = 20
+  local margin_x = 20 + spacing
   local margin_y = 20
   local wrap_distance = 20
   local wrap_count = 1
@@ -190,6 +167,11 @@ function draw2WireTwist(n)
   end
   -- then print that line
   -- @TODO - use the table for multiple lines so it looks like a metalic gradient
+  if color == 'copper' then
+    love.graphics.setColor(colors[1])
+  else
+    love.graphics.setColor(colors[4])
+  end
   love.graphics.line(wire)
 
   -- again for wire2
@@ -202,7 +184,11 @@ function draw2WireTwist(n)
       wire2[#wire2+1] = (margin_y * (i / 2))  -- Y
     end
   end
-  love.graphics.setColor(colors[2])
+  if color == 'copper' then
+    love.graphics.setColor(colors[2])
+  else
+    love.graphics.setColor(colors[3])
+  end
   love.graphics.line(wire2)
 
   love.graphics.setColor(212, 116, 26, 255)
@@ -210,6 +196,23 @@ function draw2WireTwist(n)
   raintor
   .."' times", 200, 350)
   love.graphics.setColor(_r, _g, _b, _a)
+end
+
+-- input
+function WireArt:mousepressed(x,y, button , istouch) end
+function WireArt:mousereleased(x, y, button) end
+function WireArt:keypressed(key, code)
+  if key == ('escape') then love.event.push('quit') end
+  if key == ('w') then
+    -- addTwist()
+    draw2WireTwist(100, math.random(10, 100), 'copper')
+    print("draw more wire")
+    raintor = raintor + 1
+  elseif key == ('s') then
+    raintor = raintor + 2
+  end
+
+  -- if key == ('escape') then love.event.push('quit') end
 end
 
 function WireArt:exitedState()

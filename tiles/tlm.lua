@@ -364,6 +364,7 @@ function tlm:getChunkTiles(chunkCoords)
 
   return tiles
 end
+-- a first pass at spatial hash
 function tlm:strKeyAtPos(pos)
   local x, y = pos.x, pos.y
   -- vec2 strKey
@@ -376,9 +377,10 @@ function tlm:strKeyAtPos(pos)
   print(strKey)
 end
 
--- @TODO:  Oldschool map loader - TODO update this to chunkloader
+  -- @TODO:  Oldschool map loader - TODO update this to chunkloader
   -- does this not do anything anymore?
-function tlm:generateMap()--mapname)
+
+function tlm:generateMap() --mapname)
   local map = require("assets/maps/generator/template")--..mapname)
   -- tile size
   local ts = {w=map.tilewidth, h=map.tileheight}
@@ -506,7 +508,7 @@ function tlm:loadMap(mapname)
     end
   end
   -- house1.tmx
-  if map.tiledversion == "1.8.4" then
+  if map.tiledversion == ("1.8.4" or "1.10.2") then
     print("tiled 1.8.4")
     -- self.tiles is {} on load
     -- each layer
@@ -622,8 +624,8 @@ function tlm:loadMiniMap()
 end
 function tlm:drawMinimap()
   lg.setBlendMode('alpha')
-  local w = love.graphics.getWidth( ) 
-  local h= love.graphics.getHeight( ) 
+  local w = love.graphics.getWidth( )
+  local h= love.graphics.getHeight( )
   local x = 0 * (1/camera.scale.x) - g_Width / 2
   local y = 0 * (1/camera.scale.y) - g_Height / 2
   -- camera:set()
@@ -760,8 +762,21 @@ function tlm:drawCustomMap(newstylemap)
         local key = love.keyboard.isDown
         if DEBUG_GRID_ON or key('g') then
           if (tile.pos.x and tile.pos.y) then
+            love.graphics.setColor(255,255,255,25)
             love.graphics.rectangle('line',
               tile.pos.x, tile.pos.y, 32,32
+            )
+            love.graphics.setColor(255,255,255,255)
+            love.graphics.print(
+              'x'  .. math.floor((tile.pos.x / 32))+1,
+              tile.pos.x,
+              tile.pos.y
+            )
+            love.graphics.print(
+              'y' .. math.floor((tile.pos.y / 32))+1,
+
+              tile.pos.x,
+              tile.pos.y + 16
             )
           end
         end
@@ -793,6 +808,7 @@ function tlm:drawCustomMap(newstylemap)
         else -- other tile type than 0 is a tile specified by the editor
           love.graphics.draw(
             self.img,
+            -- why offset?
             quads[raint+2], --or quads[1], -- raint+2 offsets the tileset texture ids
             tile.pos.x,
             tile.pos.y
@@ -877,13 +893,30 @@ function tlm:drawCustomMap(newstylemap)
       end
   end
 
-    -- love.graphics.print(
-    --   -- love.timer.getFPS(),
-    --   'tile',
-    --   camera.pos.x + 32 + g_Width/2,
-    --   camera.pos.y + 32 + g_Height/2 
+    -- love.graphics.setColor(255,5,5,255)
+    -- love.graphics.rectangle(
+    --   'fill',
+    --   math.floor(obm:get_closest_by_id(nil, 'player').pos.x / 32) * 32,
+    --   math.floor(obm:get_closest_by_id(nil, 'player').pos.y / 32) * 32,
+    --   32,
+    --   32
     -- )
-  else
+    -- love.graphics.setColor(5,255,5,255)
+    -- love.graphics.rectangle(
+    --   'fill',
+    --   (math.floor(obm:get_closest_by_id(nil, 'player').pos.x / 32) * 32) +0,
+    --   (math.floor(obm:get_closest_by_id(nil, 'player').pos.y / 32) * 32) +32,
+    --   32,
+    --   32
+    -- )
+
+    -- print(player.pos.x)
+    -- print(obm:get_closest_by_id(nil, 'player').pos.x)
+    -- hand, job = pcall(print, player.pos.x)
+    -- succ, output = pcall(print, tostring(player))
+    -- print(succ, output)
+    -- print(tostring(obm:get_closest_by_id(nil, 'player')))
+  else -- oldstyle map
 
     for layer = 1,#self.tiles do
       for i = 1,16 do

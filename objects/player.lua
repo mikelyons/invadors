@@ -42,6 +42,7 @@ function Player:new(x,y)
     x,y,32,32,nil,nil,"player"
   )
 
+  ---@diagnostic disable-next-line: duplicate-set-field 
   function player:load()
     renderer:addRenderer(self, 3)
     gameloop:addLoop(self)
@@ -49,6 +50,7 @@ function Player:new(x,y)
     self.name = 'Player'
     self.attackvector = nil
     self.inventory = {}
+    -- self.on_ground = true
 
     init_physics(self, 500)
     -- tiles = tlm.chunks[0].tiles -- tiles of the spawn chunk
@@ -94,7 +96,7 @@ function Player:new(x,y)
   function player:tick(dt)
     camera:goToPoint(self.pos) -- camera follows this player
 
-    -- is this a memory leak of boxes? update position instead?
+    -- -- is this a memory leak of boxes? update position instead?
     if (DEBUG_HITBOX_VIS and key) then
       box = rect:new(self.pos.x + (self.vel.x * dt * self.dir.x), self.pos.y + (self.vel.y * dt * self.dir.y),self.size.x,self.size.y)
     end
@@ -127,7 +129,12 @@ function Player:new(x,y)
       -- end
 
     end
+
+
+    -- if self.on_ground then
+    -- else
       apply_gravity(self, dt)
+    -- end
 
     -- walk left or right
     if ( key("left") or key('a') ) then
@@ -164,13 +171,17 @@ function Player:new(x,y)
         end
         update_physics(self, chunk, dt, true) --tlm.customMap)
       end
+    else
+      newupdate_physics(self, dt) --tlm.customMap)
+        -- if true then
+        --   player.pos.move(player, 0, 0, dt)
+        -- end
     end
     -- print(tostring(floor(self.pos.x / 32 / 16))..tostring(floor(self.pos.y / 32 / 16)))
     -- print(tlm.chunksByStrKey[tostring(self.pos.x / 32 / 16)..tostring(self.pox.y / 32 / 16)].tiles)
     -- print(tostring(self.pos.x / 32 / 16)..tostring(self.pos.y / 32 / 16))
     -- print(tostring(self.pos.y / 32 / 16))
     -- PrintTable(tlm.chunksByStrKey[tostring(floor(self.pos.x / 32 / 16))..tostring(floor(self.pos.y / 32 / 16))], 3)
-
 
     -- if tlm.customMap then
     --   chunk.tiles = tlm.tiles
@@ -180,10 +191,9 @@ function Player:new(x,y)
 
     -- COLLISION HANDLING in world_physics.lua WIP
     -- update_physics(self, chunk, dt, true) --tlm.customMap)
-    newupdate_physics(self, dt) --tlm.customMap)
 
     -- jump
-    if ( key("space") or key('w') or key('up') ) then 
+    if ( key("space") or key('w') or key('up') ) then
       physics_jump(self)
     end
     -- attack
@@ -192,6 +202,9 @@ function Player:new(x,y)
       combat_attack(self)
     end
     -- if key("") then -- end
+    if ( key("m")) then
+      player.pos.move(player, 0, 0, dt)
+    end
 
     --Make the player move based on the velocities we set above
     self.pos.x  = self.pos.x + (self.vel.x * dt) * self.dir.x
@@ -206,17 +219,27 @@ function Player:new(x,y)
     -- print(self.pos.y)
   end
 
-  function player:draw()
+
+  function player:draw(dt)
     -- love.graphics.rectangle("fill",self.pos.x,self.pos.y,self.size.x,self.size.y)
 
     -- love.graphics.setColor(255,0,0,255) -- RED
     -- love.graphics.setColor(0,255,0,255) -- GREEN
     -- love.graphics.setColor(255,255,255,255) -- WHITE reset
     
-    if (DEBUG_HITBOX_VIS) then 
+    if (DEBUG_HITBOX_VIS) then
       -- prediction box from check point origin
       love.graphics.setColor(0,255,0,255) -- GREEN
-      love.graphics.rectangle("line",box.pos.x,box.pos.y,self.size.x,self.size.y)
+      -- love.graphics.rectangle("line",
+      --   box.pos.x,
+      --   box.pos.y,
+      --   self.size.x,self.size.y
+      -- )
+      love.graphics.rectangle("line",
+        box.pos.x,
+        box.pos.y,
+        self.size.x,self.size.y
+      )
       love.graphics.setColor(255,255,255,255) -- WHITE reset
     end
     
@@ -272,8 +295,25 @@ function Player:new(x,y)
     --   -- camera.pos.x, --  + (windowWidth - 64),
     --   -- camera.pos.y -- + (windowHeight - 64)
     -- )
-    love.graphics.print('WELCOME ...', 0, 0)
+    -- love.graphics.print('WELCOME ...', 0, 0)
 
+    love.graphics.print(
+      'tile  x' .. math.floor((player.pos.x / 32))+1
+      ..   ' y' .. math.floor((player.pos.y / 32))+1,
+
+      player.pos.x,
+      player.pos.y - 32
+    )
+    love.graphics.print(
+      'pixel x'..math.floor(player.pos.x) .. ' y'..math.floor(player.pos.y),
+      player.pos.x,
+      player.pos.y - 16
+    )
+
+    -- love.graphics.print(
+    --   'WELCOME ... '..player.name,
+    --   player.pos.x, player.pos.y
+    -- )
   end
 
   -- return the constructed player to the global scope

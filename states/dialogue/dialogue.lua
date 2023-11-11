@@ -27,14 +27,18 @@ function Dialogue:keypressed(key, code)
   if key == ('return') then
 
     Dialogue.number = Dialogue.number + 1
-    print(
-      Dialogue.script[Dialogue.number]
-      .. ' number #' .. Dialogue.number)
+    print( -- REALLY? 'Raint' is your error handling?
+      Dialogue.script[Dialogue.number] or 'RAINT'
+      .. ' number #' .. Dialogue.number or 'RAINT')
     -- love.event.push('quit')
 
   end -- advance dialogue
 
-  if key == ('escape') then love.event.push('quit') end
+  -- if key == ('escape') then love.event.push('quit') end
+  if key == ('escape') then
+    self:popState('dialogue')
+    self:pushState('menu')
+  end -- if key == ('l') then self:popState('dialogue') end
 end
 
 function Dialogue:enteredState()
@@ -48,7 +52,12 @@ function Dialogue:enteredState()
     -- ["elon"] = 'raint'
     'raint',
     'raint number two',
-    "raint 3"
+    "raint 3",
+    "this is the fourth raint",
+    'fifth debug raitn',
+    'why not a sixth',
+    'The longest raint : RAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIIIIIIIIIIIIIIIIIIIIIIIIIIIIIINNNNNNNNNNNNNNTTTT',
+    'Never again shall I raint!'
   }
 
   -- the character avatar
@@ -136,7 +145,7 @@ function Dialogue:draw()
   love.graphics.rectangle('line', panex-25, paney-25, panew+50, paneh+50, 32, 32)
   love.graphics.printf(
     -- txt,
-    script[Dialogue.number or 1],
+    Dialogue.script[Dialogue.number or 1] or Dialogue.script[1],
     panex+32 + 200,
     paney,--+32,
     panew-32 - 200,

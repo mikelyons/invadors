@@ -21,14 +21,14 @@ function apply_gravity(obj,dt)
   -- attempt to limit falling speed
   -- obj.vel.y = (obj.vel.y > 600) ? (obj.vel.y + obj.gravity * dt) : 600
   obj.vel.y = obj.vel.y + obj.gravity * dt
-  if obj.vel.y > 300 then 
+  if obj.vel.y > 300 then
     obj.vel.y = 300
   end
   obj.dir.y = 1
 end
 
 function physics_jump (obj)
-  -- print('jump '..obj.vel.y..' '..tostring(obj.on_ground))
+  print('jump '..obj.vel.y..' '..tostring(obj.on_ground))
   if obj.vel.y < 10 and obj.vel.y > -10 and obj.on_ground == true then
     obj.vel.y = -200
     obj.dir.y = 1
@@ -40,8 +40,13 @@ end
   NEW CUSTOM MAP COLLISION DETECTION
 
   @TODO - find a way to highlight the occupied tile
+  skyvault collision detection episode
+  https://www.youtube.com/watch?v=ZGyuKCD8o0w&list=PL5gRzHmN4Dg0Q9J9mMQwzVSbRnj2zWcUH&index=11
 
 ]]
+local function get_tile()
+end
+
 function newupdate_physics(obj, dt)
   -- print('CUSTOM MAP - '..tlm.map.tilesets[1].name)
   -- print('ERROR: no tiles at')
@@ -56,14 +61,103 @@ function newupdate_physics(obj, dt)
   --   math.floor(obj.pos.y/32),
   --   32,32
   -- )
-  tiles = tlm.tiles[2]
-  -- PrintTable(tiles, 1)
-  -- PrintTable(tiles[1][1], 1)
+  tiles = tlm.tiles[3]
+  -- print(tiles[1].name)
+  -- PrintTable(tlm['map'], 1)
+  -- PrintTable(tiles[1], 1)
+  -- PrintTable(tiles[1][1]['size'], 1)
   if tiles then
-    local tile = tiles
-      [math.floor(obj.pos.y / 32)]
-      [math.floor(obj.pos.x / 32)]
-    PrintTileXY(tile.pos.x, tile.pos.y)
+    -- local tile = tiles
+    --   [math.floor(obj.pos.y / 32) + 1]
+    --   [math.floor(obj.pos.x / 32) + 1]
+
+    -- PrintTileXY(tile.pos.x, tile.pos.y)
+    -- PrintTable(tile, 1)
+    -- print(tile['type'])
+
+    -- print("WHAT THE FUCK")
+
+    -- object's next-frame predicted position
+    local box = rect:new(
+      obj.pos.x + (obj.vel.x * dt * obj.dir.x),
+      obj.pos.y + obj.vel.y * dt,
+      obj.size.x,
+      obj.size.y
+    )
+
+    -- centx = box.pos.x
+    -- centy = box.pos.y
+    -- centx = box.pos.x + 16
+    -- centy = box.pos.y + 16
+    centx = box.pos.x + 31
+    centy = box.pos.y + 31
+    -- centx = box.pos.x + 32
+    -- centy = box.pos.y + 32
+    tilex = math.floor((centx/32))+1
+    tiley = math.floor((centy/32))+1
+    
+
+    -- which tile is the box prediction checking 
+    -- local tile = tiles[math.floor(box.pos.y / 32) + 1][math.floor(box.pos.x / 32) + 1]
+    local tile = tiles[tiley][tilex]
+
+    -- local tile = tiles
+    --   [math.floor(centx / 32)]
+    --   [math.floor(centy / 32)]
+
+      -- print(
+      --   math.floor(centx / 32)+1,
+      --   math.floor(centy /32)+1
+      -- )
+      -- print(
+      -- tilex, tiley
+      -- )
+      -- print(
+      --   tile.pos.x / 32 +1,
+      --   tile.pos.y /32 +1
+      -- )
+
+    local coll, t = rectangle_collision(box, tile)
+    if coll then print(tile.type) end
+
+    if coll and t and t.type ~= 0 then
+      -- print(coll)
+      -- print('Bottom '..'tileindex: '..tile.index..' - '..tile.type, math.random())
+      obj.vel.y = 0
+      obj.dir.y = 0
+
+      obj.on_ground = true
+      -- this causes the player to bounce inside the colliding tile ...
+      -- obj.pos.y = tile.pos.y - obj.size.y
+      obj.pos.y = tile.pos.y - obj.size.y
+
+      if obj.pos.y + obj.size.y / 2 < tile.pos.y + tile.size.y / 2 then
+
+        if DEBUG_LOGGING_COLLISION then
+          print('Bottom '..'tileindex: '..tile.index..' - '..tile.type, math.random())
+        end
+
+      --   -- Bottom of player collision
+      --   if box.pos.y + box.size.y > tile.pos.y and
+      --     obj.pos.y + obj.size.y < tile.pos.y + 8 then
+
+      --     obj.vel.y = 0
+      --     obj.dir.y = 0
+
+      --     obj.on_ground = true
+      --     obj.pos.y = tile.pos.y - obj.size.y
+      --     if (floor(obj.pos.y) == obj.pos.y) then
+      --       -- print('bottom', floor(obj.pos.y) )
+
+      --       -- print the colliding tile position
+      --       -- print(tile.index..' x'..tile.pos.x..' y'..tile.pos.y)
+
+      --     end
+      --   end
+      end
+    else
+      -- obj.on_ground = false
+    end
 
     -- PrintXY(
     --   tiles

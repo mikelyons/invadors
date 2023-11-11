@@ -1,5 +1,5 @@
 
---	Invators 0.4.4
+--	InvadortZ {__VERSION}
 --  author : Mike Lyons
 --  developed using : lua + love2d 
 --  
@@ -7,6 +7,12 @@
 --
 
 --https://love2d.org/wiki/Config_Files
+
+if love._version_major == 0 and love._version_minor < 9 then
+	error("InvadortZ requires love2d 0.9.0 or newer")
+-- elseif love._version_minor > 11 then
+--   error("too new the love version is")
+end
 
 -- make console work?
 -- io.stdout:setvbuf("full")
@@ -16,10 +22,11 @@ io.write("hello", "Lua"); io.write("Hi", "\n")
 -- ~ console in game - https://love2d.org/wiki/Cupid -- @TODO : separate dev libs
 -- require("./lib/cupid/cupid");
 
-__VERSION = "0.4.7.0"
+local snapdate = os.date("m%md%d")
 
-__TITLE_STR = string.format("Invadors v%s", __VERSION)
-
+__SNAP = snapdate or "m10w43"
+__VERSION = "0.4.7.2"
+__TITLE_STR = string.format("InvadortZ v%s", __VERSION..'.'..__SNAP)
 
 function love.conf( t ) 
   t.console = true -- did this ever work?
@@ -65,7 +72,6 @@ function love.conf( t )
   t.modules.event = true             -- Enable the event module (boolean)
   t.modules.graphics = true          -- Enable the graphics module (boolean)
   t.modules.image = true             -- Enable the image module (boolean)
-  t.modules.joystick = false          -- Enable the joystick module (boolean)
   t.modules.keyboard = true          -- Enable the keyboard module (boolean)
   t.modules.math = true              -- Enable the math module (boolean)
   t.modules.mouse = true             -- Enable the mouse module (boolean)
@@ -75,6 +81,8 @@ function love.conf( t )
   t.modules.timer = true             -- Enable the timer module (boolean)
   t.modules.window = true            -- Enable the window module (boolean)
   t.modules.thread = true            -- Enable the thread module (boolean)
+
+  t.modules.joystick = false          -- Enable the joystick module (boolean)
   t.modules.touch = false            -- Enable the touch module (boolean)
 end
 

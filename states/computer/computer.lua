@@ -1,6 +1,4 @@
 print('computer.lua -> ')
-
---
 -- Displays a dialogue box with a message for the player
 -- -- the goal is to eventually display a character avatar
 -- -- and to have all manner of expressiveness of the text,
@@ -12,23 +10,11 @@ print('computer.lua -> ')
 --
 
 print('Computer -> ')
-
-  local stickyNote = require 'ui objects/evilNote'
-
--- local fanfic = require 'states/menu/fanfic'
--- local text = fanfic.new(200,300, "New textbox", false, 16)
+local stickyNote = require 'ui objects/evilNote'
 
 local Computer = Game:addState('computer')
 
-function Computer:mousepressed(x,y, button)
-  self.evilnote:mousepressed(x,y, button)
-end
-function Computer:mousereleased(x,y, button)
-  self.evilnote:mousereleased(x,y, button)
-end
-
 function Computer:keypressed(key, code)
-  --   text:keypressed(key, code)
   if key == ('l') then self:popState('dialogue') end
   if key == ('escape') then love.event.push('quit') end
 end
@@ -37,7 +23,16 @@ function Computer:enteredState()
     print(string.format("ENTER computer STATE - %s \n", os.date()))
   end
 
-  self.evilnote = stickyNote:new(200, 200, "rainting all the way to the ginko")
+  self.motd = "Hello, welcome to computer"
+
+  -- get gravatar working?
+  self.user_avatar = love.graphics.newImage("assets/character/avatars/NN32.png")
+
+  self.evilnote = stickyNote:new(
+    screen_width-200, 400,--screen_height-200,
+    self.motd
+    -- "rainting all the way to the ginko"
+  )
 
   -- love.graphics.setBackgroundColor( red, green, blue, alpha )
   -- love.graphics.setBackgroundColor(unpack(COLOR_GREEN_HUNTER))
@@ -47,10 +42,11 @@ function Computer:enteredState()
   -- the character avatar
   -- https://pixel-me.tokyo/en/ - face to pixel art
   -- self.raintar = http.request('http://www.gravatar.com/avatar/'..hashedEmail)
-  self.raintar = nil
+  -- self.raintar = nil
+  self.raintar = love.graphics.newImage("assets/character/avatars/NN32.png")
 
-  -- attempt_canvas = false
-  attempt_canvas = true
+  attempt_canvas = false
+  -- attempt_canvas = true
   if attempt_canvas then
     -- attempt to set the canvas 
     -- self.canvas = love.graphics.newCanvas()
@@ -99,7 +95,6 @@ function Computer:update(dt)
   --   data = text:enteredText()
 
   -- The computer canvas update
-  -- 
   if attempt_canvas then
     self.canvas:renderTo(
       function()
@@ -132,8 +127,13 @@ end
 
 -- love.graphics.setDefaultFilter("nearest", "nearest")
 
+--@TODO - rescope these globals
 -- tempcomp = love.graphics.newImage("assets/character/avatars/NN32.png")
-tempcomp = love.graphics.newImage("assets/machines/computer/computer.png")
+teacup = love.graphics.newImage("assets/objects/tea-cup-1.png")
+key = love.graphics.newImage("assets/objects/copper-key.png")
+tempdesk = love.graphics.newImage("states/computer/wood.png")
+tempcomp = love.graphics.newImage("assets/machines/computer/computer-transparent.png")
+tempkb = love.graphics.newImage("assets/machines/computer/keyboard.png")
 tempcomp:setFilter("nearest", "nearest")
 
 -- love.graphics.draw(tempcomp,
@@ -142,42 +142,77 @@ tempcomp:setFilter("nearest", "nearest")
 --   0.5
 -- )
 function Computer:draw()
-
   local _r, _g, _b, _a = love.graphics.getColor()
   local _lineWidth = love.graphics.getLineWidth()
 
   -- Draw DESK
-  -- local _r, _g, _b, _a = love.graphics.getColor()
-  love.graphics.setColor(255,0,0, 255)
-  -- love.graphics.rectangle( mode, x, y, width, height, rx, ry, segments )
+  -- wall
+  -- -- love.graphics.rectangle( mode, x, y, width, height, rx, ry, segments )
+  love.graphics.setColor(155,100,100, 255)
   love.graphics.rectangle(
     'fill',
-    0, screen_height - 300, -- x, y
-    screen_width, 1511 -- w, h
+    0, 0, -- x, y
+    screen_width, screen_height-- w, h
   )
-  love.graphics.rectangle('fill', 0, 0, 111, 111)
-  love.graphics.setColor(_r, _g, _b, _a)
+
+  -- love.graphics.rectangle('fill', 0, 0, 111, 111)
+
+  --desk
+  love.graphics.setColor(255,255,255, 255)
+  love.graphics.draw(
+    tempdesk, -- wood
+    0, screen_height-300,
+    nil,
+    6,
+    1.92
+  )
   -- END DESK
 
-  -- computer placeholder
   -- TODO - make this blur? diffo resolutions, switcher "animations"
   -- love.graphics.draw( drawable, x, y, r, sx, sy, ox, oy, kx, ky )
+  -- computer
+  love.graphics.setColor(255,255,255, 255)
   love.graphics.draw(
     tempcomp,
-    32, 32,
+    32, 0,
     0,
-    25,
-    25
+    22,
+    22
   )
+  love.graphics.draw(
+    tempkb,
+    32, screen_height - 250,
+    0,
+    1,
+    1
+  )
+  love.graphics.draw(
+    key,
+    screen_width-332, screen_height - 250,
+    0,
+    3,
+    3
+  )
+  for y = 0, 4 do
+    love.graphics.draw(
+      key,
+      (screen_width-332 + y*32), (screen_height - 250 + y*32),
+      0,
+      3,
+      3
+    )
+  end
+
+  love.graphics.draw(
+    teacup,
+    screen_width-632, screen_height - 450,
+    0,
+    3,
+    3
+  )
+  -- love.graphics.setColor(_r, _g, _b, _a)
 
   -- User-input conversations
-	-- text:draw()
-	-- if data then
-	-- 	love.graphics.setColor(255,255,255)
-	-- 	love.graphics.print("You typed: '"..data.."' in the text box", 200, 350)
-    -- -- DO SOMTHING todo ToDO WITH THE DATA
-	-- end
-
   self.width = love.graphics.getWidth()
   self.height= love.graphics.getHeight()
   self.panex = camera.pos.x + (self.width/11)
@@ -213,7 +248,7 @@ function Computer:draw()
     drawCanvas(self.canvas)
   end
 
-  local Dpanel = false
+  local Dpanel = fals
   if Dpanel == true then
     -- Backpanel bg
     love.graphics.rectangle('fill', panex-25, paney-25, panew+50, paneh+50, 32, 32)
@@ -316,14 +351,14 @@ function Computer:draw()
   -- local raintar = love.graphics.newImage("assets/character/avatars/EM.png")
   -- local raintar = love.graphics.newImage("assets/character/avatars/NN128.png")
 
-  -- if showAvatar == true then
+  if showAvatar == true and false then
     local raintar = love.graphics.newImage("assets/character/avatars/NN32.png")
     love.graphics.draw(raintar,
       self.panex+32, self.paney+32,
       nil,
       0.5
     )
-  -- end
+  end
   -- love.graphics.rectangle("fill",
   --   self.panex+32,self.paney+32,
   --   96,96)
@@ -528,4 +563,12 @@ local function drawDialogue()
   )
 
   love.graphics.setColor(_r, _g, _b, _a)
+end
+
+--input
+function Computer:mousepressed(x,y, button)
+  self.evilnote:mousepressed(x,y, button)
+end
+function Computer:mousereleased(x,y, button)
+  self.evilnote:mousereleased(x,y, button)
 end

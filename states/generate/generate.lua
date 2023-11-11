@@ -128,7 +128,11 @@ function generate:enteredState()
   -- tlm:loadMap('testMap')
 
     -- renders multiple layers WITHOUT collisions
+    -- ACUTALLY some collision code works here but all others are broken
     tlm:loadMap('bedroom/house1')
+
+    -- newest version of Tiled doesn't work :(
+    -- tlm:loadMap('bedroom/house2')
 
     -- renders with collisions
     -- tlm:loadMap('test2/test')
@@ -240,7 +244,7 @@ function generate:draw(dt)
 
   if DEBUG_SHOW_FPS then
     love.graphics.print(
-      love.timer.getFPS(),
+      tostring(love.timer.getFPS()),
       camera.pos.x + (windowWidth - 64),
       camera.pos.y + (windowHeight - 64)
     )

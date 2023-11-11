@@ -33,6 +33,7 @@ gameShoutouts = {
   'Try Cruelty Squad!',
   'Try Metal Gear Solid V!',
   'Try Street Fighter III: Third Strike!',
+  'Try Just Wanna Go Home',
   'Try EGO HAZARD!',
   'Try <> !',
   ''
@@ -108,7 +109,14 @@ alternateTitles = {
 }
 
 characterNames = {
-"Bigfat Cockpussy"
+"Bigfat Cockpussy",
+"Cumminer McGillicutty",
+"Sonofabitch Bastard",
+"Bo Bestvina",
+"Thicc Cox",
+"Hugh Janus",
+"Buster Cherry",
+"Edick Buttholeson"
 
 }
 

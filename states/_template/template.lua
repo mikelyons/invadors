@@ -1,8 +1,40 @@
+
 --[[
   template.lua
 
   a template for adding a new gamestate
 ]]
+
+print('template.lua -> ')
+-- dependencies
+print('template -> ')
+
+local Signin = Game:addState('template') -- registering the gamestate
+
+function Signin:enteredState()
+  if DEBUG_LOGGING_ON then print(string.format("ENTER template STATE - %s \n", os.date())) end
+
+end
+function Signin:exitedState() love.graphics.clear() end
+
+function Signin:update(dt) end
+
+function Signin:draw()
+  local _r, _g, _b, _a = love.graphics.getColor()
+  love.graphics.setColor(0, 255, 255, 255)
+
+  love.graphics.setColor(_r, _g, _b, _a)
+end
+
+-- input
+function Signin:mousepressed(x,y, button , istouch) end
+function Signin:mousereleased(x, y, button) end
+function Signin:keypressed(key, code)
+
+  if key == ('escape') then love.event.push('quit') end
+end
+
+--[[
 
 print('template.lua -> ')
 print('template -> ')
@@ -54,3 +86,5 @@ end
 function Signin:exitedState()
   love.graphics.clear()
 end
+
+]]

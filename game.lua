@@ -48,6 +48,8 @@ function Game:initialize()
 
   loadStateFile  ('pause')
   -- Various mini-games 
+  loadStateFolder('uiTest')
+  loadStateFolder('asciiGame')
   loadStateFolder('synth')
   loadStateFolder('prog2')
   loadStateFolder('generate')
@@ -64,19 +66,30 @@ function Game:initialize()
 
   -- menu states
   loadStateFolder('menu')
+  loadStateFolder('options')
   loadStateFolder('wireArt')
   loadMenuStateFile('newGame')
   loadStateFile  ('createWorld')
   loadMenuStateFile('loadSave')
   loadMenuStateFile('signin')
   loadStateFolder('infiniteRunner')
-  -- loadStateFolder('editor')
+  loadStateFolder('editor')
+  loadStateFolder('tiledZoom')
+  loadStateFolder('face')
+  loadStateFolder('quadtree')
   -- loadStateFolder('template')
   -- self:gotoState('template')
   -- loadMenuStateFile('pressStart')
   -- self:gotoState('PressStart')
-  self:gotoState('menu')
-  -- self:gotoState('generate')
+
+  -- local BOOT_TO_STATE = 'tiledZoom'
+  -- local BOOT_TO_STATE = 'generate'
+  -- local BOOT_TO_STATE = 'synth'
+  if BOOT_TO_STATE ~= nil then
+  self:gotoState(BOOT_TO_STATE or 'menu')
+  else
+    self:gotoState('menu')
+  end
 end
 
 function Game:update(dt) end

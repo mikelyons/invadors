@@ -1,11 +1,34 @@
 ## Unreleased
-## 0.4.7.1 (Jan 1, 2023)
+## 0.4.7.3 (Jan 1, 2023)
 ### Added
 ### Changed
 ### Removed
 ### Fixed
 
 ## Unreleased
+
+## 0.4.7.2 (Nov 11, 2023)
+
+### Added
+- lots of gamestates
+  states/_template/_addState.lua
+  states/asciiGame/
+  states/computer/wood.png
+  states/face/
+  states/options/
+  states/quadtree/
+  states/synth/effects.lua
+  states/synth/love-tunes/
+  states/tiledZoom/
+  states/uiTest/
+  states/wireArt/wire.lua
+  states/yard/
+- lots of assets
+- 
+
+### Changed
+- many things changed in this update
+
 ## 0.4.7.1 (~Jan 1, 2023)
 
 ### Added
