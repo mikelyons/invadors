@@ -40,6 +40,12 @@ local font = love.graphics.newImageFont("assets/newer/Imagefont.png",
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ0" ..
     "123456789.,!?-+/():;%&`'*#=[]\"")
 
+-- this font missing n?
+-- local lowfont = love.graphics.newImageFont("lowfontA.png",
+--     " abcdefghijklmnopqrstuvwxyz" ..
+--     "ABCDEFGHIJKLMNOPQRSTUVWXYZ0" ..
+--     "123456789.,!?-+/():;%&`'*#=[]\"")
+
 
 -- local font = love.graphics.newImageFont("assets/outlinefont.png",
 -- " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~")

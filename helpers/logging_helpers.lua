@@ -21,6 +21,17 @@
 -- end
 
 
+-- log 2 a file (zabuyaki)
+function log2file( name, data, newFile)
+  if newFile then
+    love.filesystem.write( name, data )
+  else
+    local success, errormsg = love.filesystem.append( name, data )
+    if not success then
+        love.filesystem.write( name, data )
+    end
+  end
+end
 
 local reset = "\x1B[m\x1B[K" -- adds clear-to-EOL code
 local fgs = {red = "\x1B[31m", green = "\x1B[32m", --[[ rest left as exercise :P ]]}

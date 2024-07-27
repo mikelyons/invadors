@@ -172,7 +172,8 @@ return {
       parallaxy = 1,
       properties = {
         ["solid"] = true,
-        ["collidable"] = true
+        ["collidable"] = true,
+        ["static"] = true
       },
       encoding = "lua",
       data = {

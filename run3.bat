@@ -54,7 +54,7 @@ echo ^<ESC^>[106m !ESC![106mCyan!ESC![0m
 echo ^<ESC^>[107m !ESC![107mWhite!ESC![0m
 echo.
 echo !ESC![101;93m COMBINATIONS !ESC![0m
-echo ^<ESC^>[31m                     !ESC![31mred foreground color!ESC![0m
+echo ^<ESC^>[31mraint                     !ESC![31m red foreground color!ESC![0m
 echo ^<ESC^>[7m                      !ESC![7minverse foreground ^<-^> background!ESC![0m
 echo ^<ESC^>[7;31m                   !ESC![7;31minverse red foreground color!ESC![0m
 echo ^<ESC^>[7m and nested !ESC![31m !ESC![7mbefore !ESC![31mnested!ESC![0m

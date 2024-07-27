@@ -24,7 +24,7 @@ function Book:mousepressed(x,y, button , istouch) end
 function Book:mousereleased(x, y, button) end
 function Book:keypressed(key, code)
   text:keypressed(key, code)
-  if key == ('escape') then love.event.push('quit') end
+  if key == ('escape') then self:popState('book') end
   -- if key == ('escape') then love.event.push('quit') end
 end
 
@@ -54,6 +54,9 @@ function Book:draw()
 		love.graphics.print("You typed: '"..data.."' in the text box", 200, 350)
     -- DO SOMTHING todo ToDO WITH THE DATA
 	end
+
+  love.graphics.draw(bookGraphic, 100, 100)
+  love.graphics.draw(fingers, 200, 200)
 end
 function Book:exitedState()
   love.graphics.clear()

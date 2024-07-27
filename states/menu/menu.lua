@@ -7,6 +7,9 @@
 
   TODO:
   - implement key sequence cheat unlocks
+  - rename this to the primary main menu
+    - create menu generating subscripts that can be used in
+      multiple menu screens
 ]]--
 
 asm:load()
@@ -84,6 +87,7 @@ function Menu:keypressed(key, code)
   if key == ('t') then self:pushState('tiledZoom') end
   if key == ('c') then self:pushState('face') end
   if key == ('q') then self:pushState('quadtree') end
+  -- if key == ('o') then self:pushState('mic') end
   -- if key == ('6' or 'h') then self:pushState('pro') end
   -- if key == ('3' or 'q') then self:pushState('space1') end
   -- if key == ('4' or 'w') then self:pushState('Earth2') end
@@ -479,7 +483,7 @@ function Menu:loadButtons(menu)
   table.insert(buttons, self:newButton(
     'Options',
     function()
-      self:popState('menu')
+      -- self:popState('menu')
       self:pushState('options')
       print('Go to Options menu??????????????????????????????????????????????????????????????????????????')
     end

@@ -16,14 +16,17 @@ local Computer = Game:addState('computer')
 
 function Computer:keypressed(key, code)
   if key == ('l') then self:popState('dialogue') end
-  if key == ('escape') then love.event.push('quit') end
+  -- if key == ('escape') then love.event.push('quit') end
+  if key == 'escape' then self:popState() end
 end
 function Computer:enteredState()
   if DEBUG_LOGGING_ON then
     print(string.format("ENTER computer STATE - %s \n", os.date()))
   end
 
-  self.motd = "Hello, welcome to computer"
+  -- self.motd = "Hello, welcome to computer"
+  -- self.motd = [[Hello, welcome to computer, it is whatever the heck o clock welcome ]]
+  self.motd = [[Hello, welcome to computer, it is whatever the heck o clock welcome ]]
 
   -- get gravatar working?
   self.user_avatar = love.graphics.newImage("assets/character/avatars/NN32.png")

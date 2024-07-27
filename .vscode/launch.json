@@ -10,7 +10,8 @@
       "type": "lua-local",
       "request": "launch",
       "program": {
-        "command": "C:\\Users\\Mike\\Dev\\invadors\\i1\\lib\\love\\11.3\\love.exe"
+        // "command": "C:\\Users\\Mike\\Dev\\invadors\\i1\\lib\\love\\11.3\\love.exe"
+        "command": "C:\\Users\\Mike\\Dev\\invadors\\i1\\lib\\love\\10.2\\love.exe"
       },
       "args": [
         ".",

@@ -1,9 +1,9 @@
-
 --[[
+  colors.lua
   Constants that can be used for color
 
-  Colors will need updated
-  to the .0 - 1 format of LOVE11.3
+  @TODO
+  --Colors will need updated to the .0 - 1 format of LOVE 11
 ]]
 
 

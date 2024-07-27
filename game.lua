@@ -1,10 +1,10 @@
 --[[
   game.lua
 
+  Loads all the states, which are essentially cartridges
+
   The main game loop initializer this is loaded by the 
   main bootstrap file main.lua
-
-  Loads all the states, which are essentially cartridges
 ]]
 
 -- networking tutorial with enet (which is installed)
@@ -77,6 +77,7 @@ function Game:initialize()
   loadStateFolder('tiledZoom')
   loadStateFolder('face')
   loadStateFolder('quadtree')
+  -- loadStateFolder('mic')
   -- loadStateFolder('template')
   -- self:gotoState('template')
   -- loadMenuStateFile('pressStart')
@@ -85,8 +86,9 @@ function Game:initialize()
   -- local BOOT_TO_STATE = 'tiledZoom'
   -- local BOOT_TO_STATE = 'generate'
   -- local BOOT_TO_STATE = 'synth'
+  -- local BOOT_TO_STATE = 'mic'
   if BOOT_TO_STATE ~= nil then
-  self:gotoState(BOOT_TO_STATE or 'menu')
+    self:gotoState(BOOT_TO_STATE or 'menu')
   else
     self:gotoState('menu')
   end

@@ -1,5 +1,6 @@
 --[[
   characterCreation.lua
+  menu 8
 
   - Name the character something goherent
   - all characters are saved to the save directory
@@ -247,5 +248,7 @@ function characterSheet:mousereleased(x, y, button) end
 function characterSheet:keypressed(key, code)
   text:keypressed(key, code)
   -- if key == ('escape') then love.event.push('quit') end
-  if key == ('escape') then love.event.push('quit') end
+  -- if key == ('escape') then love.event.push('quit') end
+  -- if key == ('escape') then love.event.push('quit') end
+  if key == 'escape' then self:popState() end
 end

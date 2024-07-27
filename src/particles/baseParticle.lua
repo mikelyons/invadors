@@ -1,3 +1,9 @@
+--[[
+  baseParticle.lua
+
+  learn more and build particles with: https://github.com/ReFreezed/HotParticles
+
+]]
 -- the Particle system base class -- can inherit to blood, smoke or whatnot
 local Particle = {}
 

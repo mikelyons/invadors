@@ -63,7 +63,7 @@ function Options:mousepressed(x,y, button , istouch) end
 function Options:mousereleased(x, y, button) end
 function Options:keypressed(key, code)
   -- if key == ('escape') then love.event.push('quit') end
-  if key == ('escape') then love.event.push('quit') end
+  -- if key == ('escape') then love.event.push('quit') end
   -- if key == ('escape') then  end
-  -- if key == ('escape') then self:popState() end
+  if key == ('escape') then self:popState('options') end
 end

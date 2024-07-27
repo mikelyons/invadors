@@ -105,7 +105,11 @@ alternateTitles = {
   "l'invadortz",
   "l'invadeaux",
   "da'invadortz",
-  "侵略者"
+  "侵略者",
+  "IN VADOR TZE!",
+  "Invadort Z",
+  "Invadorz", -- rare!
+  ""
 }
 
 characterNames = {
@@ -116,8 +120,20 @@ characterNames = {
 "Thicc Cox",
 "Hugh Janus",
 "Buster Cherry",
-"Edick Buttholeson"
+"Edick Buttholeson",
+"Cumminer Pussyholeson"
 
+}
+
+adultSplash = {
+  "Fuck me gay!",
+  "It'll fuck ya gay!"
+}
+
+loadingMessages = {
+  "Reticulating Splines",
+  "Taking Hostages",
+  "Dusting off Armor",
 }
 
 -- @TODO get prettier RGB colors - maybe match them to the text table, maybe multiple colors
@@ -131,3 +147,105 @@ splashColors = {
   {55,155,55,255},
   {55,55,155,255},
 }
+
+--[[
+  "Aligning headshots..."
+
+"Reloading magazines..."
+
+"Priming grenades..."
+
+"Filling molotovs..."
+
+"Stocking ammo..."
+
+"Gathering bullets..."
+
+"Dusting off armor..."
+
+"Repairing helmets..."
+
+"Locking and loading..."
+
+"Lining up smokes..."
+
+"Recoil compensating..."
+
+"Equipping loadouts..."
+
+"Spray transferring..."
+
+"Calculating sightlines..."
+
+"Securing positions..."
+
+"Counting entry frags..."
+
+"Preparing to clutch..."
+
+"Analyzing flickshots..."
+
+"Marking bombsites..."
+
+"Calibrating sniper scopes..."
+
+"Counter-strafing..."
+
+"Practicing bunny-hops..."
+
+"Going sneaky-beaky-like..."
+
+"Running and gunning..."
+
+"Holding an angle..."
+
+"Calling strats..."
+
+"Hatching chickens..."
+
+"Rushing B..."
+
+"Squeezing lemons..."
+
+"Going on a windy walk..."
+
+"Planting for cat..."
+
+"Incrementing StatTraks..."
+
+"Memorizing callouts..."
+
+"Peeking mid..."
+
+"Picking up shell casings..."
+
+"Flashing in..."
+
+"Taking hostages..."
+
+"Striking-counters..."
+
+"Adjusting crosshairs..."
+
+"Inspecting weapons..."
+
+"Accepting..."
+
+"Dropping for teammates..."
+
+"Making friends..."
+
+"Scrubbing graffiti..."
+
+"Closing squeaky doors..."
+
+"Replacing windows..."
+
+"Demarcating buy zones..."
+
+"Attaching suppressors..."
+
+"One bullet left..."
+
+"Watching Major highlights..."
+]]

@@ -1,4 +1,15 @@
---@TODO - make multiple logos possible
+--[[
+  splash.lua
+
+  display splash screens, sounds and transitions when the
+  game boots
+
+  - load assets while this happens
+  - can it be skippable
+
+  --@TODO - make multiple logos possible
+
+]]
 
 local Splash = Game:addState('Splash')
 
@@ -61,6 +72,8 @@ function Splash:exitedState()
 end
 
 function Splash:keypressed(key, code)
+  -- skippable
   if key == ('space' or 'return') then self:pushState('Menu') end
+
   if key == ('q') then love.event.push('quit') end
 end

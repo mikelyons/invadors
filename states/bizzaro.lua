@@ -1,3 +1,11 @@
+--[[
+  bizzaro.lua
+
+  The Bizzaro State
+
+  Essentially all this does is add flashing squares to the screen 
+  in a background layer and then popState itself
+]]
 
 local Bizzaro = Game:addState('bizzaro')
 

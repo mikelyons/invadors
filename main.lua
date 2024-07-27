@@ -13,6 +13,7 @@ end
 
 require 'src/dependencies'
 
+-- this does not get added to the Game table below
 local game = {
   _VERSION     = 'Invadors *SEE CONF.LUA for VERSION #*',
   _DESCRIPTION = 'Invadors Game',

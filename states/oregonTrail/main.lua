@@ -1,11 +1,17 @@
---[[
-  template.lua
+--https://www.youtube.com/watch?v=zqzR4fh0vD0
 
-  a template for adding a new gamestate
+
+
+--[[
+  oregonTrail/main.lua
+
+  The oregon trail of sailing
+  todo
+  - everything, this is a template file for holding the space for the gamestate
 ]]
 
-print('template.lua -> ')
-print('template -> ')
+print('oregonTrail.lua -> ')
+print('oregonTrail -> ')
 
 -- dependencies
 local fanfic = require 'states/menu/fanfic'
@@ -20,8 +26,9 @@ function Signin:mousepressed(x,y, button , istouch) end
 function Signin:mousereleased(x, y, button) end
 function Signin:keypressed(key, code)
   text:keypressed(key, code)
-  if key == ('escape') then love.event.push('quit') end
-  if key == ('escape') then love.event.push('quit') end
+  -- if key == ('escape') then love.event.push('quit') end
+  -- if key == ('escape') then love.event.push('quit') end
+  if key == 'escape' then self:popState() end
 end
 
 function Signin:enteredState()

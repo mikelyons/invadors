@@ -1,6 +1,9 @@
 TO DO:
 see lua-project/basic for many goodies to incorporate
 
+removed submodules to add back
+https://github.com/airstruck/sketchy
+https://github.com/LPGhatguy/love-microphone
 
 ### Dev Log
 
@@ -55,6 +58,12 @@ image sequencing - https://github.com/YoungNeer/clove
 
 Lua Reflection
 https://stackoverflow.com/questions/2620377/lua-reflection-get-list-of-functions-fields-on-an-object
+
+
+##### todo
+
+- ensure backward compatibility and up to date self-contained
+  - https://github.com/love2d/love/releases 
 
 ##### Renderlayers: Top to Bottom
 
