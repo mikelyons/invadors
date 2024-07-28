@@ -1,2 +1,2 @@
-!/bin/bash
-exec /Users/mikelyons/Dev/lua-project/invadors/lib/love/10.2/mac/love.app/Contents/MacOS/love "/Users/mikelyons/Dev/lua-project/invadors"
+#!/bin/bash
+exec $(dirname "$0")/lib/love/10.2/mac/love.app/Contents/MacOS/love "$(dirname "$0")"
