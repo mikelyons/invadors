@@ -46,8 +46,8 @@ local game = {
 
 
 function love.load(...)
-  score = Score:new()
-  score:load()
+  -- score = Score:new()
+  -- score:load()
   -- print(arg[0])
   -- print("love.load("..arg[1]..")")
   -- print(arg[2])
@@ -190,27 +190,27 @@ function love.keypressed(key, code)
 
   if game then
     -- PrintTable(game)
-    game:keypressed(key, code)
-    score:keypress(key)
+    -- game:keypressed(key, code)
+    -- score:keypress(key)
   end
 
   -- plus button adds 100 to the score
   if key == '=' then
-    score:add(100)
-    print('SCORE + 100! = '..score:get())
+    -- score:add(100)
+    -- print('SCORE + 100! = '..score:get())
   end
 end
 function love.keyreleased( key, scancode )
   -- if (DEBUG_LOGGING_ON and key) then print('key released: '..key) end
-  score:keyrelease(key)
+  -- score:keyrelease(key)
 end
 function love.mousepressed(x, y, button, istouch)
   game:mousepressed(x, y, button, istouch)
-  score:mousepress()
+  -- score:mousepress()
 end
 function love.mousereleased(x, y, button)
   game:mousereleased(x, y, button)
-  score:mouserelease()
+  -- score:mouserelease()
 end
 function love.resize(w, h)
   print(("Window resized to width: %d and height: %d."):format(w, h))
@@ -218,7 +218,7 @@ function love.resize(w, h)
   screen_height = h
 end
 function love.quit()
-  score:quit()
+  -- score:quit()
 end
 -- also from: https://sheepolution.com/learn/book/bonus/vscode
 local love_errorhandler = love.errhand

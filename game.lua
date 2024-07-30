@@ -28,6 +28,7 @@ function Game:new() end
 
 function Game:initialize()
   print('Game init')
+  print('rainty')
 
   -- this only works if launched through run.BAT
   -- https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
@@ -74,7 +75,7 @@ function Game:initialize()
   loadMenuStateFile('signin')
   loadStateFolder('infiniteRunner')
   loadStateFolder('editor')
-  loadStateFolder('tiledZoom')
+  -- loadStateFolder('tiledZoom')
   loadStateFolder('face')
   loadStateFolder('quadtree')
   -- loadStateFolder('mic')
