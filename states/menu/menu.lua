@@ -341,9 +341,9 @@ function Menu:draw()
     620, 'left')
   love.graphics.setColor(255, 0, 0, 255)
 
-  love.graphics.printf('PRE-ALPHA',
-    camera.pos.x, camera.pos.y + (love.graphics.getHeight() - 32),
-    620, 'left')
+  -- love.graphics.printf('PRE-ALPHA',
+  --   camera.pos.x, camera.pos.y + (love.graphics.getHeight() - 32),
+  --   620, 'left')
   love.graphics.setColor(_r, _g, _b, _a)
   -- love.graphics.printf(text,x,y,limit,align)
 end

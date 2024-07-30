@@ -164,6 +164,8 @@ function love.draw(dt)
   -- print(tiles[1][1]['occupied'])
   falsey = tiles[1][1]['occupied']
   -- print(falsey)
+  love.graphics.setNewFont(12)
+  love.graphics.setColor(255,0,0)
   love.graphics.print("PRE-ALPHA", 0, 0, nil, 4, 4)
   love.graphics.print(
     "Debug Info:"..'\n' ..
@@ -171,6 +173,7 @@ function love.draw(dt)
     tostring(falsey),
     screen_width - 300, 0, nil, 4, 4
   )
+  love.graphics.setNewFont(42)
 
   -- love.graphics.print({'rainty', screen_width - 300, 0, nil, 4, 4})
 
