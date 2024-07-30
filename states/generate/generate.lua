@@ -117,18 +117,19 @@ function generate:enteredState()
     print("custom map")
     -- broken
     -- tlm:loadMap('test/stonebox')
-    -- broken
+    -- broken (sorta)
     -- tlm:loadMap('test/test-simplify')
 
   -- load the map from file
-  -- tlm:loadMap('test/test')
-  -- tlm:loadMap('generator/template')
+  -- tlm:loadMap('test/test') -- broken
+  -- tlm:loadMap('generator/template') -- broken
   -- tlm:loadMap('test2/test2')
   -- tlm:loadMap('test2/test')
   -- tlm:loadMap('testMap')
 
     -- renders multiple layers WITHOUT collisions
     -- ACUTALLY some collision code works here but all others are broken
+    -- character doesn't render tho
     tlm:loadMap('bedroom/house1')
 
     -- newest version of Tiled doesn't work :(

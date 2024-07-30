@@ -190,7 +190,7 @@ function love.keypressed(key, code)
 
   if game then
     -- PrintTable(game)
-    -- game:keypressed(key, code)
+    game:keypressed(key, code)
     -- score:keypress(key)
   end
 
