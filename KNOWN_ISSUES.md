@@ -1,3 +1,2 @@
 - Highscore.lua - something breaks menu on launch, only bg renders
-- Generate.lua - state does not render world as it used to or does on PC, perhaps a problem with tlm.lua
-  - character not rendering and spawning in the wrong place, seems to collide if improperly
+- Generate.lua -  player not rendering and spawning in wrong place, apple M2 chip related, works somewhat better in LOVE 11.4
