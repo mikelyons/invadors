@@ -2,39 +2,76 @@
   kitchen.lua
 
   a kitchen for adding a new gamestate
+  @TODO
+  - drag and drop
+  - coffee maker
+  - fridge
+  - counter top
+  - physics
+
+  @KNOWN ISSUES
+  - exiting this state breaks the draggable rect for evilnote in menu.lua - probably conflicting variable name in global scope
+
 ]]
 
 print('kitchen.lua -> ')
 print('kitchen -> ')
 
 -- dependencies
-local fanfic = require 'states/menu/fanfic'
-
-text = fanfic.new(200,300, "New textbox", false, 16)
 
 -- registering the gamestate
 local Kitchen = Game:addState('kitchen')
-
--- input
-function Kitchen:mousepressed(x,y, button , istouch) end
-function Kitchen:mousereleased(x, y, button) end
-function Kitchen:keypressed(key, code)
-  text:keypressed(key, code)
-  if key == ('escape') then love.event.push('quit') end
-  if key == ('escape') then love.event.push('quit') end
-end
 
 function Kitchen:enteredState()
   if DEBUG_LOGGING_ON then
     print(string.format("ENTER kitchen STATE - %s \n", os.date()))
   end
 
+  raintar = love.graphics.newImage("states/kitchen/coffee-bag.png")
+  raintar:setFilter("nearest", "nearest")
 
+  rect = {
+    x = 100,
+    y = 100,
+    w = 100,
+    h = 100,
+    dragging = {
+      active = false,
+      dx = 0,
+      dy = 0
+    }
+  }
 end
+
+-- input
+function Kitchen:mousepressed(x,y, button , istouch)
+  if button == 1 and x>rect.x and x<rect.x+rect.w and y>rect.y and y<rect.y+rect.h then -- the mouse collision check for grabbing
+    rect.dragging.active = true
+    rect.dragging.dx = x - rect.x
+    rect.dragging.dy = y - rect.y
+  end
+end
+function Kitchen:mousereleased(x, y, button)
+  if button == 1 then
+    rect.dragging.active = false
+  end
+end
+function Kitchen:keypressed(key, code)
+  -- if key == ('escape') then love.event.push('quit') end
+  -- if key == ('escape') then love.event.push('quit') end
+  if key == ('escape') then self:popState('kitchen') end
+  -- if key == ('escape') then love.event.push('quit') end
+end
+
 function Kitchen:update(dt)
-  text:update(dt)
-  data = text:enteredText()
+  if rect.dragging.active == true then
+    -- rect.dragging.dx = x - rect.x
+    -- rect.dragging.dy = y - rect.y
+    rect.x = love.mouse.getX() - rect.dragging.dx
+    rect.y = love.mouse.getY() - rect.dragging.dy
+  end
 end
+
   local _r, _g, _b, _a = love.graphics.getColor()
 
   -- body thumb rule measures TODO improve and encapsulate
@@ -43,23 +80,14 @@ end
   local centerx = camera.pos.x + screen_width/2 - (boxwidth/2)
   local centery = camera.pos.y + screen_height/2
 
-  local head = {
-    w = 128,
-    h = 128,
-    x = centerx + boxwidth/2,
-    y = centery - 100,
-  }
-  local headw = 64
-  local headh = 156
-
 
 -- coffeePot = love.graphics.newImage("assets/machines/computer/computer.png")
 coffeePot = love.graphics.newImage("assets/objects/cpot.png")
 coffeePot:setFilter("nearest", "nearest")
 
+tempdesk = love.graphics.newImage("states/computer/wood.png")
 function Kitchen:draw()
-
-  -- Draw COUNTER
+  -- Draw kitchen COUNTER top
   -- local _r, _g, _b, _a = love.graphics.getColor()
   love.graphics.setColor(255,0,0, 255)
   -- love.graphics.rectangle( mode, x, y, width, height, rx, ry, segments )
@@ -69,48 +97,55 @@ function Kitchen:draw()
     screen_width, 1511 -- w, h
   )
 
-  -- nipples
-  love.graphics.rectangle('fill', 0, 0, 111, 111)
-  love.graphics.setColor(_r, _g, _b, _a)
-  love.graphics.setColor(245,159,97)
-  love.graphics.rectangle("fill",
-    centerx+40,
-    centery+40,
-    32,
-    32
-  )
-  love.graphics.rectangle("fill",
-    centerx*2-300,
-    centery+40,
-    32,
-    32
+  -- wall
+  -- -- love.graphics.rectangle( mode, x, y, width, height, rx, ry, segments )
+  love.graphics.setColor(155,100,100, 255)
+  love.graphics.rectangle(
+    'fill',
+    0, 0, -- x, y
+    screen_width, screen_height-- w, h
   )
 
-  require('helpers/draw_helpers')
+  --desk
+  love.graphics.setColor(255,255,255, 255)
+  love.graphics.draw(
+    tempdesk, -- wood
+    0, screen_height-300,
+    nil,
+    6,
+    1.92
+  )
+  -- END DESK
+
+
+  -- rect for dragdrop
+  love.graphics.rectangle("fill", rect.x, rect.y, rect.w, rect.h)
+
+
+  -- nothing relevant in here yet
+  -- require('helpers/draw_helpers')
+
   -- draw coffeePot
   love.graphics.draw(
     coffeePot,
-    32, 32,
+    32, screen_height - 32 - 256 - 256,
     nil,
     0.5
   )
 
+  love.graphics.draw(raintar,
+    320, 320,
+    nil,
+    10.5
+  )
+
   -- ensure proper gravatar color
-  local _r, _g, _b, _a = love.graphics.getColor()
-  love.graphics.setColor(0, 255, 255, 255)
-  -- love.graphics.reset()
-  -- love.graphics.pop()
-  love.graphics.setColor(_r, _g, _b, _a)
+  -- local _r, _g, _b, _a = love.graphics.getColor()
+  -- love.graphics.setColor(0, 255, 255, 255)
+  -- love.graphics.setColor(_r, _g, _b, _a)
 
   -- PrintDebug(fanfic)
 
-  -- sign in text box
-	text:draw()
-	if data then
-		love.graphics.setColor(255,255,255)
-		love.graphics.print("You typed: '"..data.."' in the text box", 200, 350)
-    -- DO SOMTHING todo ToDO WITH THE DATA
-	end
 end
 function Kitchen:exitedState()
   love.graphics.clear()

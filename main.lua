@@ -62,13 +62,19 @@ function love.load(...)
 
   screen_height = 900
   screen_width = 1340
-  -- required to make window resizable
+  -- required to make window resizable -- @TODO do we want this?
   love.window.setMode(screen_width, screen_height, {
     resizable=true,
     vsync=false,
     minwidth=400,
     minheight=300
   })
+  -- display on monitor 2 -- also fixes the problem with rendering in generate gamestate (4.7.3)
+  -- local width, height = love.window.getDesktopDimensions(2) -- Get the dimensions of the second monitor
+  -- love.window.setMode(800, 600,
+  --   {x = width - 820, y = 0 - 620}
+  -- )  -- Adjust the x and y positions accordingly
+
 
   -- this is not necessary when the conf.lua is set properly for the platform requirements
   -- local mushroom = love.image.newImageData("assets/shroom.png")

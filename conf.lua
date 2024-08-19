@@ -36,6 +36,8 @@ function love.conf( t )
   -- change this with https://love2d.org/wiki/love.filesystem.setIdentity
   t.identity = "invadors_save_directory"       -- The name of the save directory (string)
   t.version = "0.10.2"                -- The LÖVE version this game was made for (string)
+
+  -- BEGIN window attributes including size and location on load
   t.window.title = __TITLE_STR --string.format("Invadors v%s", __VERSION)        -- The window title (string)
 
   -- mushroom wasn't 32x32 and wouldn't work on windows so I made small one named shroom
@@ -64,6 +66,7 @@ function love.conf( t )
   t.window.fsaa = 0                  -- The number of samples to use with multi-sampled antialiasing (number)
   -- t.window.msaa = 0                  -- The number of samples to use with multi-sampled antialiasing (number)
   t.window.display = 1               -- Index of the monitor to show the window in (number)
+  -- t.window.display = 2               -- Index of the monitor to show the window in (number) -- @TODO use in conjunciton with the todo in main.lua
   t.window.highdpi = false           -- Enable high-dpi mode for the window on a Retina display (boolean). Added in 0.9.1
   t.window.srgb = false              -- Enable sRGB gamma correction when drawing to the screen (boolean). Added in 0.9.1
 

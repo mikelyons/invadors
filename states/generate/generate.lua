@@ -8,6 +8,9 @@
   This game mode was meant to be an infinite generating world
   hence the name "generate", this is still in the WIPs, but for
   now will load custom maps made in the Tiled map editor
+
+  @TODO
+  - fix cameras and stuff, everything seems pretty busted ugh
 ]]
 
 -- require '/lib/fanfic'
