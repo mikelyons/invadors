@@ -119,7 +119,7 @@ function Kitchen:draw()
 
 
   -- rect for dragdrop
-  love.graphics.rectangle("fill", rect.x, rect.y, rect.w, rect.h)
+  -- love.graphics.rectangle("fill", rect.x, rect.y, rect.w, rect.h)
 
 
   -- nothing relevant in here yet
@@ -133,10 +133,18 @@ function Kitchen:draw()
     0.5
   )
 
+
+  -- love.graphics.draw(drawable,
+    -- x,y,
+    -- r,
+    -- sx,sy,
+    -- ox,oy)
   love.graphics.draw(raintar,
-    320, 320,
+    rect.x, rect.y,
     nil,
-    10.5
+    3, 3,
+    nil,
+    nil
   )
 
   -- ensure proper gravatar color
