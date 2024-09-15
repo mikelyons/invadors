@@ -37,4 +37,6 @@ rem // usage example
  %Erase%{marker.}
  %Print%{150;150;80}marker and erase macro.\n
  
+start %CD%\..\lib\love\10.2\love.exe %CD%\..
+
  cmd /k

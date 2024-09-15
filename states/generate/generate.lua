@@ -11,6 +11,7 @@
 
   @TODO
   - fix cameras and stuff, everything seems pretty busted ugh
+  - http://higherorderfun.com/blog/2012/05/20/the-guide-to-implementing-2d-platformers/
 ]]
 
 -- require '/lib/fanfic'
@@ -32,6 +33,7 @@ local generate = Game:addState('generate')
 -- based on : https://love2d.org/wiki/Tutorial:Baseline_2D_Platformer
 -- Libraries
 
+-- WIP
 entity_factory =  require 'entity_factory'
 
 -- BEGIN video backgrounds

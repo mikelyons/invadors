@@ -5,6 +5,19 @@ removed submodules to add back
 https://github.com/airstruck/sketchy
 https://github.com/LPGhatguy/love-microphone
 
+
+libs to use
+https://github.com/excessive/ludum-dare-37 -- 3d
+https://luapower.com/nw - native windows
+https://github.com/WetDesertRock/music.lua - music theory
+https://github.com/SimonLarsen?tab=repositories&q=&type=&language=lua&sort= -- lots
+https://github.com/TangentFoxy?tab=repositories&q=&type=&language=lua&sort=
+https://github.com/DwayneSpades?tab=repositories&q=&type=&language=lua&sort=
+https://github.com/markandgo/tile-collision
+https://github.com/DwayneSpades/3D-Engine-in-Love2D
+
+https://www.youtube.com/results?search_query=drag+and+drop+love2d
+
 ### Dev Log
 
 ##### 10-13-2023 Friday

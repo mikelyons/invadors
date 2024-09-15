@@ -48,11 +48,11 @@
 
 @REM https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
 
-@ECHO OFF
-SETLOCAL EnableExtensions DisableDelayedExpansion
-for /F %%a in ('echo prompt $E ^| cmd') do (
-  set "ESC=%%a"
-)
+@REM @ECHO OFF
+@REM SETLOCAL EnableExtensions DisableDelayedExpansion
+@REM for /F %%a in ('echo prompt $E ^| cmd') do (
+@REM   set "ESC=%%a"
+@REM )
 
 :: eventually we want to be able to input the version we want and auto-select conf'd
 TITLE "Invadors Console Log"
@@ -74,7 +74,7 @@ echo %ESC%[4m Begin LOVE.exe execution %ESC%[0m
 echo %ESC%[%ESC%[0m
 @REM echo %ESC%[4m %ESC%[0m
 
-@REM SETLOCAL EnableDelayedExpansion
+SETLOCAL EnableDelayedExpansion
 
 @REM echo !ESC![101;93m STYLES !ESC![0m
 @REM echo ^<ESC^>[4m !ESC![4mUnderline!ESC![0m
@@ -111,16 +111,16 @@ echo %ESC%[%ESC%[0m
 @REM echo ^<ESC^>[95m !ESC![95mMagenta!ESC![0m
 @REM echo ^<ESC^>[96m !ESC![96mCyan!ESC![0m
 @REM echo ^<ESC^>[97m !ESC![97mWhite!ESC![0m
-@REM echo.
-@REM echo !ESC![101;93m STRONG BACKGROUND COLORS !ESC![0m
-@REM echo ^<ESC^>[100m !ESC![100mBlack!ESC![0m
-@REM echo ^<ESC^>[101m !ESC![101mRed!ESC![0m
-@REM echo ^<ESC^>[102m !ESC![102mGreen!ESC![0m
-@REM echo ^<ESC^>[103m !ESC![103mYellow!ESC![0m
-@REM echo ^<ESC^>[104m !ESC![104mBlue!ESC![0m
-@REM echo ^<ESC^>[105m !ESC![105mMagenta!ESC![0m
-@REM echo ^<ESC^>[106m !ESC![106mCyan!ESC![0m
-@REM echo ^<ESC^>[107m !ESC![107mWhite!ESC![0m
+echo.
+echo !ESC![101;93m STRONG BACKGROUND COLORS !ESC![0m
+echo ^<ESC^>[100m !ESC![100mBlack!ESC![0m
+echo ^<ESC^>[101m !ESC![101mRed!ESC![0m
+echo ^<ESC^>[102m !ESC![102mGreen!ESC![0m
+echo ^<ESC^>[103m !ESC![103mYellow!ESC![0m
+echo ^<ESC^>[104m !ESC![104mBlue!ESC![0m
+echo ^<ESC^>[105m !ESC![105mMagenta!ESC![0m
+echo ^<ESC^>[106m !ESC![106mCyan!ESC![0m
+echo ^<ESC^>[107m !ESC![107mWhite!ESC![0m
 @REM echo.
 @REM echo !ESC![101;93m COMBINATIONS !ESC![0m
 @REM echo ^<ESC^>[31m                     !ESC![31mred foreground color!ESC![0m
@@ -139,7 +139,8 @@ echo %ESC%[%ESC%[0m
 
 @REM 11.3 is broken currently
 @REM start %CD%\lib\love\11.3\love.exe %CD%\ > lastrunbat.txt
-start %CD%\lib\love\10.2\love.exe %CD%\ > lastrunbat.txt
+@REM start %CD%\lib\love\10.2\love.exe %CD%\ > lastrunbat.txt
+start %CD%\lib\love\10.2\love.exe %CD%\
 
 @REM attaches a consoel
 @REM start %CD%\lib\love\11.3\lovec.exe %CD%\ "run.BAT"

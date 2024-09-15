@@ -6,12 +6,16 @@
   @TODO use this - https://github.com/rxi/lovebird
 ]]
 
+print(' ')
+print('main.lua ->')
+print(' ')
 -- this is from: https://sheepolution.com/learn/book/bonus/vscode
 if arg[2] == "debug" then
   require("lldebugger").start()
 end
 
 require 'src/dependencies'
+if not PrintColor('Color Available', 'green') then print('color not available') end
 
 -- this does not get added to the Game table below
 local game = {

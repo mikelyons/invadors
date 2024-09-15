@@ -163,7 +163,7 @@ function PrintTable(tbl, depth, n)
   end
 end
 
--- this only works if you run the game with RUN.BAT
+-- this only works if you run the game with launcher/colortest.bat
 -- link to color definitions and figure out how to reset
 -- examples here: https://learn.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences#samples
 function PrintColor(p, colorName)
@@ -187,13 +187,15 @@ function PrintColor(p, colorName)
     elseif colorName == "red" then final = final..  '\27[31m'..p..''
     elseif colorName == "---------" then final = final..  '\27[31m'..p..''
     elseif colorName == "green" then final = final.. '\27[32m'..p..''
-    elseif colorName == "white" then final = final.. '\27[37m'..p..''
-    else   final = "-- ERROR ERROR ERROR ERROR -- "
+    elseif colorName == "white" then final = final.. '\27[97m'..p..''
+    else   final = "-- ERROR ERROR ERROR ERROR -- " return false
     end
     print("")
     print(final)
-    print("\x1b[34;46mThis text shows the foreground and background change at the same time."); --\r\n
-    print("\x1b[0mThis text has returned to default colors using SGR.0 explicitly.");
+    
+    -- these are examples
+    -- print("\x1b[34;46mThis text shows the foreground and background change at the same time."); --\r\n
+    -- print("\x1b[0mThis text has returned to default colors using SGR.0 explicitly.");
 
 
     print("")
@@ -208,6 +210,7 @@ function PrintColor(p, colorName)
     -- print('\27[0mReset!')
     -- print('\27[mReset!')
     -- print("")
+    return true
 end
 
 --[[

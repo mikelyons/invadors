@@ -15,6 +15,10 @@
 asm:load()
 tween = require '/lib/tween/tween'
 
+-- music = love.audio.newSource("techno.ogg", "stream") -- the "stream" tells LÖVE to stream the file from disk, good for longer music tracks
+-- music:play()
+
+
 require 'states/menu/splash_texts_library'
 splashtext = require('states/menu/splash_texts')
 SplashText = splashtext:new()
@@ -69,42 +73,56 @@ function Tlength(tbl)
   return getN
 end
 
+--[[
+  TO MODIFY:
+  add a letter and/or number as a key, it will load that gamestate
+  immediately if you are on the game main menu
+  The gamestate should be named in accord with the naming conventions for this to work
+  and must be loaded in game.lua
+  any dependencies outside of `depentencies.lua` must be handled in the gamestate `enteredState()`
+
+  TEMPLATES:
+  if key == ('1' or 'return') then self:startGame() end
+  if key == ('escape') then self:popState('menu') end
+  -- if key == ('q') then love.event.push('quit') end
+
+  @TODO - 
+  - "are you sure?" screen with "remember this choice" before quit
+    - sound effects (greusome moaning)
+    - score implications
+    - unique quitting screens
+    - making you think you're insane
+]]
 function Menu:keypressed(key, code)
-  -- if key == ('1' or 'return') then self:startGame() end
-  -- if key == ('1' or 'return') then self:pushState('generate') end
-  if key == ('e' or 'l') then self:pushState('dialogue') end
-  if key == ('1' or 'return') then self:pushState('computer') end
-  if key == ('b') then self:pushState('book') end
   -- if key == ('1' or 'return') then self:pushState('signin') end
-  -- if key == ('1' or 'return') then self:pushState('generate') end
-  if key == ('2' or 'space') then self:pushState('bizzaro') end
-  if key == ('3' or 's') then self:pushState('synth') end
-  if key == ('4' or 'm') then self:pushState('mts') end
-  -- if key == ('4' or 'g') then self:pushState('prog2') end
-  if key == ('p') then self:pushState('asciiGame') end
-  if key == ('5') then self:pushState('prog2') end
-  if key == ('w') then self:pushState('wireArt') end
-  if key == ('t') then self:pushState('tiledZoom') end
-  if key == ('c') then self:pushState('face') end
-  if key == ('q') then self:pushState('quadtree') end
   -- if key == ('o') then self:pushState('mic') end
   -- if key == ('6' or 'h') then self:pushState('pro') end
   -- if key == ('3' or 'q') then self:pushState('space1') end
   -- if key == ('4' or 'w') then self:pushState('Earth2') end
   -- if key == ('5') then self:pushState('commando') end
-  -- if key == ('6') then self:pushState('generate') end
-  if key == ('u') then self:gotoState('uiTest') end
+
+  if key == ('b') then self:pushState('book') end
+  if key == ('i') then self:pushState('infiniteRunner') end
+  if key == ('c') then self:pushState('face') end
+  if key == ('e' or 'l') then self:pushState('dialogue') end
+  if key == ('f') then self:pushState('editor') end
   if key == ('g') then self:gotoState('generate') end
+  if key == ('p') then self:pushState('asciiGame') end
+  if key == ('q') then self:pushState('quadtree') end
+  if key == ('u') then self:gotoState('uiTest') end
+  if key == ('t') then self:pushState('tiledZoom') end
+  if key == ('w') then self:pushState('wireArt') end
+
+  if key == ('1' or 'return') then self:pushState('computer') end
+  if key == ('2' or 'space') then self:pushState('bizzaro') end
+  if key == ('3' or 's') then self:pushState('synth') end
+  if key == ('4' or 'm') then self:pushState('mts') end
+  if key == ('5') then self:pushState('prog2') end
   if key == ('7') then self:pushState('orbital') end
   if key == ('8') then self:pushState('characterCreation') end
-  -- if key == ('9') then self:pushState('generate') end
   if key == ('9') then self:pushState('kitchen') end
 
-  if key == ('f') then self:pushState('editor') end
 
-  if key == ('i') then self:pushState('infiniteRunner') end
-  -- if key == ('escape') then self:popState('menu') end
-  -- if key == ('q') then love.event.push('quit') end
   if key == ('escape') then love.event.push('quit') end
 end
 

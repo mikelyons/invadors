@@ -1,7 +1,12 @@
 
+print(" ")
+print("dependencies.lua ->")
+print(" ")
+
 -- Development dependencies enabled by environment @TODO
 require 'src/devDependencies'
 
+-- PrintColor('yellow', 'Fetching Dependencies (dependencies.lua)')
 -- Engine Initialize
 require 'colors'
 require 'src/constants'

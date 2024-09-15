@@ -35,6 +35,7 @@ echo ^<ESC^>[47m !ESC![47mWhite!ESC![0m (white)
 echo.
 echo !ESC![101;93m STRONG FOREGROUND COLORS !ESC![0m
 echo ^<ESC^>[90m !ESC![90mWhite!ESC![0m
+echo !ESC![90m !ESC![90mWhite!ESC![0m
 echo ^<ESC^>[91m !ESC![91mRed!ESC![0m
 echo ^<ESC^>[92m !ESC![92mGreen!ESC![0m
 echo ^<ESC^>[93m !ESC![93mYellow!ESC![0m
@@ -59,5 +60,7 @@ echo ^<ESC^>[7m                      !ESC![7minverse foreground ^<-^> background
 echo ^<ESC^>[7;31m                   !ESC![7;31minverse red foreground color!ESC![0m
 echo ^<ESC^>[7m and nested !ESC![31m !ESC![7mbefore !ESC![31mnested!ESC![0m
 echo ^<ESC^>[31m and nested !ESC![7m !ESC![31mbefore !ESC![7mnested!ESC![0m
+
+start %CD%\..\lib\love\10.2\love.exe %CD%\..
 
 cmd /k

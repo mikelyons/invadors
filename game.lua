@@ -7,6 +7,13 @@
   main bootstrap file main.lua
 ]]
 
+print('game.lua ->')
+
+-- check all optional graphics features available to the engine to gracefully downgrade
+-- https://love2d.org/wiki/GraphicsFeature
+features = love.graphics.getSupported( )
+
+
 -- networking tutorial with enet (which is installed)
 -- https://rvagamejams.com/learn2love/pages/02-18-networking-part-2.html
 -- https://www.reddit.com/r/love2d/comments/r3qg1k/luasocket_vs_luaenet/hmf4xk2/
@@ -26,19 +33,29 @@ require 'helpers/loading_helpers'
 Game = Class('Game'):include(Stateful)
 function Game:new() end
 
+--[[
+  When the game initializes, it loads all the specified states
+  these are gamemodes and instantiable tools
+  then it goes to the menu state unless a boot bypass is specified
+]]
 function Game:initialize()
   print('Game init')
-  print('rainty')
 
   -- this only works if launched through run.BAT
   -- https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
   -- https://learn.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences#samples
+  print(' ')
+  print(' ')
+  print(' ')
   print(" -- TESTING logging color output -- ")
     PrintColor('print yellow', 'yellow')
     PrintColor('print red', 'red')
     PrintColor('print green', 'green')
     PrintColor('print white', 'white')
   print(" -- TESTING logging color output END -- ")
+  print(' ')
+  print(' ')
+  print(' ')
 
     -- try to get multithreading working
     loadStateFile( 'mts')

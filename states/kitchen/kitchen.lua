@@ -7,13 +7,13 @@
   - coffee maker
   - fridge
   - counter top
+    - use trapezoid texture transform for counter top perspective
   - physics
 
   @KNOWN ISSUES
   - exiting this state breaks the draggable rect for evilnote in menu.lua - probably conflicting variable name in global scope
 
 ]]
-
 print('kitchen.lua -> ')
 print('kitchen -> ')
 
@@ -31,6 +31,17 @@ function Kitchen:enteredState()
   raintar:setFilter("nearest", "nearest")
 
   rect = {
+    x = 100,
+    y = 100,
+    w = 100,
+    h = 100,
+    dragging = {
+      active = false,
+      dx = 0,
+      dy = 0
+    }
+  }
+  dropCollider = {
     x = 100,
     y = 100,
     w = 100,
@@ -69,6 +80,12 @@ function Kitchen:update(dt)
     -- rect.dragging.dy = y - rect.y
     rect.x = love.mouse.getX() - rect.dragging.dx
     rect.y = love.mouse.getY() - rect.dragging.dy
+    -- if true -- button == 1
+    --   and dropCollider.x>rect.x and dropCollider.x<rect.x+rect.w
+    --   and dropCollider.y>rect.y and dropCollider.y<rect.y+rect.h
+    -- then -- the mouse collision check for dropping
+    --   print('drop collided!')
+    -- end
   end
 end
 
@@ -85,7 +102,16 @@ end
 coffeePot = love.graphics.newImage("assets/objects/cpot.png")
 coffeePot:setFilter("nearest", "nearest")
 
+-- the kitchen counter
+-- use https://love2d.org/wiki/TexturedPolygon to make perspective with a trapezoid
+-- https://love2d.org/forums/viewtopic.php?f=5&t=12483
 tempdesk = love.graphics.newImage("states/computer/wood.png")
+-- tempdesk_transform = love.math.newTransform(
+-- 660, 500,
+-- 0,
+-- .2, .2,
+-- nil, nil,
+-- 0.1, 0)
 function Kitchen:draw()
   -- Draw kitchen COUNTER top
   -- local _r, _g, _b, _a = love.graphics.getColor()
@@ -108,6 +134,8 @@ function Kitchen:draw()
 
   --desk
   love.graphics.setColor(255,255,255, 255)
+  -- love.graphics.draw(tempdesk, tempdesk_transform)
+
   love.graphics.draw(
     tempdesk, -- wood
     0, screen_height-300,

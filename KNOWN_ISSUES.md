@@ -4,3 +4,6 @@
 - startup
   - problem with speeding up after game loads to catch up frames and then go to normal framerate
     - solution: https://gafferongames.com/post/fix_your_timestep/
+
+  - booting to galaxy and error on input
+    - solved - newly added state must be in error
