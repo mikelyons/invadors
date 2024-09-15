@@ -3,6 +3,13 @@
   "Lua.workspace.library": [
     "${3rd}/love2d/library"
   ],
+  "search.exclude": {
+    "**/.git": true,
+    "lib/love": true,
+    // "**/node_modules": true,
+    // "**/bower_components": true,
+    "**/tmp": true
+  },
   "Lua.workspace.checkThirdParty": false,
   "lua.targetVersion": "5.3",
   "accessibility.signals.lineHasError": {
