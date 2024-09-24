@@ -3,7 +3,7 @@
 
   a uiTest for adding a new gamestate
   Here we test out ui libraries like SUI
-    X SUIT already installed in /lib
+    X SUIT already installed in /lib ? no?
     - Gspot working!!!!! @TODO do more with it
       - https://notabug.org/pgimeno/Gspot/src/master/main.lua
 

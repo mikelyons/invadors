@@ -9,6 +9,8 @@
 print(' ')
 print('main.lua ->')
 print(' ')
+
+-- not working on mac
 -- this is from: https://sheepolution.com/learn/book/bonus/vscode
 if arg[2] == "debug" then
   require("lldebugger").start()
@@ -169,6 +171,11 @@ function love.draw(dt)
   if tiles == nil then
     tiles = 'tiles nil'
   end
+
+-- Q. why does anything below not draw? drawing only seems to happen in
+-- the menu state??
+-- A. it draws once you enter the generate state, maybe menu hangs here?
+
   -- print(tiles[1])
   -- PrintTable(tiles[1][1]['occupied'], 1)
   -- print(tiles[1][1]['occupied'])
@@ -233,7 +240,9 @@ end
 function love.quit()
   -- score:quit()
 end
+
 -- also from: https://sheepolution.com/learn/book/bonus/vscode
+-- also not working
 local love_errorhandler = love.errhand
 function love.errorhandler(msg)
     if lldebugger then

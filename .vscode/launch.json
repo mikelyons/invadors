@@ -3,6 +3,9 @@
   // Hover to view descriptions of existing attributes.
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   // this was meant to work with: https://sheepolution.com/learn/book/bonus/vscode
+
+  // -- love2d debug (NOT WORKING)
+  // -- https://sheepolution.com/learn/book/bonus/vscode
   "version": "0.2.0",
   "configurations": [
     {
@@ -11,7 +14,8 @@
       "request": "launch",
       "program": {
         // "command": "C:\\Users\\Mike\\Dev\\invadors\\i1\\lib\\love\\11.3\\love.exe"
-        "command": "C:\\Users\\Mike\\Dev\\invadors\\i1\\lib\\love\\10.2\\love.exe"
+        // "command": "C:\\Users\\Mike\\Dev\\invadors\\i1\\lib\\love\\10.2\\love.exe"
+        "command": "%CD%/../lib/love"
       },
       "args": [
         ".",

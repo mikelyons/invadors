@@ -1,3 +1,11 @@
+--[[
+  mts.lua
+
+  This is a test of multithreading
+
+  @TODO - use this to play sound effects and synth / music
+  @TODO - there may be a way to use this of async actions and or loading screens
+]]
 
 local mts = Game:addState('mts')
 

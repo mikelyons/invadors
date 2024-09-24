@@ -24,7 +24,7 @@ io.write("hello", "Lua"); io.write("Hi", "\n")
 
 local snapdate = os.date("m%md%d")
 
-__SNAP = snapdate or "m10w43"
+__SNAP = snapdate or "m10w43" -- what significance is this date?
 __VERSION = "0.4.7.2"
 __TITLE_STR = string.format("InvadortZ v%s", __VERSION..'.'..__SNAP)
 

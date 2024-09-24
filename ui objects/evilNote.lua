@@ -13,6 +13,7 @@
   object like Object:mousepressed() instead of
   mousepressed = function()
 ]]
+print('evilNote.lua -> ')
 
 
 return {

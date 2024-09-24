@@ -731,7 +731,7 @@ function tlm:drawCustomMap(newstylemap)
 
     love.graphics.print(
       -- love.timer.getFPS(),
-      'test',
+      'test tlm',
       camera.pos.x + 200,
       camera.pos.y + 200
     )

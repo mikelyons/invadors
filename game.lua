@@ -58,11 +58,11 @@ function Game:initialize()
   print(' ')
 
     -- try to get multithreading working
-    loadStateFile( 'mts')
-    loadStateFile( 'orbital')
+    loadStateFile('mts')
+    loadStateFile('orbital')
     -- self:gotoState('mts')
 
-    loadStateFolder( 'characterCreation')
+    loadStateFolder('characterCreation')
 
   loadStateFile  ('pause')
   -- Various mini-games 
@@ -76,7 +76,7 @@ function Game:initialize()
   loadStateFolder('book')
   loadStateFile  ('bizzaro')
   loadStateFolder('prog2')
-  loadStateFile('pro')
+  loadStateFile  ('pro')
   loadStateFolder('kitchen')
 
   -- ingame UIs
