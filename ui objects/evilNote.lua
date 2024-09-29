@@ -31,7 +31,7 @@ return {
       mousepressed = function(x,y, button)
         -- print('Mouse '..button)
         -- print('Mouse '..x)
-        PrintTable(x)
+        -- PrintTable(x)
         -- print('Mouse '..button)
         -- if love.mouse.isDown(1) then Blood:emit() end
         -- Start Dragging

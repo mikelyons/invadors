@@ -102,7 +102,8 @@ function Menu:keypressed(key, code)
   -- if key == ('5') then self:pushState('commando') end
 
   if key == ('b') then self:pushState('book') end
-  if key == ('i') then self:pushState('infiniteRunner') end
+  -- if key == ('i') then self:pushState('infiniteRunner') end
+  if key == ('i') then self:pushState('inventory') end
   if key == ('c') then self:pushState('face') end
   if key == ('e' or 'l') then self:pushState('dialogue') end
   if key == ('f') then self:pushState('editor') end
@@ -137,7 +138,8 @@ function Menu:mousepressed(x,y, button , istouch)
     Blood:emit()
   end
 
-  -- draggable note rect
+  -- draggable evilNote rect
+  -- @TODO - This needs decoupled from evilNote.lua
   if button == 1 then
     if x>rect.x then
       if x<rect.x+rect.width then
@@ -299,7 +301,8 @@ end
 -- love.graphics.setColor(r, g, b, a)
 function Menu:draw()
 
-  love.graphics.print(filesString, 0, 0)
+  -- print the list of directories for save data
+  -- love.graphics.print(filesString, 0, 0)
 
   local _r, _g, _b, _a = love.graphics.getColor()
   love.graphics.setColor(255, 255, 255, 255)
@@ -309,7 +312,7 @@ function Menu:draw()
   love.graphics.setColor(255, 255, 255, 255)
   love.graphics.draw(hamster, 50, 50, 0, 2.2, 2.2)
   love.graphics.draw(z, g_Width/2, 50, 0, 2.2, 2.2)
-  love.graphics.draw(z, mx, my)
+  -- love.graphics.draw(z, mx, my)
   love.graphics.setColor(_r, _g, _b, _a)
 
   -- MenuHelper:drawMenu()

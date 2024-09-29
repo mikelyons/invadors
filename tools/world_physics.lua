@@ -118,7 +118,11 @@ function newupdate_physics(obj, dt)
       -- )
 
     local coll, t = rectangle_collision(box, tile)
-    if coll then print(tile.type) end
+    
+    -- @TODO - make this collision logging robust
+    if DEBUG_LOGGING_COLLISION then
+      if coll then print('Collision: tyle-type:'..tile.type) end
+    end
 
     if coll and t and t.type ~= 0 then
       -- print(coll)

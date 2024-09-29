@@ -14,3 +14,4 @@
     - sink
     - water filter
 ]]
+print('kitchen-items.lua -> ')

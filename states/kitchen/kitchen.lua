@@ -19,6 +19,8 @@ print('kitchen -> ')
 
 -- dependencies
 
+require 'states/kitchen/kitchen-items'
+
 -- registering the gamestate
 local Kitchen = Game:addState('kitchen')
 
@@ -30,9 +32,25 @@ function Kitchen:enteredState()
   raintar = love.graphics.newImage("states/kitchen/coffee-bag.png")
   raintar:setFilter("nearest", "nearest")
 
+  coffeePot = love.graphics.newImage("assets/objects/cpot.png")
+  coffeePot:setFilter("nearest", "nearest")
+
   rect = {
+    image = raintar,
     x = 100,
     y = 100,
+    w = 100,
+    h = 100,
+    dragging = {
+      active = false,
+      dx = 0,
+      dy = 0
+    }
+  }
+  coffee_pot = {
+    image = coffeePot,
+    x = 32,
+    y = screen_height - 32 - 256 - 256,
     w = 100,
     h = 100,
     dragging = {
@@ -45,12 +63,7 @@ function Kitchen:enteredState()
     x = 100,
     y = 100,
     w = 100,
-    h = 100,
-    dragging = {
-      active = false,
-      dx = 0,
-      dy = 0
-    }
+    h = 100
   }
 end
 
@@ -97,8 +110,6 @@ end
 
 
 -- coffeePot = love.graphics.newImage("assets/machines/computer/computer.png")
-coffeePot = love.graphics.newImage("assets/objects/cpot.png")
-coffeePot:setFilter("nearest", "nearest")
 
 -- the kitchen counter
 -- use https://love2d.org/wiki/TexturedPolygon to make perspective with a trapezoid
@@ -153,8 +164,9 @@ function Kitchen:draw()
 
   -- draw coffeePot
   love.graphics.draw(
-    coffeePot,
-    32, screen_height - 32 - 256 - 256,
+    coffee_pot.image,
+    -- 32, screen_height - 32 - 256 - 256,
+    coffee_pot.x, coffee_pot.y,
     nil,
     0.5
   )
@@ -165,7 +177,7 @@ function Kitchen:draw()
     -- r,
     -- sx,sy,
     -- ox,oy)
-  love.graphics.draw(raintar,
+  love.graphics.draw(rect.image,
     rect.x, rect.y,
     nil,
     3, 3,
@@ -182,5 +194,6 @@ function Kitchen:draw()
 
 end
 function Kitchen:exitedState()
-  love.graphics.clear()
+  -- does nothing?
+  -- love.graphics.clear()
 end

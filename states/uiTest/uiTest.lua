@@ -11,13 +11,15 @@
       use gui libraries in character creation
 ]]
 
-print(love._version_major)
-print(love._version_minor)
-print(love._version_revision)
-print('uiTest.lua -> ')
+-- print(love._version_major)
+-- print(love._version_minor)
+-- print(love._version_revision)
+if DEBUG_LOGGING_LOADING then
+	print('uiTest.lua -> ')
+end
 
 love.keyboard.setTextInput( true )
-				-- love.keyboard.setTextInput( true )
+-- love.keyboard.setTextInput( true )
 
 print('uiTest -> ')
 
@@ -41,10 +43,11 @@ function UiTest:enteredState()
   if DEBUG_LOGGING_ON and false then
     print(string.format("ENTER uiTest STATE - %s \n", os.date()))
   end
+
 	love.graphics.setFont(font)
 	love.graphics.setColor(255 * DIV, 192 * DIV, 0 * DIV, 128 * DIV) -- just setting these so we know the gui isn't stealing our thunder
 
-  sometext = "raint"
+	sometext = "raint"
 
 	local textout = gui:typetext(
     sometext,

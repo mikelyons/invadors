@@ -246,6 +246,12 @@ function generate:draw(dt)
     mx + camera.pos.x,
     my + camera.pos.y
   )
+	-- love.graphics.line(
+  --   camera.pos.x + camera.size.x,
+  --   camera.pos.y + camera.size.y,
+  --   mx + camera.pos.x,
+  --   my + camera.pos.y
+  -- )
 	-- love.graphics.line(0, 0, mx, my)
 
   if DEBUG_SHOW_FPS then
@@ -329,8 +335,8 @@ function generate:keypressed(key, code)
 
   -- if key == 'o' and DEBUG_CONSOLE_FUNCTION then
   if key == 'o' then -- does this work at all?
-    debug.debug() -- how do we inspect variables with this: https://www.tutorialspoint.com/lua/lua_debugging.htm#
-    print(debug)
+    -- debug.debug() -- how do we inspect variables with this: https://www.tutorialspoint.com/lua/lua_debugging.htm#
+    -- print(debug)
     -- PrintTable(debug)
     -- PrintTable(debug.debug())
   end

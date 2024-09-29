@@ -14,9 +14,14 @@ if love._version_major == 0 and love._version_minor < 9 then
 --   error("too new the love version is")
 end
 
+print(love._version_major)
+print(love._version_minor)
+print(love._version_revision)
+
 -- make console work?
 -- io.stdout:setvbuf("full")
 io.write("hello", "Lua"); io.write("Hi", "\n")
+io.write("Booting ...", "Lua"); io.write(" ...", "\n")
 -- make sure the standard io works
 
 -- ~ console in game - https://love2d.org/wiki/Cupid -- @TODO : separate dev libs
@@ -28,7 +33,7 @@ __SNAP = snapdate or "m10w43" -- what significance is this date?
 __VERSION = "0.4.7.2"
 __TITLE_STR = string.format("InvadortZ v%s", __VERSION..'.'..__SNAP)
 
-function love.conf( t ) 
+function love.conf( t )
   t.console = true -- did this ever work?
 
   -- where is this directory?

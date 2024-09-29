@@ -94,7 +94,7 @@ function Player:new(x,y)
   local rect = require 'objects/rect'
 
   function player:tick(dt)
-    camera:goToPoint(self.pos) -- camera follows this player
+    -- camera:goToPoint(self.pos.x - (0.5 * screen_width), self.pos.y-(0.5*screen_height)) -- camera follows this player
 
     -- -- is this a memory leak of boxes? update position instead?
     if (DEBUG_HITBOX_VIS and key) then

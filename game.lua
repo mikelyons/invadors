@@ -7,7 +7,11 @@
   main bootstrap file main.lua
 ]]
 
-print('game.lua ->')
+if DEBUG_LOGGING_LOADING then
+  print(' ')
+  print('game.lua ->')
+  print(' ')
+end
 
 -- check all optional graphics features available to the engine to gracefully downgrade
 -- https://love2d.org/wiki/GraphicsFeature

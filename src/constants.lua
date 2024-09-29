@@ -1,4 +1,6 @@
 DEBUG_NOSPLASH = false
+-- BOOT_TO_STATE = 'generate'
+BOOT_TO_STATE = nil
 
 -- broken?
 DEBUG_CONSOLE_FUNCTION = false
@@ -14,6 +16,7 @@ DEBUG_SHOW_FPS = true
 --==============
 --LOGGING LEVELS
 --==============
+DEBUG_LOGGING_LOADING = false
 DEBUG_PRESSSTART_OFF = true
 DEBUG_LOGGING_ON = true
 DEBUG_LOGGING_COLLISION = false

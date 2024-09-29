@@ -1,4 +1,6 @@
-print('computer.lua -> ')
+--[[
+  states/computer.lua
+]]
 -- Displays a dialogue box with a message for the player
 -- -- the goal is to eventually display a character avatar
 -- -- and to have all manner of expressiveness of the text,
@@ -9,7 +11,10 @@ print('computer.lua -> ')
 -- -- seems to handle that
 --
 
-print('Computer -> ')
+if DEBUG_LOGGING_LOADING then
+  print('computer.lua -> ')
+  print('Computer -> ')
+end
 local stickyNote = require 'ui objects/evilNote'
 
 local Computer = Game:addState('computer')

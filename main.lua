@@ -4,11 +4,24 @@
   The bootstrap loader file
   MASTER CONTROL PROGRAM
   @TODO use this - https://github.com/rxi/lovebird
+
+  Boot Order:
+  conf.lua
+  |_ main.lua
+    |_ src/dependencies.lua
+      |_ colors.lua
+      |_ src/constants.lua
+      |_ src/logging.lua
+    |_ game.lua
+      |_ splash.lua
+      |_ menu.lua
 ]]
 
-print(' ')
-print('main.lua ->')
-print(' ')
+if DEBUG_LOGGING_LOADING then
+  print(' ')
+  print('main.lua ->')
+  print(' ')
+end
 
 -- not working on mac
 -- this is from: https://sheepolution.com/learn/book/bonus/vscode
@@ -17,6 +30,7 @@ if arg[2] == "debug" then
 end
 
 require 'src/dependencies'
+
 if not PrintColor('Color Available', 'green') then print('color not available') end
 
 -- this does not get added to the Game table below
@@ -98,6 +112,18 @@ function love.load(...)
 
   love.timer.step() -- fix for load delay: https://love2d.org/forums/viewtopic.php?t=8589
 end
+
+debug_ui = {
+  draw = function(self)
+    -- love.graphics.print('text',100,100,r,sx,sy,ox,oy)
+    -- love.graphics.draw(drawable,x,y,r,sx,sy,ox,oy)
+    -- love.graphics.setColor(red,green,blue,alpha)
+    love.graphics.setColor(100,0,0)
+    love.graphics.rectangle('fill',100,-100,100,100)
+    print('drawing debug_ui')
+  end,
+
+}
 
 -- something not right here, stuttering, need fix https://gafferongames.com/post/fix_your_timestep/
 local delta_time = {}
@@ -200,6 +226,7 @@ function love.draw(dt)
   --   screen_width - 300, 0, nil, 4, 4
   -- )
   -- print(hand, job)
+  -- debug_ui.draw()
 end
 
 -- https://love2d.org/wiki/KeyConstant

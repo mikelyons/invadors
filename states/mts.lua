@@ -43,8 +43,8 @@ local threadCode = [[
 
 
       -- scary bouncing ufo noise
-      -- local sine = denver.get({waveform='sinus', frequency=(i), length=1})
-      -- love.audio.play(sine)
+      local sine = denver.get({waveform='sinus', frequency=(i), length=1})
+      love.audio.play(sine)
   end
 ]]
 
