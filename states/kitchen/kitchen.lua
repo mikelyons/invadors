@@ -14,8 +14,10 @@
   - exiting this state breaks the draggable rect for evilnote in menu.lua - probably conflicting variable name in global scope
 
 ]]
-print('kitchen.lua -> ')
-print('kitchen -> ')
+if DEBUG_LOGGING_LOADING then
+  print('kitchen.lua -> ')
+  print('kitchen -> ')
+end
 
 -- dependencies
 

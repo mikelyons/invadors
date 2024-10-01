@@ -48,6 +48,7 @@ function Game:initialize()
   -- this only works if launched through run.BAT
   -- https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
   -- https://learn.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences#samples
+  -- @TODO - move this into logging to simplify this file
   print(' ')
   print(' ')
   print(' ')

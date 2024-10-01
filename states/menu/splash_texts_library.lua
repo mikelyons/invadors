@@ -15,6 +15,12 @@ tomsDialogueLines ={
   'FFFFUUUUUU',
 }
 
+aussieDialogueLines = {
+  'people are just not very hygenic',
+  'I\'m just takin the train',
+  'that train ride just sucked the absolute life outta me man',
+}
+
 -- @TODO - these are adams
 adamsDialogueLines = {
   'QoL: the game',
@@ -109,7 +115,18 @@ alternateTitles = {
   "IN VADOR TZE!",
   "Invadort Z",
   "Invadorz", -- rare!
+  "Invadors", -- ultra rare!
   ""
+}
+
+insults = {
+  "You're so uneducated and like, just an absolute dunce, man.",
+}
+
+encouragement = {
+  "you're not stupid",
+  "you're not lazy",
+
 }
 
 characterNames = {

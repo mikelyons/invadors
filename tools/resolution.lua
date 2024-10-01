@@ -14,9 +14,10 @@ https://love2d.org/wiki/love.window.setMode
 - Add this to the Options menu
 ]]--
 
-print('')
-print('resolution.lua -> ')
-print('')
+
+-- print('')
+-- print('resolution.lua -> ')
+-- print('')
 
 -- record current window dimensions
 function windowDimensions()

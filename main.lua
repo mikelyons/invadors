@@ -15,6 +15,7 @@
     |_ game.lua
       |_ splash.lua
       |_ menu.lua
+  https://popey.com/blog/2023/10/game-development-in-github-codespaces/
 ]]
 
 if DEBUG_LOGGING_LOADING then
@@ -62,7 +63,7 @@ local game = {
   SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   ]]
 }
-
+PrintColor(game._LICENSE, 'yellow')
 
 
 function love.load(...)

@@ -18,6 +18,7 @@ DEBUG_SHOW_FPS = true
 --==============
 DEBUG_LOGGING_LOADING = false
 DEBUG_PRESSSTART_OFF = true
+-- this is broken, then you turn it off the game crashes
 DEBUG_LOGGING_ON = true
 DEBUG_LOGGING_COLLISION = false
 DEBUG_LOGGING_CHUNKS = false

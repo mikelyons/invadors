@@ -185,6 +185,7 @@ function Menu:pausedState()
 end
 function Menu:continuedState()
   self:loadButtons({})
+  love.mouse.setVisible(true)
   print('menu continued')
 end
 
@@ -194,6 +195,8 @@ function Menu:enteredState()
   if DEBUG_LOGGING_ON then
     print(string.format("ENTER Menu STATE - %s \n", os.date()))
   end
+
+  love.mouse.setVisible(true)
 
   -- is this in the wrong place?
   -- self.font = love.graphics.newImageFont("assets/newer/Imagefont.png",

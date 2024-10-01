@@ -1,9 +1,15 @@
+--[[
+  dependencies.lua
 
-print(" ")
-print("dependencies.lua ->")
-print(" ")
+  The loader for all the dependencies, probably some more organization is needed
+]]
 
--- Development dependencies enabled by environment @TODO
+-- unflaggable
+-- print(" ")
+-- print("dependencies.lua ->")
+-- print(" ")
+
+-- Development dependencies enabled by environment @TODO - ensure these can be flagged off
 require 'src/devDependencies'
 
 -- PrintColor('yellow', 'Fetching Dependencies (dependencies.lua)')

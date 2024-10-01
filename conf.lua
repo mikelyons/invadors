@@ -20,7 +20,7 @@ print(love._version_revision)
 
 -- make console work?
 -- io.stdout:setvbuf("full")
-io.write("hello", "Lua"); io.write("Hi", "\n")
+io.write("conf.", "Lua"); io.write("Hello World", "\n")
 io.write("Booting ...", "Lua"); io.write(" ...", "\n")
 -- make sure the standard io works
 

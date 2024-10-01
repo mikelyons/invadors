@@ -29,6 +29,12 @@ function Computer:enteredState()
     print(string.format("ENTER computer STATE - %s \n", os.date()))
   end
 
+  -- WIP
+  -- if not constants.useNativeMouseCursor then
+  love.mouse.setVisible(false)
+  -- end
+
+
   -- self.motd = "Hello, welcome to computer"
   -- self.motd = [[Hello, welcome to computer, it is whatever the heck o clock welcome ]]
   self.motd = [[Hello, welcome to computer, it is whatever the heck o clock welcome ]]
@@ -143,6 +149,9 @@ tempdesk = love.graphics.newImage("states/computer/wood.png")
 tempcomp = love.graphics.newImage("assets/machines/computer/computer-transparent.png")
 tempkb = love.graphics.newImage("assets/machines/computer/keyboard.png")
 tempcomp:setFilter("nearest", "nearest")
+pointerhand = love.graphics.newImage("assets/hand-pointing-1.png")
+pointerhandOffset = {x=143,y=24}
+pointerhand:setFilter("nearest", "nearest")
 
 -- love.graphics.draw(tempcomp,
 --   self.panex+32, self.paney+32,
@@ -152,6 +161,9 @@ tempcomp:setFilter("nearest", "nearest")
 function Computer:draw()
   local _r, _g, _b, _a = love.graphics.getColor()
   local _lineWidth = love.graphics.getLineWidth()
+
+  -- get mouse for pointer hand
+  local mx, my = love.mouse.getPosition()
 
   -- Draw DESK
   -- wall
@@ -490,6 +502,12 @@ function Computer:draw()
   end
 
   self.evilnote:draw()
+  love.graphics.draw(pointerhand,
+    mx - pointerhandOffset.x,
+    my - pointerhandOffset.y,
+    nil,
+    nil-- 0.5
+  )
 end
 
 function drawCanvas(c)

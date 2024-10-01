@@ -1,4 +1,3 @@
-print('dialogue.lua -> ')
 
 --
 -- Displays a dialogue box with a message for the player
@@ -14,7 +13,10 @@ print('dialogue.lua -> ')
 -- local fanfic = require 'states/menu/fanfic'
 -- local text = fanfic.new(200,300, "New textbox", false, 16)
 
-print('Dialogue -> ')
+if DEBUG_LOGGING_LOADING then
+  print('dialogue.lua -> ')
+  print('Dialogue -> ')
+end
 local Dialogue = Game:addState('dialogue')
 
 function Dialogue:mousepressed(x,y, button , istouch) end
@@ -48,6 +50,7 @@ function Dialogue:enteredState()
 
   Dialogue.number = 0
   Dialogue.limit = 5
+  -- get some splash_texts_library.lua
   Dialogue.script = {
     -- ["elon"] = 'raint'
     'raint',
@@ -57,7 +60,8 @@ function Dialogue:enteredState()
     'fifth debug raitn',
     'why not a sixth',
     'The longest raint : RAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIIIIIIIIIIIIIIIIIIIIIIIIIIIIIINNNNNNNNNNNNNNTTTT',
-    'Never again shall I raint!'
+    'Never again shall I raint!',
+    'What\'re you on about?!'
   }
 
   -- the character avatar

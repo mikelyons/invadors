@@ -9,6 +9,7 @@
 
       @TODO - fix the value input in gpot2 so text input works
       use gui libraries in character creation
+      @TODO - fix backspace: https://love2d.org/wiki/utf8 - https://www.lua.org/manual/5.3/manual.html#6.5
 ]]
 
 -- print(love._version_major)
@@ -16,12 +17,12 @@
 -- print(love._version_revision)
 if DEBUG_LOGGING_LOADING then
 	print('uiTest.lua -> ')
+  print('uiTest -> ')
 end
 
 love.keyboard.setTextInput( true )
 -- love.keyboard.setTextInput( true )
 
-print('uiTest -> ')
 
 -- dependencies
 font = love.graphics.newFont(192)

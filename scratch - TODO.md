@@ -18,6 +18,14 @@ https://github.com/DwayneSpades/3D-Engine-in-Love2D
 
 https://www.youtube.com/results?search_query=drag+and+drop+love2d
 
+
+Explanation of how to approach rooms and camera behavior in a celest like
+- https://www.reddit.com/r/love2d/comments/rxtypc/comment/igp50sr/
+
+ecs
+- https://github.com/Keyslam-Group/Concord
+
+
 ### Dev Log
 
 ##### 10-13-2023 Friday

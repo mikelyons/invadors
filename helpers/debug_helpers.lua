@@ -163,6 +163,11 @@ function PrintTable(tbl, depth, n)
   end
 end
 
+  -- ("=========================================================")
+  -- ("              start PRINT COLOR start")
+  -- ("=========================================================")
+  -- ("===")
+
 -- this only works if you run the game with launcher/colortest.bat
 -- link to color definitions and figure out how to reset
 -- examples here: https://learn.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences#samples
@@ -185,7 +190,7 @@ function PrintColor(p, colorName)
     -- print('\27[mReset!')
     if     colorName == "yellow" then final = final..  '\27[33m'..p..''
     elseif colorName == "red" then final = final..  '\27[31m'..p..''
-    elseif colorName == "---------" then final = final..  '\27[31m'..p..''
+    elseif colorName == "-" then final = final..  '\27[31m'..p..''
     elseif colorName == "green" then final = final.. '\27[32m'..p..''
     elseif colorName == "white" then final = final.. '\27[97m'..p..''
     else   final = "-- ERROR ERROR ERROR ERROR -- " return false
