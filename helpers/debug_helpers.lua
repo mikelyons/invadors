@@ -47,8 +47,8 @@ end
 
 --Need a pcall that will take a table of parameters
 
--- A helper function to print the line number and other information about the printable parameter
 function PrintDebug(f) --, args)
+  -- A helper function to print the line number and other information about the printable parameter
   print("")
   print("=========================================================")
   print("              start PRINT DEBUG start")

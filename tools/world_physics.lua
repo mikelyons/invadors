@@ -28,7 +28,7 @@ function apply_gravity(obj,dt)
 end
 
 function physics_jump (obj)
-  print('jump '..obj.vel.y..' '..tostring(obj.on_ground))
+  -- print('jump '..obj.vel.y..' '..tostring(obj.on_ground))
   if obj.vel.y < 10 and obj.vel.y > -10 and obj.on_ground == true then
     obj.vel.y = -200
     obj.dir.y = 1
@@ -118,7 +118,7 @@ function newupdate_physics(obj, dt)
       -- )
 
     local coll, t = rectangle_collision(box, tile)
-    
+
     -- @TODO - make this collision logging robust
     if DEBUG_LOGGING_COLLISION then
       if coll then print('Collision: tyle-type:'..tile.type) end

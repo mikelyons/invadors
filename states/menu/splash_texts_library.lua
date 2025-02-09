@@ -126,6 +126,9 @@ insults = {
 encouragement = {
   "you're not stupid",
   "you're not lazy",
+  "you are not unfocused",
+  "you're not even metabolically impaired",
+  "remember, you are just retarded",
 
 }
 

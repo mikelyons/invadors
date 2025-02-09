@@ -6,6 +6,30 @@
 --  github repo link: https://github.com/mikelyons/invadors
 --
 
+-- use this for internal variables that will be used below
+local GameInfo = { }
+
+_G.random = math.random
+
+-- Direction enum
+_G.Direction = {UP = 1, RIGHT = 2, DOWN = 3, LEFT = 4}
+function Direction.random()
+  return Direction[random(1, 4)]
+end
+function Direction.opposite(dir)
+  if dir == Direction.UP then return Direction.DOWN end
+  if dir == Direction.RIGHT then return Direction.LEFT end
+  if dir == Direction.DOWN then return Direction.UP end
+  if dir == Direction.LEFT then return Direction.RIGHT end
+end
+function Direction.string(dir)
+  local dir_strs = {"up", "right", "down", "left"}
+  return dir_strs[dir]
+end
+
+_G.GameSettings = {fullscreen = false}
+
+
 --https://love2d.org/wiki/Config_Files
 
 if love._version_major == 0 and love._version_minor < 9 then

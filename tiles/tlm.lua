@@ -960,6 +960,7 @@ function tlm:drawCustomMap(newstylemap)
   end
 end
 
+-- @TODO - draw the world on a canvas to improve performance of tile rendering
 function tlm:draw()
   local customMap = self.customMap -- loaded or generated/chunked
   local map = self.map

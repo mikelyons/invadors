@@ -93,6 +93,7 @@ end
     - unique quitting screens
     - making you think you're insane
 ]]
+require('states/_template/_addState')
 function Menu:keypressed(key, code)
   -- if key == ('1' or 'return') then self:pushState('signin') end
   -- if key == ('o') then self:pushState('mic') end
@@ -100,6 +101,7 @@ function Menu:keypressed(key, code)
   -- if key == ('3' or 'q') then self:pushState('space1') end
   -- if key == ('4' or 'w') then self:pushState('Earth2') end
   -- if key == ('5') then self:pushState('commando') end
+  if key == ('a') then _G.util.addState('testAddState') end
 
   if key == ('b') then self:pushState('book') end
   -- if key == ('i') then self:pushState('infiniteRunner') end
