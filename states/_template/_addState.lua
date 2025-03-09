@@ -2,7 +2,8 @@
   addState.lua
 
   a script that can be run to add a gamestate
-  from the template
+  from the template, meant to be run locally on the dev machine 
+  via lua, also see .command for mac script
   WIP
   -- creates in game save directory, needs rethought
   -- use native lua or a bash script/apple script

@@ -98,6 +98,7 @@ function Menu:keypressed(key, code)
   -- if key == ('1' or 'return') then self:pushState('signin') end
   -- if key == ('o') then self:pushState('mic') end
   -- if key == ('6' or 'h') then self:pushState('pro') end
+  if key == ('6' or 'y') then self:pushState('space1') end
   -- if key == ('3' or 'q') then self:pushState('space1') end
   -- if key == ('4' or 'w') then self:pushState('Earth2') end
   -- if key == ('5') then self:pushState('commando') end
