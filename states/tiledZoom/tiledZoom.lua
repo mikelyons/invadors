@@ -33,7 +33,7 @@ function TZ:enteredState()
 	-- map = sti("assets/maps/bedroom/house2.lua", { "box2d" })
 	map = sti("assets/maps/bedroom/house3.lua", { "box2d" })
   -- PrintTable(map, 1)
-	world = love.physics.newWorld(0, 800) -- Prepare physics world with horizontal and vertical gravity
+	world = love.physics.newWorld(0, 800) -- Prepare physics world with h and v grav
 	-- map.box2d_init(map, world) -- Prepare collision objects
 	map:box2d_init(world) -- Prepare collision objects
 

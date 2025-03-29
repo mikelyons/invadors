@@ -111,7 +111,7 @@ function Game:initialize()
   -- local BOOT_TO_STATE = 'generate'
   -- local BOOT_TO_STATE = 'synth'
   -- local BOOT_TO_STATE = 'mic'
-  if BOOT_TO_STATE ~= nil then
+  if BOOT_TO_STATE ~= nil then -- boot to skip the menu, or the default state menu
     self:gotoState(BOOT_TO_STATE or 'menu')
   else
     self:gotoState('menu')

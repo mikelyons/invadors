@@ -17,12 +17,13 @@ DEBUG_SHOW_FPS = true
 --LOGGING LEVELS
 --==============
 DEBUG_LOGGING_LOADING = false
-DEBUG_PRESSSTART_OFF = true
+DEBUG_PRESSSTART_OFF = true -- what did this do?
 -- this is broken, then you turn it off the game crashes
 DEBUG_LOGGING_ON = true
 DEBUG_LOGGING_COLLISION = false
 DEBUG_LOGGING_CHUNKS = false
 DEBUG_LOGGING_MAP = false
+DEBUG_LOGGING_INPUT = false
 
 -- from main.lua
 g_Width  = love.graphics.getWidth()

@@ -23,7 +23,8 @@ beep
 -- display notification
 
 -- change the icon of this notification by converting this script to an application: https://stackoverflow.com/a/58915762/637283
-display notification "WELCOME TO INVADORTZ" with title "InvadortZ" subtitle "The game that will utterly obliterate you." sound name "Sosumi"
+-- TURN THIS BACK ON TODO
+-- display notification "WELCOME TO INVADORTZ" with title "InvadortZ" subtitle "The game that will utterly obliterate you." sound name "Sosumi"
 
 -- say "Reticulating splines"
 tell application "Terminal"

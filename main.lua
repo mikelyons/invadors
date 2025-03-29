@@ -228,11 +228,14 @@ function love.draw(dt)
   -- )
   -- print(hand, job)
   -- debug_ui.draw()
+
+  -- this is where we should draw debug ui, it will draw
+  -- during all modes and on top of everything
 end
 
 -- https://love2d.org/wiki/KeyConstant
 function love.keypressed(key, code)
-  if (DEBUG_LOGGING_ON and key) then
+  if (DEBUG_LOGGING_ON and DEBUG_LOGGING_INPUT and key) then
     print('key pressed: '..key..' unicode: '..code)
   end
 
