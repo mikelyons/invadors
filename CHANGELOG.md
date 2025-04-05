@@ -1,11 +1,20 @@
-## Unreleased
-## 0.4.7.3 (Jan 1, 2023)
+<!--
+## 0.4.7.4 (Jan 1, 2026)
 ### Added
 ### Changed
 ### Removed
 ### Fixed
+-->
 
-## Unreleased
+## 0.4.7.3 (Jan 1, 2023)
+### Added
+- many gamestates and other features
+### Changed
+- many things
+### Removed
+- some bugs
+### Fixed
+-- some more bugs
 
 ## 0.4.7.2 (Nov 11, 2023)
 
@@ -24,7 +33,6 @@
   states/wireArt/wire.lua
   states/yard/
 - lots of assets
-- 
 
 ### Changed
 - many things changed in this update
