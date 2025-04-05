@@ -4,7 +4,7 @@
 --
 -- @TODO - 
 -- -- Create a rarity probability system and a repeat prevention system
--- 
+-- -- more info: https://minecraft.fandom.com/wiki/Splash#Complete_list_of_splashes
 
 
 -- @TODO-do something with these

@@ -5,6 +5,21 @@ removed submodules to add back
 https://github.com/airstruck/sketchy
 https://github.com/LPGhatguy/love-microphone
 
+Platforms to support:
+- windows
+- mac
+- R36S?
+- playdate?
+
+
+Particle system tutorial:
+- https://love2d.org/forums/viewtopic.php?t=80718
+
+make a circle turn into a hexadecagon:
+- https://love2d.org/wiki/love.graphics.polygon
+
+driving simulation for commute
+- http://www.extentofthejam.com/pseudo/
 
 libs to use
 https://github.com/excessive/ludum-dare-37 -- 3d
@@ -244,6 +259,8 @@ drawing geo-data based maps - https://github.com/nekromoff/osmlove
 text effects - https://github.com/Papaew/popo
 
 text dialog boxes - https://github.com/smallsco/scribe
+
+dialog tree - https://github.com/gustavostuff/dialove
 
 ### Tiled
 

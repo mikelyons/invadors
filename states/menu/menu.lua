@@ -116,6 +116,7 @@ function Menu:keypressed(key, code)
   if key == ('u') then self:gotoState('uiTest') end
   if key == ('t') then self:pushState('tiledZoom') end
   if key == ('w') then self:pushState('wireArt') end
+  if key == ('d') then self:pushState('drivingSim') end
 
   if key == ('1' or 'return') then self:pushState('computer') end
   if key == ('2' or 'space') then self:pushState('bizzaro') end
@@ -125,6 +126,7 @@ function Menu:keypressed(key, code)
   if key == ('7') then self:pushState('orbital') end
   if key == ('8') then self:pushState('characterCreation') end
   if key == ('9') then self:pushState('kitchen') end
+  if key == ('0') then self:pushState('worldMap') end
 
 
   if key == ('escape') then love.event.push('quit') end

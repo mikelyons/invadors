@@ -14,7 +14,7 @@
 
 print('tiledZoom.lua -> ')
 -- dependencies
-sti = require('lib/sti')
+local sti = require('lib/sti')
 
 -- not working?
 -- Sketchy = require 'lib/sketchy/sketchy'
@@ -64,21 +64,6 @@ function TZ:enteredState()
       32, 32
     )
   end
-  -- function player.update(dt)
-  --   local player = self.player
-  --   if love.keyboard.isDown('a' or 'left') then
-  --     player.x = player.x + (-3)
-  --   end
-  --   if love.keyboard.isDown('d' or 'right') then
-  --     player.x = player.x + (3)
-  --   end
-  --   if love.keyboard.isDown('w' or 'up') then
-  --     player.y = player.y + (-3)
-  --   end
-  --   if love.keyboard.isDown('s' or 'down') then
-  --     player.y = player.y + (3)
-  --   end
-  -- end
 
   -- Create a dynamic body for the player
   player.body = love.physics.newBody(
@@ -176,7 +161,9 @@ function TZ:draw()
 	love.graphics.setColor(255, 255, 255, 255)
 	map:draw()
 
-  -- self.player.draw()
+  -- attempt the player hitbox
+  -- this is not right green box at player coords but not rigid body
+  self.player.draw()
 
 	love.graphics.setColor(255, 0, 0)
 	-- map:box2d_draw()

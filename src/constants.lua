@@ -1,6 +1,9 @@
 DEBUG_NOSPLASH = false
+
+-- default states to boot to, to skip the menu
+-- BOOT_TO_STATE = 'wireArt' -- doesn't work
 -- BOOT_TO_STATE = 'generate'
-BOOT_TO_STATE = nil
+-- BOOT_TO_STATE = nil
 
 -- broken?
 DEBUG_CONSOLE_FUNCTION = false
