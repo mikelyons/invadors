@@ -17,7 +17,7 @@ print('evilNote.lua -> ')
 
 
 return {
-  new = function(self, x, y, text)
+  new = function(x, y, text)
     return {
       text = text,
       rect = {
@@ -28,12 +28,8 @@ return {
         dragging = { active = false, diffX = 0, diffY = 0 }
       },
 
-      mousepressed = function(x,y, button)
-        -- print('Mouse '..button)
-        -- print('Mouse '..x)
-        -- PrintTable(x)
-        -- print('Mouse '..button)
-        -- if love.mouse.isDown(1) then Blood:emit() end
+      mousepressed = function(self, x,y, button, istouch, pressses)
+        local rect = self.rect
         -- Start Dragging
         if button == 1 then
           if x>rect.x then
@@ -49,7 +45,8 @@ return {
           end
         end
       end,
-      mousereleased = function(x, y, button)
+      mousereleased = function(self, x,y, button, istouch, presses)
+        local rect = self.rect
         -- Stop dragging
         if button == 1 then
           rect.dragging.active = false
@@ -60,7 +57,8 @@ return {
       new = function(self) end,
       load = function(self) end,
 
-      update = function(self)
+      update = function(self, dt)
+        local rect = self.rect
         if rect.dragging.active then
           rect.x = love.mouse.getX() - rect.dragging.diffX
           rect.y = love.mouse.getY() - rect.dragging.diffY
@@ -70,13 +68,13 @@ return {
         -- love.graphics.setColor(25, 25, 195, 255)
         -- love.graphics.setColor(205, 5, 5, 255)
 
-      draw = function(self)
+      draw = function(self, dt)
+        local rect = self.rect
         -- draggable rect
         love.graphics.setColor(175, 225, 195, 255)
         love.graphics.rectangle("fill", rect.x, rect.y, rect.width, rect.height)
         love.graphics.setColor(205, 255, 205, 255)
         love.graphics.rectangle("fill", rect.x, rect.y, rect.width, rect.height/20)
-        -- love.graphics.setColor(205, 5, 5, 255)
 
         love.graphics.setColor(0, 0, 0, 255)
         love.graphics.printf(

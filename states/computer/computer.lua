@@ -42,7 +42,7 @@ function Computer:enteredState()
   -- get gravatar working?
   self.user_avatar = love.graphics.newImage("assets/character/avatars/NN32.png")
 
-  self.evilnote = stickyNote:new(
+  self.evilNote = stickyNote.new(
     screen_width-200, 400,--screen_height-200,
     self.motd
     -- "rainting all the way to the ginko"
@@ -501,7 +501,7 @@ function Computer:draw()
     love.graphics.setColor(_r, _g, _b, _a)
   end
 
-  self.evilnote:draw()
+  self.evilNote:draw()
   love.graphics.draw(pointerhand,
     mx - pointerhandOffset.x,
     my - pointerhandOffset.y,
@@ -592,9 +592,9 @@ local function drawDialogue()
 end
 
 --input
-function Computer:mousepressed(x,y, button)
-  self.evilnote:mousepressed(x,y, button)
+function Computer:mousepressed(x,y, button, istouch, presses)
+  self.evilNote:mousepressed(x,y, button, istouch, presses)
 end
-function Computer:mousereleased(x,y, button)
-  self.evilnote:mousereleased(x,y, button)
+function Computer:mousereleased(x,y, button, istouch, presses)
+  self.evilNote:mousereleased(x,y, button, istouch, presses)
 end
