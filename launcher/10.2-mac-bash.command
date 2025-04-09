@@ -34,3 +34,6 @@ tell application "Terminal"
 end tell
 EOF
 exec $(dirname "$0")/../lib/love/10.2/mac/love.app/Contents/MacOS/love "$(dirname "$0")/../"
+
+echo "Script finished"
+exit 0
