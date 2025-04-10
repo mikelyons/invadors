@@ -1,15 +1,17 @@
 --[[
   menu.lua
+
   The main menu after the game load and splash screens
   This module is intended to provide keyboard and mouse
   access to all the individual game modes for players and
-  testers alike                                           
+  testers alike, for now ..
 
   TODO:
   - implement key sequence cheat unlocks
   - rename this to the primary main menu
-    - create menu generating subscripts that can be used in
-      multiple menu screens
+    - create menu generating subscripts that can be used in multiple menu screens
+      - MacOS.command - WIP
+      - Windows.bat - WIP
 ]]--
 
 asm:load()
@@ -28,6 +30,9 @@ SplashText = splashtext:new()
 -- Gravatar = gravatar:new(score['email'], 100, 100)
 -- Gravatar = gravatar:new('', 100, 100)
 
+-- @TODO - particles
+-- - make background rain fall from the top of the screen in particles
+-- - make drips from the top of the view port
 -- test particle
 particle = require('../src/particles/baseParticle')
 Particle = particle:new(300, 300, img)
@@ -93,12 +98,11 @@ end
     - unique quitting screens
     - making you think you're insane
 ]]
-require('states/_template/_addState')
+require('states/_template/_addState') -- why was this here?
 function Menu:keypressed(key, code)
   -- if key == ('1' or 'return') then self:pushState('signin') end
   -- if key == ('o') then self:pushState('mic') end
   -- if key == ('6' or 'h') then self:pushState('pro') end
-  if key == ('6' or 'y') then self:pushState('space1') end
   -- if key == ('3' or 'q') then self:pushState('space1') end
   -- if key == ('4' or 'w') then self:pushState('Earth2') end
   -- if key == ('5') then self:pushState('commando') end
@@ -108,7 +112,7 @@ function Menu:keypressed(key, code)
   -- if key == ('i') then self:pushState('infiniteRunner') end
   if key == ('i') then self:pushState('inventory') end
   if key == ('c') then self:pushState('face') end
-  if key == ('e' or 'l') then self:pushState('dialogue') end
+  if key == ('e') then self:pushState('dialogue') end
   if key == ('f') then self:pushState('editor') end
   if key == ('g') then self:gotoState('generate') end
   if key == ('p') then self:pushState('asciiGame') end
@@ -117,19 +121,23 @@ function Menu:keypressed(key, code)
   if key == ('t') then self:pushState('tiledZoom') end
   if key == ('w') then self:pushState('wireArt') end
   if key == ('d') then self:pushState('drivingSim') end
+  if key == ('l') then self:pushState('livelove') end
+  if key == ('m') then self:pushState('characterCustomizer') end
 
   if key == ('1' or 'return') then self:pushState('computer') end
   if key == ('2' or 'space') then self:pushState('bizzaro') end
   if key == ('3' or 's') then self:pushState('synth') end
-  if key == ('4' or 'm') then self:pushState('mts') end
+  if key == ('4') then self:pushState('mts') end
   if key == ('5') then self:pushState('prog2') end
+  if key == ('6') then self:pushState('space1') end -- red box colissions fast green player and debug overlay, box2d?
   if key == ('7') then self:pushState('orbital') end
   if key == ('8') then self:pushState('characterCreation') end
   if key == ('9') then self:pushState('kitchen') end
   if key == ('0') then self:pushState('worldMap') end
 
 
-  if key == ('escape') then love.event.push('quit') end
+  -- if key == ('escape') then love.event.push('quit') end
+  if key == ('q') then love.event.push('quit') end
 end
 
 -- get the mouse position with the proper camera scaling
@@ -308,7 +316,6 @@ end
 
 -- love.graphics.setColor(r, g, b, a)
 function Menu:draw()
-
   -- print the list of directories for save data
   -- love.graphics.print(filesString, 0, 0)
 
@@ -349,14 +356,11 @@ function Menu:draw()
   -- draw a pointer
   love.graphics.draw(brian, mx, my)
   -- love.graphics.draw(mouse, mx, my)
-  -- PrintDebug(fanfic)
 
   self:drawButtons()
 
   drawNote()
   drawCanvas(self.canvas)
-
-  -- drawKeybinds()
 
   -- Pre-release version
   -- Prerelease version watermark
@@ -375,6 +379,16 @@ function Menu:draw()
   --   620, 'left')
   love.graphics.setColor(_r, _g, _b, _a)
   -- love.graphics.printf(text,x,y,limit,align)
+
+  -- @TODO - don't repeat this everywhere make it universal
+  if DEBUG_SHOW_FPS then
+    love.graphics.print(
+      'FPS '..tostring(love.timer.getFPS()),
+      -- camera.pos.x + (windowWidth - 128),
+      -- camera.pos.y + (windowHeight - 128)
+      32, 32
+    )
+  end
 end
 
 function Menu:exitedState()
@@ -414,7 +428,6 @@ function Menu:drawButtons()
       textColor = {255, 255, 255, 255}
     end
 
-
     button.now = love.mouse.isDown(1)
     if button.now and not button.last and hovered then
       button.fn(self)
@@ -422,7 +435,6 @@ function Menu:drawButtons()
     if love.mouse.isDown(1) then
       can_fire = false
     end
-
 
     love.graphics.setColor(unpack(color))
     love.graphics.rectangle(
@@ -555,76 +567,8 @@ function Menu:newButton(text, fn, menu)
   }
 end
 
-function Menu.numericKeyboarMenu(key, code)
-  -- how do we return this in keypressed
-  if key == ('1' or 'return') then self:pushState('generate') end
-  -- if key == ('1' or 'return') then self:pushState('signin') end
-  -- if key == ('1' or 'return') then self:pushState('generate') end
-  -- if key == ('2' or 'space') then self:pushState('bizzaro') end
-  -- if key == ('3' or 's') then self:pushState('synth') end
-  if key == ('4' or 'm') then self:pushState('mts') end
-  -- if key == ('5' or 'g') then self:pushState('prog2') end
-  -- if key == ('6' or 'h') then self:pushState('pro') end
-
-  -- if key == ('3' or 'q') then self:pushState('space1') end
-  -- if key == ('4' or 'w') then self:pushState('Earth2') end
-  -- if key == ('5') then self:pushState('commando') end
-  -- if key == ('6') then self:pushState('generate') end
-  -- if key == ('6') then self:gotoState('generate') end
-
-  if key == ('q') then love.event.push('quit') end
-  if key == ('escape') then love.event.push('quit') end
-
-  -- and this in draw
-  love.graphics.printf(
-    [[if key == (1 or return) then self:gotoState(Training) end
-    if key == (2 or space) then self:gotoState(bizzaro) end
-    if key == (3 or q) then self:gotoState(SPACE) end
-    if key == ('4' or 'w') then self:gotoState('Earth2') end
-    if key == ('5' or '') then self:gotoState('commando') end
-    if key == ('6' or '') then self:gotoState('generate') end
-
-    END OF TRANSMISSION]]
-    , 50, 320, 620, 'left')
-end
-
+-- this function should eventually be used to dipsplay debug information
 function drawKeybinds()
-
-  --[[
-
-  -- if key == ('1' or 'return') then self:startGame() end
-  -- if key == ('1' or 'return') then self:pushState('generate') end
-  if key == ('e' or 'l') then self:pushState('dialogue') end
-  if key == ('1' or 'return') then self:pushState('computer') end
-  if key == ('b') then self:pushState('book') end
-  -- if key == ('1' or 'return') then self:pushState('signin') end
-  -- if key == ('1' or 'return') then self:pushState('generate') end
-  if key == ('2' or 'space') then self:pushState('bizzaro') end
-  if key == ('3' or 's') then self:pushState('synth') end
-  if key == ('4' or 'm') then self:pushState('mts') end
-  -- if key == ('4' or 'g') then self:pushState('prog2') end
-  if key == ('5') then self:pushState('prog2') end
-  if key == ('w') then self:pushState('wireArt') end
-  -- if key == ('6' or 'h') then self:pushState('pro') end
-  -- if key == ('3' or 'q') then self:pushState('space1') end
-  -- if key == ('4' or 'w') then self:pushState('Earth2') end
-  -- if key == ('5') then self:pushState('commando') end
-  -- if key == ('6') then self:pushState('generate') end
-  if key == ('g') then self:gotoState('generate') end
-  if key == ('7') then self:pushState('orbital') end
-  if key == ('8') then self:pushState('characterCreation') end
-  -- if key == ('9') then self:pushState('generate') end
-  if key == ('9') then self:pushState('kitchen') end
-
-  if key == ('f') then self:pushState('editor') end
-
-  if key == ('i') then self:pushState('infiniteRunner') end
-  -- if key == ('escape') then self:popState('menu') end
-  -- if key == ('q') then love.event.push('quit') end
-  if key == ('escape') then love.event.push('quit') end
-
-  ]]
-
   local _r, _g, _b, _a = love.graphics.getColor()
 
   love.graphics.setColor(255, 255, 255, 255)
