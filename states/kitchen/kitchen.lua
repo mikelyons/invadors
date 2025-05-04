@@ -11,7 +11,7 @@
   - physics
 
   @KNOWN ISSUES
-  - exiting this state breaks the draggable rect for evilnote in menu.lua - probably conflicting variable name in global scope
+  - exiting this state breaks the menu.lua - probably conflicting variable name in global scope
 
 ]]
 if DEBUG_LOGGING_LOADING then
@@ -84,7 +84,8 @@ function Kitchen:mousereleased(x, y, button)
 end
 function Kitchen:keypressed(key, code)
   -- if key == ('escape') then love.event.push('quit') end
-  if key == ('escape') then self:popState('kitchen') end
+  -- if key == ('escape') then self:popState('kitchen') end
+  if key == ('escape') then self:gotoState('menu') end
 end
 
 function Kitchen:update(dt)

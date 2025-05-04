@@ -1,29 +1,101 @@
 --[[
   worldMap.lua
 
-  World Map State
+  World Map State - level select, travel the world
 
-  This state is the main state for the world map.
-  It is responsible for loading the world map and all of the locations on the map.
-  It is also responsible for handling the player's movement on the map.
+  @TODO -
+  [X] basic map rendering
+  [X] basic player controller
+  [ ] advanced map rendering
+  [ ] collisions
+  [ ] advanced player
+  [ ] progression data driven
+  [ ] collisions, boundaries, environmental effects
+  [ ] interactable environmental fixtures
+  - https://github.com/karai17/Simple-Tiled-Implementation - are we on the latest?
 ]]
 
-print('worldMap.lua -> ')
-
+if DEBUG_LOGGING_LOADING then
+  print('worldMap.lua -> ')
+end
 -- dependencies
 sti = require('lib/sti')
-
-print('WM -> ')
+poi = require('states/worldMap/pois')
 
 local WM = Game:addState('worldMap') -- registering the gamestate
 
 function WM:enteredState()
-  print('WM -> ')
-  print('WM:enteredState() ====================================')
-  self.map = sti("assets/maps/worldMap/worldMap.lua", { "box2d" })
+  if DEBUG_LOGGING_ON then
+    print('WM -> ')
+    print('WM:enteredState() ====================================')
+  end
+  -- Load the world map
+  -- self.map = sti("assets/maps/worldMap/worldMap.lua")
+  -- self.map = sti("assets/maps/bedroom/house3.lua") -- this wont draw!? flicker
+  -- self.map = sti("assets/maps/bedroom/house3.lua")
+  self.map = sti("assets/maps/bedroom/house2.lua")
+  -- poi.load(self.map)
 
+
+  -- Create player
+  self.player = {
+    x = 400,  -- Starting position
+    y = 300,
+    speed = 200,
+    width = 32,
+    height = 32
+  }
 end
+
 function WM:exitedState() end
 
-function WM:update() end
-function WM:draw() end
+function WM:update(dt)
+  -- Update map animations if any
+  -- self.map:update(dt)
+  -- Handle player movement
+  local speed = self.player.speed * dt
+
+  if love.keyboard.isDown('right') or love.keyboard.isDown('d') then
+    self.player.x = self.player.x + speed
+  end
+  if love.keyboard.isDown('left') or love.keyboard.isDown('a') then
+    self.player.x = self.player.x - speed
+  end
+  if love.keyboard.isDown('down') or love.keyboard.isDown('s') then
+    self.player.y = self.player.y + speed
+  end
+  if love.keyboard.isDown('up') or love.keyboard.isDown('w') then
+    self.player.y = self.player.y - speed
+  end
+end
+
+function WM:draw()
+  -- Draw the map
+  love.graphics.setColor(255, 255, 255, 255)
+  -- self.map:draw() -- house3 map not drawing
+  -- Draw player rectangle
+  love.graphics.setColor(0, 255, 0, 255)  -- Green color for player
+  love.graphics.rectangle("fill", 
+    self.player.x - self.player.width/2, 
+    self.player.y - self.player.height/2, 
+    self.player.width, 
+    self.player.height
+  )
+
+  if DEBUG_SHOW_FPS then
+    love.graphics.print(
+      'FPS '..tostring(love.timer.getFPS()),
+      -- camera.pos.x + (windowWidth - 128),
+      -- camera.pos.y + (windowHeight - 128)
+      32, 32
+    )
+  end
+end
+
+-- Input handling
+function WM:keypressed(key)
+  if key == 'escape' then
+    -- self:gotoState('menu')
+    self:popState('worldMap')
+  end
+end

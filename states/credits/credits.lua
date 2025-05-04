@@ -4,13 +4,15 @@
   a credits for adding a new gamestate
 ]]
 
-print('credits.lua -> ')
-print('credits -> ')
+if DEBUG_LOGGING_LOADING then
+  print('credits.lua -> ')
+  print('credits -> ')
+end
 
 -- dependencies
-local fanfic = require 'states/menu/fanfic'
+-- local fanfic = require 'states/menu/fanfic'
 
-text = fanfic.new(200,300, "New textbox", false, 16)
+-- text = fanfic.new(200,300, "New textbox", false, 16)
 
 -- registering the gamestate
 local Credits = Game:addState('credits')
@@ -30,16 +32,22 @@ creditsStrings = {
   },
   {
     name = 'Aaron Trostle',
-    title= 'Big D.A.D.D.I.O'
+    title= 'Big D.A.D.D.I.O / Easter Bunny'
   }
 }
+
+tutorialsFollowed = {}
+
+libsInspiredBy = {}
+
+gamesHomaged = {}
 
 -- input
 function Credits:mousepressed(x,y, button , istouch) end
 function Credits:mousereleased(x, y, button) end
 function Credits:keypressed(key, code)
-  text:keypressed(key, code)
-  if key == ('escape') then love.event.push('quit') end
+  -- text:keypressed(key, code)
+  -- if key == ('escape') then love.event.push('quit') end
   if key == ('escape') then love.event.push('quit') end
 end
 
@@ -49,8 +57,8 @@ function Credits:enteredState()
   end
 end
 function Credits:update(dt)
-  text:update(dt)
-  data = text:enteredText()
+  -- text:update(dt)
+  -- data = text:enteredText()
 end
 function Credits:draw()
   -- ensure proper gravatar color
@@ -63,10 +71,10 @@ function Credits:draw()
   -- PrintDebug(fanfic)
 
   -- sign in text box
-	text:draw()
+	-- text:draw()
 	if data then
 		love.graphics.setColor(255,255,255)
-		love.graphics.print("You typed: '"..data.."' in the text box", 200, 350)
+		-- love.graphics.print("You typed: '"..data.."' in the text box", 200, 350)
     -- DO SOMTHING todo ToDO WITH THE DATA
 	end
 end

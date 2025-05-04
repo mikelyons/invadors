@@ -46,21 +46,21 @@ function Face:draw()
   -- love.graphics.setColor(colors[1])
   -- love.graphics.ellipse("fill",100,100, 100,50)
 
-  -- --eyes
+  -- -- --eyes
   -- love.graphics.setColor(255, 255, 255, 255)
   -- love.graphics.ellipse("fill",100+20,100+10, 10,10)
 
   -- -- face 2
-  -- -- Draw the head (ellipse)
+  -- -- -- Draw the head (ellipse)
   -- love.graphics.setColor(255, 210, 179)
   -- love.graphics.ellipse("fill", 128, 128, 100, 120)
 
-  -- -- Draw the eyes (circles)
+  -- -- -- Draw the eyes (circles)
   -- love.graphics.setColor(255, 255, 255)
   -- love.graphics.circle("fill", 88, 100, 20)
   -- love.graphics.circle("fill", 168, 100, 20)
 
-  -- -- Draw the mouth (half-ellipse)
+  -- -- -- Draw the mouth (half-ellipse)
   -- love.graphics.setColor(255, 0, 0)
   -- love.graphics.arc("fill", 128, 170, 40, math.pi, 2 * math.pi)
 
@@ -70,21 +70,21 @@ function Face:draw()
   --   love.graphics.setColor(255, 210, 179)
   --   love.graphics.ellipse("fill", 128, 128, 100, 120)
 
-  --   -- Draw the eyes (whites)
+  -- --   -- Draw the eyes (whites)
   --   love.graphics.setColor(255, 255, 255)
   --   love.graphics.circle("fill", 100, 110, 18)
   --   love.graphics.circle("fill", 156, 110, 18)
 
-  --   -- Draw the irises (blue)
+  -- --   -- Draw the irises (blue)
   --   love.graphics.setColor(0, 0, 255)
   --   love.graphics.circle("fill", 100, 110, 8)
   --   love.graphics.circle("fill", 156, 110, 8)
 
-  --   -- Draw the nose (triangle)
+  -- --   -- Draw the nose (triangle)
   --   love.graphics.setColor(255, 210, 179)
   --   love.graphics.polygon("fill", 128, 125, 120, 140, 136, 140)
 
-  --   -- Draw the mouth (arc)
+  -- --   -- Draw the mouth (arc)
   --   love.graphics.setColor(255, 0, 0)
   --   love.graphics.arc("fill", 128, 160, 35, math.pi / 7, 6 * math.pi / 7)
 
@@ -94,26 +94,26 @@ function Face:draw()
   --   love.graphics.setColor(255, 210, 179)
   --   love.graphics.ellipse("fill", 128, 128, 100, 120)
 
-  --   -- Draw shading for the eyes (darker ovals)
+  -- --   -- Draw shading for the eyes (darker ovals)
   --   love.graphics.setColor(230, 230, 230)
   --   love.graphics.ellipse("fill", 100, 110, 18, 12)
   --   love.graphics.ellipse("fill", 156, 110, 18, 12)
 
-  --   -- Draw the eyes (whites)
+  -- --   -- Draw the eyes (whites)
   --   love.graphics.setColor(255, 255, 255)
   --   love.graphics.circle("fill", 100, 110, 12)
   --   love.graphics.circle("fill", 156, 110, 12)
 
-  --   -- Draw the irises (blue)
+  -- --   -- Draw the irises (blue)
   --   love.graphics.setColor(0, 0, 255)
   --   love.graphics.circle("fill", 100, 110, 6)
   --   love.graphics.circle("fill", 156, 110, 6)
 
-  --   -- Draw shading for the nose (darker triangle)
+  -- --   -- Draw shading for the nose (darker triangle)
   --   love.graphics.setColor(230, 230, 230)
   --   love.graphics.polygon("fill", 128, 125, 120, 140, 136, 140)
 
-  --   -- Draw the nose (triangle)
+  -- --   -- Draw the nose (triangle)
   --   love.graphics.setColor(255, 210, 179)
   --   love.graphics.polygon("fill", 128, 128, 120, 140, 136, 140)
 

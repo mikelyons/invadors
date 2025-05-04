@@ -6,15 +6,24 @@
 ### Fixed
 -->
 
-## 0.4.7.3 (Jan 1, 2023)
+## 0.4.7.3 (Apr 6, 2025)
 ### Added
+- devUtilities directory with gamedev tool scriopts
 - many gamestates and other features
+- dialogue avatar/hero change each dialogue line, configurable
+- mac open_save_directory.command
+- drivingSim and wireArt screens
+- livelove dev utility gamestate for hot reloading, currently broken
 ### Changed
 - many things
 ### Removed
+- extraneously committed _addState.lua crufts
+- out of date comments
 - some bugs
 ### Fixed
--- some more bugs
+- sticky note on computer screen not placed at coords and not draggable
+- evilNote could not be properly instantiated
+- some more bugs
 
 ## 0.4.7.2 (Nov 11, 2023)
 

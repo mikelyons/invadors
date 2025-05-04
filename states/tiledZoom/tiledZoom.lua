@@ -10,16 +10,18 @@
 
 
   - https://github.com/karai17/Simple-Tiled-Implementation/tree/master/tutorials
-]]
+]]--
 
-print('tiledZoom.lua -> ')
--- dependencies
-local sti = require('lib/sti')
+if DEBUG_LOGGING_LOADING then
+  print('tiledZoom.lua -> ')
+  -- dependencies
+  local sti = require('lib/sti')
 
--- not working?
--- Sketchy = require 'lib/sketchy/sketchy'
+  -- not working?
+  -- Sketchy = require 'lib/sketchy/sketchy'
 
-print('TZ -> ')
+  print('TZ -> ')
+end
 local TZ = Game:addState('tiledZoom') -- registering the gamestate
 
 function TZ:enteredState()

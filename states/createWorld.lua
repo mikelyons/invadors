@@ -1,8 +1,10 @@
-print('createWorld.lua -> ')
+if DEBUG_LOGGING_LOADING then
+  print('createWorld.lua -> ')
 
--- local fanfic = require 'states/menu/fanfic'
+  -- local fanfic = require 'states/menu/fanfic'
 
-print('Create World -> ')
+  print('Create World -> ')
+end
 
 local CreateWorld = Game:addState('createWorld')
 

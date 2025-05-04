@@ -98,7 +98,8 @@ end
     - unique quitting screens
     - making you think you're insane
 ]]
-require('states/_template/_addState') -- why was this here?
+require('states/_template/_addState') -- why was this here? to run the adstate script in testaddstate
+-- use a state to add a state ^
 function Menu:keypressed(key, code)
   -- if key == ('1' or 'return') then self:pushState('signin') end
   -- if key == ('o') then self:pushState('mic') end
@@ -106,27 +107,29 @@ function Menu:keypressed(key, code)
   -- if key == ('3' or 'q') then self:pushState('space1') end
   -- if key == ('4' or 'w') then self:pushState('Earth2') end
   -- if key == ('5') then self:pushState('commando') end
+
+  -- !!!this state runs filesystem scrips!***
   if key == ('a') then _G.util.addState('testAddState') end
 
   if key == ('b') then self:pushState('book') end
-  -- if key == ('i') then self:pushState('infiniteRunner') end
-  if key == ('i') then self:pushState('inventory') end
   if key == ('c') then self:pushState('face') end
+  if key == ('d') then self:pushState('drivingSim') end
   if key == ('e') then self:pushState('dialogue') end
   if key == ('f') then self:pushState('editor') end
   if key == ('g') then self:gotoState('generate') end
-  if key == ('p') then self:pushState('asciiGame') end
-  if key == ('q') then self:pushState('quadtree') end
-  if key == ('u') then self:gotoState('uiTest') end
-  if key == ('t') then self:pushState('tiledZoom') end
-  if key == ('w') then self:pushState('wireArt') end
-  if key == ('d') then self:pushState('drivingSim') end
+  if key == ('i') then self:pushState('inventory') end
   if key == ('l') then self:pushState('livelove') end
   if key == ('m') then self:pushState('characterCustomizer') end
+  if key == ('p') then self:pushState('asciiGame') end
+  if key == ('q') then self:pushState('quadtree') end
+  if key == ('t') then self:pushState('tiledZoom') end
+  if key == ('u') then self:gotoState('uiTest') end
+  if key == ('w') then self:pushState('wireArt') end
+  -- if key == ('x') then self:pushState('infiniteRunner') end
 
-  if key == ('1' or 'return') then self:pushState('computer') end
-  if key == ('2' or 'space') then self:pushState('bizzaro') end
-  if key == ('3' or 's') then self:pushState('synth') end
+  if key == ('1') then self:pushState('computer') end
+  if key == ('2') then self:pushState('bizzaro') end
+  if key == ('3') then self:pushState('synth') end
   if key == ('4') then self:pushState('mts') end
   if key == ('5') then self:pushState('prog2') end
   if key == ('6') then self:pushState('space1') end -- red box colissions fast green player and debug overlay, box2d?

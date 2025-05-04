@@ -98,8 +98,6 @@ function mts:draw(dt)
       love.graphics.print( info, 10, 10 )
     end
 
-    print('draw')
-
     -- We smoothly animate a circle to show that the thread isn't blocking our main thread.
     love.graphics.circle( 'line', 100 + math.sin( timer ) * 20, 100 + math.cos( timer ) * 20, 20 )
 end

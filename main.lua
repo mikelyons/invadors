@@ -231,6 +231,22 @@ function love.draw(dt)
 
   -- this is where we should draw debug ui, it will draw
   -- during all modes and on top of everything
+
+  -- need global FPS text, this isn't working
+    -- love.graphics.setColor(255, 255, 255, 255)
+    -- love.graphics.print('hello', 100, 100)
+  -- need global FPS text, this isn't working
+  -- if DEBUG_SHOW_FPS then
+  --   local _r, _g, _b, _a = love.graphics.getColor()
+  --   love.graphics.setColor(255, 255, 255, 255)
+  --   love.graphics.print(
+  --     tostring(love.timer.getFPS()),
+  --     -- camera.pos.x + (windowWidth - 64),
+  --     -- camera.pos.y + (windowHeight - 64)
+	-- 		64, 64
+  --   )
+  --   love.graphics.setColor(_r, _g, _b, _a)
+  -- end
 end
 
 -- https://love2d.org/wiki/KeyConstant

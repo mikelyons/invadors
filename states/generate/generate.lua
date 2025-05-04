@@ -182,7 +182,7 @@ function generate:exitedState()
   -- blocks = {} --zero out the array?
 
   -- erase this state on exit
-  love.graphics.clear()
+  -- love.graphics.clear()
 end
 
 
@@ -256,9 +256,10 @@ function generate:draw(dt)
 
   if DEBUG_SHOW_FPS then
     love.graphics.print(
-      tostring(love.timer.getFPS()),
-      camera.pos.x + (windowWidth - 64),
-      camera.pos.y + (windowHeight - 64)
+      'FPS '..tostring(love.timer.getFPS()),
+      -- camera.pos.x + (windowWidth - 128),
+      -- camera.pos.y + (windowHeight - 128)
+      32, 32
     )
   end
 end

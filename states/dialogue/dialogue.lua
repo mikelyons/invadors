@@ -1,13 +1,20 @@
 
---
--- Displays a dialogue box with a message for the player
--- -- the goal is to eventually display a character avatar
--- -- and to have all manner of expressiveness of the text,
+--[[
+  dialogue.lua
+
+  Displays a dialogue box with a message for the player
+  seems to handle that
+]]
+
+-- @TODO
+-- - make this driven by a dialog script file (as in a movie script or screenplay)
+-- - allow 2 characters to dialogue, one on the right, and one on the left
+-- - extract all the drawing functions into a drawing helper file
+-- -- have all manner of expressiveness of the text,
 -- -- multi-stage messages, selectable replies, animations
 -- -- make the text type itself out instead of appearing all at once
 -- -- https://twitter.com/flamendless this guy created this lib https://github.com/flamendless?page=2&tab=repositories
 -- -- https://github.com/besnoi/lovelib/tree/master/Anima which (was it him?)
--- -- seems to handle that
 --
 
 -- local fanfic = require 'states/menu/fanfic'
@@ -15,44 +22,46 @@
 
 if DEBUG_LOGGING_LOADING then
   print('dialogue.lua -> ')
-  print('Dialogue -> ')
 end
-local Dialogue = Game:addState('dialogue')
+-- dependencies
 
-function Dialogue:mousepressed(x,y, button , istouch) end
-function Dialogue:mousereleased(x, y, button) end
+local Dialogue = Game:addState('dialogue') -- register the gamestate
 
 function Dialogue:keypressed(key, code)
---   text:keypressed(key, code)
+--   text:keypressed(key, code) -- user input
   if key == ('l' or 'e') then self:popState('dialogue') end -- if key == ('l') then self:popState('dialogue') end
-
-  if key == ('return') then
-
+  if key == ('return') then -- advance dialogue
     Dialogue.number = Dialogue.number + 1
-    print( -- REALLY? 'Raint' is your error handling?
-      Dialogue.script[Dialogue.number] or 'RAINT'
-      .. ' number #' .. Dialogue.number or 'RAINT')
-    -- love.event.push('quit')
-
-  end -- advance dialogue
-
-  -- if key == ('escape') then love.event.push('quit') end
+    print(Dialogue.script[Dialogue.number] or 'RAINT' .. ' number #' .. Dialogue.number or 'RAINT') -- log the dialog
+  end
   if key == ('escape') then
     self:popState('dialogue')
     self:pushState('menu')
-  end -- if key == ('l') then self:popState('dialogue') end
+  end
+  if key == ('q') then love.event.push('quit') end
 end
+function Dialogue:mousepressed(x,y, button , istouch) end
+function Dialogue:mousereleased(x, y, button) end
 
 function Dialogue:enteredState()
   if DEBUG_LOGGING_ON then
     print(string.format("ENTER dialogue STATE - %s \n", os.date()))
   end
 
+  -- hero image and avatar of character 1 (left side)
+  self.heroImages = {
+    hello = love.graphics.newImage("assets/character/avatars/elon/hello.PNG"),
+    surprised = love.graphics.newImage("assets/character/avatars/elon/surprised.PNG"),
+  }
+  self.avatars = {
+    hello = love.graphics.newImage("assets/character/avatars/EM.png"),
+    surprised = love.graphics.newImage("assets/character/avatars/EM32.png")
+  }
+
   Dialogue.number = 0
   Dialogue.limit = 5
   -- get some splash_texts_library.lua
   Dialogue.script = {
-    -- ["elon"] = 'raint'
     'raint',
     'raint number two',
     "raint 3",
@@ -63,6 +72,10 @@ function Dialogue:enteredState()
     'Never again shall I raint!',
     'What\'re you on about?!'
   }
+
+  Dialogue.advScript = {
+    ["elon"] = 'raint' -- two character back and forth
+  } -- a script that includes back and forth and prompts for the user to input information such as a character of mob's name.
 
   -- the character avatar
   -- https://pixel-me.tokyo/en/ - face to pixel art
@@ -90,26 +103,14 @@ function Dialogue:draw()
   self.panex = camera.pos.x + (self.width/11)
   self.paney = camera.pos.y + (self.height - self.height/3) - 64
 
+  local hero; -- character expression hero image - big avatar
+  if Dialogue.number % 2 == 0 then -- alternate between two expressions
+    hero = self.heroImages['hello']
+  else
+    hero = self.heroImages['surprised']
+  end
 
-  -- local hero = love.graphics.newImage("assets/character/avatars/EM.png")
-  -- love.graphics.setColor(255,255,255)
-  -- local hero = love.graphics.newImage("states/dialogue/character/elon.png")
-
-  -- conversation scene background image
-  -- love.graphics.setColor(255,255,255, 255)
-  -- local background = love.graphics.newImage("assets/character/avatars/elon/hello.PNG")
-  -- love.graphics.draw(background,
-  --   -- self.panex+32, self.paney+32,
-  --   10, 20,
-  --   nil,
-  --   -- 0.75
-  --   0.5
-  --   -- 1
-  -- )
-
-  -- character expression hero image
   love.graphics.setColor(255,255,255, 255)
-  local hero = love.graphics.newImage("assets/character/avatars/elon/hello.PNG")
   love.graphics.draw(hero,
     -- self.panex+32, self.paney+32,
     10, 20,
@@ -118,7 +119,6 @@ function Dialogue:draw()
     0.5
     -- 1
   )
-
 
   -- self.panexx = (self.width/4)*3
   -- self.paneyy = (self.height/4)*3
@@ -136,20 +136,17 @@ function Dialogue:draw()
   paneh = paneh * camera.scale.y
 
 
+  -- random white boxes in the corners
   -- love.graphics.rectangle('fill', 300, 300, 511, 511)
   -- love.graphics.rectangle('fill', 0, 0, 111, 111)
-  -- love.graphics.setColor(_r, _g, _b, _a)
 
   love.graphics.setColor(55, 55, 155, 255)
-
-  -- local txt = [[rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away]]
-
   love.graphics.rectangle('fill', panex-25, paney-25, panew+50, paneh+50, 32, 32)
+
   love.graphics.setColor(255, 255, 255, 255)
   love.graphics.rectangle('line', panex-25, paney-25, panew+50, paneh+50, 32, 32)
   love.graphics.printf(
-    -- txt,
-    Dialogue.script[Dialogue.number or 1] or Dialogue.script[1],
+    Dialogue.script[Dialogue.number or 1] or Dialogue.script[1] .. ' #'..Dialogue.number,
     panex+32 + 200,
     paney,--+32,
     panew-32 - 200,
@@ -163,7 +160,7 @@ function Dialogue:draw()
   0, 0)
 
 
-  local action = 'readMore'
+  local action = 'readMore' -- for prompting the user to advance the dialogue once the typing out animation is done or skipped
 
   -- local vertices = {100,100, 200,100, 150,200}
   local vx = {
@@ -225,32 +222,34 @@ function Dialogue:draw()
   -- else -- Default avatar == no internet or gravatar down
   -- local raintar = love.graphics.newImage("assets/newer/brian.png")
   --
-  local raintar = love.graphics.newImage("assets/character/avatars/EM.png")
+
+  -- this draws on top of the chrome above
+  local raintar -- small avatar
+  if Dialogue.number % 2 == 0 then
+    raintar = self.avatars['hello']
+  else
+    raintar = self.avatars['surprised']
+  end
   love.graphics.draw(raintar,
     self.panex+32, self.paney+32,
     nil,
     0.5
   )
 
-
-
   -- love.graphics.rectangle("fill",
   --   self.panex+32,self.paney+32,
   --   96,96)
   -- love.graphics.print(score['email'], 50, 85) -- default w,h 80x80
   -- end
-  -- local _r, _g, _b, _a = love.graphics.getColor()
   -- love.graphics.setColor(math.random(0,255),math.random(0,255),math.random(0,255), 255)
   -- love.graphics.draw(raintar, x + 500, y)
   -- love.graphics.print(score['email'], x + 500, y+85) -- default w,h 80x80
   -- love.graphics.setColor(_r, _g, _b, _a)
 
-
-  -- love.graphics.printf(txt, panex-25, t+topOffset, cellSize, 'center')
   -- love.graphics.pop()
+
   love.graphics.setLineWidth(_lineWidth)
   love.graphics.setColor(_r, _g, _b, _a)
-
 
   -- @TODO - make this into a debug drawfunction
   if DEBUG_GRID_ON then
@@ -355,6 +354,7 @@ function Dialogue:draw()
     love.graphics.setLineWidth(_lineWidth)
     love.graphics.setColor(_r, _g, _b, _a)
   end
+  love.graphics.setColor(_r, _g, _b, _a)
 end
 function Dialogue:exitedState()
   love.graphics.clear()
@@ -392,3 +392,42 @@ function drawDialogue()
 
   love.graphics.setColor(_r, _g, _b, _a)
 end
+
+
+-- TTS - text to speech attempts below
+-- https://github.com/fiendish/MS_Speech_API_Lua - windows
+-- https://love2d.org/forums/viewtopic.php?t=94536 - and below: linux / mac
+
+-- local op=print
+-- local channel=love.thread.newChannel()
+-- local tcode=[[ 
+-- channel = ...
+-- handle=io.popen("espeak","w")
+-- handle:setvbuf ("no")
+-- repeat
+--  handle:write(channel:demand().."\n")
+-- until false
+-- ]]
+
+-- -- not this one
+-- local tcode=[[ 
+-- channel = ...
+-- repeat
+--  text=os.execute("espeak '"..channel:demand().."'")
+-- until false
+-- ]]
+
+-- Lthread = love.thread.newThread( tcode )
+-- Lthread:start(channel)
+
+-- print=function(...)  channel:push(table.concat({...})," ") op(...) end
+-- Tx=""
+-- function love.textinput(t)
+--  Tx=Tx..t
+-- end
+-- function love.keypressed(_,k)
+--  if k=="return" then
+--   print(Tx)
+--   Tx=""
+--  end
+-- end

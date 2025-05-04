@@ -1,3 +1,10 @@
+--[[
+  synth.lua
+
+  currently uses denver.lua but need to investigate a possible alternative:
+  - https://github.com/camchenry/sone
+
+]]
 -- require '../../lib/denver'
 
 local Synth = Game:addState('synth')
@@ -24,8 +31,8 @@ function Synth:enteredState()
   -- FX.loop1()
   -- FX.loop2()
   -- FX.loop3()
-  -- FX.loop4()
-  FX.loop5()
+  FX.loop4()
+  -- FX.loop5()
 
 
 
@@ -58,12 +65,12 @@ function Synth:keypressed(key, code)
     love.audio.play(space)
   end
 
-  if key == ('space' or 'return') then
-    local space = denver.get({waveform='sinus',frequency=440, length=0.1})
-    love.audio.play(space)
-  end
+  -- if key == ('space' or 'return') then
+  --   local space = denver.get({waveform='sinus',frequency=440, length=0.1})
+  --   love.audio.play(space)
+  -- end
 
-  print('=== NOISE 1 === ')
+  -- print('=== NOISE 1 === ')
   if key == ('2' or 'b') then self:pushState('bizzaro') end
   -- if key == ('escape') then self:popState() end
   if key == ('escape') then love.event.push('quit') end

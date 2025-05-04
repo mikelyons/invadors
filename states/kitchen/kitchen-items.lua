@@ -14,4 +14,6 @@
     - sink
     - water filter
 ]]
-print('kitchen-items.lua -> ')
+if DEBUG_LOGGING_LOADING then
+  print('kitchen-items.lua -> ')
+end

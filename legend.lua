@@ -1,3 +1,9 @@
+--[[
+  legend.lua
+
+  a scratch file for example function signatures
+]]
+
 -- Handlers
 love.load
 love.update(deltatime)

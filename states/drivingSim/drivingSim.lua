@@ -6,20 +6,17 @@
   https://www.youtube.com/watch?v=ybLZyY655iY
 
   @TODO
+	= re-implement the mode 7 thing you deleted!!!!!! Playmat mode 7
   = was using this to test the mesh texture, remove later!!!!
   - find-replace the word 'template' with the new state name for internal variables
   - find-replace the word 'Template' (capitalization) for the instance/class name.
-  - add a car
-  - add a road
-  - add a tree
-  - add a house
-  - add a horse
-  - add a person
 ]]
 
-print('template.lua -> ')
--- dependencies
-print('template -> ')
+if DEBUG_LOGGING_LOADING then
+	print('drivingSim.lua -> ')
+	-- dependencies
+	print('Driving Sim -> ')
+end
 
 local Template = Game:addState('drivingSim') -- registering the gamestate
 
@@ -68,7 +65,6 @@ function Template:enteredState()
 		local x, y = curve:getControlPoint(i)
 		table.insert(curveVertices, {x, y})
 	end
-	PrintTable(curveVertices)
 
 end
 function Template:exitedState() love.graphics.clear() end

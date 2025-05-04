@@ -1,10 +1,26 @@
+--[[
+  conf.lua
+
+  The love2d game configuration file
 
 --	InvadortZ {__VERSION}
 --  author : Mike Lyons
 --  developed using : lua + love2d 
 --  
 --  github repo link: https://github.com/mikelyons/invadors
---
+-- 
+--  https://love2d.org/wiki/Config_Files
+]]--
+
+-- new way:
+-- local major, minor, revision, codename = love.getVersion( )
+-- old way: https://love2d.org/wiki/love.getVersion
+print('Love2d version: '..love._version_major..'.'..love._version_minor..'.'..love._version_revision)
+if love._version_major == 0 and love._version_minor < 9 then
+	error("InvadortZ requires love2d 0.9.0 or newer")
+elseif love._version_minor >= 11 then
+  print("too new the love version is, not work it may, or encounter bugs you will ...")
+end
 
 -- use this for internal variables that will be used below
 local GameInfo = { }
@@ -30,17 +46,7 @@ end
 _G.GameSettings = {fullscreen = false}
 
 
---https://love2d.org/wiki/Config_Files
 
-if love._version_major == 0 and love._version_minor < 9 then
-	error("InvadortZ requires love2d 0.9.0 or newer")
--- elseif love._version_minor > 11 then
---   error("too new the love version is")
-end
-
-print(love._version_major)
-print(love._version_minor)
-print(love._version_revision)
 
 -- make console work?
 -- io.stdout:setvbuf("full")

@@ -1,22 +1,31 @@
 --[[
   states/computer.lua
+
+  Displays a dialogue box with a message for the player
+  -- the goal is to eventually display a character avatar
+  -- and to have all manner of expressiveness of the text,
+  -- multi-stage messages, selectable replies, animations
+  -- make the text type itself out instead of appearing all at once
+  -- https://twitter.com/flamendless this guy created this lib https://github.com/flamendless?page=2&tab=repositories
+  -- https://github.com/besnoi/lovelib/tree/master/Anima which (was it him?)
+
+  @TODO
+  - pointerhand states 
+  - duplicate this state into a generic machine interop or interactable ui state
+  - make the maiming machine state
+  - design some dangerous machines
+  - polygon collisions for cutting yourself on the sharp edges while stamping license plates scenario
+  - poison damage and disease damage for dirty, or germy touch surfaces
+  - cleaning is a thing? surfaces, washing hands, disinfection? masking?
 ]]
--- Displays a dialogue box with a message for the player
--- -- the goal is to eventually display a character avatar
--- -- and to have all manner of expressiveness of the text,
--- -- multi-stage messages, selectable replies, animations
--- -- make the text type itself out instead of appearing all at once
--- -- https://twitter.com/flamendless this guy created this lib https://github.com/flamendless?page=2&tab=repositories
--- -- https://github.com/besnoi/lovelib/tree/master/Anima which (was it him?)
--- -- seems to handle that
---
 
 if DEBUG_LOGGING_LOADING then
   print('computer.lua -> ')
-  print('Computer -> ')
 end
+-- dependencies
 local stickyNote = require 'ui objects/evilNote'
 
+-- register the gamestate
 local Computer = Game:addState('computer')
 
 function Computer:keypressed(key, code)
@@ -31,12 +40,11 @@ function Computer:enteredState()
 
   -- WIP
   -- if not constants.useNativeMouseCursor then
-  love.mouse.setVisible(false)
+  -- love.mouse.setVisible(false)
   -- end
 
 
   -- self.motd = "Hello, welcome to computer"
-  -- self.motd = [[Hello, welcome to computer, it is whatever the heck o clock welcome ]]
   self.motd = [[Hello, welcome to computer, it is whatever the heck o clock welcome ]]
 
   -- get gravatar working?
@@ -45,13 +53,10 @@ function Computer:enteredState()
   self.evilNote = stickyNote.new(
     screen_width-200, 400,--screen_height-200,
     self.motd
-    -- "rainting all the way to the ginko"
   )
 
   -- love.graphics.setBackgroundColor( red, green, blue, alpha )
   -- love.graphics.setBackgroundColor(unpack(COLOR_GREEN_HUNTER))
-  -- love.graphics.setBackgroundColor( 0, 1, 0, 1)
-  -- love.graphics.setBackgroundColor( 1, 1, 1, 1)
 
   -- the character avatar
   -- https://pixel-me.tokyo/en/ - face to pixel art
@@ -139,19 +144,23 @@ function Computer:update(dt)
 
 end
 
--- love.graphics.setDefaultFilter("nearest", "nearest")
-
 --@TODO - rescope these globals
 -- tempcomp = love.graphics.newImage("assets/character/avatars/NN32.png")
 teacup = love.graphics.newImage("assets/objects/tea-cup-1.png")
 key = love.graphics.newImage("assets/objects/copper-key.png")
 tempdesk = love.graphics.newImage("states/computer/wood.png")
 tempcomp = love.graphics.newImage("assets/machines/computer/computer-transparent.png")
+compScreen= love.graphics.newImage("assets/machines/computer/computer-screen.png")
+compBezel = love.graphics.newImage("assets/machines/computer/computer-bezel.png")
 tempkb = love.graphics.newImage("assets/machines/computer/keyboard.png")
 tempcomp:setFilter("nearest", "nearest")
+compBezel:setFilter("nearest", "nearest")
+
+-- @TODO - add these assets to an asset manager/loader
 pointerhand = love.graphics.newImage("assets/hand-pointing-1.png")
 pointerhandOffset = {x=143,y=24}
 pointerhand:setFilter("nearest", "nearest")
+-- @TODO - get different pointer state sprites drawn to augment pointherhand
 
 -- love.graphics.draw(tempcomp,
 --   self.panex+32, self.paney+32,
@@ -167,15 +176,12 @@ function Computer:draw()
 
   -- Draw DESK
   -- wall
-  -- -- love.graphics.rectangle( mode, x, y, width, height, rx, ry, segments )
   love.graphics.setColor(155,100,100, 255)
   love.graphics.rectangle(
     'fill',
     0, 0, -- x, y
     screen_width, screen_height-- w, h
   )
-
-  -- love.graphics.rectangle('fill', 0, 0, 111, 111)
 
   --desk
   love.graphics.setColor(255,255,255, 255)
@@ -193,12 +199,46 @@ function Computer:draw()
   -- computer
   love.graphics.setColor(255,255,255, 255)
   love.graphics.draw(
-    tempcomp,
+    compScreen,
     32, 0,
     0,
     22,
     22
   )
+
+  love.graphics.setColor(5,5,5, 255)
+  love.graphics.rectangle("fill",
+    120, 80,
+    -- compBezel:getWidth(),
+    -- compBezel:getHeight()
+    560, 450
+  )
+  love.graphics.setColor(255,255,255, 255)
+  love.graphics.printf(
+    "THIS IS THE SECRET",
+    -- 130 + 64,
+    -- 100 + 64,
+    150, 120,
+    200,
+    'left'
+  )
+  love.graphics.setColor(255,255,255, 255)
+  love.graphics.draw(
+    compBezel,
+    32, 0,
+    0,
+    22,
+    22
+  )
+
+  -- love.graphics.draw(
+  --   tempcomp,
+  --   32, 0,
+  --   0,
+  --   22,
+  --   22
+  -- )
+
   love.graphics.draw(
     tempkb,
     32, screen_height - 250,
@@ -258,7 +298,6 @@ function Computer:draw()
 
   love.graphics.setColor(55, 55, 155, 255)
   -- local txt = [[rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away]]
-  -- local txt = [[AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA]]
   local txt = [[AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA]]
 
   -- love.graphics.setColor(1, 1, 1);
@@ -268,7 +307,7 @@ function Computer:draw()
     drawCanvas(self.canvas)
   end
 
-  local Dpanel = fals
+  -- local Dpanel = true
   if Dpanel == true then
     -- Backpanel bg
     love.graphics.rectangle('fill', panex-25, paney-25, panew+50, paneh+50, 32, 32)
@@ -352,7 +391,7 @@ function Computer:draw()
     love.graphics.setLineWidth(3)
     love.graphics.polygon("line", vertices)
   else
-    love.graphics.polygon("fill", 100,100, 200,100, 150,200)
+    -- love.graphics.polygon("fill", 100,100, 200,100, 150,200)
     -- local vertices = {100,100, 200,100, 150,200}
 
     -- love.graphics.setColor(55, 55, 55, 255)
@@ -502,11 +541,18 @@ function Computer:draw()
   end
 
   self.evilNote:draw()
-  love.graphics.draw(pointerhand,
-    mx - pointerhandOffset.x,
-    my - pointerhandOffset.y,
-    nil,
-    nil-- 0.5
+  -- love.graphics.draw(pointerhand,
+  --   mx - pointerhandOffset.x,
+  --   my - pointerhandOffset.y,
+  --   nil,
+  --   nil-- 0.5
+  -- )
+  love.graphics.printf(
+    love.mouse.getX().." "..love.mouse.getY(),
+    love.mouse.getX(),
+    love.mouse.getY(),
+    200,
+    'left'
   )
 end
 

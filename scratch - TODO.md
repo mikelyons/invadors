@@ -1,5 +1,10 @@
 TO DO:
-see lua-project/basic for many goodies to incorporate
+see lua-project/basic for many goodies to incorporate - old mac or PC folder not on new MBP
+
+found objects
+- little gemstone jewelry (enchantable)
+- SIM ejector for phone
+- other lil tools and lucky coins
 
 removed submodules to add back
 https://github.com/airstruck/sketchy
@@ -8,9 +13,14 @@ https://github.com/LPGhatguy/love-microphone
 Platforms to support:
 - windows
 - mac
-- R36S?
+- R36S? - https://github.com/xanthiacoder/love2d-on-r36s
 - playdate?
 
+Gamepad icons for keymapping screen
+- https://github.com/ReFreezed/ReFreezedBitmapFontConverter?tab=readme-ov-file
+
+truetype to bitmap fonts
+- https://www.angelcode.com/products/bmfont/
 
 Particle system tutorial:
 - https://love2d.org/forums/viewtopic.php?t=80718
@@ -30,6 +40,10 @@ https://github.com/TangentFoxy?tab=repositories&q=&type=&language=lua&sort=
 https://github.com/DwayneSpades?tab=repositories&q=&type=&language=lua&sort=
 https://github.com/markandgo/tile-collision
 https://github.com/DwayneSpades/3D-Engine-in-Love2D
+
+ecs - https://github.com/Keyslam-Group/Concord
+
+collisions - https://github.com/vrld/HC
 
 https://www.youtube.com/results?search_query=drag+and+drop+love2d
 
@@ -204,7 +218,9 @@ slab ui windows - https://github.com/flamendless/Slab
 
 # post processing shaders
 - https://github.com/flamendless/moonshine
+- https://github.com/vrld/moonshine
 - https://github.com/veethree/POSTER
+- https://github.com/tsteinholz/LoveShaderConverter
 
 pack assets into datafile to hide them - https://github.com/flamendless/love_seal
 
@@ -227,6 +243,7 @@ julia set fractal - https://github.com/novemberisms/julia
 markov chain level generation - https://rxi.github.io/level_generation_using_markov_chains.html
 
 threading for synth? - https://github.com/rxi/coil
+possible denver alternative - https://github.com/camchenry/sone
 
 useful functions - https://github.com/rxi/lume
 
@@ -316,6 +333,7 @@ or: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 ### Save Directory
 
 - C:/Users/Mike/AppData/Roaming/LOVE/invadors_save_directory
+- @TODO -  document mac save directory ...
 
 ## newest bookmarks
 
@@ -333,6 +351,9 @@ Auto Updates
 
 https://github.com/love2d-community/awesome-love2d#animation
 https://github.com/superzazu/denver.lua - make custom sound effects
+https://github.com/camchenry/sone - also custom sound effects, possible denver alternative
+
+https://github.com/MikuAuahDark/lua-nbt - read people's miencrat worlds
 
 ### Bookmarks
 
@@ -410,17 +431,6 @@ paying homage to other games or something
 
 # Scratch
 
-  -- DEBUG
-  print("DEBUG")
-
-
-
-  -- -- move up/downward with a key
-  -- if love.keyboard.isDown('down') then
-  --   dy = speed * dt
-  -- elseif love.keyboard.isDown('up') then
-  --   dy = -speed * dt
-  -- end
 
 ## inspo
 

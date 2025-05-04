@@ -15,10 +15,20 @@
   
   - videos to watch
     - https://www.youtube.com/watch?v=odwEphAwX5M&list=PLYBJzqz8zpWYip5ZkTMQiOkqya9Iiefm9
+
+  - Mesh techniques
+  - https://love2d.org/forums/viewtopic.php?t=77608
+  - https://love2d.org/forums/viewtopic.php?t=88631
+  - https://github.com/RNavega/2DMeshAnimation-Love
 ]]
-print('wireArt.lua -> ')
+if DEBUG_LOGGING_LOADING then
+  print('wireArt.lua -> ')
+  print('wireArt -> ')
+end
 
 -- dependencies
+local draw_wires = require 'states/wireArt/draw_wires'
+
 -- local Wire = require 'states/wireArt/wire'
 local WireArt = Game:addState('wireArt') -- registering the gamestate
 
@@ -39,14 +49,9 @@ local namedColors = {
 }
 
 function WireArt:enteredState()
-  print('wireArt -> ')
-  if DEBUG_LOGGING_ON then
-    print(string.format("ENTER wireArt STATE - %s \n", os.date()))
-  end
-
+  if DEBUG_LOGGING_ON then print(string.format("ENTER wireArt STATE - %s \n", os.date())) end
   -- Start repeating after 0.5 seconds, with 0.1 second intervals
   love.keyboard.setKeyRepeat(true)
-
 
   WireArt.number_of_wires = 20 -- angled wires
 
@@ -72,10 +77,7 @@ function WireArt:draw()
   local _r, _g, _b, _a = love.graphics.getColor()
   local _linewidth = love.graphics.getLineWidth()
 
-
-
-  -- draw crafting bench - red trapezoid - fill with color
-
+  -- draw crafting bench - trapezoid - fill with color
   love.graphics.setColor(25, 130, 25, 255)
   love.graphics.polygon('fill', {200,50, 400,50, 500,300, 100,300, 200,50})   -- last pair is a repeat to complete the trapezoid
 
@@ -88,7 +90,6 @@ function WireArt:draw()
   -- for i = 1, WireArt.number_of_wires, 1 do
   --   WireArt.wires[i]:draw()
   -- end
-
 
   -- debugging coordinates for moving wires aroudd
   -- local x = 200
@@ -269,11 +270,6 @@ function WireArt:keypressed(key, code)
   elseif key == ('s') then
     raintor = raintor + 2
   end
-  -- if key == ('d') then
-  --   drawWireWrap()
-  -- end
-
-  -- if key == ('escape') then love.event.push('quit') end
 end
 
 function WireArt:exitedState()

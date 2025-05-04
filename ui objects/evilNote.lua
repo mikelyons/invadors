@@ -1,20 +1,14 @@
 --[[
   evilNote.lua
 
-  A first attempt to break out the sticky note object so that it
+  Break out the sticky note object so that it
   can be used in other game states than the menu
-  it is currently part of the menu and not broken into it's own
-  object module
-  this is an attempt to do that
-  currently the scoping is incorrect causing it's mousepressed func
-  to printTable of the object itself, not sure what needs to change
-  or if I need to go back to the other non-closure based 
-  object definition style where functions are defined on a returned
-  object like Object:mousepressed() instead of
-  mousepressed = function()
+  TODO - replace the main menu note with this
 ]]
-print('evilNote.lua -> ')
 
+if DEBUG_LOGGING_LOADING then
+  print('evilNote.lua -> ')
+end
 
 return {
   new = function(x, y, text)
@@ -64,9 +58,6 @@ return {
           rect.y = love.mouse.getY() - rect.dragging.diffY
         end
       end,
-
-        -- love.graphics.setColor(25, 25, 195, 255)
-        -- love.graphics.setColor(205, 5, 5, 255)
 
       draw = function(self, dt)
         local rect = self.rect

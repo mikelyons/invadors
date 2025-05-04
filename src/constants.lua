@@ -11,6 +11,7 @@ DEBUG_CONSOLE_FUNCTION = false
 DEBUG_HITBOX_VIS = true
 DEBUG_HITBOX_UI = true
 
+-- used in computer and dialogue - useful for layouting
 DEBUG_GRID_ON = false
 -- DEBUG_GRID_ON = true
 

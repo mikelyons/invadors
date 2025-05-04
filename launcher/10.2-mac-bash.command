@@ -27,7 +27,8 @@ beep
 -- display notification "WELCOME TO INVADORTZ" with title "InvadortZ" subtitle "The game that will utterly obliterate you." sound name "Sosumi"
 
 -- say "Reticulating splines"
-tell application "Terminal"
+-- tell application "Terminal"
+tell application "iTerm2"
     activate
     set win to front window
     set bounds of win to {0, 0, 800, 800} -- {left, top, right, bottom}

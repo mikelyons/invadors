@@ -103,6 +103,8 @@ function Game:initialize()
   loadStateFolder('face')
   loadStateFolder('quadtree')
   loadStateFolder('drivingSim')
+  loadStateFolder('livelove')
+  loadStateFolder('characterCustomizer')
   -- loadStateFolder('mic')
   -- loadStateFolder('template')
   -- self:gotoState('template')
@@ -129,5 +131,15 @@ function Game:draw(dt)
   -- does this do anything? maybe in generate state?
   -- nothing for Menu
   -- renderer:draw() -- why isn't this happening?
+  
+  -- why isn't this happening
+  if DEBUG_SHOW_FPS then
+    love.graphics.print(
+      'FPS '..tostring(love.timer.getFPS()),
+      -- camera.pos.x + (windowWidth - 128),
+      -- camera.pos.y + (windowHeight - 128)
+      32, 32
+    )
+  end
 end
 

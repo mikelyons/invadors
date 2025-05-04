@@ -14,6 +14,7 @@
     - write all the custom configurations in the files
 
     @TODO - add the Security Guard state
+    - what is _G?
 ]]
 
 filename = 'testAddState'
