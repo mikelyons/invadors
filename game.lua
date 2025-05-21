@@ -88,6 +88,7 @@ function Game:initialize()
 
   -- ingame UIs
   loadStateFolder('inventory')
+  loadStateFolder('vapeStatus')
 
   -- menu states
   loadStateFolder('menu')

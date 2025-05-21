@@ -124,6 +124,7 @@ function Menu:keypressed(key, code)
   if key == ('q') then self:pushState('quadtree') end
   if key == ('t') then self:pushState('tiledZoom') end
   if key == ('u') then self:gotoState('uiTest') end
+  if key == ('v') then self:pushState('vapeStatus') end
   if key == ('w') then self:pushState('wireArt') end
   -- if key == ('x') then self:pushState('infiniteRunner') end
 
