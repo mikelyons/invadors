@@ -50,8 +50,12 @@ function Computer:enteredState()
   -- get gravatar working?
   self.user_avatar = love.graphics.newImage("assets/character/avatars/NN32.png")
 
+  -- Get screen dimensions safely
+  self.screen_w = love.graphics.getWidth()
+  self.screen_h = love.graphics.getHeight()
+  
   self.evilNote = stickyNote.new(
-    screen_width-200, 400,--screen_height-200,
+    self.screen_w-200, 400,--screen_height-200,
     self.motd
   )
 
@@ -168,7 +172,9 @@ pointerhand:setFilter("nearest", "nearest")
 --   0.5
 -- )
 function Computer:draw()
-  local _r, _g, _b, _a = love.graphics.getColor()
+  -- Add error handling to catch silent failures
+  local success, err = pcall(function()
+    local _r, _g, _b, _a = love.graphics.getColor()
   local _lineWidth = love.graphics.getLineWidth()
 
   -- get mouse for pointer hand
@@ -180,14 +186,14 @@ function Computer:draw()
   love.graphics.rectangle(
     'fill',
     0, 0, -- x, y
-    screen_width, screen_height-- w, h
+    self.screen_w, self.screen_h-- w, h
   )
 
   --desk
   love.graphics.setColor(255,255,255, 255)
   love.graphics.draw(
     tempdesk, -- wood
-    0, screen_height-300,
+    0, self.screen_h-300,
     nil,
     6,
     1.92
@@ -239,44 +245,66 @@ function Computer:draw()
   --   22
   -- )
 
-  love.graphics.draw(
-    tempkb,
-    32, screen_height - 250,
-    0,
-    1,
-    1
-  )
-  love.graphics.draw(
-    key,
-    screen_width-332, screen_height - 250,
-    0,
-    3,
-    3
-  )
-  for y = 0, 4 do
+  if tempkb then
+    love.graphics.draw(
+      tempkb,
+      32, self.screen_h - 250,
+      0,
+      1,
+      1
+    )
+  end
+  if key then
     love.graphics.draw(
       key,
-      (screen_width-332 + y*32), (screen_height - 250 + y*32),
+      self.screen_w-332, self.screen_h - 250,
+      0,
+      3,
+      3
+    )
+    for y = 0, 4 do
+      love.graphics.draw(
+        key,
+        (self.screen_w-332 + y*32), (self.screen_h - 250 + y*32),
+        0,
+        3,
+        3
+      )
+    end
+  end
+
+  if teacup then
+    love.graphics.draw(
+      teacup,
+      self.screen_w-632, self.screen_h - 450,
       0,
       3,
       3
     )
   end
-
-  love.graphics.draw(
-    teacup,
-    screen_width-632, screen_height - 450,
-    0,
-    3,
-    3
-  )
   -- love.graphics.setColor(_r, _g, _b, _a)
 
   -- User-input conversations
   self.width = love.graphics.getWidth()
   self.height= love.graphics.getHeight()
-  self.panex = camera.pos.x + (self.width/11)
-  self.paney = camera.pos.y + (self.height - self.height/3) - 64
+  
+  -- Get camera position safely
+  local cam_x = 0
+  local cam_y = 0
+  local cam_scale_x = 1
+  local cam_scale_y = 1
+  
+  if camera and camera.pos then
+    cam_x = camera.pos.x
+    cam_y = camera.pos.y
+  end
+  if camera and camera.scale then
+    cam_scale_x = camera.scale.x
+    cam_scale_y = camera.scale.y
+  end
+  
+  self.panex = cam_x + (self.width/11)
+  self.paney = cam_y + (self.height - self.height/3) - 64
   -- self.panexx = (self.width/4)*3
   -- self.paneyy = (self.height/4)*3
   self.panew = self.width - (self.width/6)
@@ -284,13 +312,13 @@ function Computer:draw()
 
   local panex = self.panex
   local paney = self.paney
-  panex = panex * camera.scale.x
-  paney = paney * camera.scale.y
+  panex = panex * cam_scale_x
+  paney = paney * cam_scale_y
 
   local panew = self.panew
   local paneh = self.paneh
-  panew = panew * camera.scale.x
-  paneh = paneh * camera.scale.y
+  panew = panew * cam_scale_x
+  paneh = paneh * cam_scale_y
 
   -- love.graphics.rectangle('fill', 300, 300, 511, 511)
   -- love.graphics.rectangle('fill', 0, 0, 111, 111)
@@ -308,6 +336,7 @@ function Computer:draw()
   end
 
   -- local Dpanel = true
+  local Dpanel = Dpanel or false
   if Dpanel == true then
     -- Backpanel bg
     love.graphics.rectangle('fill', panex-25, paney-25, panew+50, paneh+50, 32, 32)
@@ -347,30 +376,30 @@ function Computer:draw()
 
   -- local vertices = {100,100, 200,100, 150,200}
   local vx = {
-    camera.pos.x + (self.width - 32),
-    camera.pos.y + (self.height - 64),
+    cam_x + (self.width - 32),
+    cam_y + (self.height - 64),
 
-    camera.pos.x + (self.width - 32),
-    camera.pos.y + (self.height - 64),
+    cam_x + (self.width - 32),
+    cam_y + (self.height - 64),
 
-    camera.pos.x + (self.width - 32),
-    camera.pos.y + (self.height - 64),
+    cam_x + (self.width - 32),
+    cam_y + (self.height - 64),
 
-    camera.pos.x + (self.width - 32),
-    camera.pos.y + (self.height - 64),
+    cam_x + (self.width - 32),
+    cam_y + (self.height - 64),
   }
   vx = {
-    camera.pos.x + (self.width - 32),
-    camera.pos.y + (self.height - 64),
+    cam_x + (self.width - 32),
+    cam_y + (self.height - 64),
 
-    camera.pos.x + (self.width - 32),
-    camera.pos.y + (self.height - 64),
+    cam_x + (self.width - 32),
+    cam_y + (self.height - 64),
 
-    camera.pos.x + (self.width - 32),
-    camera.pos.y + (self.height - 64),
+    cam_x + (self.width - 32),
+    cam_y + (self.height - 64),
 
-    camera.pos.x + (self.width - 32),
-    camera.pos.y + (self.height - 64),
+    cam_x + (self.width - 32),
+    cam_y + (self.height - 64),
   }
   
 
@@ -379,6 +408,7 @@ function Computer:draw()
   -- local vertices = {300,300, 300,500, 150,300, 150,200, 700,100}
   local vertices = {0,0, 0,100, 200,200, 250,300, 110,200, 100,100}
   -- The action indicator
+  local action = action or 'none'
   if action == 'read_more' then
     -- Giving the coordinates directly.
     -- love.graphics.polygon("fill", 100,100, 200,100, 150,200)
@@ -554,6 +584,15 @@ function Computer:draw()
     200,
     'left'
   )
+  end) -- Close pcall
+  
+  if not success then
+    print("Computer draw error:", err)
+    -- Fallback drawing - just show a simple message
+    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.print("Computer", 50, 50)
+    love.graphics.print("Error in drawing - check console", 50, 100)
+  end
 end
 
 function drawCanvas(c)
@@ -639,8 +678,12 @@ end
 
 --input
 function Computer:mousepressed(x,y, button, istouch, presses)
-  self.evilNote:mousepressed(x,y, button, istouch, presses)
+  if self.evilNote and self.evilNote.mousepressed then
+    self.evilNote:mousepressed(x,y, button, istouch, presses)
+  end
 end
 function Computer:mousereleased(x,y, button, istouch, presses)
-  self.evilNote:mousereleased(x,y, button, istouch, presses)
+  if self.evilNote and self.evilNote.mousereleased then
+    self.evilNote:mousereleased(x,y, button, istouch, presses)
+  end
 end

@@ -16,7 +16,7 @@
 
 print('loadSave.lua -> ')
 
-fanfic = require 'states/menu/fanfic'
+-- fanfic = require 'states/menu/fanfic'  -- Removed to avoid module system issues
 print('loadSave -> ')
 
 local LoadSave = Game:addState('loadSave')
@@ -276,14 +276,20 @@ function LoadSave:draw(dt)
   local mx = love.mouse.getX()
   local my = love.mouse.getY()
 
-  Particle:draw()
-  Blood:draw(mx, my)
+  if Particle and Particle.draw then
+    Particle:draw()
+  end
+  if Blood and Blood.draw then
+    Blood:draw(mx, my)
+  end
 
 
   -- http://nova-fusion.com/2012/09/20/custom-cursors-in-love2d/
   love.mouse.isVisible(true)
   -- draw a pointer
-  love.graphics.draw(brian, mx, my)
+  if brian then
+    love.graphics.draw(brian, mx, my)
+  end
   -- love.graphics.draw(mouse, mx, my)
 
 -- sign in text box

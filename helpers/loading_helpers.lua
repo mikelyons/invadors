@@ -14,15 +14,27 @@ end
 -- loads states that are a folder instead of a file
 function loadStateFolder(name)
   local path = "states/" .. name .. '/' .. name
-  require(path)
-  logLoad(name..' folder')
+  print("Loading state folder:", path)
+  local success, err = pcall(function() require(path) end)
+  if success then
+    logLoad(name..' folder')
+    print("Successfully loaded state folder:", name)
+  else
+    print("Failed to load state folder:", name, "Error:", err)
+  end
 end
 
 -- loads states that are a single file
 function loadStateFile(name)
   local path = "states/" .. name
-  require(path)
-  logLoad(name..' file')
+  print("Loading state file:", path)
+  local success, err = pcall(function() require(path) end)
+  if success then
+    logLoad(name..' file')
+    print("Successfully loaded state file:", name)
+  else
+    print("Failed to load state file:", name, "Error:", err)
+  end
 end
 
 function loadMenuStateFile(name)

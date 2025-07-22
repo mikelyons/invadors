@@ -9,7 +9,11 @@
 
 local Synth = Game:addState('synth')
 
-local denver = require '../../lib/denver'
+local success, denver = pcall(require, '../../lib/denver')
+if not success then
+  print("Error loading denver:", denver)
+  denver = nil
+end
 
 local FX = require('states/synth/effects')
 
@@ -61,8 +65,12 @@ function Synth:keypressed(key, code)
   -- if key == ('space' or 'return') then self:pushState('menu') end
 
   if key == ('space' or 'return') then
-    local space = denver.get({waveform='sinus',frequency=440, length=0.1})
-    love.audio.play(space)
+    if denver and denver.get then
+      local success, space = pcall(denver.get, denver, {waveform='sinus',frequency=440, length=0.1})
+      if success and space then
+        love.audio.play(space)
+      end
+    end
   end
 
   -- if key == ('space' or 'return') then

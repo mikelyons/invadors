@@ -34,7 +34,9 @@ local function drawMessage()
   love.graphics.print(msg, 550, 10)
 end
 local function drawDebug()
-  bump_debug.draw(world)
+  if bump_debug and bump_debug.draw then
+    bump_debug.draw(world)
+  end
 
   local statistics = ("fps: %d, mem: %dKB, collisions: %d, items: %d"):format(love.timer.getFPS(), collectgarbage("count"), cols_len, world:countItems())
     love.graphics.setColor(255, 255, 255)

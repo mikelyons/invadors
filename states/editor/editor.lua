@@ -7,7 +7,7 @@
 print('editor.lua -> ')
 print('editor -> ')
 
-local fanfic = require 'states/menu/fanfic'
+-- local fanfic = require 'states/menu/fanfic'  -- Removed to avoid module system issues
 -- love.graphics.setFont(oldFont)
 
 local editorui = require 'states/editor/editorui'
@@ -18,7 +18,9 @@ local Editor = Game:addState('editor')
 function Editor:mousepressed(x,y, button , istouch) end
 function Editor:mousereleased(x, y, button) end
 function Editor:keypressed(key, code)
-  text:keypressed(key, code)
+  if text and text.keypressed then
+    text:keypressed(key, code)
+  end
 
   uipanel:keypressed(key, code)
   -- if key == ('escape') then love.event.push('quit') end
@@ -31,15 +33,18 @@ function Editor:enteredState()
   end
   love.window.setTitle(__TITLE_STR..' - editor STATE')
 
-  text = fanfic.new(20,30, "Name", false, 16)
+  -- text = fanfic.new(20,30, "Name", false, 16)  -- Removed to avoid module system issues
+  text = nil
 
   uipanel = editorui:new(400, 100)
   uipanel:load()
 
 end
 function Editor:update(dt)
-  text:update(dt)
-  data = text:enteredText()
+  if text and text.update then
+    text:update(dt)
+    data = text:enteredText()
+  end
 
   uipanel:update(dt)
   output = panel.output
@@ -65,7 +70,9 @@ function Editor:draw()
 	end
 
   -- sign in text box
-	text:draw()
+	if text and text.draw then
+		text:draw()
+	end
  -- original tester
 	if data then
 		love.graphics.setColor(255,255,255)

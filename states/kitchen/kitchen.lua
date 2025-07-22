@@ -31,11 +31,24 @@ function Kitchen:enteredState()
     print(string.format("ENTER kitchen STATE - %s \n", os.date()))
   end
 
-  raintar = love.graphics.newImage("states/kitchen/coffee-bag.png")
-  raintar:setFilter("nearest", "nearest")
+  -- Load images safely
+  local success1, raintar_img = pcall(love.graphics.newImage, "states/kitchen/coffee-bag.png")
+  if success1 then
+    raintar = raintar_img
+    raintar:setFilter("nearest", "nearest")
+  else
+    print("Error loading coffee-bag.png:", raintar_img)
+    raintar = nil
+  end
 
-  coffeePot = love.graphics.newImage("assets/objects/cpot.png")
-  coffeePot:setFilter("nearest", "nearest")
+  local success2, coffee_pot_img = pcall(love.graphics.newImage, "assets/objects/cpot.png")
+  if success2 then
+    coffeePot = coffee_pot_img
+    coffeePot:setFilter("nearest", "nearest")
+  else
+    print("Error loading cpot.png:", coffee_pot_img)
+    coffeePot = nil
+  end
 
   rect = {
     image = raintar,
@@ -49,10 +62,14 @@ function Kitchen:enteredState()
       dy = 0
     }
   }
+  -- Get screen dimensions safely
+  local screen_w = love.graphics.getWidth()
+  local screen_h = love.graphics.getHeight()
+  
   coffee_pot = {
     image = coffeePot,
     x = 32,
-    y = screen_height - 32 - 256 - 256,
+    y = screen_h - 32 - 256 - 256,
     w = 100,
     h = 100,
     dragging = {
@@ -105,11 +122,24 @@ end
 
   local _r, _g, _b, _a = love.graphics.getColor()
 
+  -- Get screen dimensions safely
+  local screen_w = love.graphics.getWidth()
+  local screen_h = love.graphics.getHeight()
+
   -- body thumb rule measures TODO improve and encapsulate
   local boxwidth = 300
   local boxheight = 80
-  local centerx = camera.pos.x + screen_width/2 - (boxwidth/2)
-  local centery = camera.pos.y + screen_height/2
+  
+  -- Get camera position safely
+  local cam_x = 0
+  local cam_y = 0
+  if camera and camera.pos then
+    cam_x = camera.pos.x
+    cam_y = camera.pos.y
+  end
+  
+  local centerx = cam_x + screen_w/2 - (boxwidth/2)
+  local centery = cam_y + screen_h/2
 
 
 -- coffeePot = love.graphics.newImage("assets/machines/computer/computer.png")
@@ -117,7 +147,13 @@ end
 -- the kitchen counter
 -- use https://love2d.org/wiki/TexturedPolygon to make perspective with a trapezoid
 -- https://love2d.org/forums/viewtopic.php?f=5&t=12483
-tempdesk = love.graphics.newImage("states/computer/wood.png")
+local success3, tempdesk_img = pcall(love.graphics.newImage, "states/computer/wood.png")
+if success3 then
+  tempdesk = tempdesk_img
+else
+  print("Error loading wood.png:", tempdesk_img)
+  tempdesk = nil
+end
 -- tempdesk_transform = love.math.newTransform(
 -- 660, 500,
 -- 0,
@@ -125,14 +161,18 @@ tempdesk = love.graphics.newImage("states/computer/wood.png")
 -- nil, nil,
 -- 0.1, 0)
 function Kitchen:draw()
+  -- Get screen dimensions safely
+  local screen_w = love.graphics.getWidth()
+  local screen_h = love.graphics.getHeight()
+  
   -- Draw kitchen COUNTER top
   -- local _r, _g, _b, _a = love.graphics.getColor()
   love.graphics.setColor(255,0,0, 255)
   -- love.graphics.rectangle( mode, x, y, width, height, rx, ry, segments )
   love.graphics.rectangle(
     'fill',
-    0, screen_height - 300, -- x, y
-    screen_width, 1511 -- w, h
+    0, screen_h - 300, -- x, y
+    screen_w, 1511 -- w, h
   )
 
   -- wall
@@ -141,20 +181,22 @@ function Kitchen:draw()
   love.graphics.rectangle(
     'fill',
     0, 0, -- x, y
-    screen_width, screen_height-- w, h
+    screen_w, screen_h-- w, h
   )
 
   --desk
   love.graphics.setColor(255,255,255, 255)
   -- love.graphics.draw(tempdesk, tempdesk_transform)
 
-  love.graphics.draw(
-    tempdesk, -- wood
-    0, screen_height-300,
-    nil,
-    6,
-    1.92
-  )
+  if tempdesk then
+    love.graphics.draw(
+      tempdesk, -- wood
+      0, screen_h-300,
+      nil,
+      6,
+      1.92
+    )
+  end
   -- END DESK
 
 
@@ -166,13 +208,15 @@ function Kitchen:draw()
   -- require('helpers/draw_helpers')
 
   -- draw coffeePot
-  love.graphics.draw(
-    coffee_pot.image,
-    -- 32, screen_height - 32 - 256 - 256,
-    coffee_pot.x, coffee_pot.y,
-    nil,
-    0.5
-  )
+  if coffee_pot and coffee_pot.image then
+    love.graphics.draw(
+      coffee_pot.image,
+      -- 32, screen_h - 32 - 256 - 256,
+      coffee_pot.x, coffee_pot.y,
+      nil,
+      0.5
+    )
+  end
 
 
   -- love.graphics.draw(drawable,
@@ -180,13 +224,15 @@ function Kitchen:draw()
     -- r,
     -- sx,sy,
     -- ox,oy)
-  love.graphics.draw(rect.image,
-    rect.x, rect.y,
-    nil,
-    3, 3,
-    nil,
-    nil
-  )
+  if rect and rect.image then
+    love.graphics.draw(rect.image,
+      rect.x, rect.y,
+      nil,
+      3, 3,
+      nil,
+      nil
+    )
+  end
 
   -- ensure proper gravatar color
   -- local _r, _g, _b, _a = love.graphics.getColor()
