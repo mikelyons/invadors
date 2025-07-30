@@ -48,12 +48,23 @@ function orbital:enteredState()
     print(string.format("ENTER orbital STATE - %s \n", os.date()))
   end
 
-  createBox = require "tools/createbox"
+  local success, createBox = pcall(require, "tools/createbox")
+  if not success then
+    print("Error loading createBox:", createBox)
+    createBox = nil
+  end
 
+  -- Initialize box safely
+  r4 = nil
+  
+  if createBox then
     -- r4 = createBox:create(196,196)
-  r4 = createBox:createRandom()
+    local success1, box = pcall(createBox.createRandom, createBox)
+    if success1 then r4 = box end
 
-  r4:load()
+    -- Load box safely
+    if r4 and r4.load then pcall(r4.load, r4) end
+  end
     -- self:popState('orbital')
 
   thread = love.thread.newThread( threadCode )

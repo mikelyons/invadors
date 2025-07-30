@@ -34,8 +34,20 @@ require 'helpers/loading_helpers'
 
 
 -- Middleclass Root Game class with Stateful state machine
+print("Game: Creating Game class...")
 Game = Class('Game'):include(Stateful)
-function Game:new() end
+print("Game: Game class created successfully")
+function Game:new() 
+  print("Game: Game:new() called")
+  local success, result = pcall(function() return Game.super.new(self) end)
+  if success then
+    print("Game: Game:new() completed successfully")
+    return result
+  else
+    print("Game: Game:new() failed with error:", result)
+    return nil
+  end
+end
 
 --[[
   When the game initializes, it loads all the specified states
@@ -43,7 +55,10 @@ function Game:new() end
   then it goes to the menu state unless a boot bypass is specified
 ]]
 function Game:initialize()
-  print('Game init')
+  print('Game: initialize() called')
+  
+  local success, err = pcall(function()
+    print('Game init')
 
   -- this only works if launched through run.BAT
   -- https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
@@ -78,7 +93,7 @@ function Game:initialize()
   loadStateFolder('generate')
   loadStateFolder('dialogue')
   loadStateFolder('computer')
-  loadStateFolder('book')
+  -- loadStateFolder('book')  -- Removed book state
   loadStateFile  ('bizzaro')
   loadStateFolder('prog2')
   loadStateFile  ('pro')
@@ -116,22 +131,71 @@ function Game:initialize()
   -- local BOOT_TO_STATE = 'generate'
   -- local BOOT_TO_STATE = 'synth'
   -- local BOOT_TO_STATE = 'mic'
+  print("Game: All states loaded, initializing default state...")
   if BOOT_TO_STATE ~= nil then -- boot to skip the menu, or the default state menu
+    print("Game: Booting to state:", BOOT_TO_STATE)
     self:gotoState(BOOT_TO_STATE or 'menu')
   else
-    self:gotoState('menu')
+    print("Game: Booting to default menu state")
+    print("Game: About to call gotoState('menu')")
+    print("Game: Available states:", self:getStateStackDebugInfo())
+    local success, err = pcall(function() self:gotoState('menu') end)
+    if success then
+      print("Game: gotoState('menu') called successfully")
+    else
+      print("Game: gotoState('menu') failed with error:", err)
+    end
+  end
+  print("Game: Initialization complete")
+  print("Game: Current state after initialization:", self.currentState)
+  end)
+  
+  if not success then
+    print("Game: initialize() failed with error:", err)
+  else
+    print("Game: initialize() completed successfully")
   end
 end
 
-function Game:update(dt) end
-function Game:keypressed(key, code) end
-function Game:mousepressed(x, y, button, istouch) end
-function Game:mousereleased(x, y, button) end
+function Game:update(dt)
+  -- Delegate update to current state
+  if self.currentState and self.currentState.update then
+    self.currentState:update(dt)
+  end
+end
+function Game:keypressed(key, code)
+  -- Delegate to current state if it exists
+  if self.currentState and self.currentState.keypressed then
+    self.currentState:keypressed(key, code)
+  end
+end
+function Game:mousepressed(x, y, button, istouch)
+  -- Delegate to current state if it exists
+  if DEBUG_LOGGING_INPUT then
+    print("Game: mousepressed called, currentState:", self.currentState and "exists" or "nil")
+  end
+  
+  if self.currentState and self.currentState.mousepressed then
+    self.currentState:mousepressed(x, y, button, istouch)
+  else
+    if DEBUG_LOGGING_INPUT then
+      print("Warning: No mousepressed method found in current state")
+    end
+  end
+end
+
+function Game:mousereleased(x, y, button)
+  -- Delegate to current state if it exists
+  if self.currentState and self.currentState.mousereleased then
+    self.currentState:mousereleased(x, y, button)
+  end
+end
 -- something not right here, stuttering, need fix https://gafferongames.com/post/fix_your_timestep/
 function Game:draw(dt)
-  -- does this do anything? maybe in generate state?
-  -- nothing for Menu
-  -- renderer:draw() -- why isn't this happening?
+  -- Delegate drawing to current state
+  if self.currentState and self.currentState.draw then
+    self.currentState:draw(dt)
+  end
   
   -- why isn't this happening
   if DEBUG_SHOW_FPS then
@@ -143,4 +207,7 @@ function Game:draw(dt)
     )
   end
 end
+
+-- Ensure Game class is available globally
+return Game
 

@@ -5,7 +5,7 @@
   The ui panel for a new object in the editor 
 ]]
 --dependencies
-local fanfic = require 'states/menu/fanfic'
+-- local fanfic = require 'states/menu/fanfic'  -- Removed to avoid module system issues
 local gui = require 'lib/potential/Gspot'
 
 thefont = love.graphics.newFont(192)
@@ -81,25 +81,30 @@ function EditorUI:new(x,y, data)
   function panel:mousepressed(x,y, button , istouch) end
   function panel:mousereleased(x, y, button) end
   function panel:keypressed(key, code)
-    panel.testfield:keypressed(key, code)
+    if panel.testfield and panel.testfield.keypressed then
+      panel.testfield:keypressed(key, code)
+    end
   end
 
   function panel:load()
     self:addField('testor')
 
-    panel.testfield = fanfic.new(
-      panel.contentArea.x or 200,
-      panel.contentArea.y or 300,
-      'testfield', --label
-      false, --password field?
-      16 -- font -- width based on font size
-          -- size -- fanfic assumes only 12 chars wide
-    )
+    -- panel.testfield = fanfic.new(
+    --   panel.contentArea.x or 200,
+    --   panel.contentArea.y or 300,
+    --   'testfield', --label
+    --   false, --password field?
+    --   16 -- font -- width based on font size
+    --       -- size -- fanfic assumes only 12 chars wide
+    -- )
+    panel.testfield = nil  -- Removed to avoid module system issues
 
   end
   function panel:update(dt)
-    panel.testfield:update(dt)
-    panel.output = panel.testfield:enteredText()
+    if panel.testfield and panel.testfield.update then
+      panel.testfield:update(dt)
+      panel.output = panel.testfield:enteredText()
+    end
   end
   function panel:draw()
     -- save color used previously

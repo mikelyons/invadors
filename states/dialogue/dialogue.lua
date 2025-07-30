@@ -111,14 +111,16 @@ function Dialogue:draw()
   end
 
   love.graphics.setColor(255,255,255, 255)
-  love.graphics.draw(hero,
-    -- self.panex+32, self.paney+32,
-    10, 20,
-    nil,
-    -- 0.75
-    0.5
-    -- 1
-  )
+  if hero then
+    love.graphics.draw(hero,
+      -- self.panex+32, self.paney+32,
+      10, 20,
+      nil,
+      -- 0.75
+      0.5
+      -- 1
+    )
+  end
 
   -- self.panexx = (self.width/4)*3
   -- self.paneyy = (self.height/4)*3
@@ -127,13 +129,21 @@ function Dialogue:draw()
   local panex = self.panex
   local paney = self.paney
 
-  panex = panex * camera.scale.x
-  paney = paney * camera.scale.y
+  -- Get camera scale safely
+  local cam_scale_x = 1
+  local cam_scale_y = 1
+  if camera and camera.scale then
+    cam_scale_x = camera.scale.x
+    cam_scale_y = camera.scale.y
+  end
+  
+  panex = panex * cam_scale_x
+  paney = paney * cam_scale_y
   local panew = self.panew
   local paneh = self.paneh
 
-  panew = panew * camera.scale.x
-  paneh = paneh * camera.scale.y
+  panew = panew * cam_scale_x
+  paneh = paneh * cam_scale_y
 
 
   -- random white boxes in the corners
@@ -163,31 +173,39 @@ function Dialogue:draw()
   local action = 'readMore' -- for prompting the user to advance the dialogue once the typing out animation is done or skipped
 
   -- local vertices = {100,100, 200,100, 150,200}
+  -- Get camera position safely
+  local cam_x = 0
+  local cam_y = 0
+  if camera and camera.pos then
+    cam_x = camera.pos.x
+    cam_y = camera.pos.y
+  end
+  
   local vx = {
-    camera.pos.x + (self.width - 32),
-    camera.pos.y + (self.height - 64),
+    cam_x + (self.width - 32),
+    cam_y + (self.height - 64),
 
-    camera.pos.x + (self.width - 32),
-    camera.pos.y + (self.height - 64),
+    cam_x + (self.width - 32),
+    cam_y + (self.height - 64),
 
-    camera.pos.x + (self.width - 32),
-    camera.pos.y + (self.height - 64),
+    cam_x + (self.width - 32),
+    cam_y + (self.height - 64),
 
-    camera.pos.x + (self.width - 32),
-    camera.pos.y + (self.height - 64),
+    cam_x + (self.width - 32),
+    cam_y + (self.height - 64),
   }
   vx = {
-    camera.pos.x + (self.width - 32),
-    camera.pos.y + (self.height - 64),
+    cam_x + (self.width - 32),
+    cam_y + (self.height - 64),
 
-    camera.pos.x + (self.width - 32),
-    camera.pos.y + (self.height - 64),
+    cam_x + (self.width - 32),
+    cam_y + (self.height - 64),
 
-    camera.pos.x + (self.width - 32),
-    camera.pos.y + (self.height - 64),
+    cam_x + (self.width - 32),
+    cam_y + (self.height - 64),
 
-    camera.pos.x + (self.width - 32),
-    camera.pos.y + (self.height - 64),
+    cam_x + (self.width - 32),
+    cam_y + (self.height - 64),
   }
   
   -- local vertices = {300,300, 300,500, 150,300, 150,200, 700,100}

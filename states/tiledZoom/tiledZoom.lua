@@ -14,14 +14,15 @@
 
 if DEBUG_LOGGING_LOADING then
   print('tiledZoom.lua -> ')
-  -- dependencies
-  local sti = require('lib/sti')
-
-  -- not working?
-  -- Sketchy = require 'lib/sketchy/sketchy'
-
   print('TZ -> ')
 end
+
+-- dependencies
+local sti = require('lib/sti')
+
+-- not working?
+-- Sketchy = require 'lib/sketchy/sketchy'
+
 local TZ = Game:addState('tiledZoom') -- registering the gamestate
 
 function TZ:enteredState()

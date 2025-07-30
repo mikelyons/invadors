@@ -14,16 +14,40 @@
       - Windows.bat - WIP
 ]]--
 
+print("Menu: Starting to load...")
 asm:load()
-tween = require '/lib/tween/tween'
+print("Menu: Asset manager loaded")
+
+print("Menu: Loading tween library...")
+local success, tween = pcall(require, '/lib/tween/tween')
+if not success then
+  print("Error loading tween library:", tween)
+  tween = nil
+else
+  print("Menu: Tween library loaded")
+end
 
 -- music = love.audio.newSource("techno.ogg", "stream") -- the "stream" tells LÖVE to stream the file from disk, good for longer music tracks
 -- music:play()
 
 
-require 'states/menu/splash_texts_library'
-splashtext = require('states/menu/splash_texts')
-SplashText = splashtext:new()
+print("Menu: Loading splash texts...")
+local success, splash_lib = pcall(require, 'states/menu/splash_texts_library')
+if not success then
+  print("Error loading splash texts library:", splash_lib)
+else
+  print("Menu: Splash texts library loaded")
+end
+
+local success2, splashtext = pcall(require, 'states/menu/splash_texts')
+if not success2 then
+  print("Error loading splash texts:", splashtext)
+  splashtext = nil
+else
+  print("Menu: Splash texts loaded")
+  SplashText = splashtext:new()
+  print("Menu: SplashText created")
+end
 
 -- gravatar = require('states/menu/gravatar')
 -- was this just a note or experiment?
@@ -34,22 +58,88 @@ SplashText = splashtext:new()
 -- - make background rain fall from the top of the screen in particles
 -- - make drips from the top of the view port
 -- test particle
-particle = require('../src/particles/baseParticle')
-Particle = particle:new(300, 300, img)
--- Particle = particle:new(300, 300, particle or img)
-Particle:load()
+print("Menu: Loading particle system...")
+local success, particle = pcall(require, '../src/utils/particles/baseParticle')
+if not success then
+  print("Error loading particle system:", particle)
+  particle = nil
+else
+  print("Menu: Particle system loaded")
+  Particle = particle:new(300, 300, img)
+  -- Particle = particle:new(300, 300, particle or img)
+  Particle:load()
+  print("Menu: Particle created and loaded")
+end
 
 -- blood particle on click
-blood = require('../src/particles/blood')
-Blood = blood:new(50, 50)
-Blood:load()
+print("Menu: Loading blood particle system...")
+local success, blood = pcall(require, '../src/utils/particles/blood')
+if not success then
+  print("Error loading blood particle system:", blood)
+  blood = nil
+  Blood = nil
+else
+  print("Menu: Blood particle system loaded")
+  local success2, blood_obj = pcall(function() return blood:new(50, 50) end)
+  if success2 then
+    Blood = blood_obj
+    print("Menu: Blood particle object created successfully")
+    local success3 = pcall(function() Blood:load() end)
+    if success3 then
+      print("Menu: Blood particle created and loaded")
+    else
+      print("Menu: Blood particle created but load failed")
+      Blood = nil
+    end
+  else
+    print("Menu: Failed to create blood particle:", blood_obj)
+    Blood = nil
+  end
+end
 
-asm:add(love.graphics.newImage("assets/Z.png"), 'z')
-asm:add(love.graphics.newImage("assets/conversions/invadors.png"), 'hamster')
-asm:add(love.graphics.newImage("assets/newer/brian.png"), 'brian')
-asm:add(love.graphics.newImage("assets/mouse.png"), 'mouse')
+print("Menu: Loading assets...")
+local success, z_img = pcall(love.graphics.newImage, "assets/Z.png")
+if success then
+  asm:add(z_img, 'z')
+  print("Menu: Z image loaded")
+end
 
-Menu = Game:addState('menu')
+local success2, hamster_img = pcall(love.graphics.newImage, "assets/conversions/invadors.png")
+if success2 then
+  asm:add(hamster_img, 'hamster')
+  print("Menu: Hamster image loaded")
+end
+
+local success3, brian_img = pcall(love.graphics.newImage, "assets/newer/brian.png")
+if success3 then
+  asm:add(brian_img, 'brian')
+  print("Menu: Brian image loaded")
+end
+
+local success4, mouse_img = pcall(love.graphics.newImage, "assets/mouse.png")
+if success4 then
+  asm:add(mouse_img, 'mouse')
+  print("Menu: Mouse image loaded")
+end
+
+print("Menu: Registering gamestate...")
+if Game and Game.addState then
+  print("Menu: Game.addState method exists")
+  local success, result = pcall(function() return Game:addState('menu') end)
+  if success then
+    Menu = result
+    print("Menu: Gamestate registered successfully")
+    print("Menu: Menu object type:", type(Menu))
+  else
+    print("Menu: Failed to register gamestate, error:", result)
+    Menu = nil
+  end
+else
+  print("Menu: Game or Game.addState is nil!")
+  Menu = nil
+end
+
+print("Menu: State loading completed successfully!")
 
 
 -- tm['trn']  = 'training'
@@ -111,7 +201,7 @@ function Menu:keypressed(key, code)
   -- !!!this state runs filesystem scrips!***
   if key == ('a') then _G.util.addState('testAddState') end
 
-  if key == ('b') then self:pushState('book') end
+  -- if key == ('b') then self:pushState('book') end  -- Removed book state
   if key == ('c') then self:pushState('face') end
   if key == ('d') then self:pushState('drivingSim') end
   if key == ('e') then self:pushState('dialogue') end
@@ -151,8 +241,15 @@ end
 -- end
 
 function Menu:mousepressed(x,y, button , istouch)
-  if love.mouse.isDown(1) then
-    Blood:emit()
+  -- Emit blood particles on left mouse button press
+  if button == 1 then
+    if Blood and Blood.emit then
+      -- Emit blood at the mouse position
+      print("Menu: Emitting blood particles at", x, y)
+      Blood:emit(x, y)
+    else
+      print("Menu: Blood particle system not available")
+    end
   end
 
   -- draggable evilNote rect
@@ -197,13 +294,16 @@ function Menu:poppedState()
   -- PrintTable(self.buttons)
   PrintTable(self:getStateStackDebugInfo())
 end
-function Menu:pausedState()
-  print('menu paused')
-end
+
 function Menu:continuedState()
   self:loadButtons({})
   love.mouse.setVisible(true)
   print('menu continued')
+  print("Menu state resumed from book state")
+  print("State stack after continue:", table.concat(self:getStateStackDebugInfo(), ", "))
+end
+function Menu:pausedState()
+  print('menu paused')
 end
 
 function Menu:enteredState()
@@ -296,12 +396,19 @@ rect = {
 local easetype = 'outQuad'
 
 function Menu:update(dt)
-  Menu:mousepressed()
+  -- Remove the incorrect mousepressed call - it should only be called by LÖVE's event system
+  -- Menu:mousepressed()
 
-  Particle:update(dt)
-  Blood:update(dt)
+  if Particle and Particle.update then
+    Particle:update(dt)
+  end
+  if Blood and Blood.update then
+    Blood:update(dt)
+  end
 
-  SplashText:update(dt)
+  if SplashText and SplashText.update then
+    SplashText:update(dt)
+  end
 
   if rect.dragging.active then
     rect.x = love.mouse.getX() - rect.dragging.diffX
@@ -311,11 +418,15 @@ end
 
 local function drawNote()
   -- draggable rect
-  love.graphics.setColor(205, 205, 195, 255)
-  love.graphics.rectangle("fill", rect.x, rect.y, rect.width, rect.height)
-  love.graphics.setColor(205, 5, 5, 255)
-  love.graphics.printf(SplashText:getText(),rect.x+20,rect.y+20,220)
-  love.graphics.setColor(255, 255, 255, 255)
+  if rect then
+    love.graphics.setColor(205, 205, 195, 255)
+    love.graphics.rectangle("fill", rect.x, rect.y, rect.width, rect.height)
+    love.graphics.setColor(205, 5, 5, 255)
+    if SplashText and SplashText.getText then
+      love.graphics.printf(SplashText:getText(),rect.x+20,rect.y+20,220)
+    end
+    love.graphics.setColor(255, 255, 255, 255)
+  end
 end
 
 -- love.graphics.setColor(r, g, b, a)
@@ -329,8 +440,12 @@ function Menu:draw()
   -- Logo
   -- https://fontmeme.com/doom-font/
   love.graphics.setColor(255, 255, 255, 255)
-  love.graphics.draw(hamster, 50, 50, 0, 2.2, 2.2)
-  love.graphics.draw(z, g_Width/2, 50, 0, 2.2, 2.2)
+  if hamster then
+    love.graphics.draw(hamster, 50, 50, 0, 2.2, 2.2)
+  end
+  if z then
+    love.graphics.draw(z, g_Width/2, 50, 0, 2.2, 2.2)
+  end
   -- love.graphics.draw(z, mx, my)
   love.graphics.setColor(_r, _g, _b, _a)
 
@@ -340,7 +455,9 @@ function Menu:draw()
   -- love.graphics.setColor(255, 255, 255, 255)
   -- MenuHelper:drawButtons()
 
-  SplashText:draw()
+  if SplashText and SplashText.draw then
+    SplashText:draw()
+  end
 
   love.graphics.setColor(_r, _g, _b, _a)
   local _r, _g, _b, _a = love.graphics.getColor()
@@ -352,19 +469,27 @@ function Menu:draw()
   local mx = love.mouse.getX()
   local my = love.mouse.getY()
 
-  Particle:draw()
-  Blood:draw(mx, my)
+  if Particle and Particle.draw then
+    Particle:draw()
+  end
+  if Blood and Blood.draw then
+    Blood:draw()
+  end
 
   -- http://nova-fusion.com/2012/09/20/custom-cursors-in-love2d/
   love.mouse.isVisible(false)
   -- draw a pointer
-  love.graphics.draw(brian, mx, my)
+  if brian then
+    love.graphics.draw(brian, mx, my)
+  end
   -- love.graphics.draw(mouse, mx, my)
 
   self:drawButtons()
 
   drawNote()
-  drawCanvas(self.canvas)
+  if self.canvas then
+    drawCanvas(self.canvas)
+  end
 
   -- Pre-release version
   -- Prerelease version watermark
@@ -372,10 +497,18 @@ function Menu:draw()
   -- local textW = self.font:getWidth(button.text)
   -- local textH = self.font:getHeight(button.text)
   -- love.graphics.setFont(self.font)
-  love.graphics.printf(__VERSION,
-    camera.pos.x,
-    camera.pos.y + (love.graphics.getHeight() - 32 - 32),
-    620, 'left')
+  if camera and camera.pos then
+    love.graphics.printf(__VERSION,
+      camera.pos.x,
+      camera.pos.y + (love.graphics.getHeight() - 32 - 32),
+      620, 'left')
+  else
+    -- Fallback if camera is not available
+    love.graphics.printf(__VERSION,
+      0,
+      love.graphics.getHeight() - 32 - 32,
+      620, 'left')
+  end
   love.graphics.setColor(255, 0, 0, 255)
 
   -- love.graphics.printf('PRE-ALPHA',

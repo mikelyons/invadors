@@ -364,6 +364,47 @@ function tlm:getChunkTiles(chunkCoords)
 
   return tiles
 end
+
+--[[
+  UNIFIED TILE ACCESS SYSTEM
+  
+  This function provides a unified way to access tiles for both
+  chunk-based and custom map systems
+]]
+function tlm:getTilesForPhysics()
+  if self.customMap then
+    -- Return tiles from custom map system
+    return self.tiles
+  else
+    -- Return tiles from current chunk
+    local player = obm:get_closest_by_id(nil, "player")
+    if player then
+      local chunkKey = tostring(floor(player.pos.x / 32 / 16)) .. tostring(floor(player.pos.y / 32 / 16))
+      local chunk = self.chunksByStrKey[chunkKey]
+      if chunk then
+        return chunk.tiles
+      end
+    end
+    return {}
+  end
+end
+
+--[[
+  Get the current map dimensions for physics calculations
+]]
+function tlm:getMapDimensions()
+  if self.customMap and self.map then
+    return {
+      width = self.map.width,
+      height = self.map.height
+    }
+  else
+    return {
+      width = 16,  -- Chunk size
+      height = 16
+    }
+  end
+end
 -- a first pass at spatial hash
 function tlm:strKeyAtPos(pos)
   local x, y = pos.x, pos.y

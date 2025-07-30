@@ -19,8 +19,17 @@ if DEBUG_LOGGING_LOADING then
   print('worldMap.lua -> ')
 end
 -- dependencies
-sti = require('lib/sti')
-poi = require('states/worldMap/pois')
+local success1, sti = pcall(require, 'lib/sti')
+if not success1 then
+  print("Error loading sti:", sti)
+  sti = nil
+end
+
+local success2, poi = pcall(require, 'states/worldMap/pois')
+if not success2 then
+  print("Error loading poi:", poi)
+  poi = nil
+end
 
 local WM = Game:addState('worldMap') -- registering the gamestate
 
@@ -30,11 +39,19 @@ function WM:enteredState()
     print('WM:enteredState() ====================================')
   end
   -- Load the world map
-  -- self.map = sti("assets/maps/worldMap/worldMap.lua")
-  -- self.map = sti("assets/maps/bedroom/house3.lua") -- this wont draw!? flicker
-  -- self.map = sti("assets/maps/bedroom/house3.lua")
-  self.map = sti("assets/maps/bedroom/house2.lua")
-  -- poi.load(self.map)
+  self.map = nil
+  if sti then
+    -- self.map = sti("assets/maps/worldMap/worldMap.lua")
+    -- self.map = sti("assets/maps/bedroom/house3.lua") -- this wont draw!? flicker
+    -- self.map = sti("assets/maps/bedroom/house3.lua")
+    local success, map = pcall(sti, "assets/maps/bedroom/house2.lua")
+    if success then
+      self.map = map
+    else
+      print("Error loading map:", map)
+    end
+  end
+  -- if poi and poi.load then poi.load(self.map) end
 
 
   -- Create player

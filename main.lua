@@ -30,7 +30,7 @@ if arg[2] == "debug" then
   require("lldebugger").start()
 end
 
-require 'src/dependencies'
+require 'src/core/dependencies'
 
 if not PrintColor('Color Available', 'green') then print('color not available') end
 
@@ -103,7 +103,22 @@ function love.load(...)
 
   -- @TODO need to make world state save and load
   -- The initialization of the main game launch point with splash and menu maby?
-  game = Game:new()
+  print("Main: Creating Game instance...")
+  if Game then
+    print("Main: Game class exists")
+    local success, result = pcall(function() return Game:new() end)
+    if success then
+      game = result
+      print("Main: Game instance created successfully")
+      print("Main: Game object type:", type(game))
+    else
+      print("Main: Game:new() failed with error:", result)
+      game = nil
+    end
+  else
+    print("Error: Game class is nil!")
+    game = nil
+  end
 
 
   -- PrintTable(score)
@@ -151,7 +166,9 @@ function love.update(dt)
 
   -- gameloop:update(av_dt) -- why isn't this happening?
 
-  game:update(av_dt)
+  if game and game.update then
+    game:update(av_dt)
+  end
 
   g_GameTime = g_GameTime + av_dt
 end
@@ -175,6 +192,8 @@ function love.draw(dt)
   willDraw = true
   -- willDraw = false
   drawBackground(willDraw)
+  
+
 
   -- game camera
   camera:set()
@@ -183,7 +202,9 @@ function love.draw(dt)
     renderer:draw()
   -- camera:unset()
   -- camera:set()
-    -- game:draw()
+    if game and game.draw then
+      game:draw()
+    end
 
   -- everything here moves with the camera trail
   camera:unset()
@@ -255,10 +276,14 @@ function love.keypressed(key, code)
     print('key pressed: '..key..' unicode: '..code)
   end
 
-  if game then
+  if game and game.keypressed then
     -- PrintTable(game)
     game:keypressed(key, code)
     -- score:keypress(key)
+  else
+    if DEBUG_LOGGING_ON then
+      print("Warning: game or game.keypressed is nil")
+    end
   end
 
   -- plus button adds 100 to the score
@@ -272,11 +297,16 @@ function love.keyreleased( key, scancode )
   -- score:keyrelease(key)
 end
 function love.mousepressed(x, y, button, istouch)
-  game:mousepressed(x, y, button, istouch)
+  if game and game.mousepressed then
+    game:mousepressed(x, y, button, istouch)
+  end
   -- score:mousepress()
 end
+
 function love.mousereleased(x, y, button)
-  game:mousereleased(x, y, button)
+  if game and game.mousereleased then
+    game:mousereleased(x, y, button)
+  end
   -- score:mouserelease()
 end
 function love.resize(w, h)

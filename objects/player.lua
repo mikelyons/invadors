@@ -152,31 +152,8 @@ function Player:new(x,y)
     end
 
 
-    if not tlm.customMap then
-      local chunk = tlm.chunksByStrKey[
-        tostring(floor(self.pos.x / 32 / 16))
-        .. tostring(floor(self.pos.y / 32 / 16))
-      ]
-      if chunk == nil then
-        print(
-          'ERROR - chunk is nil: x'..self.pos.x
-          .. ' y'.. self.pos.y .. ' strkey= '
-          .. tostring(floor(self.pos.x / 32 / 16))
-          .. tostring(floor(self.pos.y / 32 / 16))
-        )
-        player.pos.move(player, 0, 0, dt)
-      else
-        if DEBUG_LOGGING_COLLISION then
-          print('player chunk strkey: '..chunk.strKey)
-        end
-        update_physics(self, chunk, dt, true) --tlm.customMap)
-      end
-    else
-      newupdate_physics(self, dt) --tlm.customMap)
-        -- if true then
-        --   player.pos.move(player, 0, 0, dt)
-        -- end
-    end
+    -- Use unified physics system for both chunk-based and custom maps
+    unified_physics(self, dt)
     -- print(tostring(floor(self.pos.x / 32 / 16))..tostring(floor(self.pos.y / 32 / 16)))
     -- print(tlm.chunksByStrKey[tostring(self.pos.x / 32 / 16)..tostring(self.pox.y / 32 / 16)].tiles)
     -- print(tostring(self.pos.x / 32 / 16)..tostring(self.pos.y / 32 / 16))
