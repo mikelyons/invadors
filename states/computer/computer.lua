@@ -155,6 +155,7 @@ key = love.graphics.newImage("assets/objects/copper-key.png")
 tempdesk = love.graphics.newImage("states/computer/wood.png")
 tempcomp = love.graphics.newImage("assets/machines/computer/computer-transparent.png")
 compScreen= love.graphics.newImage("assets/machines/computer/computer-screen.png")
+bcompScreen= love.graphics.newImage("assets/machines/computer/b.png")
 compBezel = love.graphics.newImage("assets/machines/computer/computer-bezel.png")
 tempkb = love.graphics.newImage("assets/machines/computer/keyboard.png")
 tempcomp:setFilter("nearest", "nearest")
@@ -205,29 +206,27 @@ function Computer:draw()
   -- computer
   love.graphics.setColor(255,255,255, 255)
   love.graphics.draw(
-    compScreen,
-    32, 0,
-    0,
-    22,
-    22
+    bcompScreen,
+    32, 0, nil,
+    0.2, 0.3
   )
 
   love.graphics.setColor(5,5,5, 255)
-  love.graphics.rectangle("fill",
-    120, 80,
-    -- compBezel:getWidth(),
-    -- compBezel:getHeight()
-    560, 450
-  )
-  love.graphics.setColor(255,255,255, 255)
-  love.graphics.printf(
-    "THIS IS THE SECRET",
-    -- 130 + 64,
-    -- 100 + 64,
-    150, 120,
-    200,
-    'left'
-  )
+  -- love.graphics.rectangle("fill",
+  --   120, 80,
+  --   -- compBezel:getWidth(),
+  --   -- compBezel:getHeight()
+  --   560, 450
+  -- )
+  -- love.graphics.setColor(255,255,255, 255)
+  -- love.graphics.printf(
+  --   "THIS IS THE SECRET",
+  --   -- 130 + 64,
+  --   -- 100 + 64,
+  --   150, 120,
+  --   200,
+  --   'left'
+  -- )
   love.graphics.setColor(255,255,255, 255)
   love.graphics.draw(
     compBezel,
@@ -571,18 +570,11 @@ function Computer:draw()
   end
 
   self.evilNote:draw()
-  -- love.graphics.draw(pointerhand,
-  --   mx - pointerhandOffset.x,
-  --   my - pointerhandOffset.y,
-  --   nil,
-  --   nil-- 0.5
-  -- )
-  love.graphics.printf(
-    love.mouse.getX().." "..love.mouse.getY(),
-    love.mouse.getX(),
-    love.mouse.getY(),
-    200,
-    'left'
+  love.graphics.draw(pointerhand,
+    mx - pointerhandOffset.x,
+    my - pointerhandOffset.y,
+    nil,
+    nil-- 0.5
   )
   end) -- Close pcall
   
@@ -593,6 +585,7 @@ function Computer:draw()
     love.graphics.print("Computer", 50, 50)
     love.graphics.print("Error in drawing - check console", 50, 100)
   end
+
 end
 
 function drawCanvas(c)
