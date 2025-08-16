@@ -93,6 +93,7 @@ function Game:initialize()
   loadStateFolder('generate')
   loadStateFolder('dialogue')
   loadStateFolder('computer')
+  loadStateFolder('dinner')
   -- loadStateFolder('book')  -- Removed book state
   loadStateFile  ('bizzaro')
   loadStateFolder('prog2')

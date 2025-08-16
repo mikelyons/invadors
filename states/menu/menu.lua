@@ -228,6 +228,7 @@ function Menu:keypressed(key, code)
   if key == ('8') then self:pushState('characterCreation') end
   if key == ('9') then self:pushState('kitchen') end
   if key == ('0') then self:pushState('worldMap') end
+  if key == ('d') then self:pushState('dinner') end
 
 
   -- if key == ('escape') then love.event.push('quit') end

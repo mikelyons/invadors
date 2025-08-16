@@ -25,6 +25,7 @@
   loadStateFolder('generate')
   loadStateFolder('dialogue')
   loadStateFolder('computer')
+  loadStateFolder('dinner')
   loadStateFolder('book')
   loadStateFile  ('bizzaro')
   loadStateFolder('prog2')
@@ -95,6 +96,7 @@ function Menu:keypressed(key, code)
   if key == ('7') then self:pushState('orbital') end
   if key == ('8') then self:pushState('characterCreation') end
   if key == ('9') then self:pushState('kitchen') end
+  if key == ('d') then self:pushState('dinner') end
 
 
   if key == ('escape') then love.event.push('quit') end
