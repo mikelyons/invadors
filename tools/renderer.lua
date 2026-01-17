@@ -20,6 +20,10 @@ function Renderer:create()
   end
 
   function renderer:addRenderer( obj, layer )
+    -- print("ADDING RENDERER obj: "..obj or "unknown")
+    -- PrintTable(obj)
+    -- PrintTable(self)
+    print("ADD RENDERER # "..#self.drawers.." layer "..layer or 'unknown')
     local l = layer or 0
     insert(self.drawers[l], obj)
   end

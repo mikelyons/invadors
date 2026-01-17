@@ -1,0 +1,130 @@
+-- Cubic bezier on love2d
+-- c key : draw control line on/off
+
+-- References
+-- http://hakuhin.jp/as/curve.html
+
+function get_cubic_bezier_point(p0x, p0y, v0x, v0y, v1x, v1y, p1x, p1y, t)
+  local q = 1.0 - t
+  local u0 = q * q * q
+  local u1 = 3.0 * t * q * q
+  local u2 = 3.0 * t * t * q
+  local u3 = t * t * t
+  local ox = u0 * p0x + u1 * v0x + u2 * v1x + u3 * p1x
+  local oy = u0 * p0y + u1 * v0y + u2 * v1y + u3 * p1y
+  return ox, oy
+end
+
+function love.load()
+  love.graphics.setDefaultFilter("nearest", "nearest")
+
+  img = love.graphics.newImage("circle02_64x64_take1_05_5bit32col_edit.png")
+
+  scrw = love.graphics.getWidth()
+  scrh = love.graphics.getHeight()
+  bx = scrw * 0.95
+  by = scrh / 2
+
+  ctrl_points = {
+    {100, 200},
+    {scrw * 0.3, scrh * 0.1},
+    {scrw * 0.6, scrh * 0.9},
+    {bx, by}
+  }
+
+  points = {}
+
+  ang = 0
+
+  draw_ctrl_points = false
+end
+
+function love.update(dt)
+  ang = ang + 180 * dt
+
+  -- set control points
+  mx, my = love.mouse.getPosition()
+  ctrl_points[1][1] = mx
+  ctrl_points[1][2] = my
+
+  local a0 = math.sin(math.rad(ang))
+  local a1 = math.sin(math.rad(ang * 0.6))
+
+  -- ctrl_points[2][1] = mx + (bx - mx) * 0.3
+  ctrl_points[2][2] = scrh * (a0 * 0.5 + 0.5)
+
+  -- ctrl_points[3][1] = mx + (bx - mx) * 0.6
+  ctrl_points[3][2] = scrh * (a1 * 0.7 + 0.5)
+
+  -- get cubic bezier points
+  local interpolate = 40
+  local spd = 1.0 / interpolate
+  local p0x, p0y, v0x, v0y, v1x, v1y, p1x, p1y
+  p0x = ctrl_points[1][1]
+  p0y = ctrl_points[1][2]
+  v0x = ctrl_points[2][1]
+  v0y = ctrl_points[2][2]
+  v1x = ctrl_points[3][1]
+  v1y = ctrl_points[3][2]
+  p1x = ctrl_points[4][1]
+  p1y = ctrl_points[4][2]
+
+  points = {}
+  local t, x, y
+  for t = 0, 1.0, spd do
+    x, y = get_cubic_bezier_point(p0x, p0y, v0x, v0y, v1x, v1y, p1x, p1y, t)
+    points[#points + 1] = {x, y}
+  end
+  t = 1.0
+  x, y = get_cubic_bezier_point(p0x, p0y, v0x, v0y, v1x, v1y, p1x, p1y, t)
+  points[#points + 1] = {x, y}
+end
+
+function love.draw()
+  -- fill window background
+  love.graphics.clear(0.2, 0.5, 0.6, 1.0)
+
+  -- draw arm
+  local ox, oy = img:getWidth() / 2, img:getHeight() / 2
+  love.graphics.setColor(1.0, 1.0, 1.0, 1.0)
+  for i = #points, 1, -1 do
+    local px = points[i][1]
+    local py = points[i][2]
+    love.graphics.draw(img, px, py, 0, 1.0, 1.0, ox, oy)
+  end
+
+  -- draw control points line
+  if draw_ctrl_points then
+    love.graphics.setColor(1.0, 1.0, 1.0, 0.7)
+    love.graphics.line(
+      ctrl_points[1][1],
+      ctrl_points[1][2],
+      ctrl_points[2][1],
+      ctrl_points[2][2],
+      ctrl_points[3][1],
+      ctrl_points[3][2],
+      ctrl_points[4][1],
+      ctrl_points[4][2]
+    )
+    for i = 1, 4 do
+      local px, py
+      px = ctrl_points[i][1]
+      py = ctrl_points[i][2]
+      love.graphics.circle("line", px, py, 16)
+    end
+  end
+
+  -- draw FPS
+  love.graphics.setColor(1.0, 1.0, 1.0, 1.0)
+  love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), 2, 2)
+  love.graphics.print("C key : Draw control points", 2, 20)
+end
+
+function love.keypressed(key, isrepeat)
+  if key == "escape" then
+    -- ESC key to exit
+    love.event.quit()
+  elseif key == "c" then
+    draw_ctrl_points = not (draw_ctrl_points)
+  end
+end

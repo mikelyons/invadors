@@ -1,8 +1,16 @@
 print('signin.lua -> ')
 
-local fanfic = require 'states/menu/fanfic'
+-- Load fanfic library
+local success, fanfic = pcall(require, 'lib/fanfic')
+if not success then
+  print("Error loading fanfic:", fanfic)
+  fanfic = nil
+else
+  print("Signin: fanfic loaded")
+end
+
 print('signin -> ')
--- text = fanfic.new(200,300, "New textbox", false, 16)
+text = nil
 
 local Signin = Game:addState('signin')
 
@@ -15,7 +23,9 @@ local Signin = Game:addState('signin')
 function Signin:mousepressed(x,y, button , istouch) end
 function Signin:mousereleased(x, y, button) end
 function Signin:keypressed(key, code)
-  text:keypressed(key, code)
+  if text and text.keypressed then
+    text:keypressed(key, code)
+  end
   -- if key == ('escape') then love.event.push('quit') end
   -- if key == ('escape') then love.event.push('quit') end
   if key == ('return') then self:pushState('signin-success') end
@@ -35,6 +45,14 @@ function Signin:enteredState()
   -- really? vvv
   -- THIS CRUCIAL STEP needs to be added for all other renderables!! @TODO
   renderer:addRenderer(self, 5)
+  
+  -- Initialize text input if fanfic is available
+  if fanfic then
+    text = fanfic.new(200, 300, "Enter your email:", false, nil, 16)
+    print("Signin: Text input initialized")
+  else
+    print("Signin: Warning - No text input available")
+  end
 
   -- entity componentize and animate this
   -- self.canvas = love.graphics.newCanvas(32, 32)
@@ -96,8 +114,10 @@ end
 -- local easetype = 'outQuad'
 
 function Signin:update(dt)
-	-- text:update(dt)
-	-- data = text:enteredText()
+	if text and text.update then
+		text:update(dt)
+		data = text:enteredText()
+	end
 
   -- Menu:mousepressed()
 
@@ -137,7 +157,9 @@ function Signin:draw()
   local _r, _g, _b, _a = love.graphics.getColor()
   -- love.graphics.setColor(r, g, b, a)
   love.graphics.setColor(0, 255, 255, 255)
-  Gravatar:draw()
+  if Gravatar and Gravatar.draw then
+    Gravatar:draw()
+  end
   -- love.graphics.reset()
   -- love.graphics.pop()
   love.graphics.setColor(_r, _g, _b, _a)
@@ -145,19 +167,27 @@ function Signin:draw()
   local mx = love.mouse.getX()
   local my = love.mouse.getY()
 
-  Particle:draw()
-  Blood:draw(mx, my)
+  if Particle and Particle.draw then
+    Particle:draw()
+  end
+  if Blood and Blood.draw then
+    Blood:draw(mx, my)
+  end
 
 
   -- http://nova-fusion.com/2012/09/20/custom-cursors-in-love2d/
   love.mouse.isVisible(true)
   -- draw a pointer
-  love.graphics.draw(brian, mx, my)
+  if brian then
+    love.graphics.draw(brian, mx, my)
+  end
   -- love.graphics.draw(mouse, mx, my)
 -- PrintDebug(fanfic)
 
 -- sign in text box
-	text:draw()
+  if text and text.draw then
+    text:draw()
+  end
 	if data then
 		love.graphics.setColor(255,255,255)
 		love.graphics.print("You typed: '"..data.."' in the text box", 200, 350)
@@ -185,12 +215,14 @@ function Signin:enteredState()
   end
 
   print(data)
-  if data then
+  if data and score and score.setEmail then
 
     score:setEmail(data)
   end
 
-    print(score['email'])
+    if score then
+      print(score['email'])
+    end
 end
 function SigninSuccess:exitedState()
   love.graphics.clear()
@@ -200,7 +232,9 @@ function SigninSuccess:draw()
   local _r, _g, _b, _a = love.graphics.getColor()
   -- love.graphics.setColor(r, g, b, a)
   love.graphics.setColor(0, 255, 255, 255)
-  Gravatar:draw()
+  if Gravatar and Gravatar.draw then
+    Gravatar:draw()
+  end
   -- love.graphics.reset()
   -- love.graphics.pop()
   love.graphics.setColor(_r, _g, _b, _a)
@@ -209,7 +243,9 @@ function SigninSuccess:draw()
   local my = love.mouse.getY()
   -- http://nova-fusion.com/2012/09/20/custom-cursors-in-love2d/
   love.mouse.isVisible(true)
-  love.graphics.draw(brian, mx, my)
+  if brian then
+    love.graphics.draw(brian, mx, my)
+  end
   -- love.graphics.draw(mouse, mx, my)
 
 -- sign in text box
@@ -223,7 +259,9 @@ function SigninSuccess:draw()
 	end
 end
 function SigninSuccess:keypressed(key, code)
-  text:keypressed(key, code)
+  if text and text.keypressed then
+    text:keypressed(key, code)
+  end
   -- if key == ('escape') then love.event.push('quit') end
   -- if key == ('escape') then love.event.push('quit') end
   if key == ('return') then

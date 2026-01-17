@@ -1,3 +1,11 @@
+--[[
+  mts.lua
+
+  This is a test of multithreading
+
+  @TODO - use this to play sound effects and synth / music
+  @TODO - there may be a way to use this of async actions and or loading screens
+]]
 
 local mts = Game:addState('mts')
 
@@ -35,8 +43,8 @@ local threadCode = [[
 
 
       -- scary bouncing ufo noise
-      -- local sine = denver.get({waveform='sinus', frequency=(i), length=1})
-      -- love.audio.play(sine)
+      local sine = denver.get({waveform='sinus', frequency=(i), length=1})
+      love.audio.play(sine)
   end
 ]]
 
@@ -48,12 +56,23 @@ function mts:enteredState()
     print(string.format("ENTER mts STATE - %s \n", os.date()))
   end
 
-  createBox = require "tools/createbox"
+  local success, createBox = pcall(require, "tools/createbox")
+  if not success then
+    print("Error loading createBox:", createBox)
+    createBox = nil
+  end
 
+  -- Initialize box safely
+  r4 = nil
+  
+  if createBox then
     -- r4 = createBox:create(196,196)
-  r4 = createBox:createRandom()
+    local success1, box = pcall(createBox.createRandom, createBox)
+    if success1 then r4 = box end
 
-  r4:load()
+    -- Load box safely
+    if r4 and r4.load then pcall(r4.load, r4) end
+  end
     -- self:popState('mts')
 
   thread = love.thread.newThread( threadCode )
@@ -89,8 +108,6 @@ function mts:draw(dt)
       love.graphics.circle( 'line', 100 + math.sin( timer ) * 20, 100 + math.cos( timer ) * 20, 20 )
       love.graphics.print( info, 10, 10 )
     end
-
-    print('draw')
 
     -- We smoothly animate a circle to show that the thread isn't blocking our main thread.
     love.graphics.circle( 'line', 100 + math.sin( timer ) * 20, 100 + math.cos( timer ) * 20, 20 )

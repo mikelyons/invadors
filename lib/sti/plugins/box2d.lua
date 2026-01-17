@@ -259,9 +259,14 @@ return {
 	box2d_draw = function(map)
 		local collision = map.box2d_collision
 
+    -- PrintTable(collision["body"], 1)
+    -- PrintTable(map.box2d_collision, 1)
+
 		for _, obj in ipairs(collision) do
 			local points = {collision.body:getWorldPoints(obj.shape:getPoints())}
 			local shape_type = obj.shape:getType()
+
+      -- print(shape_type)
 
 			if shape_type == "edge" or shape_type == "chain" then
 				love.graphics.line(points)

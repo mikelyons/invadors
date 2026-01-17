@@ -1,0 +1,54 @@
+["luaversion"] = "5.1",
+["tiledversion"] = "1.8.4",
+["version"] = "1.5",
+["width"] = 64,
+["height"] = 32,
+["orientation"] = "orthogonal",
+["nextlayerid"] = 5,
+["tileheight"] = 32,
+["renderorder"] = "right-down",
+["nextobjectid"] = 1,
+["tilewidth"] = 32,
+["tilesets"] = {
+    ["1"] = {
+        ["filename"] = "terrain-sonicrumpets.tsx",
+        ["name"] = "terrain-sonicrumpets",
+        ["firstgid"] = 1,
+    },
+},
+["properties"] = {
+    ["author"] = "Mike Lyons",
+},
+["layers"] = {
+    ["1"] = {
+        ["data"] = {
+            ...
+        },
+        ["x"] = 0,
+        ["encoding"] = "lua",
+        ["id"] = 3,
+        ["visible"] = true,
+        ["offsety"] = 0,
+        ["y"] = 0,
+        ["properties"] = {
+            ...
+        },
+        ["parallaxx"] = 1,
+        ["width"] = 64,
+        ["parallaxy"] = 1,
+        ["offsetx"] = 0,
+        ["type"] = "tilelayer",
+        ["height"] = 32,
+        ["name"] = "nonsolid background",
+        ["opacity"] = 1,
+    },
+},
+
+
+--  -> LOADING TILED MAP->
+--  ->  ->  ->  ->  ->  ->
+--  -> VERSION:      1.5   ->
+--  -> LUA VERSION:  5.1   ->
+--  -> TILED VERSION 1.8.4 ->
+--  -> SOURCE IMAGE  terrain-sonicrumpets.tsx ->
+--  ->  ->

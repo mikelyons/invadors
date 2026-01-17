@@ -1,7 +1,18 @@
+--[[
+  dependencies.lua
 
--- Development dependencies enabled by environment @TODO
+  The loader for all the dependencies, probably some more organization is needed
+]]
+
+-- unflaggable
+-- print(" ")
+-- print("dependencies.lua ->")
+-- print(" ")
+
+-- Development dependencies enabled by environment @TODO - ensure these can be flagged off
 require 'src/devDependencies'
 
+-- PrintColor('yellow', 'Fetching Dependencies (dependencies.lua)')
 -- Engine Initialize
 require 'colors'
 require 'src/constants'

@@ -1,15 +1,36 @@
 {
-  "Lua.runtime.version": "LuaJIT",
+  "Lua.runtime.version": "Lua 5.4",
   "Lua.workspace.library": [
     "${3rd}/love2d/library"
   ],
   "Lua.workspace.checkThirdParty": false,
-  "audioCues.lineHasBreakpoint": "on",
-  "audioCues.lineHasError": "on",
-  "audioCues.lineHasFoldedArea": "on",
-  "audioCues.lineHasInlineSuggestion": "on",
-  "audioCues.lineHasWarning": "on",
-  "audioCues.noInlayHints": "on",
-  "audioCues.onDebugBreak": "on",
-  "lua.targetVersion": "5.3"
+  "search.exclude": {
+    "**/.git": true,
+    "lib/love": true,
+    // "**/node_modules": true,
+    // "**/bower_components": true,
+    "**/tmp": true
+  },
+  "lua.targetVersion": "5.3",
+  "accessibility.signals.lineHasError": {
+    "sound": "on"
+  },
+  "accessibility.signals.lineHasWarning": {
+    "sound": "on"
+  },
+  "accessibility.signals.lineHasFoldedArea": {
+    "sound": "on"
+  },
+  "accessibility.signals.lineHasBreakpoint": {
+    "sound": "on"
+  },
+  "accessibility.signals.lineHasInlineSuggestion": {
+    "sound": "on"
+  },
+  "accessibility.signals.onDebugBreak": {
+    "sound": "on"
+  },
+  "accessibility.signals.noInlayHints": {
+    "sound": "on"
+  }
 }

@@ -1,4 +1,5 @@
 -- first pass proc gen map 
+-- local quad = love.graphics.newQuad
 -- using sti for the map loading
 -- (Simple Tiled Implementation)
 local sti = require("../../lib/sti")
@@ -33,7 +34,8 @@ function prog:enteredState()
 end
 
 function prog:exitedState()
-  camera:goToPoint({x=0,y=0})
+  -- camera:goToPoint({x=0,y=0})
+  love.graphics.clear()
   self:pushState('menu')
 end
 function prog:update(dt) end

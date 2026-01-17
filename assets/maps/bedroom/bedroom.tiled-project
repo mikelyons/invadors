@@ -4,9 +4,12 @@
     ],
     "extensionsPath": "extensions",
     "folders": [
-        "."
+        ".",
+        "../worldMap",
+        "../examples"
     ],
-    "objectTypesFile": "",
+    "properties": [
+    ],
     "propertyTypes": [
     ]
 }

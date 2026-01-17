@@ -1,1 +1,54 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Love2D specific
 *.tiled-session
+*.love
+
+# Build artifacts
+build/
+dist/
+*.exe
+*.app
+*.dmg
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+*.bak
+
+# Development files
+debug_output/
+profiling_reports/
+*.profile
+
+# Asset source files (if you want to exclude them)
+# *.psd
+# *.ai
+# *.sketch
+
+# Backup files
+*.backup
+*.old
+
+# Windows specific
+*.lnk
+desktop.ini
+
+# Mac specific
+.AppleDouble
+.LSOverride

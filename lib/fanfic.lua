@@ -63,13 +63,16 @@ function new(x,y, label, password, font, size)
 	tb.oldFont = love.graphics.getFont()
 	if size and type(font) == 'string' then --they sent in a filename and a font size, presumably
 		tb.font = love.graphics.newFont(font, size)
-	else --using default font with a new size.
-		tb.font = love.graphics.newFont(font)
+	elseif size and (font == nil or font == false) then --using default font with a new size.
+		tb.font = love.graphics.newFont(size)
+	else --using default font
+		tb.font = love.graphics.newFont()
 	end
 
 	tb.width = tb.font:getWidth("M")*12 --assuming 12 characters (using M) wide
 	tb.height = tb.font:getHeight()
 
+	tb.labelFont = tb.font -- Use the same font for the label
 	tb.finished = false --set to true when the user is done entering info
 	return setmetatable(tb, tbox)
 end
@@ -118,7 +121,14 @@ function tbox:keypressed(key, unicode)
 	elseif key == 'space' then
 		self.text = self.text..' '
 	elseif key:len() == 1 then --it's a single letter
-		self.text = self.text..string.char(unicode)
+		-- Handle unicode parameter safely - it might be a string or number
+		if unicode and type(unicode) == 'number' then
+			self.text = self.text..string.char(unicode)
+		elseif unicode and type(unicode) == 'string' then
+			self.text = self.text..unicode
+		else
+			self.text = self.text..key
+		end
 		--using the unicode allows any character to be entered.  If just the key is used, there is a massive headache from using the shift keys, etc.
 	end
 end
@@ -128,4 +138,3 @@ function tbox:enteredText()
 	else return nil
 	end
 end
-	

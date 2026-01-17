@@ -1,11 +1,51 @@
-## Unreleased
-## 0.4.7.1 (Jan 1, 2023)
+<!--
+## 0.4.7.4 (Jan 1, 2026)
 ### Added
 ### Changed
 ### Removed
 ### Fixed
+-->
 
-## Unreleased
+## 0.4.7.3 (Apr 6, 2025)
+### Added
+- devUtilities directory with gamedev tool scriopts
+- many gamestates and other features
+- dialogue avatar/hero change each dialogue line, configurable
+- mac open_save_directory.command
+- drivingSim and wireArt screens
+- livelove dev utility gamestate for hot reloading, currently broken
+### Changed
+- many things
+### Removed
+- extraneously committed _addState.lua crufts
+- out of date comments
+- some bugs
+### Fixed
+- sticky note on computer screen not placed at coords and not draggable
+- evilNote could not be properly instantiated
+- some more bugs
+
+## 0.4.7.2 (Nov 11, 2023)
+
+### Added
+- lots of gamestates
+  states/_template/_addState.lua
+  states/asciiGame/
+  states/computer/wood.png
+  states/face/
+  states/options/
+  states/quadtree/
+  states/synth/effects.lua
+  states/synth/love-tunes/
+  states/tiledZoom/
+  states/uiTest/
+  states/wireArt/wire.lua
+  states/yard/
+- lots of assets
+
+### Changed
+- many things changed in this update
+
 ## 0.4.7.1 (~Jan 1, 2023)
 
 ### Added

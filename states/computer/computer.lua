@@ -1,48 +1,75 @@
-print('computer.lua -> ')
+--[[
+  states/computer.lua
 
---
--- Displays a dialogue box with a message for the player
--- -- the goal is to eventually display a character avatar
--- -- and to have all manner of expressiveness of the text,
--- -- multi-stage messages, selectable replies, animations
--- -- make the text type itself out instead of appearing all at once
--- -- https://twitter.com/flamendless this guy created this lib https://github.com/flamendless?page=2&tab=repositories
--- -- https://github.com/besnoi/lovelib/tree/master/Anima which (was it him?)
--- -- seems to handle that
---
+  Displays a dialogue box with a message for the player
+  -- the goal is to eventually display a character avatar
+  -- and to have all manner of expressiveness of the text,
+  -- multi-stage messages, selectable replies, animations
+  -- make the text type itself out instead of appearing all at once
+  -- https://twitter.com/flamendless this guy created this lib https://github.com/flamendless?page=2&tab=repositories
+  -- https://github.com/besnoi/lovelib/tree/master/Anima which (was it him?)
 
-print('Computer -> ')
+  @TODO
+  - pointerhand states 
+  - duplicate this state into a generic machine interop or interactable ui state
+  - make the maiming machine state
+  - design some dangerous machines
+  - polygon collisions for cutting yourself on the sharp edges while stamping license plates scenario
+  - poison damage and disease damage for dirty, or germy touch surfaces
+  - cleaning is a thing? surfaces, washing hands, disinfection? masking?
+]]
 
--- local fanfic = require 'states/menu/fanfic'
--- local text = fanfic.new(200,300, "New textbox", false, 16)
+if DEBUG_LOGGING_LOADING then
+  print('computer.lua -> ')
+end
+-- dependencies
+local stickyNote = require 'ui objects/evilNote'
 
+-- register the gamestate
 local Computer = Game:addState('computer')
-function Computer:mousepressed(x,y, button , istouch) end
-function Computer:mousereleased(x, y, button) end
+
 function Computer:keypressed(key, code)
-  --   text:keypressed(key, code)
   if key == ('l') then self:popState('dialogue') end
-  if key == ('escape') then love.event.push('quit') end
+  -- if key == ('escape') then love.event.push('quit') end
+  if key == 'escape' then self:popState() end
 end
 function Computer:enteredState()
   if DEBUG_LOGGING_ON then
     print(string.format("ENTER computer STATE - %s \n", os.date()))
   end
 
+  -- WIP
+  -- if not constants.useNativeMouseCursor then
+  -- love.mouse.setVisible(false)
+  -- end
+
+
+  -- self.motd = "Hello, welcome to computer"
+  self.motd = [[Hello, welcome to computer, it is whatever the heck o clock welcome ]]
+
+  -- get gravatar working?
+  self.user_avatar = love.graphics.newImage("assets/character/avatars/NN32.png")
+
+  -- Get screen dimensions safely
+  self.screen_w = love.graphics.getWidth()
+  self.screen_h = love.graphics.getHeight()
   
+  self.evilNote = stickyNote.new(
+    self.screen_w-200, 400,--screen_height-200,
+    self.motd
+  )
+
   -- love.graphics.setBackgroundColor( red, green, blue, alpha )
   -- love.graphics.setBackgroundColor(unpack(COLOR_GREEN_HUNTER))
-  -- love.graphics.setBackgroundColor( 0, 1, 0, 1)
-  -- love.graphics.setBackgroundColor( 1, 1, 1, 1)
-
 
   -- the character avatar
   -- https://pixel-me.tokyo/en/ - face to pixel art
   -- self.raintar = http.request('http://www.gravatar.com/avatar/'..hashedEmail)
-  self.raintar = nil
+  -- self.raintar = nil
+  self.raintar = love.graphics.newImage("assets/character/avatars/NN32.png")
 
-  -- attempt_canvas = false
-  attempt_canvas = true
+  attempt_canvas = false
+  -- attempt_canvas = true
   if attempt_canvas then
     -- attempt to set the canvas 
     -- self.canvas = love.graphics.newCanvas()
@@ -86,11 +113,11 @@ function Computer:enteredState()
   end
 end
 function Computer:update(dt)
+  self.evilNote:update(dt)
   --   text:update(dt)
   --   data = text:enteredText()
 
   -- The computer canvas update
-  -- 
   if attempt_canvas then
     self.canvas:renderTo(
       function()
@@ -121,11 +148,24 @@ function Computer:update(dt)
 
 end
 
--- love.graphics.setDefaultFilter("nearest", "nearest")
-
+--@TODO - rescope these globals
 -- tempcomp = love.graphics.newImage("assets/character/avatars/NN32.png")
-tempcomp = love.graphics.newImage("assets/machines/computer/computer.png")
+teacup = love.graphics.newImage("assets/objects/tea-cup-1.png")
+key = love.graphics.newImage("assets/objects/copper-key.png")
+tempdesk = love.graphics.newImage("states/computer/wood.png")
+tempcomp = love.graphics.newImage("assets/machines/computer/computer-transparent.png")
+compScreen= love.graphics.newImage("assets/machines/computer/computer-screen.png")
+bcompScreen= love.graphics.newImage("assets/machines/computer/b.png")
+compBezel = love.graphics.newImage("assets/machines/computer/computer-bezel.png")
+tempkb = love.graphics.newImage("assets/machines/computer/keyboard.png")
 tempcomp:setFilter("nearest", "nearest")
+compBezel:setFilter("nearest", "nearest")
+
+-- @TODO - add these assets to an asset manager/loader
+pointerhand = love.graphics.newImage("assets/hand-pointing-1.png")
+pointerhandOffset = {x=143,y=24}
+pointerhand:setFilter("nearest", "nearest")
+-- @TODO - get different pointer state sprites drawn to augment pointherhand
 
 -- love.graphics.draw(tempcomp,
 --   self.panex+32, self.paney+32,
@@ -133,45 +173,137 @@ tempcomp:setFilter("nearest", "nearest")
 --   0.5
 -- )
 function Computer:draw()
-  local _r, _g, _b, _a = love.graphics.getColor()
+  -- Add error handling to catch silent failures
+  local success, err = pcall(function()
+    local _r, _g, _b, _a = love.graphics.getColor()
   local _lineWidth = love.graphics.getLineWidth()
 
+  -- get mouse for pointer hand
+  local mx, my = love.mouse.getPosition()
+
   -- Draw DESK
-  -- local _r, _g, _b, _a = love.graphics.getColor()
-  love.graphics.setColor(255,0,0, 255)
-  -- love.graphics.rectangle( mode, x, y, width, height, rx, ry, segments )
+  -- wall
+  love.graphics.setColor(155,100,100, 255)
   love.graphics.rectangle(
     'fill',
-    0, screen_height - 300, -- x, y
-    screen_width, 1511 -- w, h
+    0, 0, -- x, y
+    self.screen_w, self.screen_h-- w, h
   )
-  love.graphics.rectangle('fill', 0, 0, 111, 111)
-  love.graphics.setColor(_r, _g, _b, _a)
+
+  --desk
+  love.graphics.setColor(255,255,255, 255)
+  love.graphics.draw(
+    tempdesk, -- wood
+    0, self.screen_h-300,
+    nil,
+    6,
+    1.92
+  )
   -- END DESK
 
-  -- computer placeholder
   -- TODO - make this blur? diffo resolutions, switcher "animations"
   -- love.graphics.draw( drawable, x, y, r, sx, sy, ox, oy, kx, ky )
+  -- computer
+  love.graphics.setColor(255,255,255, 255)
   love.graphics.draw(
-    tempcomp,
-    32, 32,
-    0,
-    25,
-    25
+    bcompScreen,
+    32, 0, nil,
+    0.2, 0.3
   )
 
-  -- User-input conversations
-	-- text:draw()
-	-- if data then
-	-- 	love.graphics.setColor(255,255,255)
-	-- 	love.graphics.print("You typed: '"..data.."' in the text box", 200, 350)
-    -- -- DO SOMTHING todo ToDO WITH THE DATA
-	-- end
+  love.graphics.setColor(5,5,5, 255)
+  -- love.graphics.rectangle("fill",
+  --   120, 80,
+  --   -- compBezel:getWidth(),
+  --   -- compBezel:getHeight()
+  --   560, 450
+  -- )
+  -- love.graphics.setColor(255,255,255, 255)
+  -- love.graphics.printf(
+  --   "THIS IS THE SECRET",
+  --   -- 130 + 64,
+  --   -- 100 + 64,
+  --   150, 120,
+  --   200,
+  --   'left'
+  -- )
+  love.graphics.setColor(255,255,255, 255)
+  love.graphics.draw(
+    compBezel,
+    32, 0,
+    0,
+    22,
+    22
+  )
 
+  -- love.graphics.draw(
+  --   tempcomp,
+  --   32, 0,
+  --   0,
+  --   22,
+  --   22
+  -- )
+
+  if tempkb then
+    love.graphics.draw(
+      tempkb,
+      32, self.screen_h - 250,
+      0,
+      1,
+      1
+    )
+  end
+  if key then
+    love.graphics.draw(
+      key,
+      self.screen_w-332, self.screen_h - 250,
+      0,
+      3,
+      3
+    )
+    for y = 0, 4 do
+      love.graphics.draw(
+        key,
+        (self.screen_w-332 + y*32), (self.screen_h - 250 + y*32),
+        0,
+        3,
+        3
+      )
+    end
+  end
+
+  if teacup then
+    love.graphics.draw(
+      teacup,
+      self.screen_w-632, self.screen_h - 450,
+      0,
+      3,
+      3
+    )
+  end
+  -- love.graphics.setColor(_r, _g, _b, _a)
+
+  -- User-input conversations
   self.width = love.graphics.getWidth()
   self.height= love.graphics.getHeight()
-  self.panex = camera.pos.x + (self.width/11)
-  self.paney = camera.pos.y + (self.height - self.height/3) - 64
+  
+  -- Get camera position safely
+  local cam_x = 0
+  local cam_y = 0
+  local cam_scale_x = 1
+  local cam_scale_y = 1
+  
+  if camera and camera.pos then
+    cam_x = camera.pos.x
+    cam_y = camera.pos.y
+  end
+  if camera and camera.scale then
+    cam_scale_x = camera.scale.x
+    cam_scale_y = camera.scale.y
+  end
+  
+  self.panex = cam_x + (self.width/11)
+  self.paney = cam_y + (self.height - self.height/3) - 64
   -- self.panexx = (self.width/4)*3
   -- self.paneyy = (self.height/4)*3
   self.panew = self.width - (self.width/6)
@@ -179,13 +311,13 @@ function Computer:draw()
 
   local panex = self.panex
   local paney = self.paney
-  panex = panex * camera.scale.x
-  paney = paney * camera.scale.y
+  panex = panex * cam_scale_x
+  paney = paney * cam_scale_y
 
   local panew = self.panew
   local paneh = self.paneh
-  panew = panew * camera.scale.x
-  paneh = paneh * camera.scale.y
+  panew = panew * cam_scale_x
+  paneh = paneh * cam_scale_y
 
   -- love.graphics.rectangle('fill', 300, 300, 511, 511)
   -- love.graphics.rectangle('fill', 0, 0, 111, 111)
@@ -193,7 +325,6 @@ function Computer:draw()
 
   love.graphics.setColor(55, 55, 155, 255)
   -- local txt = [[rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away]]
-  -- local txt = [[AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA]]
   local txt = [[AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA]]
 
   -- love.graphics.setColor(1, 1, 1);
@@ -203,7 +334,8 @@ function Computer:draw()
     drawCanvas(self.canvas)
   end
 
-  local Dpanel = false
+  -- local Dpanel = true
+  local Dpanel = Dpanel or false
   if Dpanel == true then
     -- Backpanel bg
     love.graphics.rectangle('fill', panex-25, paney-25, panew+50, paneh+50, 32, 32)
@@ -243,30 +375,30 @@ function Computer:draw()
 
   -- local vertices = {100,100, 200,100, 150,200}
   local vx = {
-    camera.pos.x + (self.width - 32),
-    camera.pos.y + (self.height - 64),
+    cam_x + (self.width - 32),
+    cam_y + (self.height - 64),
 
-    camera.pos.x + (self.width - 32),
-    camera.pos.y + (self.height - 64),
+    cam_x + (self.width - 32),
+    cam_y + (self.height - 64),
 
-    camera.pos.x + (self.width - 32),
-    camera.pos.y + (self.height - 64),
+    cam_x + (self.width - 32),
+    cam_y + (self.height - 64),
 
-    camera.pos.x + (self.width - 32),
-    camera.pos.y + (self.height - 64),
+    cam_x + (self.width - 32),
+    cam_y + (self.height - 64),
   }
   vx = {
-    camera.pos.x + (self.width - 32),
-    camera.pos.y + (self.height - 64),
+    cam_x + (self.width - 32),
+    cam_y + (self.height - 64),
 
-    camera.pos.x + (self.width - 32),
-    camera.pos.y + (self.height - 64),
+    cam_x + (self.width - 32),
+    cam_y + (self.height - 64),
 
-    camera.pos.x + (self.width - 32),
-    camera.pos.y + (self.height - 64),
+    cam_x + (self.width - 32),
+    cam_y + (self.height - 64),
 
-    camera.pos.x + (self.width - 32),
-    camera.pos.y + (self.height - 64),
+    cam_x + (self.width - 32),
+    cam_y + (self.height - 64),
   }
   
 
@@ -275,6 +407,7 @@ function Computer:draw()
   -- local vertices = {300,300, 300,500, 150,300, 150,200, 700,100}
   local vertices = {0,0, 0,100, 200,200, 250,300, 110,200, 100,100}
   -- The action indicator
+  local action = action or 'none'
   if action == 'read_more' then
     -- Giving the coordinates directly.
     -- love.graphics.polygon("fill", 100,100, 200,100, 150,200)
@@ -287,7 +420,7 @@ function Computer:draw()
     love.graphics.setLineWidth(3)
     love.graphics.polygon("line", vertices)
   else
-    love.graphics.polygon("fill", 100,100, 200,100, 150,200)
+    -- love.graphics.polygon("fill", 100,100, 200,100, 150,200)
     -- local vertices = {100,100, 200,100, 150,200}
 
     -- love.graphics.setColor(55, 55, 55, 255)
@@ -306,14 +439,14 @@ function Computer:draw()
   -- local raintar = love.graphics.newImage("assets/character/avatars/EM.png")
   -- local raintar = love.graphics.newImage("assets/character/avatars/NN128.png")
 
-  -- if showAvatar == true then
+  if showAvatar == true and false then
     local raintar = love.graphics.newImage("assets/character/avatars/NN32.png")
     love.graphics.draw(raintar,
       self.panex+32, self.paney+32,
       nil,
       0.5
     )
-  -- end
+  end
   -- love.graphics.rectangle("fill",
   --   self.panex+32,self.paney+32,
   --   96,96)
@@ -435,6 +568,24 @@ function Computer:draw()
     love.graphics.setLineWidth(_lineWidth)
     love.graphics.setColor(_r, _g, _b, _a)
   end
+
+  self.evilNote:draw()
+  love.graphics.draw(pointerhand,
+    mx - pointerhandOffset.x,
+    my - pointerhandOffset.y,
+    nil,
+    nil-- 0.5
+  )
+  end) -- Close pcall
+  
+  if not success then
+    print("Computer draw error:", err)
+    -- Fallback drawing - just show a simple message
+    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.print("Computer", 50, 50)
+    love.graphics.print("Error in drawing - check console", 50, 100)
+  end
+
 end
 
 function drawCanvas(c)
@@ -516,4 +667,16 @@ local function drawDialogue()
   )
 
   love.graphics.setColor(_r, _g, _b, _a)
+end
+
+--input
+function Computer:mousepressed(x,y, button, istouch, presses)
+  if self.evilNote and self.evilNote.mousepressed then
+    self.evilNote:mousepressed(x,y, button, istouch, presses)
+  end
+end
+function Computer:mousereleased(x,y, button, istouch, presses)
+  if self.evilNote and self.evilNote.mousereleased then
+    self.evilNote:mousereleased(x,y, button, istouch, presses)
+  end
 end

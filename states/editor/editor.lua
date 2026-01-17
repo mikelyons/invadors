@@ -7,7 +7,7 @@
 print('editor.lua -> ')
 print('editor -> ')
 
-local fanfic = require 'states/menu/fanfic'
+-- local fanfic = require 'states/menu/fanfic'  -- Removed to avoid module system issues
 -- love.graphics.setFont(oldFont)
 
 local editorui = require 'states/editor/editorui'
@@ -18,7 +18,11 @@ local Editor = Game:addState('editor')
 function Editor:mousepressed(x,y, button , istouch) end
 function Editor:mousereleased(x, y, button) end
 function Editor:keypressed(key, code)
-  text:keypressed(key, code)
+  if text and text.keypressed then
+    text:keypressed(key, code)
+  end
+
+  uipanel:keypressed(key, code)
   -- if key == ('escape') then love.event.push('quit') end
   if key == ('escape') then self:popState() end
 end
@@ -29,18 +33,23 @@ function Editor:enteredState()
   end
   love.window.setTitle(__TITLE_STR..' - editor STATE')
 
-  text = fanfic.new(200,300, "Name", false, 16)
+  -- text = fanfic.new(20,30, "Name", false, 16)  -- Removed to avoid module system issues
+  text = nil
 
   uipanel = editorui:new(400, 100)
   uipanel:load()
 
 end
 function Editor:update(dt)
-  text:update(dt)
-  data = text:enteredText()
+  if text and text.update then
+    text:update(dt)
+    data = text:enteredText()
+  end
+
+  uipanel:update(dt)
+  output = panel.output
 end
 function Editor:draw()
-  uipanel:draw()
   -- ensure proper gravatar color
   local _r, _g, _b, _a = love.graphics.getColor()
   -- love.graphics.setColor(055, 055, 055, 255)
@@ -50,16 +59,29 @@ function Editor:draw()
   -- love.graphics.pop()
   love.graphics.setColor(_r, _g, _b, _a)
 
-  -- PrintDebug(fanfic)
-
-  -- sign in text box
-	text:draw()
-	if data then
+  -- uieditor based module
+  uipanel:draw()
+	if uipanel.output then
+    local data = uipanel.output
 		love.graphics.setColor(255,255,255)
-		love.graphics.print("You typed: '"..data.."' in the text box", 200, 350)
+		-- love.graphics.print("You typed: '"..data.."' in the ui panel", 200, 350)
+		love.graphics.print(""..data.."'", 200, 350)
     -- DO SOMTHING todo ToDO WITH THE DATA
 	end
+
+  -- sign in text box
+	if text and text.draw then
+		text:draw()
+	end
+ -- original tester
+	if data then
+		love.graphics.setColor(255,255,255)
+		love.graphics.print(""..data.."'", 200, 390)
+		-- love.graphics.print(""..data.."'", 200, 350)
+	end
+
 end
+
 function Editor:exitedState()
   love.window.setTitle(__TITLE_STR)
   love.graphics.clear()

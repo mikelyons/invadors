@@ -1,4 +1,75 @@
+TO DO:
+see lua-project/basic for many goodies to incorporate - old mac or PC folder not on new MBP
+
+found objects
+- little gemstone jewelry (enchantable)
+- SIM ejector for phone
+- other lil tools and lucky coins
+
+removed submodules to add back
+https://github.com/airstruck/sketchy
+https://github.com/LPGhatguy/love-microphone
+
+Platforms to support:
+- windows
+- mac
+- R36S? - https://github.com/xanthiacoder/love2d-on-r36s
+- playdate?
+
+Gamepad icons for keymapping screen
+- https://github.com/ReFreezed/ReFreezedBitmapFontConverter?tab=readme-ov-file
+
+truetype to bitmap fonts
+- https://www.angelcode.com/products/bmfont/
+
+Particle system tutorial:
+- https://love2d.org/forums/viewtopic.php?t=80718
+
+make a circle turn into a hexadecagon:
+- https://love2d.org/wiki/love.graphics.polygon
+
+driving simulation for commute
+- http://www.extentofthejam.com/pseudo/
+
+libs to use
+https://github.com/excessive/ludum-dare-37 -- 3d
+https://luapower.com/nw - native windows
+https://github.com/WetDesertRock/music.lua - music theory
+https://github.com/SimonLarsen?tab=repositories&q=&type=&language=lua&sort= -- lots
+https://github.com/TangentFoxy?tab=repositories&q=&type=&language=lua&sort=
+https://github.com/DwayneSpades?tab=repositories&q=&type=&language=lua&sort=
+https://github.com/markandgo/tile-collision
+https://github.com/DwayneSpades/3D-Engine-in-Love2D
+moon phases - https://github.com/oliverkwebb/moonphase/blob/main/lua/moonphase.lua
+
+ecs - https://github.com/Keyslam-Group/Concord
+
+collisions - https://github.com/vrld/HC
+
+https://www.youtube.com/results?search_query=drag+and+drop+love2d
+
+
+Explanation of how to approach rooms and camera behavior in a celest like
+- https://www.reddit.com/r/love2d/comments/rxtypc/comment/igp50sr/
+
+ecs
+- https://github.com/Keyslam-Group/Concord
+
+
 ### Dev Log
+
+##### 10-13-2023 Friday
+
+- Many things in the works
+- need to git commit, way too much uncommitted stuff
+  - need to make a release with all new features showcased
+- need to list all new things in devlog
+
+##### 10-2-2023
+
+- GRAVATAR is broken, breaks any module it's included in, commenting out for now
+- the layers of the world render now, but collision isn't working with the
+- - new style worlds
 
 ##### 12-9-2022
 
@@ -15,19 +86,35 @@ trying to fix collisions to they work again after all the chunk tile stuff
 - Add The Herobrine
 -  
 
-## Priorities
+## Wizard Chores
 
+- the toxic crisis as the drowning music and other cruS OST as radio items w chuckable radio item in invadortz
+- chuckable radio item has all tracks encountered in the while in situations that play those tracks as their sound track
+-
+
+## Ape meat suits
+- hollowed out ape body with skull helmet but works as a cyber suit
+
+## Priorities ?
+
+DONe v
 Chunk loading unloading 
 - https://www.youtube.com/watch?v=uE36MVjB5-8
 - https://github.com/NesiAwesomeneess/ChunkLoader-CSharp
 
+Done v
 image sequencing - https://github.com/YoungNeer/clove
 
 ### Scratch
 
-
 Lua Reflection
 https://stackoverflow.com/questions/2620377/lua-reflection-get-list-of-functions-fields-on-an-object
+
+
+##### todo
+
+- ensure backward compatibility and up to date self-contained
+  - https://github.com/love2d/love/releases 
 
 ##### Renderlayers: Top to Bottom
 
@@ -56,7 +143,25 @@ chunks
 https://github.com/Guthen/Chunk2D
 
 
+# feature ideas
 
+- Racial damage
+
+-- text to speech : https://gist.github.com/slemonide/625b0309bdf49d1ad4ea189d2892e956
+https://www.reddit.com/r/love2d/comments/4185xi/quick_question_typing_effect/
+
+# Automated builds
+
+- https://github.com/nhartland/love-build
+
+# dependency management
+
+- https://gitea.it/1414codeforge/crush
+- https://github.com/Alloyed/loverocks
+
+# Original open source libraries
+
+- extract out gravatar.lua and make a public project out of it
 
 # Consideration
 
@@ -75,10 +180,10 @@ physics collisions
 Material UI
 - https://github.com/flamendless/material-love
 
-3d engine
+# 3d engine
 - https://love2d.org/forums/viewtopic.php?f=5&t=86350
 - https://love2d.org/forums/viewtopic.php?f=14&t=92041&hilit=raycast
-another - https://github.com/AndrewMicallef/ss3d
+-  another - https://github.com/AndrewMicallef/ss3d
 
 the most fleshed out game I've seen
 - https://github.com/hawkthorne
@@ -101,7 +206,7 @@ iqm/exm models? - blender
 mariokart style levels
 - https://github.com/hatninja/Playmat
 
-video
+# video
 - https://love2d.org/forums/viewtopic.php?f=5&t=9275
 - https://love2d.org/forums/viewtopic.php?f=5&t=10396
 - https://love2d.org/forums/viewtopic.php?f=5&t=9275
@@ -112,7 +217,11 @@ bone animation - https://github.com/pfirsich/andross
 flux tweening - https://github.com/flamendless/Anagramer/tree/master/modules/flux
 slab ui windows - https://github.com/flamendless/Slab
 
-post processing shaders - https://github.com/flamendless/moonshine
+# post processing shaders
+- https://github.com/flamendless/moonshine
+- https://github.com/vrld/moonshine
+- https://github.com/veethree/POSTER
+- https://github.com/tsteinholz/LoveShaderConverter
 
 pack assets into datafile to hide them - https://github.com/flamendless/love_seal
 
@@ -135,6 +244,7 @@ julia set fractal - https://github.com/novemberisms/julia
 markov chain level generation - https://rxi.github.io/level_generation_using_markov_chains.html
 
 threading for synth? - https://github.com/rxi/coil
+possible denver alternative - https://github.com/camchenry/sone
 
 useful functions - https://github.com/rxi/lume
 
@@ -167,6 +277,8 @@ drawing geo-data based maps - https://github.com/nekromoff/osmlove
 text effects - https://github.com/Papaew/popo
 
 text dialog boxes - https://github.com/smallsco/scribe
+
+dialog tree - https://github.com/gustavostuff/dialove
 
 ### Tiled
 
@@ -222,6 +334,7 @@ or: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 ### Save Directory
 
 - C:/Users/Mike/AppData/Roaming/LOVE/invadors_save_directory
+- @TODO -  document mac save directory ...
 
 ## newest bookmarks
 
@@ -239,8 +352,14 @@ Auto Updates
 
 https://github.com/love2d-community/awesome-love2d#animation
 https://github.com/superzazu/denver.lua - make custom sound effects
+https://github.com/camchenry/sone - also custom sound effects, possible denver alternative
+
+https://github.com/MikuAuahDark/lua-nbt - read people's miencrat worlds
 
 ### Bookmarks
+
+* inspo / pixel art
+https://www.reddit.com/r/PixelArt/comments/17c4mp7/gorgeous_clouds_by_6vcr/
 
 * shaders - http://blogs.love2d.org/content/beginners-guide-shaders
 - https://github.com/vrld/shine/wiki
@@ -313,14 +432,18 @@ paying homage to other games or something
 
 # Scratch
 
-  -- DEBUG
-  print("DEBUG")
+
+## inspo
+
+    - packages take up space in the house unless they are opened and then become the assembled item (ie coatrack or any other efficiency creator)
+      - draw pixel art scenes of bedroom and living room, parts of the house with items everywhere, then cut out the items
 
 
+## hack libs
 
-  -- -- move up/downward with a key
-  -- if love.keyboard.isDown('down') then
-  --   dy = speed * dt
-  -- elseif love.keyboard.isDown('up') then
-  --   dy = -speed * dt
-  -- end
+https://github.com/EngineerSmith/nativefs
+https://github.com/zorggn/love-fml
+
+## Sound FX
+
+https://www.youtube.com/shorts/UyPWELhAjLU

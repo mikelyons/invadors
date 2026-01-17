@@ -1,4 +1,8 @@
--- Stores and grabs assets added with id retrieved by id
+--[[
+  asm.lua
+  ASSET MANAGER
+  Stores and grabs assets added with id retrieved by id
+]]
 
 local ASM = {}
 
@@ -7,8 +11,8 @@ function ASM:load()
 end
 
 function ASM:add(asset,id)
-  local a = {asset = asset,id = id}
-  table.insert(self.assets,a)
+  local a = {asset = asset, id = id}
+  table.insert(self.assets, a)
 end
 
 function ASM:get(id)

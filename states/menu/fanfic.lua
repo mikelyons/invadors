@@ -61,11 +61,22 @@ function new(x,y, label, password, font, size)
 
 	tb.password = password --boolean
 
-	tb.oldFont = love.graphics.getFont()
-	if size and type(font) == 'string' then --they sent in a filename and a font size, presumably
-		tb.font = love.graphics.newFont(font, size)
-	else --using default font with a new size.
-		tb.font = love.graphics.newFont(font)
+	-- Error handling for font creation
+	local success, result = pcall(function()
+		tb.oldFont = love.graphics.getFont()
+		if size and type(font) == 'string' then --they sent in a filename and a font size, presumably
+			tb.font = love.graphics.newFont(font, size)
+		elseif size and type(font) == 'number' then --using default font with a new size.
+			tb.font = love.graphics.newFont(size)
+		else --using default font
+			tb.font = love.graphics.getFont()
+		end
+	end)
+	
+	if not success then
+		print("Warning: Could not create font, using default:", result)
+		tb.oldFont = love.graphics.getFont()
+		tb.font = love.graphics.getFont()
 	end
 
 	tb.width = tb.font:getWidth("M")*12 --assuming 12 characters (using M) wide

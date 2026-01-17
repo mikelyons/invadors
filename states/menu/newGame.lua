@@ -25,46 +25,50 @@ function NewGame:loadButtons()
 
   PrintTable(filesTable)
 
-  self.buttons = self:buildSavesButtonTable(self.buttons, filesTable) 
+  self.buttons = self:buildSavesButtonTable(self.buttons, filesTable)
 
 end
 
-function NewGame:buildSavesButtonTable(buttonsTable, states) 
+function NewGame:buildSavesButtonTable(buttonsTable, states)
   local buttons = {}
 
-  -- what are these?
-  print(states)
-  -- for i=6, 15 do --#states do
-  -- for i=13, #states-5 do
-  -- for i=1, #states do
-  for i=1, 6 do
-    -- skip mac DS_store file TODO - is this necessary?
-    if states[i] == '.DS_store' then
+  -- Simple filtering: only show states that are likely to be valid game states
+  for i=1, #states do
+    local stateName = states[i]
+    print("Checking state:", stateName)
+
+    -- Skip system files
+    if stateName == '.DS_store' or stateName == '.git' then
+      goto skip_state
+    end
+    
+    -- Skip files with extensions (we want folder states)
+    if stateName:match("%.") then
+      goto skip_state
+    end
+    
+    -- Skip some problematic states
+    if stateName == '_template' or stateName == 'ai found note' then
       goto skip_state
     end
 
-
-    -- Examine the state title by char (`states[i]`)
-    -- skip_state if first character is 'x'
-    for character in states[i]:gmatch"." do
-      print(character)
-      -- if (i == 1 and c ~= 'h') then
-      if (i == 6) then
-        goto skip_state
-      end
+    -- Only include states in a reasonable range (avoid too many buttons)
+    if i > 20 then
+      goto skip_state
     end
-
-    -- skip all states but the named one
-    -- if states[i] ~= 'computer' then
-    --   goto skip_state
-    -- end
 
     -- insert the state into the buttons table
     table.insert(buttons, newButton(
-      states[i] or 'empty',
+      stateName or 'empty',
       function()
-        print(states[i]..'game mode '..i)
-        self:pushState(states[i])
+        print('Selected state: ' .. stateName)
+        -- Try to push the state, but handle errors gracefully
+        local success, err = pcall(function() 
+          self:pushState(stateName)
+        end)
+        if not success then
+          print("Failed to push state:", stateName, "Error:", err)
+        end
       end
     ))
     ::skip_state::
@@ -78,6 +82,11 @@ function NewGame:drawButtons()
   end
 
   local buttons = self.buttons
+  if not buttons then
+    print("Warning: No buttons to draw")
+    return
+  end
+  
   -- print('-------')
   -- PrintTable(self.buttons)
   -- print('-------')
@@ -95,6 +104,9 @@ function NewGame:drawButtons()
 
   -- from tutorial:  https://www.youtube.com/watch?v=vMSjVuJ6wDs&t=303s
   for i, button in ipairs(buttons) do
+    if not button then
+      goto continue
+    end
     button.last = button.now
 
     local bx = (ww * 0.5) - (button_width * 0.5)
@@ -146,6 +158,7 @@ function NewGame:drawButtons()
     cursor_y = cursor_y + (button_height + margin)
 
     love.graphics.setColor(_r, _g, _b, _a)
+    ::continue::
   end
 end
 
@@ -154,6 +167,10 @@ function NewGame:enteredState()
 
   -- love.graphics.clear(255,255,255,255)
   love.graphics.clear(1,1,1,1)
+  
+  -- Set up font
+  self.font = love.graphics.newFont(16)
+  
   if DEBUG_LOGGING_ON then
     print(string.format("ENTER NewGame STATE - %s \n", os.date()))
   end
@@ -168,7 +185,7 @@ function NewGame:enteredState()
 
   -- really? vvv
   -- THIS CRUCIAL STEP needs to be added for all other renderables!! @TODO
-  renderer:addRenderer(self, 5)
+  -- renderer:addRenderer(self, 5)
 end
 
 -- we want multiline on this eventually: https://github.com/riidom/mlvtest/blob/master/multilineview.lua
@@ -199,7 +216,9 @@ function NewGame:update(dt)
   -- Menu:mousepressed()
 
   -- Particle:update(dt)
-  Blood:update(dt)
+  if Blood and Blood.update then
+    Blood:update(dt)
+  end
 
   -- if rect.dragging.active then
   --   rect.x = love.mouse.getX() - rect.dragging.diffX
@@ -227,7 +246,7 @@ function NewGame:draw(dt)
   local _r, _g, _b, _a = love.graphics.getColor()
   -- love.graphics.setColor(r, g, b, a)
   love.graphics.setColor(0, 255, 255, 255)
-  Gravatar:draw()
+  -- Gravatar:draw()
   -- love.graphics.reset()
   -- love.graphics.pop()
   love.graphics.setColor(_r, _g, _b, _a)
@@ -235,14 +254,20 @@ function NewGame:draw(dt)
   local mx = love.mouse.getX()
   local my = love.mouse.getY()
 
-  Particle:draw()
-  Blood:draw(mx, my)
+  if Particle and Particle.draw then
+    Particle:draw()
+  end
+  if Blood and Blood.draw then
+    Blood:draw(mx, my)
+  end
 
 
   -- http://nova-fusion.com/2012/09/20/custom-cursors-in-love2d/
   love.mouse.isVisible(true)
   -- draw a pointer
-  love.graphics.draw(brian, mx, my)
+  if brian then
+    love.graphics.draw(brian, mx, my)
+  end
   -- love.graphics.draw(mouse, mx, my)
 
 -- sign in text box

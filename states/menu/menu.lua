@@ -1,112 +1,260 @@
 --[[
   menu.lua
+
   The main menu after the game load and splash screens
   This module is intended to provide keyboard and mouse
   access to all the individual game modes for players and
-  testers alike                                           
+  testers alike, for now ..
+
+  TODO:
+  - implement key sequence cheat unlocks
+  - rename this to the primary main menu
+    - create menu generating subscripts that can be used in multiple menu screens
+      - MacOS.command - WIP
+      - Windows.bat - WIP
 ]]--
 
+print("Menu: Starting to load...")
 asm:load()
-tween = require '/lib/tween/tween'
+print("Menu: Asset manager loaded")
 
-require 'states/menu/splash_texts_library'
-splashtext = require('states/menu/splash_texts')
-SplashText = splashtext:new()
+print("Menu: Loading tween library...")
+local success, tween = pcall(require, '/lib/tween/tween')
+if not success then
+  print("Error loading tween library:", tween)
+  tween = nil
+else
+  print("Menu: Tween library loaded")
+end
 
-gravatar = require('states/menu/gravatar')
+-- music = love.audio.newSource("techno.ogg", "stream") -- the "stream" tells LÖVE to stream the file from disk, good for longer music tracks
+-- music:play()
+
+
+print("Menu: Loading splash texts...")
+local success, splash_lib = pcall(require, 'states/menu/splash_texts_library')
+if not success then
+  print("Error loading splash texts library:", splash_lib)
+else
+  print("Menu: Splash texts library loaded")
+end
+
+local success2, splashtext = pcall(require, 'states/menu/splash_texts')
+if not success2 then
+  print("Error loading splash texts:", splashtext)
+  splashtext = nil
+else
+  print("Menu: Splash texts loaded")
+  SplashText = splashtext:new()
+  print("Menu: SplashText created")
+end
+
+-- gravatar = require('states/menu/gravatar')
 -- was this just a note or experiment?
-Gravatar = gravatar:new(score['email'], 100, 100)
+-- Gravatar = gravatar:new(score['email'], 100, 100)
 -- Gravatar = gravatar:new('', 100, 100)
 
+-- @TODO - particles
+-- - make background rain fall from the top of the screen in particles
+-- - make drips from the top of the view port
 -- test particle
-particle = require('../src/particles/baseParticle')
-Particle = particle:new(300, 300, img)
-Particle:load()
+print("Menu: Loading particle system...")
+local success, particle = pcall(require, '../src/utils/particles/baseParticle')
+if not success then
+  print("Error loading particle system:", particle)
+  particle = nil
+else
+  print("Menu: Particle system loaded")
+  Particle = particle:new(300, 300, img)
+  -- Particle = particle:new(300, 300, particle or img)
+  Particle:load()
+  print("Menu: Particle created and loaded")
+end
 
 -- blood particle on click
-blood = require('../src/particles/blood')
-Blood = blood:new(50, 50)
-Blood:load()
+print("Menu: Loading blood particle system...")
+local success, blood = pcall(require, '../src/utils/particles/blood')
+if not success then
+  print("Error loading blood particle system:", blood)
+  blood = nil
+  Blood = nil
+else
+  print("Menu: Blood particle system loaded")
+  local success2, blood_obj = pcall(function() return blood:new(50, 50) end)
+  if success2 then
+    Blood = blood_obj
+    print("Menu: Blood particle object created successfully")
+    local success3 = pcall(function() Blood:load() end)
+    if success3 then
+      print("Menu: Blood particle created and loaded")
+    else
+      print("Menu: Blood particle created but load failed")
+      Blood = nil
+    end
+  else
+    print("Menu: Failed to create blood particle:", blood_obj)
+    Blood = nil
+  end
+end
 
-asm:add(love.graphics.newImage("assets/conversions/invadors.png"), 'hamster')
-asm:add(love.graphics.newImage("assets/newer/brian.png"), 'brian')
-asm:add(love.graphics.newImage("assets/mouse.png"), 'mouse')
+print("Menu: Loading assets...")
+local success, z_img = pcall(love.graphics.newImage, "assets/Z.png")
+if success then
+  asm:add(z_img, 'z')
+  print("Menu: Z image loaded")
+end
 
-Menu = Game:addState('menu')
+local success2, hamster_img = pcall(love.graphics.newImage, "assets/conversions/invadors.png")
+if success2 then
+  asm:add(hamster_img, 'hamster')
+  print("Menu: Hamster image loaded")
+end
+
+local success3, brian_img = pcall(love.graphics.newImage, "assets/newer/brian.png")
+if success3 then
+  asm:add(brian_img, 'brian')
+  print("Menu: Brian image loaded")
+end
+
+local success4, mouse_img = pcall(love.graphics.newImage, "assets/mouse.png")
+if success4 then
+  asm:add(mouse_img, 'mouse')
+  print("Menu: Mouse image loaded")
+end
+
+print("Menu: Registering gamestate...")
+if Game and Game.addState then
+  print("Menu: Game.addState method exists")
+  local success, result = pcall(function() return Game:addState('menu') end)
+  if success then
+    Menu = result
+    print("Menu: Gamestate registered successfully")
+    print("Menu: Menu object type:", type(Menu))
+  else
+    print("Menu: Failed to register gamestate, error:", result)
+    Menu = nil
+  end
+else
+  print("Menu: Game or Game.addState is nil!")
+  Menu = nil
+end
+
+print("Menu: State loading completed successfully!")
 
 
-  -- tm['trn']  = 'training'
-  -- tm['biz']  = 'bizzaro'
-  -- tm['sp1']  = 'space1'
-  -- tm['e2']   = 'earth2'
-  -- tm['cmd']  = 'commando'
-  -- tm['gen']  = 'generate'
-  -- tm['q']    = 'quit'
-  -- if key == ('1' or 'return') then self:pushState('Training') end
-  -- if key == ('2' or 'space') then self:pushState('Bizzaro') end
-  -- if key == ('3' or 'q') then self:pushState('space1') end
-  -- if key == ('4' or 'w') then self:pushState('Earth2') end
-  -- if key == ('5') then self:pushState('commando') end
-  -- -- if key == ('6') then self:pushState('generate') end
-  -- if key == ('6') then self:gotoState('generate') end
-  
-  -- if key == ('q') then love.event.push('quit') end
+-- tm['trn']  = 'training'
+-- tm['biz']  = 'bizzaro'
+-- tm['sp1']  = 'space1'
+-- tm['e2']   = 'earth2'
+-- tm['cmd']  = 'commando'
+-- tm['gen']  = 'generate'
+-- tm['q']    = 'quit'
 
+-- find a value in a list
+-- print(tm['q'])
+-- print(Tlength(tm))
+
+-- for i=0, #tm do
+--   print('found ' .. tm[i])
+-- end
 
 -- what is this? find the length of the table?
 -- table length util function
 function Tlength(tbl)
   local getN = 0
-  for n in pairs(tbl) do 
-    getN = getN + 1 
+  for n in pairs(tbl) do
+    getN = getN + 1
   end
   return getN
 end
 
-  -- find a value in a list
-  -- print(tm['q'])
-  -- print(Tlength(tm))
+--[[
+  TO MODIFY:
+  add a letter and/or number as a key, it will load that gamestate
+  immediately if you are on the game main menu
+  The gamestate should be named in accord with the naming conventions for this to work
+  and must be loaded in game.lua
+  any dependencies outside of `depentencies.lua` must be handled in the gamestate `enteredState()`
 
-  -- for i=0,tm do
-  --   print('found ' .. tm[i])
-  -- end
+  TEMPLATES:
+  if key == ('1' or 'return') then self:startGame() end
+  if key == ('escape') then self:popState('menu') end
+  -- if key == ('q') then love.event.push('quit') end
 
-  -- for i = 1,Tlength(tm),1 
-  -- do 
-  --   print(tm[i]) 
-  --   if tm[i] == "quit" then 
-  -- end
-
+  @TODO - 
+  - "are you sure?" screen with "remember this choice" before quit
+    - sound effects (greusome moaning)
+    - score implications
+    - unique quitting screens
+    - making you think you're insane
+]]
+require('states/_template/_addState') -- why was this here? to run the adstate script in testaddstate
+-- use a state to add a state ^
 function Menu:keypressed(key, code)
-  -- if key == ('1' or 'return') then self:startGame() end
-  -- if key == ('1' or 'return') then self:pushState('generate') end
-  -- if key == ('1' or 'return') then self:pushState('dialogue') end
-  if key == ('1' or 'return') then self:pushState('computer') end
   -- if key == ('1' or 'return') then self:pushState('signin') end
-  -- if key == ('1' or 'return') then self:pushState('generate') end
-  if key == ('2' or 'space') then self:pushState('bizzaro') end
-  if key == ('3' or 's') then self:pushState('synth') end
-  if key == ('4' or 'm') then self:pushState('mts') end
-  -- if key == ('4' or 'g') then self:pushState('prog2') end
-  if key == ('5' or 'g') then self:pushState('prog2') end
+  -- if key == ('o') then self:pushState('mic') end
   -- if key == ('6' or 'h') then self:pushState('pro') end
   -- if key == ('3' or 'q') then self:pushState('space1') end
   -- if key == ('4' or 'w') then self:pushState('Earth2') end
   -- if key == ('5') then self:pushState('commando') end
-  -- if key == ('6') then self:pushState('generate') end
-  if key == ('5') then self:gotoState('generate') end
+
+  -- !!!this state runs filesystem scrips!***
+  if key == ('a') then _G.util.addState('testAddState') end
+
+  -- if key == ('b') then self:pushState('book') end  -- Removed book state
+  if key == ('c') then self:pushState('face') end
+  if key == ('d') then self:pushState('drivingSim') end
+  if key == ('e') then self:pushState('dialogue') end
   if key == ('f') then self:pushState('editor') end
-  -- if key == ('escape') then self:popState('menu') end
-  -- if key == ('q') then love.event.push('quit') end
-  if key == ('escape') then love.event.push('quit') end
+  if key == ('g') then self:gotoState('generate') end
+  if key == ('i') then self:pushState('inventory') end
+  if key == ('l') then self:pushState('livelove') end
+  if key == ('m') then self:pushState('characterCustomizer') end
+  if key == ('p') then self:pushState('asciiGame') end
+  if key == ('q') then self:pushState('quadtree') end
+  if key == ('t') then self:pushState('tiledZoom') end
+  if key == ('u') then self:gotoState('uiTest') end
+  if key == ('v') then self:pushState('vapeStatus') end
+  if key == ('w') then self:pushState('wireArt') end
+  -- if key == ('x') then self:pushState('infiniteRunner') end
+
+  if key == ('1') then self:pushState('computer') end
+  if key == ('2') then self:pushState('bizzaro') end
+  if key == ('3') then self:pushState('synth') end
+  if key == ('4') then self:pushState('mts') end
+  if key == ('5') then self:pushState('prog2') end
+  if key == ('6') then self:pushState('space1') end -- red box colissions fast green player and debug overlay, box2d?
+  if key == ('7') then self:pushState('orbital') end
+  if key == ('8') then self:pushState('characterCreation') end
+  if key == ('9') then self:pushState('kitchen') end
+  if key == ('0') then self:pushState('worldMap') end
+  if key == ('d') then self:pushState('dinner') end
+
+
+  -- if key == ('escape') then love.event.push('quit') end
+  if key == ('q') then love.event.push('quit') end
 end
 
+-- get the mouse position with the proper camera scaling
+-- function mouse_pos()
+--     mouse.x, mouse.y = love.mouse.getPosition()
+--     mouse.x, mouse.y = (mouse.x + (camera.x - camera.w/2)*window.scale)/window.scale, (mouse.y + (camera.y - camera.h/2)*window.scale)/window.scale
+-- end
+
 function Menu:mousepressed(x,y, button , istouch)
-  if love.mouse.isDown(1) then
-    Blood:emit()
+  -- Emit blood particles on left mouse button press
+  if button == 1 then
+    if Blood and Blood.emit then
+      -- Emit blood at the mouse position
+      print("Menu: Emitting blood particles at", x, y)
+      Blood:emit(x, y)
+    else
+      print("Menu: Blood particle system not available")
+    end
   end
 
-  -- draggable note rect
+  -- draggable evilNote rect
+  -- @TODO - This needs decoupled from evilNote.lua
   if button == 1 then
     if x>rect.x then
       if x<rect.x+rect.width then
@@ -123,11 +271,12 @@ function Menu:mousepressed(x,y, button , istouch)
 end
 function Menu:mousereleased(x, y, button)
   --draggable note rect
-  if button == 1 then 
-    rect.dragging.active = false 
+  if button == 1 then
+    rect.dragging.active = false
   end
 end
 
+-- was this going to be a debug function?
 function stackDebug(self) end
 
 function Menu:pushedState()
@@ -146,12 +295,16 @@ function Menu:poppedState()
   -- PrintTable(self.buttons)
   PrintTable(self:getStateStackDebugInfo())
 end
-function Menu:pausedState()
-  print('menu paused')
-end
+
 function Menu:continuedState()
   self:loadButtons({})
+  love.mouse.setVisible(true)
   print('menu continued')
+  print("Menu state resumed from book state")
+  print("State stack after continue:", table.concat(self:getStateStackDebugInfo(), ", "))
+end
+function Menu:pausedState()
+  print('menu paused')
 end
 
 function Menu:enteredState()
@@ -160,6 +313,8 @@ function Menu:enteredState()
   if DEBUG_LOGGING_ON then
     print(string.format("ENTER Menu STATE - %s \n", os.date()))
   end
+
+  love.mouse.setVisible(true)
 
   -- is this in the wrong place?
   -- self.font = love.graphics.newImageFont("assets/newer/Imagefont.png",
@@ -170,10 +325,11 @@ function Menu:enteredState()
   -- self.font = love.graphics.newFont(32)
 
   self:loadButtons(Menu)
-  Gravatar:load()
+  -- Gravatar:load()
 
   love.graphics.clear()
   brian = asm:get('brian')
+  z = asm:get('z')
   hamster = asm:get('hamster')
 
   -- THIS CRUCIAL STEP needs to be added for all other renderables!! @TODO
@@ -181,7 +337,7 @@ function Menu:enteredState()
 
   -- entity componentize and animate this
   self.canvas = love.graphics.newCanvas(32, 32)
-   
+
   -- Rectangle is drawn to the canvas with the regular alpha blend mode.
   love.graphics.setCanvas(self.canvas)
     love.graphics.clear()
@@ -229,6 +385,7 @@ end
 -- we want multiline on this eventually: https://github.com/riidom/mlvtest/blob/master/multilineview.lua
 -- Draggable tutorial: http://nova-fusion.com/2011/09/06/mouse-dragging-in-love2d/
 -- https://gist.github.com/a-racoon/1ca3b9f467ed491d404035400dfd8953
+-- note rect
 rect = {
   x = 700,
   y = 500,
@@ -240,12 +397,19 @@ rect = {
 local easetype = 'outQuad'
 
 function Menu:update(dt)
-  Menu:mousepressed()
+  -- Remove the incorrect mousepressed call - it should only be called by LÖVE's event system
+  -- Menu:mousepressed()
 
-  Particle:update(dt)
-  Blood:update(dt)
+  if Particle and Particle.update then
+    Particle:update(dt)
+  end
+  if Blood and Blood.update then
+    Blood:update(dt)
+  end
 
-  SplashText:update(dt)
+  if SplashText and SplashText.update then
+    SplashText:update(dt)
+  end
 
   if rect.dragging.active then
     rect.x = love.mouse.getX() - rect.dragging.diffX
@@ -255,17 +419,21 @@ end
 
 local function drawNote()
   -- draggable rect
-  love.graphics.setColor(205, 205, 195, 255)
-  love.graphics.rectangle("fill", rect.x, rect.y, rect.width, rect.height)
-  love.graphics.setColor(205, 5, 5, 255)
-  love.graphics.printf(SplashText:getText(),rect.x+20,rect.y+20,220)
-  love.graphics.setColor(255, 255, 255, 255)
+  if rect then
+    love.graphics.setColor(205, 205, 195, 255)
+    love.graphics.rectangle("fill", rect.x, rect.y, rect.width, rect.height)
+    love.graphics.setColor(205, 5, 5, 255)
+    if SplashText and SplashText.getText then
+      love.graphics.printf(SplashText:getText(),rect.x+20,rect.y+20,220)
+    end
+    love.graphics.setColor(255, 255, 255, 255)
+  end
 end
 
 -- love.graphics.setColor(r, g, b, a)
 function Menu:draw()
-
-  love.graphics.print(filesString, 0, 0)
+  -- print the list of directories for save data
+  -- love.graphics.print(filesString, 0, 0)
 
   local _r, _g, _b, _a = love.graphics.getColor()
   love.graphics.setColor(255, 255, 255, 255)
@@ -273,7 +441,13 @@ function Menu:draw()
   -- Logo
   -- https://fontmeme.com/doom-font/
   love.graphics.setColor(255, 255, 255, 255)
-  love.graphics.draw(hamster, 50, 50, 0, 2.2, 2.2)
+  if hamster then
+    love.graphics.draw(hamster, 50, 50, 0, 2.2, 2.2)
+  end
+  if z then
+    love.graphics.draw(z, g_Width/2, 50, 0, 2.2, 2.2)
+  end
+  -- love.graphics.draw(z, mx, my)
   love.graphics.setColor(_r, _g, _b, _a)
 
   -- MenuHelper:drawMenu()
@@ -282,32 +456,41 @@ function Menu:draw()
   -- love.graphics.setColor(255, 255, 255, 255)
   -- MenuHelper:drawButtons()
 
-  SplashText:draw()
+  if SplashText and SplashText.draw then
+    SplashText:draw()
+  end
 
   love.graphics.setColor(_r, _g, _b, _a)
   local _r, _g, _b, _a = love.graphics.getColor()
   love.graphics.setColor(0, 255, 255, 255)
-  Gravatar:draw()
+  -- Gravatar:draw()
 
   love.graphics.setColor(_r, _g, _b, _a)
 
   local mx = love.mouse.getX()
   local my = love.mouse.getY()
 
-  Particle:draw()
-  Blood:draw(mx, my)
+  if Particle and Particle.draw then
+    Particle:draw()
+  end
+  if Blood and Blood.draw then
+    Blood:draw()
+  end
 
   -- http://nova-fusion.com/2012/09/20/custom-cursors-in-love2d/
   love.mouse.isVisible(false)
   -- draw a pointer
-  love.graphics.draw(brian, mx, my)
+  if brian then
+    love.graphics.draw(brian, mx, my)
+  end
   -- love.graphics.draw(mouse, mx, my)
-  -- PrintDebug(fanfic)
 
   self:drawButtons()
 
   drawNote()
-  drawCanvas(self.canvas)
+  if self.canvas then
+    drawCanvas(self.canvas)
+  end
 
   -- Pre-release version
   -- Prerelease version watermark
@@ -315,17 +498,35 @@ function Menu:draw()
   -- local textW = self.font:getWidth(button.text)
   -- local textH = self.font:getHeight(button.text)
   -- love.graphics.setFont(self.font)
-  love.graphics.printf(__VERSION,
-    camera.pos.x,
-    camera.pos.y + (love.graphics.getHeight() - 32 - 32),
-    620, 'left')
+  if camera and camera.pos then
+    love.graphics.printf(__VERSION,
+      camera.pos.x,
+      camera.pos.y + (love.graphics.getHeight() - 32 - 32),
+      620, 'left')
+  else
+    -- Fallback if camera is not available
+    love.graphics.printf(__VERSION,
+      0,
+      love.graphics.getHeight() - 32 - 32,
+      620, 'left')
+  end
   love.graphics.setColor(255, 0, 0, 255)
 
-  love.graphics.printf('PRE-ALPHA',
-    camera.pos.x, camera.pos.y + (love.graphics.getHeight() - 32),
-    620, 'left')
+  -- love.graphics.printf('PRE-ALPHA',
+  --   camera.pos.x, camera.pos.y + (love.graphics.getHeight() - 32),
+  --   620, 'left')
   love.graphics.setColor(_r, _g, _b, _a)
   -- love.graphics.printf(text,x,y,limit,align)
+
+  -- @TODO - don't repeat this everywhere make it universal
+  if DEBUG_SHOW_FPS then
+    love.graphics.print(
+      'FPS '..tostring(love.timer.getFPS()),
+      -- camera.pos.x + (windowWidth - 128),
+      -- camera.pos.y + (windowHeight - 128)
+      32, 32
+    )
+  end
 end
 
 function Menu:exitedState()
@@ -365,7 +566,6 @@ function Menu:drawButtons()
       textColor = {255, 255, 255, 255}
     end
 
-
     button.now = love.mouse.isDown(1)
     if button.now and not button.last and hovered then
       button.fn(self)
@@ -373,7 +573,6 @@ function Menu:drawButtons()
     if love.mouse.isDown(1) then
       can_fire = false
     end
-
 
     love.graphics.setColor(unpack(color))
     love.graphics.rectangle(
@@ -428,6 +627,7 @@ function Menu:loadButtons(menu)
 	local lfs = love.filesystem
 	local filesTable = lfs.getDirectoryItems('/saves')
 
+  -- WINDOWS: %appdata%\LOVE\invadors_save_directory
   success = love.filesystem.createDirectory( 'saves' )
 
   if not love.filesystem.exists('saves/scores.lua') then
@@ -462,14 +662,23 @@ function Menu:loadButtons(menu)
   table.insert(buttons, self:newButton(
     'Options',
     function()
-      self:popState('menu')
-      print('Go to Options menu')
+      -- self:popState('menu')
+      self:pushState('options')
+      print('Go to Options menu??????????????????????????????????????????????????????????????????????????')
     end
   ))
   table.insert(buttons, self:newButton(
     'Quit',
     function()
       print('Goodbye')
+      score:quit()
+      love.event.quit(0)
+    end
+  ))
+  table.insert(buttons, self:newButton(
+    'CHEAT',
+    function()
+      print('Goodbye fucker')
       score:quit()
       love.event.quit(0)
     end
@@ -496,35 +705,29 @@ function Menu:newButton(text, fn, menu)
   }
 end
 
-function Menu.numericKeyboarMenu(key, code)
-  -- how do we return this in keypressed
-  if key == ('1' or 'return') then self:pushState('generate') end
-  -- if key == ('1' or 'return') then self:pushState('signin') end
-  -- if key == ('1' or 'return') then self:pushState('generate') end
-  -- if key == ('2' or 'space') then self:pushState('bizzaro') end
-  -- if key == ('3' or 's') then self:pushState('synth') end
-  if key == ('4' or 'm') then self:pushState('mts') end
-  -- if key == ('5' or 'g') then self:pushState('prog2') end
-  -- if key == ('6' or 'h') then self:pushState('pro') end
+-- this function should eventually be used to dipsplay debug information
+function drawKeybinds()
+  local _r, _g, _b, _a = love.graphics.getColor()
 
-  -- if key == ('3' or 'q') then self:pushState('space1') end
-  -- if key == ('4' or 'w') then self:pushState('Earth2') end
-  -- if key == ('5') then self:pushState('commando') end
-  -- if key == ('6') then self:pushState('generate') end
-  -- if key == ('6') then self:gotoState('generate') end
-  
-  if key == ('q') then love.event.push('quit') end
-  if key == ('escape') then love.event.push('quit') end
+  love.graphics.setColor(255, 255, 255, 255)
 
-  -- and this in draw
-  love.graphics.printf(
-    [[if key == (1 or return) then self:gotoState(Training) end
-    if key == (2 or space) then self:gotoState(bizzaro) end
-    if key == (3 or q) then self:gotoState(SPACE) end
-    if key == ('4' or 'w') then self:gotoState('Earth2') end
-    if key == ('5' or '') then self:gotoState('commando') end
-    if key == ('6' or '') then self:gotoState('generate') end
-
-    END OF TRANSMISSION]]
-    , 50, 320, 620, 'left')
-end-- 
+  love.graphics.rectangle('fill', 0,0, screenWidth, screenHeight)
+  -- love.graphics.setColor(5, 5, 5, 255)
+  -- love.graphics.print("('e' or 'l') then ('dialogue')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("('1' or 'return') then self:pushState('computer')", 40, 20, nil, 2, 2)
+  -- love.graphics.print("('b') then self:pushState('book')", 80, 20, nil, 2, 2)
+  -- love.graphics.print("if key == ('2' or 'space') then self:pushState('bizzaro')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("('3' or 's') then self:pushState('synth')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("('4' or 'm') then self:pushState('mts')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("('5') then self:pushState('prog2')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("('w') then self:pushState('wireArt')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("('g') then self:gotoState('generate')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("('7') then self:pushState('orbital')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("('8') then self:pushState('characterCreation')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("('9') then self:pushState('kitchen')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("('f') then self:pushState('editor')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("('i') then self:pushState('infiniteRunner')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("('escape') then love.event.push('quit')", 20, 20, nil, 2, 2)
+  -- love.graphics.print("RAINT", 20, 20, nil, 2, 2)
+  love.graphics.setColor(_r, _g, _b, _a)
+end

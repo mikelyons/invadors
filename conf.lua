@@ -1,24 +1,69 @@
+--[[
+  conf.lua
 
---	Invators 0.4.4
+  The love2d game configuration file
+
+--	InvadortZ {__VERSION}
 --  author : Mike Lyons
 --  developed using : lua + love2d 
 --  
 --  github repo link: https://github.com/mikelyons/invadors
---
+-- 
+--  https://love2d.org/wiki/Config_Files
+]]--
 
---https://love2d.org/wiki/Config_Files
+-- new way:
+-- local major, minor, revision, codename = love.getVersion( )
+-- old way: https://love2d.org/wiki/love.getVersion
+print('Love2d version: '..love._version_major..'.'..love._version_minor..'.'..love._version_revision)
+if love._version_major == 0 and love._version_minor < 9 then
+	error("InvadortZ requires love2d 0.9.0 or newer")
+elseif love._version_minor >= 11 then
+  print("too new the love version is, not work it may, or encounter bugs you will ...")
+end
+
+-- use this for internal variables that will be used below
+local GameInfo = { }
+
+_G.random = math.random
+
+-- Direction enum
+_G.Direction = {UP = 1, RIGHT = 2, DOWN = 3, LEFT = 4}
+function Direction.random()
+  return Direction[random(1, 4)]
+end
+function Direction.opposite(dir)
+  if dir == Direction.UP then return Direction.DOWN end
+  if dir == Direction.RIGHT then return Direction.LEFT end
+  if dir == Direction.DOWN then return Direction.UP end
+  if dir == Direction.LEFT then return Direction.RIGHT end
+end
+function Direction.string(dir)
+  local dir_strs = {"up", "right", "down", "left"}
+  return dir_strs[dir]
+end
+
+_G.GameSettings = {fullscreen = false}
+
+
+
 
 -- make console work?
 -- io.stdout:setvbuf("full")
+io.write("conf.", "Lua"); io.write("Hello World", "\n")
+io.write("Booting ...", "Lua"); io.write(" ...", "\n")
+-- make sure the standard io works
+
 -- ~ console in game - https://love2d.org/wiki/Cupid -- @TODO : separate dev libs
 -- require("./lib/cupid/cupid");
 
-__VERSION = "0.4.6.1"
+local snapdate = os.date("m%md%d")
 
-__TITLE_STR = string.format("Invadors v%s", __VERSION)
+__SNAP = snapdate or "m10w43" -- what significance is this date?
+__VERSION = "0.4.7.2"
+__TITLE_STR = string.format("InvadortZ v%s", __VERSION..'.'..__SNAP)
 
-
-function love.conf( t ) 
+function love.conf( t )
   t.console = true -- did this ever work?
 
   -- where is this directory?
@@ -26,17 +71,23 @@ function love.conf( t )
   -- change this with https://love2d.org/wiki/love.filesystem.setIdentity
   t.identity = "invadors_save_directory"       -- The name of the save directory (string)
   t.version = "0.10.2"                -- The LÖVE version this game was made for (string)
+
+  -- BEGIN window attributes including size and location on load
   t.window.title = __TITLE_STR --string.format("Invadors v%s", __VERSION)        -- The window title (string)
-  t.window.icon = 'assets/mushroom.png' -- Filepath to an image to use as the window's icon (string)
-  
+
+  -- mushroom wasn't 32x32 and wouldn't work on windows so I made small one named shroom
+  -- t.window.icon = 'assets/mushroom.png' -- Filepath to an image to use as the window's icon (string)
+
+  t.window.icon = 'assets/shroom.png' -- Filepath to an image to use as the window's icon (string)
+
   t.window.width = 1340
-  t.window.height = 900 
+  t.window.height = 900
 
   -- t.window.width  = 512
   -- t.window.height = 512
   -- t.window.width  = 1024
   -- t.window.height = 768
-  t.window.x = 600                   -- set the position of the window on launch
+  t.window.x = 800                   -- set the position of the window on launch
   t.window.y = 30
   t.window.borderless = false        -- Remove all border visuals from the window (boolean)
   t.window.resizable = true          -- Let the window be user-resizable (boolean)
@@ -50,6 +101,7 @@ function love.conf( t )
   t.window.fsaa = 0                  -- The number of samples to use with multi-sampled antialiasing (number)
   -- t.window.msaa = 0                  -- The number of samples to use with multi-sampled antialiasing (number)
   t.window.display = 1               -- Index of the monitor to show the window in (number)
+  -- t.window.display = 2               -- Index of the monitor to show the window in (number) -- @TODO use in conjunciton with the todo in main.lua
   t.window.highdpi = false           -- Enable high-dpi mode for the window on a Retina display (boolean). Added in 0.9.1
   t.window.srgb = false              -- Enable sRGB gamma correction when drawing to the screen (boolean). Added in 0.9.1
 
@@ -58,7 +110,6 @@ function love.conf( t )
   t.modules.event = true             -- Enable the event module (boolean)
   t.modules.graphics = true          -- Enable the graphics module (boolean)
   t.modules.image = true             -- Enable the image module (boolean)
-  t.modules.joystick = false          -- Enable the joystick module (boolean)
   t.modules.keyboard = true          -- Enable the keyboard module (boolean)
   t.modules.math = true              -- Enable the math module (boolean)
   t.modules.mouse = true             -- Enable the mouse module (boolean)
@@ -68,6 +119,8 @@ function love.conf( t )
   t.modules.timer = true             -- Enable the timer module (boolean)
   t.modules.window = true            -- Enable the window module (boolean)
   t.modules.thread = true            -- Enable the thread module (boolean)
+
+  t.modules.joystick = false          -- Enable the joystick module (boolean)
   t.modules.touch = false            -- Enable the touch module (boolean)
 end
 

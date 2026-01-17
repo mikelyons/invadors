@@ -1,3 +1,11 @@
+--[[
+  entity.lua
+
+  base Entity superclass that many game objects inherit from
+  TO DO:
+  - needs debug mode connection
+]]
+
 local vec2 = require "tools/vec2"
 local rect = require "objects/rect"
 

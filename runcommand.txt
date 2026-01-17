@@ -1,0 +1,8 @@
+helloLuaHi
+Could not open device.
+Error: No available video device
+stack traceback:
+	[C]: at 0x0041b570
+	[C]: in function 'require'
+	[string "boot.lua"]:324: in function <[string "boot.lua"]:241>
+	[C]: in function 'xpcall'

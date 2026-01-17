@@ -38,8 +38,8 @@ function Item:new(x,y)
     --   print('raint')
     -- end
 
-    --collisions
-    update_physics(self, tiles, dt)
+    --collisions - use unified physics system for both chunk-based and custom maps
+    unified_physics(self, dt)
 
     local x_pos = floor(self.pos.x / g_TileSize)
     local y_pos = floor(self.pos.y / g_TileSize)+1

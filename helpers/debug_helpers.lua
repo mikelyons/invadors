@@ -1,3 +1,12 @@
+--[[
+  debug_helpers.lua
+
+  DEBUG HELPERS
+
+  Functions that read and instrospect game data and objects
+  for the purposes of easy debugging
+]]
+
 -- this doesn't seem to work
 function dump(t, indent, done)
     done = done or {}
@@ -20,10 +29,26 @@ function dump(t, indent, done)
     end
 end
 
+function PrintXY(x, y)
+  print(
+    'x: '.. x .. ' ' ..
+    'y: '.. y .. ' '
+  )
+end
+function PrintTileXY(x, y)
+  print(
+    'Tile @ '..
+    'x: '.. x .. ' ' ..
+    'y: '.. y .. ' '..
+    'Tx: '.. math.floor(x/32)..
+    ' Ty: '.. math.floor(y/32)
+  )
+end
+
 --Need a pcall that will take a table of parameters
 
--- A helper function to print the line number and other information about the printable parameter
 function PrintDebug(f) --, args)
+  -- A helper function to print the line number and other information about the printable parameter
   print("")
   print("=========================================================")
   print("              start PRINT DEBUG start")
@@ -138,9 +163,18 @@ function PrintTable(tbl, depth, n)
   end
 end
 
--- this only works if you run the game with RUN.BAT
+  -- ("=========================================================")
+  -- ("              start PRINT COLOR start")
+  -- ("=========================================================")
+  -- ("===")
+
+-- this only works if you run the game with launcher/colortest.bat
+-- link to color definitions and figure out how to reset
+-- examples here: https://learn.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences#samples
 function PrintColor(p, colorName)
   local n = colorName
+  local string = p
+  local final = ""
   local pc = {
     ['red'] = ''
   }
@@ -154,14 +188,23 @@ function PrintColor(p, colorName)
 
     -- print('\27[0mReset!')
     -- print('\27[mReset!')
-    -- print("")
+    if     colorName == "yellow" then final = final..  '\27[33m'..p..''
+    elseif colorName == "red" then final = final..  '\27[31m'..p..''
+    elseif colorName == "-" then final = final..  '\27[31m'..p..''
+    elseif colorName == "green" then final = final.. '\27[32m'..p..''
+    elseif colorName == "white" then final = final.. '\27[97m'..p..''
+    else   final = "-- ERROR ERROR ERROR ERROR -- " return false
+    end
+    print("")
+    print(final)
+    
+    -- these are examples
+    -- print("\x1b[34;46mThis text shows the foreground and background change at the same time."); --\r\n
+    -- print("\x1b[0mThis text has returned to default colors using SGR.0 explicitly.");
 
-    print(
-      '\27[31m'..p..'! - ' .. 
-      'red' ..
-      '\27[31mRed!' .. 
-      ''
-    )
+
+    print("")
+    -- print('\x1b[31mtest\033[0ming')
     -- print('\27[32mGreen!')
     -- print('\27[33mYello!')
     -- print('\27[34mBlue!')
@@ -172,5 +215,25 @@ function PrintColor(p, colorName)
     -- print('\27[0mReset!')
     -- print('\27[mReset!')
     -- print("")
-  
+    return true
 end
+
+--[[
+  colors
+  1 = Blue        
+  2 = Green       
+  3 = Aqua        
+  4 = Red         
+  5 = Purple      
+  6 = Yellow      
+  7 = White       
+  8 = Gray
+  9 = Light Blue
+  0 = Black       
+  A = Light Green
+  B = Light Aqua
+  C = Light Red
+  D = Light Purple
+  E = Light Yellow
+  F = Bright White
+]]
