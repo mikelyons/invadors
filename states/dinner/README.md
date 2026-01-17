@@ -58,3 +58,6 @@ A first-person dinner table simulation where you can interact with guests and ea
 - Sound effects and music
 - More detailed guest animations
 - Multiple dinner scenarios
+
+
+

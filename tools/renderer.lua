@@ -30,8 +30,8 @@ function Renderer:create()
 
   function renderer:draw()
     for layer = 0, #self.drawers do
-      for draw = 0, #self.drawers[layer] do
-        local obj = self.drawers[layer][draw]
+      for i = 1, #self.drawers[layer] do
+        local obj = self.drawers[layer][i]
         if obj ~= nil then
           obj:draw()
         end

@@ -14,8 +14,8 @@
 local Splash = Game:addState('Splash')
 
 local function drawSplash()
-  love.graphics.setBackgroundColor(0, 0, 0, 255)--BG_COLOR)
-  love.graphics.setColor(255, 255, 255, fade_timer*(255/fade_time))
+  love.graphics.setBackgroundColor(0, 0, 0, 1)--BG_COLOR)
+  love.graphics.setColor(1, 1, 1, fade_timer/fade_time)
   love.graphics.draw(hamster, 50, 50, 0, .35, .35)
 end
 

@@ -2,357 +2,377 @@
   characterCreation.lua
   menu 8
 
-  - Name the character something goherent
-  - all characters are saved to the save directory
-  - all characters can be recalled from anywhere in the game once saved
-  - characters make up the world
-  - https://www.reddit.com/r/love2d/comments/w9us4g/methods_for_printing_a_table_like_an_excel_table/
-    - Use this to display table of player stats
-    - also take it to the scores board mode
-    - flesh out the options menu
+  Three-panel character creation screen:
+  - Left Panel: Physical stats (Strength, Agility, Constitution, Height, Weight)
+  - Center Panel: Real-time character body preview
+  - Right Panel: Equipment slots mockup (Head, Chest, Hands, Legs, Feet)
 ]]
 print('characterCreation.lua -> ')
-print('characterCreation -> ')
 
--- Add debugging to track loading progress
-print("CharacterCreation: Starting to load...")
+-- Dependencies
+local Theme = require('src/ui/theme')
+local UIManager = require('src/ui/UIManager')
+local Panel = require('src/ui/Panel')
+local StatSlider = require('src/ui/StatSlider')
+local EquipmentSlot = require('src/ui/EquipmentSlot')
+local Button = require('src/ui/Button')
+local CharacterStats = require('states/characterCreation/CharacterStats')
+local BodyRenderer = require('states/characterCreation/BodyRenderer')
 
-print("CharacterCreation: Loading font helpers...")
-require('helpers/font_helpers')
-print("CharacterCreation: Font helpers loaded")
-
--- dependencies
-print("CharacterCreation: Loading fanfic library...")
-local success1, fanfic = pcall(require, 'lib/fanfic')
-if not success1 then
-  print("Error loading fanfic:", fanfic)
-  fanfic = nil
-else
-  print("CharacterCreation: fanfic loaded")
+-- Optional: fanfic text input library
+local fanfic = nil
+local success, result = pcall(require, 'lib/fanfic')
+if success then
+  fanfic = result
 end
 
-print("CharacterCreation: Loading drawMan...")
-local success2, man = pcall(require, 'states/characterCreation/drawMan')
-if not success2 then
-  print("Error loading drawMan:", man)
-  man = nil
-else
-  print("CharacterCreation: drawMan loaded")
-end
-
--- Initialize text input
-text = nil
-
--- registering the gamestate
-print("CharacterCreation: Registering gamestate...")
+-- Register the gamestate
 local characterSheet = Game:addState('characterCreation')
-print("CharacterCreation: Gamestate registered successfully")
+print("CharacterCreation: Gamestate registered")
 
-print("CharacterCreation: State loading completed successfully!")
+-- Local state variables
+local ui = nil
+local leftPanel = nil
+local centerPanel = nil
+local rightPanel = nil
+local sliders = {}
+local equipmentSlots = {}
+local bodyRenderer = nil
+local nameInput = nil
+local confirmButton = nil
+local resetButton = nil
+
+-- Equipment slot definitions
+local EQUIPMENT_SLOTS = {
+  {id = "head", label = "Head"},
+  {id = "chest", label = "Chest"},
+  {id = "hands", label = "Hands"},
+  {id = "legs", label = "Legs"},
+  {id = "feet", label = "Feet"},
+}
+
+--- Calculate panel dimensions based on screen size
+local function calculateLayout()
+  local screenW = love.graphics.getWidth()
+  local screenH = love.graphics.getHeight()
+
+  local headerHeight = Theme.characterCreation.headerHeight
+  local panelGap = Theme.characterCreation.panelGap
+  local ratios = Theme.characterCreation.panelRatios
+
+  local contentY = headerHeight
+  local contentH = screenH - headerHeight
+
+  -- Calculate panel widths
+  local totalGaps = panelGap * 2
+  local availableW = screenW - totalGaps
+  local leftW = availableW * ratios[1]
+  local centerW = availableW * ratios[2]
+  local rightW = availableW * ratios[3]
+
+  return {
+    screen = {w = screenW, h = screenH},
+    header = {y = 0, h = headerHeight},
+    left = {x = 0, y = contentY, w = leftW, h = contentH},
+    center = {x = leftW + panelGap, y = contentY, w = centerW, h = contentH},
+    right = {x = leftW + centerW + (panelGap * 2), y = contentY, w = rightW, h = contentH},
+  }
+end
+
+--- Create stat sliders in the left panel
+local function createSliders(panel)
+  local cx, cy, cw, ch = panel:getContentArea()
+  local statOrder = CharacterStats:getStatOrder()
+  local sliderHeight = 50  -- Approximate height per slider
+  local spacing = Theme.spacing.md
+
+  sliders = {}
+
+  for i, statKey in ipairs(statOrder) do
+    local def = CharacterStats.DEFINITIONS[statKey]
+    local y = cy + ((i - 1) * (sliderHeight + spacing))
+
+    local slider = StatSlider:new({
+      x = cx,
+      y = y,
+      width = cw,
+      label = def.label,
+      min = def.min,
+      max = def.max,
+      value = _G.character.stats[statKey],
+      step = 1,
+      onChange = function(value)
+        _G.character.stats[statKey] = value
+      end,
+    })
+
+    sliders[statKey] = slider
+    ui:add('slider_' .. statKey, slider)
+  end
+end
+
+--- Create equipment slots in the right panel
+local function createEquipmentSlots(panel)
+  local cx, cy, cw, ch = panel:getContentArea()
+  local slotSize = Theme.equipmentSlot.size
+  local spacing = Theme.equipmentSlot.spacing
+
+  -- Center slots horizontally in panel
+  local slotX = cx + (cw - slotSize) / 2
+
+  equipmentSlots = {}
+
+  for i, slotDef in ipairs(EQUIPMENT_SLOTS) do
+    local slotHeight = slotSize + spacing + Theme.fonts.getByName('sm'):getHeight()
+    local y = cy + ((i - 1) * (slotHeight + spacing))
+
+    local slot = EquipmentSlot:new({
+      x = slotX,
+      y = y,
+      id = slotDef.id,
+      label = slotDef.label,
+    })
+
+    equipmentSlots[slotDef.id] = slot
+    ui:add('slot_' .. slotDef.id, slot)
+  end
+end
+
+--- Create buttons (Confirm and Reset)
+local function createButtons(layout)
+  local screenW = layout.screen.w
+  local buttonWidth = 120
+  local buttonHeight = 40
+  local buttonY = layout.header.h / 2 - buttonHeight / 2
+  local buttonSpacing = Theme.spacing.md
+
+  -- Confirm button (right side of header)
+  confirmButton = Button:new({
+    text = "Confirm",
+    x = screenW - buttonWidth - Theme.spacing.lg,
+    y = buttonY,
+    width = buttonWidth,
+    height = buttonHeight,
+    onClick = function()
+      -- Save character and proceed
+      print("Character created:", _G.character.name)
+      Game:gotoState('generate')
+    end,
+  })
+  ui:add('confirmButton', confirmButton)
+
+  -- Reset button (left of confirm)
+  resetButton = Button:new({
+    text = "Reset",
+    x = screenW - (buttonWidth * 2) - Theme.spacing.lg - buttonSpacing,
+    y = buttonY,
+    width = buttonWidth,
+    height = buttonHeight,
+    onClick = function()
+      -- Reset stats to defaults
+      _G.character.stats = CharacterStats:new()
+      -- Update sliders
+      for statKey, slider in pairs(sliders) do
+        slider:setValue(_G.character.stats[statKey])
+      end
+    end,
+  })
+  ui:add('resetButton', resetButton)
+end
 
 function characterSheet:enteredState()
   if DEBUG_LOGGING_ON then
-    print(string.format("ENTER template STATE - %s \n", os.date()))
-  end
-  print("CharacterCreation: State entered successfully")
-
-  _G.character = {}
-  local GC = _G.character
-  -- print(_G)
-
-  GC.name = ''
-  GC.stats = {}
-  GC.avatar = {}
-  -- GC.weight
-  -- GC.height
-  -- GC.race
-
-  _font = love.graphics.getFont( )
-
-  -- Load font safely
-  local success, font = pcall(love.graphics.newFont, 'assets/fonts/SummerDreamSans.ttf', 20)
-  if success then
-    __fonts['font20'] = font
-    print("CharacterCreation: font20 loaded successfully")
-  else
-    print("CharacterCreation: Error loading font20:", font)
-    -- Fallback to default font
-    __fonts['font20'] = love.graphics.newFont(20)
+    print(string.format("ENTER characterCreation STATE - %s", os.date()))
   end
 
-  -- Load scar images safely
-  local success1, scar1 = pcall(love.graphics.newImage, "assets/scars/scar_1.png")
-  if success1 then
-    scarA = scar1
-    print("CharacterCreation: scar_1.png loaded successfully")
-  else
-    print("CharacterCreation: Error loading scar_1.png:", scar1)
-    scarA = nil
+  -- Initialize global character data
+  _G.character = {
+    name = '',
+    stats = CharacterStats:new(),
+    avatar = {},
+    equipment = {},
+  }
+
+  -- Initialize equipment slots
+  for _, slotDef in ipairs(EQUIPMENT_SLOTS) do
+    _G.character.equipment[slotDef.id] = nil
   end
-  
-  local success2, scar2 = pcall(love.graphics.newImage, "assets/scars/scar_2.png")
-  if success2 then
-    scarB = scar2
-    print("CharacterCreation: scar_2.png loaded successfully")
-  else
-    print("CharacterCreation: Error loading scar_2.png:", scar2)
-    scarB = nil
-  end
-  
-  -- Initialize text input if fanfic is available
+
+  -- Create UI manager
+  ui = UIManager:new()
+
+  -- Calculate layout
+  local layout = calculateLayout()
+
+  -- Create panels
+  leftPanel = Panel:new({
+    x = layout.left.x,
+    y = layout.left.y,
+    width = layout.left.w,
+    height = layout.left.h,
+    title = "Stats",
+  })
+  ui:add('leftPanel', leftPanel)
+
+  centerPanel = Panel:new({
+    x = layout.center.x,
+    y = layout.center.y,
+    width = layout.center.w,
+    height = layout.center.h,
+    title = "Preview",
+  })
+  ui:add('centerPanel', centerPanel)
+
+  rightPanel = Panel:new({
+    x = layout.right.x,
+    y = layout.right.y,
+    width = layout.right.w,
+    height = layout.right.h,
+    title = "Equipment",
+  })
+  ui:add('rightPanel', rightPanel)
+
+  -- Create sliders
+  createSliders(leftPanel)
+
+  -- Create equipment slots
+  createEquipmentSlots(rightPanel)
+
+  -- Create body renderer
+  bodyRenderer = BodyRenderer:new()
+
+  -- Create buttons
+  createButtons(layout)
+
+  -- Initialize name input if fanfic is available
   if fanfic then
-    text = fanfic.new(200, 300, "Enter character name:", false, nil, 16)
-    print("CharacterCreation: Text input initialized")
-  else
-    print("CharacterCreation: Warning - No text input available")
+    local inputX = Theme.spacing.lg + 200
+    local inputY = layout.header.h / 2 - 10
+    nameInput = fanfic.new(inputX, inputY, "Name:", false, nil, 20)
   end
+
+  print("CharacterCreation: State entered successfully")
 end
+
 function characterSheet:update(dt)
-  if text and text.update then
-    text:update(dt)
-    data = text:enteredText()
+  -- Update UI elements
+  ui:update(dt)
+
+  -- Update name input
+  if nameInput and nameInput.update then
+    nameInput:update(dt)
+    local data = nameInput:enteredText()
     if data then
       _G.character.name = data
     end
   end
-  -- Don't set data to nil here, as it's used in draw function
+
+  -- Update body renderer with current stats
+  bodyRenderer:updateParams(_G.character.stats)
 end
+
 function characterSheet:draw()
-  -- Add error handling to catch silent failures
-  local success, err = pcall(function()
-    local _r, _g, _b, _a = love.graphics.getColor()
-    love.graphics.setColor(255,255,255, 255)
+  local lg = love.graphics
 
-  -- Get screen dimensions safely
-  local screen_w = love.graphics.getWidth()
-  local screen_h = love.graphics.getHeight()
+  -- Draw background
+  lg.setColor(Theme.colors.background.dark)
+  lg.rectangle('fill', 0, 0, lg.getWidth(), lg.getHeight())
 
-  -- headerbox
-  love.graphics.setColor(250, 155, 155, 255)
-  love.graphics.rectangle("fill",
-    0,
-    0,
-    screen_w,
-    100--screen_height
-  )
-  -- header box 2
-  love.graphics.setColor(200, 155, 155, 255)
-  love.graphics.rectangle("fill",
-    0,
-    100,
-    screen_w,
-    100--screen_height
-  )
+  -- Draw header background
+  lg.setColor(Theme.colors.panel.header)
+  lg.rectangle('fill', 0, 0, lg.getWidth(), Theme.characterCreation.headerHeight)
 
+  -- Draw title
+  lg.setColor(Theme.colors.text.primary)
+  local titleFont = Theme.fonts.getByName('xl')
+  lg.setFont(titleFont)
+  lg.print("Create Your Character", Theme.spacing.lg, (Theme.characterCreation.headerHeight - titleFont:getHeight()) / 2)
 
-  -- love.graphics.setFont(font20)
-  -- print(font20:getLineHeight())
-
-
-  -- trying to use a testfont functionality
-  love.graphics.setColor(0, 0, 0, 255)
-  if withFont then
-    r, p = pcall(
-      -- withFont('font20', love.graphics.print("Strength", 450, 150 ))
-      withFont,
-      {'font20', love.graphics.print("Strength", 450, 150 )}
-    )
-    -- print(r, p)
-  else
-    -- Fallback if withFont is not available
-    love.graphics.print("Strength", 450, 150)
+  -- Draw character name if entered
+  if _G.character.name and _G.character.name ~= '' then
+    lg.setColor(Theme.colors.accent)
+    local nameFont = Theme.fonts.getByName('lg')
+    lg.setFont(nameFont)
+    local nameX = Theme.spacing.lg + 250
+    local nameY = (Theme.characterCreation.headerHeight - nameFont:getHeight()) / 2
+    lg.print(_G.character.name, nameX, nameY)
   end
 
-  love.graphics.setColor(100, 200, 400, 255)
-  local characterName = ""
-  if _G.character and _G.character.name then
-    characterName = _G.character.name
-  end
-  love.graphics.print(characterName,
-    50, 200,
-    nil,
-    4,4 -- sx, sy
-  )
+  -- Draw all UI elements (panels, sliders, slots, buttons)
+  ui:draw()
 
-  -- withFont('font20', love.graphics.print("Strength", 450, 150 ))
-  love.graphics.setColor(0, 0, 0, 255)
-  love.graphics.print('default', 50, 150 )
-  -- love.graphics.print('RAINT RAINT', 250, 150 )
-  -- love.graphics.print('RAINT RAINT', 350, 150 )
-  -- love.graphics.print('RAINT RAINT', 50, 150 )
-  -- -- pink raint
-  -- love.graphics.print("raint", 400, 100 )
-  -- love.graphics.setFont(_font)
+  -- Draw body preview in center panel
+  bodyRenderer:drawInPanel(centerPanel)
 
-  -- black raint left
-  love.graphics.setColor(0, 0, 0, 255)
-  love.graphics.print("Create Your Character", 50, 50 )
-
-  -- body thumb rule measures TODO improve and encapsulate
-  local boxwidth = 300
-  local boxheight = 80
-  local centerx = 0
-  local centery = 0
-  
-  -- Get screen dimensions safely
-  local screen_w = love.graphics.getWidth()
-  local screen_h = love.graphics.getHeight()
-  
-  -- Get camera position safely
-  if camera and camera.pos then
-    centerx = camera.pos.x + screen_w/2 - (boxwidth/2)
-    centery = camera.pos.y + screen_h/2
-  else
-    centerx = screen_w/2 - (boxwidth/2)
-    centery = screen_h/2
-  end
-  local head = {
-    w = 128,
-    h = 128,
-    x = centerx + boxwidth/2,
-    y = centery - 100,
-  }
-  local headw = 64
-  local headh = 156
-  local header = {
-    pos = {
-      x = centerx,
-      y = centery
-    }
-  }
-
-  -- red box around body
-  love.graphics.setColor(250, 5, 5, 255)
-  love.graphics.rectangle("line",
-    header.pos.x,
-    header.pos.y,
-    (screen_w / 2 ) - 80,
-    (screen_w / 2 ) - 80
-  )
-
-  --red box upper left
-  love.graphics.setColor(200, 55, 55, 255)
-  love.graphics.rectangle("fill",
-    100,
-    100,
-    -- camera.pos.x - (screen_width / 2) - 480,
-    -- camera.pos.y - (screen_width / 2) - 480,
-    -- (screen_width / 2 ) - 180,
-    -- (screen_width / 2 ) - 180
-    100,
-    100
-  )
-
-  if man then
-    if man.drawHead then man:drawHead() end
-    if man.drawChest then man:drawChest() end
-    if man.drawAbdmen then man:drawAbdmen() end
-    if man.drawShading then man:drawShading() end
-    if man.drawTattoo then man:drawTattoo() end
-    if man.drawScars then man:drawScars() end
-    if man.drawNipples then man:drawNipples() end
-    if man.drawText then man:drawText() end
-  end
-
-  -- love.graphics.setColor(0, 255, 255, 255)
-
-  -- love.graphics.setColor(_r, _g, _b, _a)
-
-  -- PrintDebug(fanfic)
-
-  -- draw the tattoo
-  -- tattoo text box
-  if text and text.draw then
-    text:draw()
-  end
-
-  -- the applied tattoo - stamp - punchcard
-	if data and data ~= "" then
-    -- the tatoo
-		love.graphics.setColor(0,30,70)
-    love.graphics.print(data,
-      centerx+80, --x,
-      centery+45, --, y,
-      0, -- r,
-      4,-- sx,
-      4-- sy,
-    )
-    -- the captains log of the tatoo
-		love.graphics.setColor(255,255,255)
-		love.graphics.print(
-      "You RAINTED: '"..data.."' into the captains log", 200, 350)
-      -- DO SOMTHING todo ToDO WITH THE DATA
-
-    -- what is this?
-		love.graphics.setColor(155,155,155)
-    local cam_x = 0
-    local cam_y = 0
-    if camera and camera.pos then
-      cam_x = camera.pos.x
-      cam_y = camera.pos.y
-    end
-    love.graphics.rectangle("fill",
-      100+cam_x * 2.1,
-      100+cam_y * 2.1,
-      (80),
-      (80)
-    )
-    -- love.graphics.rectangle("fill",
-    --   camera.pos.x - (screen_width / 2) - 80,
-    --   camera.pos.y - (screen_width / 2) - 80,
-    --   (screen_width / 2 ) - 80,
-    --   (screen_width / 2 ) - 80
-    -- )
-
-    -- what is this?
-		love.graphics.setColor(95,195,255)
-    love.graphics.rectangle("line",
-      100+cam_x * 2.1,
-      100+cam_y * 2.1,
-      (80),
-      (80)
-      -- camera.pos.x - (screen_width / 2) - 80,
-      -- camera.pos.y - (screen_width / 2) - 80,
-      -- (screen_width / 2 ) - 80,
-      -- (screen_width / 2 ) - 80
-    )
-    -- what is this?
-    love.graphics.rectangle("line",
-    100+cam_x * 2.1, 100+cam_y * 2.1, (82), (82))
-    love.graphics.rectangle("line",
-    100+cam_x * 2.1, 100+cam_y * 2.1, (84), (84))
-
-
-    love.graphics.setColor(_r, _g, _b, _a)
-	end
-
-
-  -- -- color and font resets
-  -- love.graphics.setColor(_r, _g, _b, _a)
-  -- love.graphics.setFont(_font)
-  end) -- Close pcall
-  
-  if not success then
-    print("CharacterCreation draw error:", err)
-    -- Fallback drawing - just show a simple message
-    love.graphics.setColor(255, 255, 255, 255)
-    love.graphics.print("Character Creation", 50, 50)
-    love.graphics.print("Error in drawing - check console", 50, 100)
+  -- Draw name input
+  if nameInput and nameInput.draw then
+    nameInput:draw()
   end
 end
+
 function characterSheet:exitedState()
-  love.graphics.clear()
+  -- Clean up
+  ui:clear()
+  ui = nil
+  leftPanel = nil
+  centerPanel = nil
+  rightPanel = nil
+  sliders = {}
+  equipmentSlots = {}
+  bodyRenderer = nil
+  nameInput = nil
+
+  print("CharacterCreation: State exited")
 end
 
--- input
-function characterSheet:mousepressed(x,y, button , istouch) end
-function characterSheet:mousereleased(x, y, button) end
-function characterSheet:keypressed(key, code)
-  if text and text.keypressed then
-    text:keypressed(key, code)
+-- Input handlers
+function characterSheet:mousepressed(x, y, button, istouch)
+  if ui then
+    ui:mousepressed(x, y, button)
   end
-  -- if key == ('escape') then love.event.push('quit') end
-  -- if key == ('escape') then love.event.push('quit') end
-  -- if key == ('escape') then love.event.push('quit') end
-  if key == 'escape' then self:popState() end
+end
+
+function characterSheet:mousereleased(x, y, button)
+  if ui then
+    ui:mousereleased(x, y, button)
+  end
+end
+
+function characterSheet:keypressed(key, code)
+  -- Forward to name input
+  if nameInput and nameInput.keypressed then
+    nameInput:keypressed(key, code)
+  end
+
+  -- ESC to go back
+  if key == 'escape' then
+    self:popState()
+  end
+end
+
+function characterSheet:resize(w, h)
+  -- Recalculate layout on window resize
+  if ui then
+    local layout = calculateLayout()
+
+    -- Update panel positions
+    if leftPanel then
+      leftPanel:setPosition(layout.left.x, layout.left.y)
+      leftPanel:setSize(layout.left.w, layout.left.h)
+    end
+
+    if centerPanel then
+      centerPanel:setPosition(layout.center.x, layout.center.y)
+      centerPanel:setSize(layout.center.w, layout.center.h)
+    end
+
+    if rightPanel then
+      rightPanel:setPosition(layout.right.x, layout.right.y)
+      rightPanel:setSize(layout.right.w, layout.right.h)
+    end
+
+    -- Recreate sliders and equipment slots with new positions
+    -- (simplified - just update panel refs, sliders stay in old positions)
+    -- For full responsiveness, would need to recreate sliders here
+  end
 end

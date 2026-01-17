@@ -115,11 +115,11 @@ function NewGame:drawButtons()
     local mx, my = love.mouse.getPosition()
     local hovered = mx > bx and mx < bx + button_width and
                     my > by and my < by + button_height
-    local color = {80, 80, 100, 255}
-    local textColor = {0, 0, 0, 255}
+    local color = {80/255, 80/255, 100/255, 1}
+    local textColor = {0, 0, 0, 1}
     if hovered then
-      color = {160, 160, 200, 255}
-      textColor = {255, 255, 255, 255}
+      color = {160/255, 160/255, 200/255, 1}
+      textColor = {1, 1, 1, 1}
     end
 
     button.now = love.mouse.isDown(1)

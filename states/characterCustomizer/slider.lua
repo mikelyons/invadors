@@ -44,15 +44,15 @@ local function newSlider(gui, label, pos, min, max, value)
     slider.draw = function(self)
         -- Draw track (background)
 
-        love.graphics.setColor(55, 55, 55, 255)
+        love.graphics.setColor(55/255, 55/255, 55/255, 1)
         love.graphics.rectangle('fill', self.pos.x, self.pos.y, self.pos.w, self.pos.h)
-        
+
         -- Draw handle
-        love.graphics.setColor(155, 155, 155, 255)
+        love.graphics.setColor(155/255, 155/255, 155/255, 1)
         love.graphics.rectangle('fill', self.handle.x, self.handle.y, self.handle.w, self.handle.h)
-        
+
         -- Draw label and value
-        love.graphics.setColor(255, 255, 255, 255)
+        love.graphics.setColor(1, 1, 1, 1)
         love.graphics.print(self.label .. ': ' .. math.floor(self.value), self.pos.x, self.pos.y - 15)
     end
     

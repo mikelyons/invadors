@@ -1,5 +1,6 @@
 require 'tools/physics_helper'
 require 'tools/world_physics'
+local Config = require('src/core/game_config')
 
 local Zombie = {}
 local floor = math.floor
@@ -18,7 +19,7 @@ function Zombie:new(x,y)
     self.attackvector = nil
     self.inventory = {}
 
-    init_physics(self, 500)
+    init_physics(self, Config.physics.gravity)
 
     self.animation = require('animation'):new(
       image,
@@ -49,10 +50,10 @@ function Zombie:new(x,y)
     end
     if self.on_ground then
       if self.pos.x < player.pos.x then
-        self.vel.x = 50
+        self.vel.x = Config.enemy.zombie_speed
         self.dir.x = 1
       else
-        self.vel.x = 50
+        self.vel.x = Config.enemy.zombie_speed
         self.dir.x = -1
       end
     end
@@ -89,18 +90,18 @@ function Zombie:new(x,y)
   function zombie:draw()
     local x_pos = floor(self.pos.x / g_TileSize)+1
     local y_pos = floor(self.pos.y / g_TileSize)+1
-    love.graphics.setColor(250,0,50)
+    love.graphics.setColor(250/255, 0, 50/255)
     love.graphics.rectangle("fill",self.pos.x,self.pos.y,self.size.x,self.size.y)
-    love.graphics.setColor(255,5,5)
+    love.graphics.setColor(1, 5/255, 5/255)
     --minimap?
     love.graphics.rectangle("fill",x_pos,y_pos,2,2)
-    love.graphics.setColor(255,255,255)
+    love.graphics.setColor(1, 1, 1)
 
-    if (DEBUG_HITBOX_VIS) then 
+    if (DEBUG_HITBOX_VIS) then
       -- prediction box from check point origin
-      love.graphics.setColor(0,255,0,255) -- GREEN
+      love.graphics.setColor(0, 1, 0, 1) -- GREEN
       love.graphics.rectangle("line",box.pos.x,box.pos.y,self.size.x,self.size.y)
-      love.graphics.setColor(255,255,255,255) -- WHITE reset
+      love.graphics.setColor(1, 1, 1, 1) -- WHITE reset
     end
 
   end

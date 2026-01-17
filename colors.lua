@@ -2,31 +2,36 @@
   colors.lua
   Constants that can be used for color
 
-  @TODO
-  --Colors will need updated to the .0 - 1 format of LOVE 11
+  Updated for LÖVE 11+ (0.0 - 1.0 color range)
 ]]
 
 
 -- love.graphics.rectangle("fill",self.pos.x,self.pos.y,self.size.x,self.size.y)
 
--- love.graphics.setColor(255,0,0,255) -- RED
--- love.graphics.setColor(0,255,0,255) -- GREEN
--- love.graphics.setColor(255,255,255,255) -- WHITE reset
+-- love.graphics.setColor(1,0,0,1) -- RED
+-- love.graphics.setColor(0,1,0,1) -- GREEN
+-- love.graphics.setColor(1,1,1,1) -- WHITE reset
 
 
 -- color constants
--- R, G, B, Alpha
-COLOR_GREEN_HUNTER =   {0, 148, 0, 255}
+-- R, G, B, Alpha (0.0 - 1.0 range for LÖVE 11+)
+COLOR_GREEN_HUNTER =   {0, 148/255, 0, 1}
 
-
-COLOR_TEAL         =   {150, 255, 255, 255}
+COLOR_TEAL         =   {150/255, 1, 1, 1}
 
 -- Greyscale
-COLOR_WHITE        =   {255, 255, 255, 255}
-COLOR_GREY         =   {150, 150, 150, 255}
-COLOR_DARK_GREY    =   {100, 100, 100, 255}
-COLOR_VERY_DARK_GREY = {55, 55, 55, 55}
-COLOR_BLACK        =   {0, 0, 0, 255}
--- these are duplicated above
--- COLOR_MEDIUM_GREY  =   {100, 100, 100, 255}
--- COLOR_LIGHT_GREY   =   {55, 55, 55, 55}
+COLOR_WHITE        =   {1, 1, 1, 1}
+COLOR_GREY         =   {150/255, 150/255, 150/255, 1}
+COLOR_DARK_GREY    =   {100/255, 100/255, 100/255, 1}
+COLOR_VERY_DARK_GREY = {55/255, 55/255, 55/255, 55/255}
+COLOR_BLACK        =   {0, 0, 0, 1}
+
+-- Primary colors
+COLOR_RED          =   {1, 0, 0, 1}
+COLOR_GREEN        =   {0, 1, 0, 1}
+COLOR_BLUE         =   {0, 0, 1, 1}
+
+-- UI colors
+COLOR_UI_BUTTON    =   {80/255, 80/255, 100/255, 1}
+COLOR_UI_BUTTON_HOVER = {100/255, 100/255, 120/255, 1}
+COLOR_UI_BUTTON_TEXT = {1, 1, 1, 1}

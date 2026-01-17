@@ -34,9 +34,12 @@ require 'src/core/dependencies'
 
 if not PrintColor('Color Available', 'green') then print('color not available') end
 
+-- Load centralized version management
+local Version = require('src/core/version')
+
 -- this does not get added to the Game table below
 local game = {
-  _VERSION     = 'Invadors *SEE CONF.LUA for VERSION #*',
+  _VERSION     = 'Invadors v' .. Version.GAME_VERSION,
   _DESCRIPTION = 'Invadors Game',
   _URL         = 'https://github.com/mikelyons/invadors',
   _LICENSE     = [[
@@ -134,7 +137,7 @@ debug_ui = {
     -- love.graphics.print('text',100,100,r,sx,sy,ox,oy)
     -- love.graphics.draw(drawable,x,y,r,sx,sy,ox,oy)
     -- love.graphics.setColor(red,green,blue,alpha)
-    love.graphics.setColor(100,0,0)
+    love.graphics.setColor(100/255, 0, 0)
     love.graphics.rectangle('fill',100,-100,100,100)
     print('drawing debug_ui')
   end,
@@ -178,7 +181,7 @@ background = love.graphics.newImage("assets/galaxy.png")
 local function drawBackground(willDraw)
   if not willDraw then return end
 
-  love.graphics.setColor(255, 255, 255, 145)
+  love.graphics.setColor(1, 1, 1, 145/255)
   for i = 0, love.graphics.getWidth() / background:getWidth() do
     for j = 0, love.graphics.getHeight() / background:getHeight() do
         love.graphics.draw(background, i * background:getWidth(), j * background:getHeight())
@@ -198,16 +201,23 @@ function love.draw(dt)
   -- game camera
   camera:set()
 
-  --   --wrapping these in camera set/unset allows camera to follow player but its weird
+  -- Wrap in pcall to ensure camera:unset() is always called
+  -- Prevents "Maximum stack depth" errors when draw fails
+  local drawSuccess, drawErr = pcall(function()
     renderer:draw()
-  -- camera:unset()
-  -- camera:set()
     if game and game.draw then
       game:draw()
     end
+  end)
 
   -- everything here moves with the camera trail
   camera:unset()
+
+  -- Report any draw errors after stack is balanced
+  if not drawSuccess then
+    love.graphics.setColor(1, 0, 0, 1)
+    love.graphics.print("Draw error: " .. tostring(drawErr), 10, 10)
+  end
 
   -- draws the static positioned HUD text
   -- why doesn't this work?
@@ -229,8 +239,8 @@ function love.draw(dt)
   -- print(tiles[1][1]['occupied'])
   falsey = tiles[1][1]['occupied']
   -- print(falsey)
-  love.graphics.setNewFont(12)
-  love.graphics.setColor(255,0,0)
+  love.graphics.setFont(love.graphics.newFont(12))
+  love.graphics.setColor(1, 0, 0)
   love.graphics.print("PRE-ALPHA", 0, 0, nil, 4, 4)
   love.graphics.print(
     "Debug Info:"..'\n' ..
@@ -238,7 +248,7 @@ function love.draw(dt)
     tostring(falsey),
     screen_width - 300, 0, nil, 4, 4
   )
-  love.graphics.setNewFont(42)
+  love.graphics.setFont(love.graphics.newFont(42))
 
   -- love.graphics.print({'rainty', screen_width - 300, 0, nil, 4, 4})
 

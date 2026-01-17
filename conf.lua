@@ -16,10 +16,8 @@
 -- local major, minor, revision, codename = love.getVersion( )
 -- old way: https://love2d.org/wiki/love.getVersion
 print('Love2d version: '..love._version_major..'.'..love._version_minor..'.'..love._version_revision)
-if love._version_major == 0 and love._version_minor < 9 then
-	error("InvadortZ requires love2d 0.9.0 or newer")
-elseif love._version_minor >= 11 then
-  print("too new the love version is, not work it may, or encounter bugs you will ...")
+if love._version_major == 0 and love._version_minor < 11 then
+	error("InvadortZ requires LÖVE 11.0 or newer")
 end
 
 -- use this for internal variables that will be used below
@@ -57,11 +55,14 @@ io.write("Booting ...", "Lua"); io.write(" ...", "\n")
 -- ~ console in game - https://love2d.org/wiki/Cupid -- @TODO : separate dev libs
 -- require("./lib/cupid/cupid");
 
+-- Load centralized version management
+local Version = require('src/core/version')
+
 local snapdate = os.date("m%md%d")
 
-__SNAP = snapdate or "m10w43" -- what significance is this date?
-__VERSION = "0.4.7.2"
-__TITLE_STR = string.format("InvadortZ v%s", __VERSION..'.'..__SNAP)
+__SNAP = Version.SNAP_DATE or "m10w43" -- what significance is this date?
+__VERSION = Version.GAME_VERSION
+__TITLE_STR = string.format("InvadortZ v%s", Version.FULL_VERSION)
 
 function love.conf( t )
   t.console = true -- did this ever work?
@@ -70,7 +71,7 @@ function love.conf( t )
   -- 	%appdata%\LOVE\{t.identity}
   -- change this with https://love2d.org/wiki/love.filesystem.setIdentity
   t.identity = "invadors_save_directory"       -- The name of the save directory (string)
-  t.version = "0.10.2"                -- The LÖVE version this game was made for (string)
+  t.version = Version.LOVE_VERSION    -- The LÖVE version this game was made for (string)
 
   -- BEGIN window attributes including size and location on load
   t.window.title = __TITLE_STR --string.format("Invadors v%s", __VERSION)        -- The window title (string)

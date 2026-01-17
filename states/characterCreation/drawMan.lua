@@ -9,7 +9,7 @@
 ]]
 
 local colors = {
-  {255,209,127} -- flesh tone?
+  {1, 209/255, 127/255} -- flesh tone?
 }
 
 
@@ -58,7 +58,7 @@ end
 
 function Man:drawHead()
   -- head
-  love.graphics.setColor(255,209,127)
+  love.graphics.setColor(1, 209/255, 127/255)
   -- love.graphics.rectangle("fill", centerx + boxwidth/2, centery - 100, headw, headh)
   love.graphics.circle("fill",
     centerx + boxwidth/2,
@@ -67,14 +67,14 @@ function Man:drawHead()
     headh
   )
   -- eye
-  love.graphics.setColor(0,0,0)
+  love.graphics.setColor(0, 0, 0)
   love.graphics.circle("fill",
     centerx + boxwidth/2 + 32,
     centery - 100 + 32,
     16,
     16
   )
-  love.graphics.setColor(255,209,127)
+  love.graphics.setColor(1, 209/255, 127/255)
   love.graphics.circle("fill",
     centerx + boxwidth/2 + 32,
     centery - 100 + 37,
@@ -91,7 +91,7 @@ function Man:drawHead()
 end
 function Man:drawChest()
     -- chest shape
-		love.graphics.setColor(255,209,127)
+		love.graphics.setColor(1, 209/255, 127/255)
     love.graphics.rectangle("fill",
       centerx,
       centery,
@@ -128,14 +128,14 @@ function Man:drawAbdmen()
 end
 function Man:drawShading()
     -- muscle shadows (pex)
-		love.graphics.setColor(235,189,97)
+		love.graphics.setColor(235/255, 189/255, 97/255)
     love.graphics.rectangle("line",
       centerx,
       centery+10,
       boxwidth-6,
       (10)
     )
-		love.graphics.setColor(235,189,97)
+		love.graphics.setColor(235/255, 189/255, 97/255)
     love.graphics.rectangle("line",
       centerx,
       centery,
@@ -157,14 +157,14 @@ function Man:drawShading()
     )
 
     -- muscle shadows (abs)
-		love.graphics.setColor(235,189,97)
+		love.graphics.setColor(235/255, 189/255, 97/255)
     love.graphics.rectangle("line",
       centerx,
       centery+10,
       boxwidth/6,
       (10)
     )
-		love.graphics.setColor(235,189,97)
+		love.graphics.setColor(235/255, 189/255, 97/255)
     love.graphics.rectangle("line",
       centerx,
       centery,
@@ -187,9 +187,9 @@ function Man:drawShading()
 end
 function Man:drawTattoo()
     -- tattoo
-		-- love.graphics.setColor(245,159,97)
+		-- love.graphics.setColor(245/255, 159/255, 97/255)
     local tatbarh = 4
-		love.graphics.setColor(0,5,55)
+		love.graphics.setColor(0, 5/255, 55/255)
     love.graphics.rectangle("fill",
       centerx+80,
       centery+30,
@@ -209,7 +209,7 @@ function Man:drawTattoo()
       tatbarh
     )
     
-		love.graphics.setColor(0,5,55)
+		love.graphics.setColor(0, 5/255, 55/255)
     love.graphics.rectangle("fill",
       centerx+180,
       centery+30,
@@ -275,7 +275,7 @@ function Man:drawScars()
 end
 function Man:drawNipples()
     -- nipples
-		love.graphics.setColor(245,159,97)
+		love.graphics.setColor(245/255, 159/255, 97/255)
     love.graphics.rectangle("fill",
       centerx+40,
       centery+40,
@@ -296,7 +296,7 @@ function Man:drawNipples()
     -- )
 
     -- pasties
-		love.graphics.setColor(0,0,55)
+		love.graphics.setColor(0, 0, 55/255)
     love.graphics.print("X",
       centerx+40 + 8,
       centery+40 + 8,
