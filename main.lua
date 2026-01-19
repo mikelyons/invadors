@@ -37,6 +37,9 @@ if not PrintColor('Color Available', 'green') then print('color not available') 
 -- Load centralized version management
 local Version = require('src/core/version')
 
+-- Load the global state navigator (debug menu for switching states)
+local StateNavigator = require('src/ui/StateNavigator')
+
 -- this does not get added to the Game table below
 local game = {
   _VERSION     = 'Invadors v' .. Version.GAME_VERSION,
