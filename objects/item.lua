@@ -1,5 +1,6 @@
 require 'tools/physics_helper'
 require 'tools/world_physics'
+local Config = require('src/core/game_config')
 
 local Item = {}
 local floor = math.floor
@@ -13,22 +14,23 @@ function Item:new(x,y)
     renderer:addRenderer(self, 3)
     gameloop:addLoop(self)
 
-    init_physics(self, 500)
+    init_physics(self, Config.physics.gravity)
   end
 
   function item:tick(dt)
     -- velocities
     apply_gravity(self, dt)
 
-    -- leftover from zombie class -- hunt the player
-    -- local player = obm:get_closest_by_id(self, "player")
+    -- Get player reference for item behavior
+    local player = obm:get_closest_by_id(self, "player")
 
-    if self.on_ground then
+    -- Only move toward player if player exists and item is on ground
+    if self.on_ground and player then
       if self.pos.x < player.pos.x then
-        self.vel.x = 50
+        self.vel.x = Config.item.speed
         self.dir.x = 1
       else
-        self.vel.x = 50
+        self.vel.x = Config.item.speed
         self.dir.x = -1
       end
     end
@@ -79,12 +81,12 @@ function Item:new(x,y)
   function item:draw()
     local x_pos = floor(self.pos.x / g_TileSize)+1
     local y_pos = floor(self.pos.y / g_TileSize)+1
-    love.graphics.setColor(50,90,50)
+    love.graphics.setColor(50/255, 90/255, 50/255)
     love.graphics.rectangle("fill",self.pos.x,self.pos.y,self.size.x,self.size.y)
-    love.graphics.setColor(255,5,5)
+    love.graphics.setColor(1, 5/255, 5/255)
     --minimap?
     love.graphics.rectangle("fill",x_pos,y_pos,2,2)
-    love.graphics.setColor(255,255,255)
+    love.graphics.setColor(1, 1, 1)
   end
 
   return item 

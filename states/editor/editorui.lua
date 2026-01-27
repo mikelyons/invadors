@@ -26,14 +26,14 @@ function EditorUI:new(x,y, data)
   -- panel.quad = 100
   -- panel.id 100
   panel.colors = panel.data.p_color or {
-    black = {0, 0, 0, 255},
-    grey =  {150, 150, 150, 255},
-    darkgrey =    {100, 100, 100, 255},
-    verydarkgrey =    {55, 55, 55, 55},
-    white = {255, 255, 255, 255},
-    bg1 =    {100, 100, 100, 255},
-    bg2 =    {55, 55, 55, 55},
-    titlebr={150, 255, 255, 255}
+    black = {0, 0, 0, 1},
+    grey =  {150/255, 150/255, 150/255, 1},
+    darkgrey =    {100/255, 100/255, 100/255, 1},
+    verydarkgrey =    {55/255, 55/255, 55/255, 55/255},
+    white = {1, 1, 1, 1},
+    bg1 =    {100/255, 100/255, 100/255, 1},
+    bg2 =    {55/255, 55/255, 55/255, 55/255},
+    titlebr={150/255, 1, 1, 1}
   }
   panel.fields = {}
 

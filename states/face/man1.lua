@@ -8,43 +8,43 @@ local drawman = {}
 
 function drawman:drawMan()
   -- Draw the head (ellipse)
-  love.graphics.setColor(255, 210, 179)
+  love.graphics.setColor(1, 210/255, 179/255)
   love.graphics.ellipse("fill", 128, 128, 100, 120)
 
   -- Draw the eyes (whites)
-  love.graphics.setColor(255, 255, 255)
+  love.graphics.setColor(1, 1, 1)
   love.graphics.circle("fill", 100, 110, 12)
   love.graphics.circle("fill", 156, 110, 12)
 
   -- Draw the irises (blue)
-  love.graphics.setColor(0, 0, 255)
+  love.graphics.setColor(0, 0, 1)
   love.graphics.circle("fill", 100, 110, 6)
   love.graphics.circle("fill", 156, 110, 6)
 
   -- Draw the nose (triangle)
-  love.graphics.setColor(255, 210, 179)
+  love.graphics.setColor(1, 210/255, 179/255)
   love.graphics.polygon("fill", 128, 128, 120, 140, 136, 140)
 
   -- Draw shading for the jawline (darker curve)
-  love.graphics.setColor(230, 230, 230)
+  love.graphics.setColor(230/255, 230/255, 230/255)
   love.graphics.arc("fill", 128, 150, 40, math.pi / 5, 4 * math.pi / 5)
 
   -- Draw the mouth (red)
-  love.graphics.setColor(255, 0, 0)
+  love.graphics.setColor(1, 0, 0)
   love.graphics.arc("fill", 128, 162, 33, math.pi / 6, 5 * math.pi / 6)
 
   -- Draw broad shoulders (rectangles)
-  love.graphics.setColor(255, 210, 179)
+  love.graphics.setColor(1, 210/255, 179/255)
   love.graphics.rectangle("fill", 85, 170, 82, 20)
   love.graphics.rectangle("fill", 83, 180, 86, 10)
 end
 
 function drawman:drawskull()
       -- Background
-    love.graphics.setBackgroundColor(255, 255, 255)
+    love.graphics.setBackgroundColor(1, 1, 1)
 
     -- Draw the skull base (ellipse)
-    love.graphics.setColor(255, 255, 255)
+    love.graphics.setColor(1, 1, 1)
     love.graphics.ellipse("fill", 150, 150, 120, 160)
 
     -- Draw the eye sockets (circles)
@@ -57,14 +57,14 @@ function drawman:drawskull()
     love.graphics.ellipse("fill", 150, 170, 20, 10)
 
     -- Draw the teeth (rectangles)
-    love.graphics.setColor(255, 255, 255)
+    love.graphics.setColor(1, 1, 1)
     for i = 1, 8 do
         local x = 150 - 15 + i * 4
         love.graphics.rectangle("fill", x, 180, 2, 15)
     end
 
     -- Add shading and contours to give more depth (ellipses)
-    love.graphics.setColor(0, 0, 0, 100)
+    love.graphics.setColor(0, 0, 0, 100/255)
     love.graphics.ellipse("line", 150, 150, 120, 160)
     love.graphics.ellipse("line", 150, 130, 80, 100)
     love.graphics.ellipse("line", 150, 150, 80, 120)
@@ -73,10 +73,10 @@ end
 
 function drawman:secondskull()
     -- Background
-    love.graphics.setBackgroundColor(255, 255, 255)
+    love.graphics.setBackgroundColor(1, 1, 1)
 
     -- Draw the skull base (ellipse)
-    love.graphics.setColor(255, 255, 255)
+    love.graphics.setColor(1, 1, 1)
     love.graphics.ellipse("fill", 150, 150, 120, 160)
 
     -- Draw the eye sockets (circles)
@@ -89,21 +89,21 @@ function drawman:secondskull()
     love.graphics.ellipse("fill", 150, 170, 20, 10)
 
     -- Draw the teeth (rectangles)
-    love.graphics.setColor(255, 255, 255)
+    love.graphics.setColor(1, 1, 1)
     for i = 1, 8 do
         local x = 150 - 15 + i * 4
         love.graphics.rectangle("fill", x, 180, 2, 15)
     end
 
     -- Add shading and contours to give more depth (ellipses)
-    love.graphics.setColor(0, 0, 0, 100)
+    love.graphics.setColor(0, 0, 0, 100/255)
     love.graphics.ellipse("line", 150, 150, 120, 160)
     love.graphics.ellipse("line", 150, 130, 80, 100)
     love.graphics.ellipse("line", 150, 150, 80, 120)
     love.graphics.ellipse("line", 150, 170, 20, 10)
 
     -- Add some details to the eye sockets (shading)
-    love.graphics.setColor(100, 100, 100)
+    love.graphics.setColor(100/255, 100/255, 100/255)
     love.graphics.arc("fill", 110, 130, 20, math.pi / 4, 3 * math.pi / 4)
     love.graphics.arc("fill", 190, 130, 20, math.pi / 4, 3 * math.pi / 4)
 
@@ -119,7 +119,7 @@ function drawman:skully()
     -- love.graphics.setBackgroundColor
     
     -- Draw the skull base (ellipse)
-    love.graphics.setColor(255, 255, 255)
+    love.graphics.setColor(1, 1, 1)
     love.graphics.ellipse("line", 150, 150, 120, 160)
 
     -- Draw the eye sockets (ellipses)
@@ -157,12 +157,12 @@ end
 
 function drawman:pencil()
     -- Draw the pencil tray background (rectangle)
-    love.graphics.setColor(139, 69, 19) -- Brown color for wood
+    love.graphics.setColor(139/255, 69/255, 19/255) -- Brown color for wood
     love.graphics.rectangle("fill", 50, 100, 200, 50)
 
     -- Draw wood grain texture (lines)
     -- love.graphics.setColor(160, 82, 45) -- Slightly lighter brown
-    love.graphics.setColor(0, 2, 5) -- Slightly lighter brown
+    love.graphics.setColor(0, 2/255, 5/255) -- Slightly lighter brown
     for i = 1, 10 do
         local x1 = love.math.random(50, 250)
         local y1 = love.math.random(100, 150)

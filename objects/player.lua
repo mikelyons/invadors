@@ -13,6 +13,7 @@
 -- require 'tools/camera'
 require 'tools/physics_helper'
 require 'tools/world_physics'
+local Config = require('src/core/game_config')
 local floor = math.floor
 local quad = love.graphics.newQuad
 
@@ -52,7 +53,7 @@ function Player:new(x,y)
     self.inventory = {}
     -- self.on_ground = true
 
-    init_physics(self, 500)
+    init_physics(self, Config.physics.gravity)
     -- tiles = tlm.chunks[0].tiles -- tiles of the spawn chunk
     -- tiles = tlm:getTilesAtCoords(player.pos)
 
@@ -140,12 +141,12 @@ function Player:new(x,y)
     if ( key("left") or key('a') ) then
       self.animation:set_animation(2)
       self.dir.x = -1
-      self.vel.x = 100
+      self.vel.x = Config.player.speed
     end
     if ( key("right") or key('d') ) then
       self.animation:set_animation(2)
       self.dir.x = 1
-      self.vel.x = 100
+      self.vel.x = Config.player.speed
     end
     if( key('j')) then
       self.animation:set_animation(3)
@@ -187,7 +188,7 @@ function Player:new(x,y)
     self.pos.x  = self.pos.x + (self.vel.x * dt) * self.dir.x
     self.pos.y  = self.pos.y + (self.vel.y * dt) * self.dir.y
 
-    self.vel.x = self.vel.x * (1-dt*8) -- friction entropy
+    self.vel.x = self.vel.x * (1 - dt * Config.physics.friction) -- friction
 
     -- player movement test
     -- self.pos.y = self.pos.y +1
@@ -200,13 +201,13 @@ function Player:new(x,y)
   function player:draw(dt)
     -- love.graphics.rectangle("fill",self.pos.x,self.pos.y,self.size.x,self.size.y)
 
-    -- love.graphics.setColor(255,0,0,255) -- RED
-    -- love.graphics.setColor(0,255,0,255) -- GREEN
-    -- love.graphics.setColor(255,255,255,255) -- WHITE reset
+    -- love.graphics.setColor(1, 0, 0, 1) -- RED
+    -- love.graphics.setColor(0, 1, 0, 1) -- GREEN
+    -- love.graphics.setColor(1, 1, 1, 1) -- WHITE reset
     
     if (DEBUG_HITBOX_VIS) then
       -- prediction box from check point origin
-      love.graphics.setColor(0,255,0,255) -- GREEN
+      love.graphics.setColor(0, 1, 0, 1) -- GREEN
       -- love.graphics.rectangle("line",
       --   box.pos.x,
       --   box.pos.y,
@@ -217,14 +218,14 @@ function Player:new(x,y)
         box.pos.y,
         self.size.x,self.size.y
       )
-      love.graphics.setColor(255,255,255,255) -- WHITE reset
+      love.graphics.setColor(1, 1, 1, 1) -- WHITE reset
     end
     
     -- drawing the attack hitbox -- shortsword
     if (DEBUG_HITBOX_VIS and key('j')) then 
 
       -- prediction box from check point origin
-      love.graphics.setColor(255,0,0,255) -- RED
+      love.graphics.setColor(1, 0, 0, 1) -- RED
       love.graphics.rectangle(
         "line",
         box.pos.x+self.size.x,
@@ -232,7 +233,7 @@ function Player:new(x,y)
         self.size.x,
         self.size.y/10
       )
-      love.graphics.setColor(255,255,255,255) -- WHITE reset
+      love.graphics.setColor(1, 1, 1, 1) -- WHITE reset
     end
 
     -- 10.2 draw( texture, quad, x, y, r, sx, sy, ox, oy, kx, ky )

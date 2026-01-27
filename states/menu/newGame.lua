@@ -1,7 +1,5 @@
 print('newGame.lua -> ')
 
--- local fanfic = require 'states/menu/fanfic'
-
 print('New Game -> ')
 
 local NewGame = Game:addState('newGame')
@@ -10,64 +8,76 @@ function newButton(text, fn)
   return {
     text = text,
     fn = fn,
-
     now = false,
     last = false,
   }
 end
 
+-- States to skip (system files, templates, problematic states)
+local SKIP_STATES = {
+  ['.DS_Store'] = true,
+  ['.DS_store'] = true,
+  ['.git'] = true,
+  ['_template'] = true,
+  ['ai found note'] = true,
+}
+
 function NewGame:loadButtons()
   self.buttons = {}
 
-  local saveFiles = {}
-	local lfs = love.filesystem
-	local filesTable = lfs.getDirectoryItems('/states')
+  local lfs = love.filesystem
+  local filesTable = lfs.getDirectoryItems('/states')
 
-  PrintTable(filesTable)
+  -- Sort alphabetically
+  table.sort(filesTable)
 
   self.buttons = self:buildSavesButtonTable(self.buttons, filesTable)
 
+  print("Loaded " .. #self.buttons .. " state buttons")
 end
 
 function NewGame:buildSavesButtonTable(buttonsTable, states)
   local buttons = {}
 
-  -- Simple filtering: only show states that are likely to be valid game states
-  for i=1, #states do
+  for i = 1, #states do
     local stateName = states[i]
-    print("Checking state:", stateName)
 
-    -- Skip system files
-    if stateName == '.DS_store' or stateName == '.git' then
-      goto skip_state
-    end
-    
-    -- Skip files with extensions (we want folder states)
-    if stateName:match("%.") then
-      goto skip_state
-    end
-    
-    -- Skip some problematic states
-    if stateName == '_template' or stateName == 'ai found note' then
+    -- Skip system files and problematic states
+    if SKIP_STATES[stateName] then
       goto skip_state
     end
 
-    -- Only include states in a reasonable range (avoid too many buttons)
-    if i > 20 then
+    -- For files with extensions, extract the state name (without .lua)
+    local displayName = stateName
+    local actualStateName = stateName
+
+    if stateName:match("%.lua$") then
+      -- It's a .lua file - extract name without extension
+      actualStateName = stateName:gsub("%.lua$", "")
+      displayName = actualStateName
+    elseif stateName:match("%.") then
+      -- Skip other file types
       goto skip_state
     end
 
-    -- insert the state into the buttons table
+    -- Insert the state into the buttons table
     table.insert(buttons, newButton(
-      stateName or 'empty',
+      displayName,
       function()
-        print('Selected state: ' .. stateName)
+        print('Selected state: ' .. actualStateName)
         -- Try to push the state, but handle errors gracefully
-        local success, err = pcall(function() 
-          self:pushState(stateName)
+        local success, err = pcall(function()
+          self:pushState(actualStateName)
         end)
         if not success then
-          print("Failed to push state:", stateName, "Error:", err)
+          print("Failed to push state:", actualStateName, "Error:", err)
+          -- Try gotoState as fallback
+          local success2, err2 = pcall(function()
+            self:gotoState(actualStateName)
+          end)
+          if not success2 then
+            print("Also failed gotoState:", actualStateName, "Error:", err2)
+          end
         end
       end
     ))
@@ -82,289 +92,265 @@ function NewGame:drawButtons()
   end
 
   local buttons = self.buttons
-  if not buttons then
-    print("Warning: No buttons to draw")
+  if not buttons or #buttons == 0 then
+    love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.print("No states found", 100, 100)
     return
   end
-  
-  -- print('-------')
-  -- PrintTable(self.buttons)
-  -- print('-------')
+
   local _r, _g, _b, _a = love.graphics.getColor()
 
   local ww = love.graphics.getWidth()
   local wh = love.graphics.getHeight()
 
-  local button_height = 32 * 1.5
+  -- Grid layout configuration
+  local margin = 8
+  local headerHeight = 60
+  local padding = 16
 
-  local button_width = ww * (1/3)
-  local margin = 16
-  local total_height = (button_height + margin) * #buttons
-  local cursor_y = 0
+  -- Calculate button dimensions based on screen size
+  -- Aim for 4-6 columns depending on screen width
+  local targetColumns = math.max(3, math.min(6, math.floor(ww / 200)))
+  local availableWidth = ww - (padding * 2) - (margin * (targetColumns - 1))
+  local button_width = math.floor(availableWidth / targetColumns)
+  local button_height = 36
 
-  -- from tutorial:  https://www.youtube.com/watch?v=vMSjVuJ6wDs&t=303s
+  -- Calculate grid dimensions
+  local columns = targetColumns
+  local rows = math.ceil(#buttons / columns)
+
+  -- Calculate starting position (centered horizontally)
+  local totalGridWidth = (button_width * columns) + (margin * (columns - 1))
+  local startX = (ww - totalGridWidth) / 2
+  local startY = headerHeight + padding
+
+  -- Draw header
+  love.graphics.setColor(1, 1, 1, 1)
+  love.graphics.setFont(self.titleFont or self.font)
+  love.graphics.print("Select a State", padding, 20)
+
+  love.graphics.setColor(0.5, 0.5, 0.5, 1)
+  love.graphics.setFont(self.smallFont or self.font)
+  love.graphics.print("(" .. #buttons .. " states available)", padding + 200, 25)
+
+  -- Draw scroll indicator if content exceeds screen
+  local totalGridHeight = (button_height + margin) * rows
+  local maxVisibleHeight = wh - headerHeight - (padding * 2)
+
+  -- Scrolling support
+  if not self.scrollY then self.scrollY = 0 end
+  local maxScroll = math.max(0, totalGridHeight - maxVisibleHeight)
+
+  -- Draw buttons in grid
+  love.graphics.setFont(self.font)
+
   for i, button in ipairs(buttons) do
     if not button then
       goto continue
     end
+
     button.last = button.now
 
-    local bx = (ww * 0.5) - (button_width * 0.5)
-    local by = (wh * 0.5) - (total_height * 0.5) + cursor_y
+    -- Calculate grid position
+    local col = (i - 1) % columns
+    local row = math.floor((i - 1) / columns)
+
+    local bx = startX + (col * (button_width + margin))
+    local by = startY + (row * (button_height + margin)) - self.scrollY
+
+    -- Skip buttons outside visible area
+    if by + button_height < headerHeight or by > wh then
+      goto continue
+    end
 
     local mx, my = love.mouse.getPosition()
     local hovered = mx > bx and mx < bx + button_width and
-                    my > by and my < by + button_height
-    local color = {80, 80, 100, 255}
-    local textColor = {0, 0, 0, 255}
+                    my > by and my < by + button_height and
+                    my > headerHeight  -- Don't hover over header area
+
+    -- Button colors
+    local bgColor = {60/255, 60/255, 80/255, 1}
+    local textColor = {0.8, 0.8, 0.8, 1}
+    local borderColor = {80/255, 80/255, 100/255, 1}
+
     if hovered then
-      color = {160, 160, 200, 255}
-      textColor = {255, 255, 255, 255}
+      bgColor = {100/255, 100/255, 140/255, 1}
+      textColor = {1, 1, 1, 1}
+      borderColor = {140/255, 140/255, 180/255, 1}
     end
 
     button.now = love.mouse.isDown(1)
-    if (
-      button.now -- isDown boolean
-      and not button.last -- was down last tick
-      and hovered
-      and can_fire
-    )
-    then
-      print(" ")
-      print(" ")
+    if button.now and not button.last and hovered and can_fire then
       button.fn(self)
-    end 
+      can_fire = false
+    end
 
-    love.graphics.setColor(unpack(color))
-    love.graphics.rectangle(
-      'fill',
-      bx,
-      by,
-      button_width,
-      button_height
-    )
+    -- Draw button background
+    love.graphics.setColor(unpack(bgColor))
+    love.graphics.rectangle('fill', bx, by, button_width, button_height, 4, 4)
 
-    local textW = self.font:getWidth(button.text)
-    local textH = self.font:getHeight(button.text)
+    -- Draw button border
+    love.graphics.setColor(unpack(borderColor))
+    love.graphics.rectangle('line', bx, by, button_width, button_height, 4, 4)
+
+    -- Draw button text (truncate if too long)
+    local displayText = button.text
+    local maxTextWidth = button_width - 12
+    while self.font:getWidth(displayText) > maxTextWidth and #displayText > 3 do
+      displayText = displayText:sub(1, -2)
+    end
+    if displayText ~= button.text then
+      displayText = displayText:sub(1, -2) .. "…"
+    end
+
+    local textW = self.font:getWidth(displayText)
+    local textH = self.font:getHeight()
+    local textX = bx + (button_width - textW) / 2
+    local textY = by + (button_height - textH) / 2
 
     love.graphics.setColor(unpack(textColor))
-    love.graphics.setFont(self.font)
-    love.graphics.print(
-      button.text,
-      (ww * 0.4) - textW * 0.1, -- bx
-      by + textW * 0.1 -- by
-    )
+    love.graphics.print(displayText, textX, textY)
 
-    cursor_y = cursor_y + (button_height + margin)
-
-    love.graphics.setColor(_r, _g, _b, _a)
     ::continue::
   end
+
+  -- Draw scroll indicator if needed
+  if maxScroll > 0 then
+    love.graphics.setColor(0.5, 0.5, 0.5, 0.8)
+    local scrollBarHeight = 100
+    local scrollBarY = headerHeight + (self.scrollY / maxScroll) * (wh - headerHeight - scrollBarHeight - 20)
+    love.graphics.rectangle('fill', ww - 12, scrollBarY, 8, scrollBarHeight, 4, 4)
+
+    -- Draw scroll hint
+    love.graphics.setColor(0.6, 0.6, 0.6, 1)
+    love.graphics.setFont(self.smallFont or self.font)
+    love.graphics.print("Scroll: Mouse wheel / Up/Down arrows", ww - 280, wh - 25)
+  end
+
+  love.graphics.setColor(_r, _g, _b, _a)
 end
 
 function NewGame:enteredState()
-	can_fire = false --If true player can shoot
+  can_fire = false
+  fire_tick = 0
+  fire_wait = 0.2
 
-  -- love.graphics.clear(255,255,255,255)
-  love.graphics.clear(1,1,1,1)
-  
-  -- Set up font
-  self.font = love.graphics.newFont(16)
-  
+  love.graphics.clear(0.1, 0.1, 0.15, 1)
+
+  -- Set up fonts
+  self.font = love.graphics.newFont(14)
+  self.titleFont = love.graphics.newFont(24)
+  self.smallFont = love.graphics.newFont(11)
+
+  -- Reset scroll position
+  self.scrollY = 0
+
   if DEBUG_LOGGING_ON then
     print(string.format("ENTER NewGame STATE - %s \n", os.date()))
   end
 
-  -- why doesn't this work?
-  -- self.text = fanfic.new(200,300, "New textbox", false, 16)
-
   self:loadButtons()
-
-  -- Gravatar:load()
-  -- love.graphics.clear( )
-
-  -- really? vvv
-  -- THIS CRUCIAL STEP needs to be added for all other renderables!! @TODO
-  -- renderer:addRenderer(self, 5)
 end
-
--- we want multiline on this eventually: https://github.com/riidom/mlvtest/blob/master/multilineview.lua
--- Draggable tutorial: http://nova-fusion.com/2011/09/06/mouse-dragging-in-love2d/
--- https://gist.github.com/a-racoon/1ca3b9f467ed491d404035400dfd8953
--- rect = {
---   x = 700,
---   y = 500,
---   width = 232,
---   height = 232,
---   dragging = { active = false, diffX = 0, diffY = 0 }
--- }
-
--- local easetype = 'outQuad'
 
 function NewGame:update(dt)
   if not can_fire then
-		fire_tick = fire_tick + dt --Increases fire_tick by dt each frame which resaults in fire_tick increasing by 1 roughly every second
-		if fire_tick > fire_wait then
-			can_fire = true
-			fire_tick = 0
-		end
-	end
+    fire_tick = fire_tick + dt
+    if fire_tick > fire_wait then
+      can_fire = true
+      fire_tick = 0
+    end
+  end
 
-	-- text:update(dt)
-	-- data = text:enteredText()
-
-  -- Menu:mousepressed()
-
-  -- Particle:update(dt)
   if Blood and Blood.update then
     Blood:update(dt)
   end
-
-  -- if rect.dragging.active then
-  --   rect.x = love.mouse.getX() - rect.dragging.diffX
-  --   rect.y = love.mouse.getY() - rect.dragging.diffY
-  -- end
-
-  -- textbox
-  -- self.text:update(dt)
-  -- data = self.text:enteredText()
 end
 
--- local function drawNote()
---   -- draggable rect
---   love.graphics.setColor(205, 205, 195, 255)
---   love.graphics.rectangle("fill", rect.x, rect.y, rect.width, rect.height)
---   love.graphics.setColor(205, 5, 5, 255)
---   love.graphics.printf(SplashText:getText(),rect.x+20,rect.y+20,220)
---   love.graphics.setColor(255, 255, 255, 255)
--- end
-
 function NewGame:draw(dt)
+  -- Draw dark background
+  love.graphics.setColor(0.1, 0.1, 0.15, 1)
+  love.graphics.rectangle('fill', 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+
   self:drawButtons()
 
-  -- ensure proper gravatar color
-  local _r, _g, _b, _a = love.graphics.getColor()
-  -- love.graphics.setColor(r, g, b, a)
-  love.graphics.setColor(0, 255, 255, 255)
-  -- Gravatar:draw()
-  -- love.graphics.reset()
-  -- love.graphics.pop()
-  love.graphics.setColor(_r, _g, _b, _a)
-
-  local mx = love.mouse.getX()
-  local my = love.mouse.getY()
-
+  -- Draw particles if available
   if Particle and Particle.draw then
     Particle:draw()
   end
   if Blood and Blood.draw then
+    local mx, my = love.mouse.getPosition()
     Blood:draw(mx, my)
   end
 
-
-  -- http://nova-fusion.com/2012/09/20/custom-cursors-in-love2d/
-  love.mouse.isVisible(true)
-  -- draw a pointer
+  -- Draw cursor if available
+  local mx, my = love.mouse.getPosition()
+  love.mouse.setVisible(true)
   if brian then
+    love.graphics.setColor(1, 1, 1, 1)
     love.graphics.draw(brian, mx, my)
   end
-  -- love.graphics.draw(mouse, mx, my)
-
--- sign in text box
-	-- self.text:draw()
-	-- if data then
-	-- 	love.graphics.setColor(255,255,255)
-	-- 	love.graphics.print("You typed: '"..data.."' in the text box", 200, 350)
-  --   -- DO SOMTHING todo ToDO WITH THE DATA
-	-- end
-
-  -- drawNote()
-
-	-- text:draw()
-	-- if data then
-	-- 	love.graphics.setColor(255,255,255)
-	-- 	love.graphics.print("You typed: '"..data.."' in the text box", 200, 350)
-	-- end
 end
 
 function NewGame:exitedState()
   self.buttons = nil
+  self.scrollY = 0
   love.graphics.clear()
 end
-function NewGame:mousepressed(x,y, button , istouch) end
-function NewGame:mousereleased(x, y, button) end
-function NewGame:keypressed(key, code)
-  -- how to set up text again?
-  -- self.text:keypressed(key, code)
-  -- if key == ('escape') then love.event.push('quit') end
-  -- if key == ('escape') then love.event.push('quit') end
-  if key == ('escape') then self:popState('newGame') end
-  
-  -- this pushes to the state that was loaded in signin file!!!
-  -- if key == ('return') then self:pushState('signin-success') end
+
+function NewGame:mousepressed(x, y, button, istouch)
+  -- Handle scrolling with mouse wheel is done in wheelmoved
 end
+
+function NewGame:mousereleased(x, y, button) end
+
+function NewGame:wheelmoved(x, y)
+  if not self.buttons then return end
+
+  local wh = love.graphics.getHeight()
+  local headerHeight = 60
+  local padding = 16
+  local margin = 8
+  local button_height = 36
+  local columns = math.max(3, math.min(6, math.floor(love.graphics.getWidth() / 200)))
+  local rows = math.ceil(#self.buttons / columns)
+  local totalGridHeight = (button_height + margin) * rows
+  local maxVisibleHeight = wh - headerHeight - (padding * 2)
+  local maxScroll = math.max(0, totalGridHeight - maxVisibleHeight)
+
+  -- Scroll speed
+  local scrollSpeed = 40
+
+  self.scrollY = self.scrollY - (y * scrollSpeed)
+  self.scrollY = math.max(0, math.min(maxScroll, self.scrollY))
+end
+
+function NewGame:keypressed(key, code)
+  if key == 'escape' then
+    self:popState('newGame')
+    return
+  end
+
+  -- Scrolling with arrow keys
+  if key == 'up' or key == 'pageup' then
+    self:wheelmoved(0, 3)
+  elseif key == 'down' or key == 'pagedown' then
+    self:wheelmoved(0, -3)
+  elseif key == 'home' then
+    self.scrollY = 0
+  elseif key == 'end' then
+    -- Scroll to bottom
+    self:wheelmoved(0, -1000)
+  end
+end
+
 function NewGame:pushedState()
   print('')
   print('newgame pushed')
   PrintTable(self:getStateStackDebugInfo())
 end
+
 function NewGame:poppedState()
   print('\n')
   print('newgame popped')
   PrintTable(self:getStateStackDebugInfo())
 end
-
--- local SigninSuccess = Game:addState('signin-success')
--- function Signin:enteredState()
---   if DEBUG_LOGGING_ON then
---     print(string.format("ENTER signin-success STATE - %s \n", os.date()))
---   end
-
---   print(data)
---   if data then
-
---     score:setEmail(data)
---   end
-
---     print(score['email'])
--- end
--- function SigninSuccess:exitedState()
---   love.graphics.clear()
--- end
-
--- function SigninSuccess:draw()
---   local _r, _g, _b, _a = love.graphics.getColor()
---   -- love.graphics.setColor(r, g, b, a)
---   love.graphics.setColor(0, 255, 255, 255)
---   Gravatar:draw()
---   -- love.graphics.reset()
---   -- love.graphics.pop()
---   love.graphics.setColor(_r, _g, _b, _a)
-
---   local mx = love.mouse.getX()
---   local my = love.mouse.getY()
---   -- http://nova-fusion.com/2012/09/20/custom-cursors-in-love2d/
---   love.mouse.isVisible(true)
---   love.graphics.draw(brian, mx, my)
---   -- love.graphics.draw(mouse, mx, my)
-
--- -- sign in text box
--- 	-- text:draw()
--- 	if data then
--- 		love.graphics.setColor(255,255,255)
--- 		love.graphics.print("You typed: '"..data.."' in the text box", 200, 350)
-
-
---     -- DO SOMTHING todo ToDO WITH THE DATA
--- 	end
--- end
--- function SigninSuccess:keypressed(key, code)
---   text:keypressed(key, code)
---   -- if key == ('escape') then love.event.push('quit') end
---   -- if key == ('escape') then love.event.push('quit') end
---   if key == ('return') then
---     print(data)
---     self:gotoState('menu')
---   end
---   if key == ('escape') then self:gotoState('menu') end
--- end-- 

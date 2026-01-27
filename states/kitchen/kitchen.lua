@@ -167,7 +167,7 @@ function Kitchen:draw()
   
   -- Draw kitchen COUNTER top
   -- local _r, _g, _b, _a = love.graphics.getColor()
-  love.graphics.setColor(255,0,0, 255)
+  love.graphics.setColor(1, 0, 0, 1)
   -- love.graphics.rectangle( mode, x, y, width, height, rx, ry, segments )
   love.graphics.rectangle(
     'fill',
@@ -177,7 +177,7 @@ function Kitchen:draw()
 
   -- wall
   -- -- love.graphics.rectangle( mode, x, y, width, height, rx, ry, segments )
-  love.graphics.setColor(155,100,100, 255)
+  love.graphics.setColor(155/255, 100/255, 100/255, 1)
   love.graphics.rectangle(
     'fill',
     0, 0, -- x, y
@@ -185,7 +185,7 @@ function Kitchen:draw()
   )
 
   --desk
-  love.graphics.setColor(255,255,255, 255)
+  love.graphics.setColor(1, 1, 1, 1)
   -- love.graphics.draw(tempdesk, tempdesk_transform)
 
   if tempdesk then
@@ -236,7 +236,7 @@ function Kitchen:draw()
 
   -- ensure proper gravatar color
   -- local _r, _g, _b, _a = love.graphics.getColor()
-  -- love.graphics.setColor(0, 255, 255, 255)
+  -- love.graphics.setColor(0, 1, 1, 1)
   -- love.graphics.setColor(_r, _g, _b, _a)
 
   -- PrintDebug(fanfic)

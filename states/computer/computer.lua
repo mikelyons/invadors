@@ -90,7 +90,7 @@ function Computer:enteredState()
       -- DRAW THE COMPUTER
 
       -- screenspace - steel blue transparent squares from origin
-      love.graphics.setColor(47,79,79,128)
+      love.graphics.setColor(47/255, 79/255, 79/255, 128/255)
       love.graphics.rectangle('fill', 0, 0, 100, 100)
       love.graphics.rectangle('fill', 100, 100, 100, 100)
       love.graphics.rectangle('fill', 200, 200, 100, 100)
@@ -99,14 +99,14 @@ function Computer:enteredState()
 
 
       -- red test squares
-      -- love.graphics.setColor(255, 0, 0, 128)
+      -- love.graphics.setColor(1, 0, 0, 0.5)
       -- love.graphics.rectangle('fill', 0, 0, 100, 100)
       -- love.graphics.rectangle('fill', 100, 100, 100, 100)
       -- love.graphics.rectangle('fill', 200, 200, 100, 100)
       -- love.graphics.rectangle('fill', 0, 0, 200, 200)
       -- love.graphics.rectangle('fill', 0, 0, 300, 300)
 
-      love.graphics.setColor(255, 255, 255, 255)
+      love.graphics.setColor(1, 1, 1, 1)
       -- use the canvas renderer to construct a player avatar from the player model
       -- love.graphics.draw(brian, 0, 0, 0, 1, 1)
     love.graphics.setCanvas()
@@ -126,16 +126,16 @@ function Computer:update(dt)
         -- love.graphics.setColor(love.math.random(), 0, 0);
 
         -- pink test squares
-        love.graphics.setColor(255, 155, 200, 255);
+        love.graphics.setColor(1, 155/255, 200/255, 1);
         -- love.graphics.rectangle('fill', 300, 300, 511, 511)
         -- love.graphics.rectangle('fill', 0, 0, 111, 111)
 
-        -- random test lines from origin 
+        -- random test lines from origin
         -- love.graphics.setColor(love.math.random(), 0, 0);
         love.graphics.setColor(
-          love.math.random(0, 255),
-          love.math.random(0, 255),
-          love.math.random(0, 255)
+          love.math.random(),
+          love.math.random(),
+          love.math.random()
         );
         love.graphics.line(0, 0,
           love.math.random(0, love.graphics.getWidth()),
@@ -183,7 +183,7 @@ function Computer:draw()
 
   -- Draw DESK
   -- wall
-  love.graphics.setColor(155,100,100, 255)
+  love.graphics.setColor(155/255, 100/255, 100/255, 1)
   love.graphics.rectangle(
     'fill',
     0, 0, -- x, y
@@ -191,7 +191,7 @@ function Computer:draw()
   )
 
   --desk
-  love.graphics.setColor(255,255,255, 255)
+  love.graphics.setColor(1, 1, 1, 1)
   love.graphics.draw(
     tempdesk, -- wood
     0, self.screen_h-300,
@@ -204,14 +204,14 @@ function Computer:draw()
   -- TODO - make this blur? diffo resolutions, switcher "animations"
   -- love.graphics.draw( drawable, x, y, r, sx, sy, ox, oy, kx, ky )
   -- computer
-  love.graphics.setColor(255,255,255, 255)
+  love.graphics.setColor(1, 1, 1, 1)
   love.graphics.draw(
     bcompScreen,
     32, 0, nil,
     0.2, 0.3
   )
 
-  love.graphics.setColor(5,5,5, 255)
+  love.graphics.setColor(5/255, 5/255, 5/255, 1)
   -- love.graphics.rectangle("fill",
   --   120, 80,
   --   -- compBezel:getWidth(),
@@ -227,7 +227,7 @@ function Computer:draw()
   --   200,
   --   'left'
   -- )
-  love.graphics.setColor(255,255,255, 255)
+  love.graphics.setColor(1, 1, 1, 1)
   love.graphics.draw(
     compBezel,
     32, 0,
@@ -323,12 +323,12 @@ function Computer:draw()
   -- love.graphics.rectangle('fill', 0, 0, 111, 111)
   -- love.graphics.setColor(_r, _g, _b, _a)
 
-  love.graphics.setColor(55, 55, 155, 255)
+  love.graphics.setColor(55/255, 55/255, 155/255, 1)
   -- local txt = [[rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away rainting the day away]]
   local txt = [[AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA]]
 
   -- love.graphics.setColor(1, 1, 1);
-  love.graphics.setColor(55, 55, 155, 255)
+  love.graphics.setColor(55/255, 55/255, 155/255, 1)
   -- love.graphics.draw(self.canvas);
   if attempt_canvas then
     drawCanvas(self.canvas)
@@ -339,14 +339,14 @@ function Computer:draw()
   if Dpanel == true then
     -- Backpanel bg
     love.graphics.rectangle('fill', panex-25, paney-25, panew+50, paneh+50, 32, 32)
-    love.graphics.setColor(55, 55, 155, 255)
+    love.graphics.setColor(55/255, 55/255, 155/255, 1)
 
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(1, 1, 1, 1)
     -- Backpanel outline
     love.graphics.rectangle('line', panex-25, paney-25, panew+50, paneh+50, 32, 32)
 
     -- TEXT COLOR
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(1, 1, 1, 1)
     -- love.graphics.setColor(55, 55, 155, 255)
 
     -- DIALOGUE TEXT
@@ -416,7 +416,7 @@ function Computer:draw()
     vertices = {0,0, 0,100, 200,200, 250,300, 110,200, 100,100}
 
     -- Passing the table to the function as a second argument.
-    love.graphics.setColor(55, 255, 55, 255)
+    love.graphics.setColor(55/255, 1, 55/255, 1)
     love.graphics.setLineWidth(3)
     love.graphics.polygon("line", vertices)
   else
@@ -581,7 +581,7 @@ function Computer:draw()
   if not success then
     print("Computer draw error:", err)
     -- Fallback drawing - just show a simple message
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(1, 1, 1, 1)
     love.graphics.print("Computer", 50, 50)
     love.graphics.print("Error in drawing - check console", 50, 100)
   end
@@ -592,7 +592,7 @@ function drawCanvas(c)
   -- very important!: reset color before drawing to canvas to have colors properly displayed
   -- see discussion here: https://love2d.org/forums/viewtopic.php?f=4&p=211418#p211418
   local _r, _g, _b, _a = love.graphics.getColor()
-  love.graphics.setColor(255, 255, 255, 255)
+  love.graphics.setColor(1, 1, 1, 1)
   love.graphics.setBlendMode("alpha")
 
   -- The rectangle from the Canvas was already alpha blended.
@@ -655,7 +655,7 @@ local function drawDialogue()
   local dialogue_height = 100
   local _r, _g, _b, _a = love.graphics.getColor()
 
-  love.graphics.setColor(255, 5, 5, 255)
+  love.graphics.setColor(1, 5/255, 5/255, 1)
 
   local bx, by = {100, 200}
   love.graphics.rectangle(

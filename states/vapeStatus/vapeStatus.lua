@@ -15,15 +15,15 @@ end
 -- dependencies
 
 local Template = Game:addState('vapeStatus') -- registering the gamestate
-local lineColor = {0, 255, 5, 255} -- Initial color state
+local lineColor = {0, 1, 5/255, 1} -- Initial color state
 
 function Template:enteredState()
   if DEBUG_LOGGING_ON then print(string.format("ENTER vapeStatus STATE - %s \n", os.date())) end
   love.keyboard.setKeyRepeat(true)
 end
 
-function Template:exitedState() 
-  love.graphics.clear() 
+function Template:exitedState()
+  love.graphics.clear()
   love.keyboard.setKeyRepeat(false)
 end
 
@@ -31,9 +31,9 @@ function Template:update(dt) end
 
 function Template:draw()
   local _r, _g, _b, _a = love.graphics.getColor()
-  love.graphics.setColor(0, 255, 255, 255)
+  love.graphics.setColor(0, 1, 1, 1)
 
-  love.graphics.setColor(50, 50, 50, 255)
+  love.graphics.setColor(50/255, 50/255, 50/255, 1)
   love.graphics.circle("fill", 200, 200, 100)
 
   love.graphics.setColor(lineColor)
@@ -48,12 +48,12 @@ function Template:mousereleased(x, y, button) end
 function Template:keypressed(key, code)
   if key == 'v' then
     -- Cycle through different colors
-    if lineColor[1] == 0 and lineColor[2] == 255 and lineColor[3] == 5 then
-      lineColor = {255, 0, 0, 255} -- Red
-    elseif lineColor[1] == 255 and lineColor[2] == 0 and lineColor[3] == 0 then
-      lineColor = {0, 0, 255, 255} -- Blue
+    if lineColor[1] == 0 and lineColor[2] == 1 and lineColor[3] == 5/255 then
+      lineColor = {1, 0, 0, 1} -- Red
+    elseif lineColor[1] == 1 and lineColor[2] == 0 and lineColor[3] == 0 then
+      lineColor = {0, 0, 1, 1} -- Blue
     else
-      lineColor = {0, 255, 5, 255} -- Back to original green
+      lineColor = {0, 1, 5/255, 1} -- Back to original green
     end
   end
 

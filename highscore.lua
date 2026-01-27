@@ -38,7 +38,7 @@ function Score:new(self)
     init = function() end,
     load = function(self)
       -- where is this file? %appdata%\LOVE\
-      if not love.filesystem.exists('scores.lua') then
+      if not love.filesystem.getInfo('scores.lua') then
         scores = love.filesystem.newFile('scores.lua')
       end
 
@@ -46,7 +46,9 @@ function Score:new(self)
         table.insert(self.highscores, lines)
       end
 
-      self.save_file_version = self.highscores[10] or '0.4.7.1'
+      -- Load centralized version management
+      local Version = require('src/core/version')
+      self.save_file_version = self.highscores[10] or Version.SAVE_VERSION
       self.achievements=self.highscores[9] or '0000000000'
       self.clicks     = self.highscores[8] or 0
       self.keyStroked = self.highscores[7] or 0
@@ -138,16 +140,16 @@ function Score:new(self)
 
 
       if self.showscore then
-        lg.setColor(0,55,0,240)
+        lg.setColor(0, 55/255, 0, 240/255)
         love.graphics.rectangle("fill", 20,50, 480,640)
-        lg.setColor(0,255,0,255)
+        lg.setColor(0, 1, 0, 1)
         lg.printf(block, 100, 280, 320, 'left', 0, .85)
         lg.printf(self.motd,       100, 100, 320, 'left', 0, .85)
         -- lg.setColor(0,155,0,255)
         -- lg.printf(self.saves,      100, 160, 320, 'left', 0, .85)
         -- lg.printf(self.highscore, 100, 120, 320, 'left', 0, .85)
         -- lg.printf(self.total, 100,110, 320, 'left', 0, .85)
-        lg.setColor(0,155,155,255)
+        lg.setColor(0, 155/255, 155/255, 1)
         -- lg.printf(self.lastLaunch, 100, 280, 320, 'left', 0, .85)
       end
     end,

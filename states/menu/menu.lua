@@ -351,7 +351,7 @@ function Menu:enteredState()
     -- love.graphics.rectangle('fill', 0, 0, 200, 200)
     -- love.graphics.rectangle('fill', 0, 0, 300, 300)
 
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(1, 1, 1, 1)
     -- use the canvas renderer to construct a player avatar from the player model
     -- love.graphics.draw(brian, 0, 0, 0, 1, 1)
   love.graphics.setCanvas()
@@ -362,7 +362,7 @@ local function drawCanvas(canvas)
   -- very important!: reset color before drawing to canvas to have colors properly displayed
   -- see discussion here: https://love2d.org/forums/viewtopic.php?f=4&p=211418#p211418
   -- local _r, _g, _b, _a = love.graphics.getColor()
-  love.graphics.setColor(255, 255, 255, 255)
+  love.graphics.setColor(1, 1, 1, 1)
   -- love.graphics.setBlendMode("alpha")
 
   -- The rectangle from the Canvas was already alpha blended.
@@ -420,13 +420,13 @@ end
 local function drawNote()
   -- draggable rect
   if rect then
-    love.graphics.setColor(205, 205, 195, 255)
+    love.graphics.setColor(205/255, 205/255, 195/255, 1)
     love.graphics.rectangle("fill", rect.x, rect.y, rect.width, rect.height)
-    love.graphics.setColor(205, 5, 5, 255)
+    love.graphics.setColor(205/255, 5/255, 5/255, 1)
     if SplashText and SplashText.getText then
       love.graphics.printf(SplashText:getText(),rect.x+20,rect.y+20,220)
     end
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(1, 1, 1, 1)
   end
 end
 
@@ -436,11 +436,11 @@ function Menu:draw()
   -- love.graphics.print(filesString, 0, 0)
 
   local _r, _g, _b, _a = love.graphics.getColor()
-  love.graphics.setColor(255, 255, 255, 255)
+  love.graphics.setColor(1, 1, 1, 1)
 
   -- Logo
   -- https://fontmeme.com/doom-font/
-  love.graphics.setColor(255, 255, 255, 255)
+  love.graphics.setColor(1, 1, 1, 1)
   if hamster then
     love.graphics.draw(hamster, 50, 50, 0, 2.2, 2.2)
   end
@@ -453,7 +453,7 @@ function Menu:draw()
   -- MenuHelper:drawMenu()
   -- self:drawMenu()
 
-  -- love.graphics.setColor(255, 255, 255, 255)
+  -- love.graphics.setColor(1, 1, 1, 1)
   -- MenuHelper:drawButtons()
 
   if SplashText and SplashText.draw then
@@ -462,7 +462,7 @@ function Menu:draw()
 
   love.graphics.setColor(_r, _g, _b, _a)
   local _r, _g, _b, _a = love.graphics.getColor()
-  love.graphics.setColor(0, 255, 255, 255)
+  love.graphics.setColor(0, 1, 1, 1)
   -- Gravatar:draw()
 
   love.graphics.setColor(_r, _g, _b, _a)
@@ -510,7 +510,7 @@ function Menu:draw()
       love.graphics.getHeight() - 32 - 32,
       620, 'left')
   end
-  love.graphics.setColor(255, 0, 0, 255)
+  love.graphics.setColor(1, 0, 0, 1)
 
   -- love.graphics.printf('PRE-ALPHA',
   --   camera.pos.x, camera.pos.y + (love.graphics.getHeight() - 32),
@@ -559,11 +559,11 @@ function Menu:drawButtons()
     local mx, my = love.mouse.getPosition()
     local hovered = mx > bx and mx < bx + button_width and
                     my > by and my < by + button_height
-    local color = {80, 80, 100, 255}
-    local textColor = {0, 0, 0, 255}
+    local color = {80/255, 80/255, 100/255, 1}
+    local textColor = {0, 0, 0, 1}
     if hovered then
-      color = {160, 160, 200, 255}
-      textColor = {255, 255, 255, 255}
+      color = {160/255, 160/255, 200/255, 1}
+      textColor = {1, 1, 1, 1}
     end
 
     button.now = love.mouse.isDown(1)
@@ -630,7 +630,7 @@ function Menu:loadButtons(menu)
   -- WINDOWS: %appdata%\LOVE\invadors_save_directory
   success = love.filesystem.createDirectory( 'saves' )
 
-  if not love.filesystem.exists('saves/scores.lua') then
+  if not love.filesystem.getInfo('saves/scores.lua') then
     scores = love.filesystem.newFile('saves/scores.lua')
     love.filesystem.write('saves/scores.lua', "raint")
   end
@@ -709,7 +709,7 @@ end
 function drawKeybinds()
   local _r, _g, _b, _a = love.graphics.getColor()
 
-  love.graphics.setColor(255, 255, 255, 255)
+  love.graphics.setColor(1, 1, 1, 1)
 
   love.graphics.rectangle('fill', 0,0, screenWidth, screenHeight)
   -- love.graphics.setColor(5, 5, 5, 255)

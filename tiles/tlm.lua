@@ -608,7 +608,7 @@ local lg = love.graphics
 function tlm:loadMiniMap()
   -- very important!: reset color before drawing to canvas to have colors properly displayed
   -- see discussion here: https://love2d.org/forums/viewtopic.php?f=4&p=211418#p211418
-  lg.setColor(255, 255, 255, 255)
+  lg.setColor(1, 1, 1, 1)
   lg.setBlendMode("alpha")
   local mm_x = g_Width /2
   local mm_y = g_Height/2
@@ -618,15 +618,15 @@ function tlm:loadMiniMap()
   lg.setCanvas(self.canvas)
     -- lg.clear() -- no trailing effect
 
-    lg.setColor(10, 10, 10, 155) -- GREY medium translucent
+    lg.setColor(10/255, 10/255, 10/255, 155/255) -- GREY medium translucent
     lg.rectangle("fill", cx, cy, 128, 64)
 
     lg.setLineWidth(5)
-    lg.setColor(255, 5, 5, 255) -- RED
+    lg.setColor(1, 5/255, 5/255, 1) -- RED
     lg.rectangle("line", cx, cy, 128, 64)
 
     lg.setLineWidth(1) -- stroke reset
-    lg.setColor(255, 255, 255, 255) -- WHITE reset
+    lg.setColor(1, 1, 1, 1) -- WHITE reset
   lg.setCanvas()
 
   -- what is this doing?
@@ -641,22 +641,22 @@ function tlm:loadMiniMap()
           local y_pos = camera.pos.y + floor(tile.pos.y / g_TileSize)+1
 
             -- minimap?
-            if text ~= 2 then lg.setColor(20,0,0,255) end
-            if text == 2 then lg.setColor(90,90,0,255) end
+            if text ~= 2 then lg.setColor(20/255, 0, 0, 1) end
+            if text == 2 then lg.setColor(90/255, 90/255, 0, 1) end
           -- lg.rectangle("fill",x_pos,y_pos,0,(2),(2))
 
           lg.setCanvas(self.canvas)
             -- lg.setColor(5, 255, 5, 255) -- GREEN
             -- lg.draw(self.img,tile.quad,tile.pos.x,tile.pos.y)
             lg.rectangle("fill",x_pos,y_pos,0,2,2)
-            lg.setColor(255,255,255,255)
+            lg.setColor(1, 1, 1, 1)
           lg.setCanvas()
-            -- lg.setColor(255,255,255,255)
+            -- lg.setColor(1, 1, 1, 1)
           -- lg.setCanvas()
           -- ( texture, quad, x, y, r, sx, sy, ox, oy, kx, ky )
           -- love.graphics.draw(self.canvas, 200, 200, 0, 2, 2, 100, 100, 0, 0)
 
-          lg.setColor(255,255,255,255)
+          lg.setColor(1, 1, 1, 1)
         end
 
       end
@@ -672,9 +672,9 @@ function tlm:drawMinimap()
   -- camera:set()
     -- in the same renderer as the map background
     -- a wall minimap bounding box for the map
-    lg.setColor(5,255,0,255) -- GREEN
+    lg.setColor(5/255, 1, 0, 1) -- GREEN
     lg.rectangle("line", 0,0,256,64)
-    lg.setColor(255,255,255)
+    lg.setColor(1, 1, 1)
   -- ( texture, quad, x, y, r, sx, sy, ox, oy, kx, ky )
     -- draw at the camera.pos to lock it to the corner?
     love.graphics.draw(self.canvas, camera.pos.x, camera.pos.y, 0, 1, 1, 0, 0, 0, 0)
@@ -746,7 +746,7 @@ function tlm:drawChunk(chunk)
             --   32,
             --   32
             -- )
-          lg.setColor(255,255,255,255)
+          lg.setColor(1, 1, 1, 1)
         end
       end
     end
@@ -925,7 +925,7 @@ function tlm:drawCustomMap(newstylemap)
     --         -- elseif tile.type == 2 then lg.setColor(0,255,255,155)
     --         -- end
     --         -- lg.setColor(_r, _g, _b, _a)
-    --         -- lg.setColor(255,255,255,255)
+    --         -- lg.setColor(1, 1, 1, 1)
     --       else
     --         -- print('RAINT nil tile')
           -- end
@@ -991,7 +991,7 @@ function tlm:drawCustomMap(newstylemap)
             --reset color
             lg.setColor(_r, _g, _b, _a)
             -- if turned off, tiles/background bizzaro flashes
-            lg.setColor(255,255,255,255)
+            lg.setColor(1, 1, 1, 1)
           end
 
         end

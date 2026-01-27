@@ -7,7 +7,7 @@ ActiveCoins = {}
 
 function Coin.new(x, y)
   local instance = setmetatable({}, Coin)
-  instance.x = y
+  instance.x = x
   instance.y = y
   -- instance.img = love.graphics.newImage("assets/items/beergreenbottle.png")
   -- bool, data = pcall(love.graphics.newImage("assets/items/beergreenbottle.png"))
@@ -57,7 +57,7 @@ function Coin:draw()
   -- ,self.x,self.y,0,1,1,self.with/2,self.heigh/2)
   -- love.graphics.setColor(240, 224, 96, 255)
   love.graphics.rectangle("line",self.x,self.y,self.width,self.height)
-  love.graphics.setColor(255, 255, 255, 255)
+  love.graphics.setColor(1, 1, 1, 1)
   love.graphics.draw(self.img,self.x,self.y,0,self.scaleX,1,self.width/2,self.height/2)
   love.graphics.setColor(r, g, b, a)
 end

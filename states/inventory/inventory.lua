@@ -63,11 +63,11 @@ function inventory:draw()
   -- love.graphics.print(paney,panexx,paneyy,0,1,1,0,0)
 
   -- love.graphics.rectangle(mode,x,y,width,height)
-  love.graphics.setColor(55,100,100,255)
+  love.graphics.setColor(55/255, 100/255, 100/255, 1)
   love.graphics.rectangle('fill', panex-25, paney-25, panew+50, paneh+50, 32, 32)
-  love.graphics.setColor(55,55,55,255)
+  love.graphics.setColor(55/255, 55/255, 55/255, 1)
   love.graphics.rectangle('fill', panex, paney, panew, paneh, 10, 10, 2)
-  love.graphics.setColor(5,1,1,255)
+  love.graphics.setColor(5/255, 1/255, 1/255, 1)
   -- love.graphics.rectangle('fill', panex, paney, panew, paneh)
   -- print("draw")
   -- local getN = 0
@@ -77,7 +77,7 @@ function inventory:draw()
 
   -- make a color helper out of this
   local _r, _g, _b, _a = love.graphics.getColor()
-  love.graphics.setColor(25,25,25,255)
+  love.graphics.setColor(25/255, 25/255, 25/255, 1)
   for i=0, 9 do
   -- love.graphics.rectangle(mode,x,y,width,height)
     -- love.graphics.rectangle('fill', panex, paney, panew, paneh)
@@ -107,12 +107,12 @@ function calculateInventoryDimensions(self)
   return id
 end
 
-function drawInventoryChrome() 
+function drawInventoryChrome()
   -- love.graphics.reset()
-  love.graphics.setColor(255,255,255,255)
-  love.graphics.setColor(255,0,0,255)
+  love.graphics.setColor(1, 1, 1, 1)
+  love.graphics.setColor(1, 0, 0, 1)
   love.graphics.rectangle('fill', 100, 100, 100, 100)
-  
+
 end
 
 function inventory:keypressed(key, code)

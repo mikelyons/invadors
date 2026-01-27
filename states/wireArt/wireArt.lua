@@ -34,18 +34,18 @@ local WireArt = Game:addState('wireArt') -- registering the gamestate
 
 -- wire colors @TODO move this
 local colors = {
-  {152, 80, 6, 255}, -- dark copper
-  {212, 116, 26, 255}, -- light copper
-  {100, 100, 100, 255}, -- Titanium
-  {200, 200, 200, 255}, -- silver
+  {152/255, 80/255, 6/255, 1}, -- dark copper
+  {212/255, 116/255, 26/255, 1}, -- light copper
+  {100/255, 100/255, 100/255, 1}, -- Titanium
+  {200/255, 200/255, 200/255, 1}, -- silver
 }
 
 -- named colors based on wire material, move into wire class
 local namedColors = {
-  tarnishedCopper = {152, 80, 6}, -- dark copper
-  copper = {212, 116, 26}, -- light copper
-  titanium = {100, 100, 100}, -- Titanium
-  silver = {200, 200, 200}, -- silver
+  tarnishedCopper = {152/255, 80/255, 6/255, 1}, -- dark copper
+  copper = {212/255, 116/255, 26/255, 1}, -- light copper
+  titanium = {100/255, 100/255, 100/255, 1}, -- Titanium
+  silver = {200/255, 200/255, 200/255, 1}, -- silver
 }
 
 function WireArt:enteredState()
@@ -78,11 +78,11 @@ function WireArt:draw()
   local _linewidth = love.graphics.getLineWidth()
 
   -- draw crafting bench - trapezoid - fill with color
-  love.graphics.setColor(25, 130, 25, 255)
+  love.graphics.setColor(25/255, 130/255, 25/255, 1)
   love.graphics.polygon('fill', {200,50, 400,50, 500,300, 100,300, 200,50})   -- last pair is a repeat to complete the trapezoid
 
   love.graphics.setLineWidth( 10 )
-  love.graphics.setColor(200, 155, 95, 255)
+  love.graphics.setColor(200/255, 155/255, 95/255, 1)
   love.graphics.line(200,50, 400,50, 500,300, 100,300, 200,50)   -- last pair is a repeat to complete the trapezoid
   love.graphics.setLineWidth( _linewidth ) -- reset the line width
 
@@ -121,7 +121,7 @@ function WireArt:draw()
   -- love.graphics.setLineStyle( "smooth" )
 
   -- print the number of wires in the wallet
-  love.graphics.setColor(212, 116, 26, 255)
+  love.graphics.setColor(212/255, 116/255, 26/255, 1)
   love.graphics.print("Your wallet contains "..WireArt.number_of_wires.." wires", 100, 150)
 
   -- this removes sub-pixel blurring
@@ -193,7 +193,7 @@ function draw2WireTwist(n, spacing, color)
   love.graphics.line(wire2)
 
   -- print the number of twists logged in raintor
-  love.graphics.setColor(212, 116, 26, 255)
+  love.graphics.setColor(212/255, 116/255, 26/255, 1)
   love.graphics.print("You twisted a copper wire '"..  raintor .."' times", 200, 350)
 
   love.graphics.setColor(_r, _g, _b, _a) -- reset drawing color

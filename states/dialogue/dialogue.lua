@@ -93,7 +93,7 @@ function Dialogue:draw()
   -- User-input conversations
 	-- text:draw()
 	-- if data then
-	-- 	love.graphics.setColor(255,255,255)
+	-- 	love.graphics.setColor(1, 1, 1, 1)
 	-- 	love.graphics.print("You typed: '"..data.."' in the text box", 200, 350)
     -- -- DO SOMTHING todo ToDO WITH THE DATA
 	-- end
@@ -110,7 +110,7 @@ function Dialogue:draw()
     hero = self.heroImages['surprised']
   end
 
-  love.graphics.setColor(255,255,255, 255)
+  love.graphics.setColor(1, 1, 1, 1)
   if hero then
     love.graphics.draw(hero,
       -- self.panex+32, self.paney+32,
@@ -150,10 +150,10 @@ function Dialogue:draw()
   -- love.graphics.rectangle('fill', 300, 300, 511, 511)
   -- love.graphics.rectangle('fill', 0, 0, 111, 111)
 
-  love.graphics.setColor(55, 55, 155, 255)
+  love.graphics.setColor(55/255, 55/255, 155/255, 1)
   love.graphics.rectangle('fill', panex-25, paney-25, panew+50, paneh+50, 32, 32)
 
-  love.graphics.setColor(255, 255, 255, 255)
+  love.graphics.setColor(1, 1, 1, 1)
   love.graphics.rectangle('line', panex-25, paney-25, panew+50, paneh+50, 32, 32)
   love.graphics.printf(
     Dialogue.script[Dialogue.number or 1] or Dialogue.script[1] .. ' #'..Dialogue.number,
@@ -221,13 +221,13 @@ function Dialogue:draw()
     -- local vertices = {0,0, 0,100, 200,200, 250,300, 110,200, 100,100}
 
     -- Passing the table to the function as a second argument.
-    love.graphics.setColor(55, 255, 55, 255)
+    love.graphics.setColor(55/255, 1, 55/255, 1)
     love.graphics.setLineWidth(3)
     love.graphics.polygon("line", vertices)
   else
     -- love.graphics.polygon("fill", 100,100, 200,100, 150,200)
     -- local vertices = {100,100, 200,100, 150,200}
-    love.graphics.setColor(55, 55, 55, 255)
+    love.graphics.setColor(55/255, 55/255, 55/255, 1)
     love.graphics.setLineWidth(3)
     -- love.graphics.polygon("line", vertices)
   end
@@ -259,7 +259,7 @@ function Dialogue:draw()
   --   96,96)
   -- love.graphics.print(score['email'], 50, 85) -- default w,h 80x80
   -- end
-  -- love.graphics.setColor(math.random(0,255),math.random(0,255),math.random(0,255), 255)
+  -- love.graphics.setColor(love.math.random(), love.math.random(), love.math.random(), 1)
   -- love.graphics.draw(raintar, x + 500, y)
   -- love.graphics.print(score['email'], x + 500, y+85) -- default w,h 80x80
   -- love.graphics.setColor(_r, _g, _b, _a)
@@ -397,7 +397,7 @@ function drawDialogue()
   local dialogue_height = 100
   local _r, _g, _b, _a = love.graphics.getColor()
 
-  love.graphics.setColor(255, 5, 5, 255)
+  love.graphics.setColor(1, 5/255, 5/255, 1)
 
   local bx, by = {100, 200}
   love.graphics.rectangle(

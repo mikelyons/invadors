@@ -212,7 +212,7 @@ function Dinner:draw()
 
     -- Draw dinner room background
     -- Wall
-    love.graphics.setColor(139, 69, 19, 255) -- Brown wood paneling
+    love.graphics.setColor(139/255, 69/255, 19/255, 1) -- Brown wood paneling
     love.graphics.rectangle(
       'fill',
       0, 0,
@@ -220,7 +220,7 @@ function Dinner:draw()
     )
 
     -- Floor
-    love.graphics.setColor(160, 82, 45, 255) -- Saddle brown floor
+    love.graphics.setColor(160/255, 82/255, 45/255, 1) -- Saddle brown floor
     love.graphics.rectangle(
       'fill',
       0, self.screen_h-200,
@@ -228,7 +228,7 @@ function Dinner:draw()
     )
 
     -- Draw dinner table
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(1, 1, 1, 1)
     love.graphics.draw(
       tableTexture,
       self.screen_w/2 - 100,
@@ -241,7 +241,7 @@ function Dinner:draw()
     -- Draw food items
     for i, food in ipairs(self.foodItems) do
       if not food.eaten and not food.drunk then
-        love.graphics.setColor(255, 255, 255, 255)
+        love.graphics.setColor(1, 1, 1, 1)
         love.graphics.draw(
           food.image,
           food.x,
@@ -252,7 +252,7 @@ function Dinner:draw()
         )
         
         -- Draw food name
-        love.graphics.setColor(255, 255, 255, 255)
+        love.graphics.setColor(1, 1, 1, 1)
         love.graphics.print(
           food.name,
           food.x,
@@ -264,7 +264,7 @@ function Dinner:draw()
     -- Draw guests around the table
     for i, guest in ipairs(self.guests) do
       -- Guest avatar
-      love.graphics.setColor(255, 255, 255, 255)
+      love.graphics.setColor(1, 1, 1, 1)
       love.graphics.draw(
         guest.avatar,
         guest.x,
@@ -275,7 +275,7 @@ function Dinner:draw()
       )
       
       -- Guest name
-      love.graphics.setColor(255, 255, 255, 255)
+      love.graphics.setColor(1, 1, 1, 1)
       love.graphics.print(
         guest.name,
         guest.x,
@@ -284,7 +284,7 @@ function Dinner:draw()
       
       -- Guest dialogue bubble if talking
       if guest.isTalking then
-        love.graphics.setColor(255, 255, 255, 200)
+        love.graphics.setColor(1, 1, 1, 200/255)
         love.graphics.rectangle(
           'fill',
           guest.x - 50,
@@ -294,7 +294,7 @@ function Dinner:draw()
           10,
           10
         )
-        love.graphics.setColor(0, 0, 0, 255)
+        love.graphics.setColor(0, 0, 0, 1)
         love.graphics.printf(
           guest.dialogue,
           guest.x - 45,
@@ -306,7 +306,7 @@ function Dinner:draw()
     end
 
     -- Draw player stats
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(1, 1, 1, 1)
     love.graphics.print("Hunger: " .. self.playerHunger, 10, 10)
     love.graphics.print("Happiness: " .. self.playerHappiness, 10, 30)
     love.graphics.print("Interactions: " .. self.interactions, 10, 50)
@@ -314,7 +314,7 @@ function Dinner:draw()
     -- Draw tooltip
     if self.hoveredItem and self.tooltipText ~= "" then
       local mx, my = love.mouse.getPosition()
-      love.graphics.setColor(0, 0, 0, 200)
+      love.graphics.setColor(0, 0, 0, 200/255)
       love.graphics.rectangle(
         'fill',
         mx + 10,
@@ -324,7 +324,7 @@ function Dinner:draw()
         5,
         5
       )
-      love.graphics.setColor(255, 255, 255, 255)
+      love.graphics.setColor(1, 1, 1, 1)
       love.graphics.print(
         self.tooltipText,
         mx + 15,
@@ -333,7 +333,7 @@ function Dinner:draw()
     end
 
     -- Draw instructions
-    love.graphics.setColor(255, 255, 255, 200)
+    love.graphics.setColor(1, 1, 1, 200/255)
     love.graphics.print("Click food to eat, click guests to talk", 10, self.screen_h - 30)
 
     -- Draw the sticky note
@@ -351,7 +351,7 @@ function Dinner:draw()
   if not success then
     print("Dinner draw error:", err)
     -- Fallback drawing - just show a simple message
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(1, 1, 1, 1)
     love.graphics.print("Dinner", 50, 50)
     love.graphics.print("Error in drawing - check console", 50, 100)
   end

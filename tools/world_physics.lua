@@ -1,6 +1,6 @@
 --[[
   world_physics.lua
-  
+
   WORLD PHYSICS
 
   Handles collision for the chunk the player is in
@@ -13,24 +13,27 @@ local floor = math.floor
 local rect = require('objects/rect')
 local vec2 = require('tools/vec2')
 
+-- Load config for physics constants
+local Config = require('src/core/game_config')
+
 function init_physics( obj, gravity, dt )
   obj.on_ground = false
-  obj.gravity = gravity or 500
+  obj.gravity = gravity or Config.physics.gravity
 end
-function apply_gravity(obj,dt)
-  -- attempt to limit falling speed
-  -- obj.vel.y = (obj.vel.y > 600) ? (obj.vel.y + obj.gravity * dt) : 600
+
+function apply_gravity(obj, dt)
   obj.vel.y = obj.vel.y + obj.gravity * dt
-  if obj.vel.y > 300 then
-    obj.vel.y = 300
+  -- Limit falling speed
+  if obj.vel.y > Config.physics.max_fall_velocity then
+    obj.vel.y = Config.physics.max_fall_velocity
   end
   obj.dir.y = 1
 end
 
-function physics_jump (obj)
-  -- print('jump '..obj.vel.y..' '..tostring(obj.on_ground))
-  if obj.vel.y < 10 and obj.vel.y > -10 and obj.on_ground == true then
-    obj.vel.y = -200
+function physics_jump(obj)
+  local threshold = Config.physics.ground_threshold
+  if obj.vel.y < threshold and obj.vel.y > -threshold and obj.on_ground == true then
+    obj.vel.y = Config.physics.jump_velocity
     obj.dir.y = 1
     obj.on_ground = false
   end

@@ -31,7 +31,7 @@ writeme = false
 _G.util = {}
 function _G.util.addState(stateName)
   -- creates in game save directory, needs rethought
-  if not love.filesystem.exists(stateName) then
+  if not love.filesystem.getInfo(stateName) then
     PrintColor(stateName..' is available!', 'green')
   else
     PrintColor(stateName..' is not available / taken!', 'red')

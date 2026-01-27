@@ -16,10 +16,10 @@ local Wire = {}
 
 -- wire colors @TODO move this
 local colors = {
-  {152, 80, 6}, -- dark copper
-  {212, 116, 26}, -- light copper
-  {100, 100, 100}, -- Titanium
-  {200, 200, 200}, -- silver
+  {152/255, 80/255, 6/255, 1}, -- dark copper
+  {212/255, 116/255, 26/255, 1}, -- light copper
+  {100/255, 100/255, 100/255, 1}, -- Titanium
+  {200/255, 200/255, 200/255, 1}, -- silver
 }
 
 function Wire:new(length, spacing, material, gauge)

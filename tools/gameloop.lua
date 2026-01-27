@@ -13,8 +13,8 @@ function Gameloop:create()
   end
 
   function gameloop:update(dt)
-    for tickers = 0, #self.tickers do
-      local obj = self.tickers[tickers]
+    for i = 1, #self.tickers do
+      local obj = self.tickers[i]
       if obj ~= nil then
         obj:tick(dt)
       end
